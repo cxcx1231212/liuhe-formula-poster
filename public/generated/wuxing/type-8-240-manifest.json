@@ -1,0 +1,168 @@
+{
+  "lotteryType": 8,
+  "year": 2026,
+  "issue": 240,
+  "methods": [
+    {
+      "rank": "d001",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "平1码＋平4码固定减法",
+      "next": [
+        "土",
+        "火"
+      ],
+      "recentStreak": 10,
+      "recent30Hits": 18,
+      "image": "/generated/wuxing/type-8-240-d001.webp",
+      "branches": [
+        {
+          "name": "平1码＋平4码减11",
+          "next": "土"
+        },
+        {
+          "name": "平1码＋平4码减15",
+          "next": "火"
+        }
+      ]
+    },
+    {
+      "rank": "d002",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "平6码－特码固定减法",
+      "next": [
+        "木",
+        "火"
+      ],
+      "recentStreak": 9,
+      "recent30Hits": 15,
+      "image": "/generated/wuxing/type-8-240-d002.webp",
+      "branches": [
+        {
+          "name": "平6码－特码减1",
+          "next": "木"
+        },
+        {
+          "name": "平6码－特码减11",
+          "next": "火"
+        }
+      ]
+    },
+    {
+      "rank": "d003",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "最大平码固定减法",
+      "next": [
+        "木",
+        "金"
+      ],
+      "recentStreak": 8,
+      "recent30Hits": 15,
+      "image": "/generated/wuxing/type-8-240-d003.webp",
+      "branches": [
+        {
+          "name": "最大平码减3",
+          "next": "木"
+        },
+        {
+          "name": "最大平码减14",
+          "next": "金"
+        }
+      ]
+    },
+    {
+      "rank": "d004",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "平2码－平4码固定加法",
+      "next": [
+        "火",
+        "金"
+      ],
+      "recentStreak": 8,
+      "recent30Hits": 15,
+      "image": "/generated/wuxing/type-8-240-d004.webp",
+      "branches": [
+        {
+          "name": "平2码－平4码加7",
+          "next": "火"
+        },
+        {
+          "name": "平2码－平4码加9",
+          "next": "金"
+        }
+      ]
+    },
+    {
+      "rank": "d005",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "平1码＋平4码固定减法",
+      "next": [
+        "土",
+        "火"
+      ],
+      "recentStreak": 10,
+      "recent30Hits": 14,
+      "image": "/generated/wuxing/type-8-240-d005.webp",
+      "branches": [
+        {
+          "name": "平1码＋平4码减11",
+          "next": "土"
+        },
+        {
+          "name": "平1码＋平4码减16",
+          "next": "火"
+        }
+      ]
+    },
+    {
+      "rank": "d006",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "平6码－平2码固定加法",
+      "next": [
+        "火",
+        "金"
+      ],
+      "recentStreak": 8,
+      "recent30Hits": 14,
+      "image": "/generated/wuxing/type-8-240-d006.webp",
+      "branches": [
+        {
+          "name": "平6码－平2码加3",
+          "next": "金"
+        },
+        {
+          "name": "平6码－平2码加13",
+          "next": "火"
+        }
+      ]
+    },
+    {
+      "rank": "d007",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "平6码固定减法",
+      "next": [
+        "木",
+        "水"
+      ],
+      "recentStreak": 8,
+      "recent30Hits": 11,
+      "image": "/generated/wuxing/type-8-240-d007.webp",
+      "branches": [
+        {
+          "name": "平6码减14",
+          "next": "木"
+        },
+        {
+          "name": "平6码减16",
+          "next": "水"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "lotteryType": 1,
+  "year": 2026,
+  "issue": 95,
+  "methods": [
+    {
+      "rank": "d001",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "平3码－特码固定加法",
+      "next": [
+        "木",
+        "金"
+      ],
+      "recentStreak": 8,
+      "recent30Hits": 21,
+      "image": "/generated/wuxing/type-1-095-d001.webp",
+      "branches": [
+        {
+          "name": "平3码－特码加15",
+          "next": "木"
+        },
+        {
+          "name": "平3码－特码加17",
+          "next": "金"
+        }
+      ]
+    },
+    {
+      "rank": "d002",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "平3码固定加法",
+      "next": [
+        "木",
+        "火"
+      ],
+      "recentStreak": 8,
+      "recent30Hits": 16,
+      "image": "/generated/wuxing/type-1-095-d002.webp",
+      "branches": [
+        {
+          "name": "平3码加2",
+          "next": "木"
+        },
+        {
+          "name": "平3码加5",
+          "next": "火"
+        }
+      ]
+    },
+    {
+      "rank": "d003",
+      "label": "两行中特",
+      "lineCount": 2,
+      "sourceKey": "平3码固定加法",
+      "next": [
+        "木",
+        "火"
+      ],
+      "recentStreak": 8,
+      "recent30Hits": 15,
+      "image": "/generated/wuxing/type-1-095-d003.webp",
+      "branches": [
+        {
+          "name": "平3码加2",
+          "next": "木"
+        },
+        {
+          "name": "平3码加4",
+          "next": "火"
+        }
+      ]
+    }
+  ]
+}

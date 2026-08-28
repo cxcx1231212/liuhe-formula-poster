@@ -1,0 +1,85 @@
+name: 自动更新开奖公式
+
+on:
+  schedule:
+    # 北京时间每天 00:20、03:20、12:20、18:20、21:20、23:20 检查。
+    - cron: "20 4,10,13,15,16,19 * * *"
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: "没有新开奖时也测试构建和部署"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lottery-auto-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 检查是否出现新一期
+        id: check
+        run: python scripts/check_lottery_updates.py --github-output "$GITHUB_OUTPUT"
+
+      - name: 安装图片生成环境
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-noto-cjk
+          python -m pip install --disable-pip-version-check Pillow
+
+      - name: 计算公式并生成新一期图片
+        if: steps.check.outputs.changed == 'true'
+        env:
+          LIUHE_FONT: /usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc
+        run: python scripts/update_all_lotteries.py --types ${{ steps.check.outputs.types }} --year $(date +%Y)
+
+      - name: 压缩新一期公式图
+        if: steps.check.outputs.changed == 'true'
+        run: python scripts/optimize_generated_images.py --quality 90
+
+      - uses: pnpm/action-setup@v4
+        if: steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        if: steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: 构建网站
+        if: steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+
+      - name: 发布到 Cloudflare
+        if: steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler deploy --config dist/server/wrangler.json --name liuhe-formula-poster
+
+      - name: 发布成功后保存新一期历史
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "六合自动更新"
+          git config user.email "actions@users.noreply.github.com"
+          git add data public/generated
+          git commit -m "自动更新新一期公式" || true
+          git push

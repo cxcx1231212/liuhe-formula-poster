@@ -106,7 +106,7 @@ def render(item,issue,records,output):
 
 def main():
     global _ELEMENT_MAP
-    records=fetch_year(5,2026); issue=int(records[-1]["period"])+1; output_dir=ROOT/"public"/"generated"/"wuxing"; output_dir.mkdir(parents=True,exist_ok=True); singles,pairs=select(records); methods=[]
+    records=fetch_year(5,2026); previous=dict(fetch_year(5,2025)[-1]); previous["displayPeriod"]=f"2025-{int(previous['period']):03d}期"; previous["period"]=0; history_records=[previous,*records]; issue=int(records[-1]["period"])+1; output_dir=ROOT/"public"/"generated"/"wuxing"; output_dir.mkdir(parents=True,exist_ok=True); singles,pairs=select(records); methods=[]
     _ELEMENT_MAP={int(value["number"]):value["wuXing"] for record in records for value in record["numberList"]}
     for prefix,items in (("s",singles),("d",pairs)):
         for index,item in enumerate(items,1):
@@ -118,7 +118,7 @@ def main():
                 source_positions=[6 if label=="特码" else int(label[1])-1 for label in re.findall(r"平[1-6]码|特码",branch["name"])]
                 branches.append({"name":branch["name"],"next":branch["next"],"calculation":f"{expression}＝{result_number}（{branch['next']}）","sourcePositions":source_positions})
             history=[]
-            for source,target in zip(records[-5:-1],records[-4:]):
+            for source,target in zip(history_records[:-1],history_records[1:]):
                 history_branches=[]
                 predictions=[]
                 for branch in item["branches"]:
@@ -129,8 +129,8 @@ def main():
                 history.append({"sourcePeriod":int(source["period"]),"targetPeriod":int(target["period"]),"branches":history_branches,"actualNumber":str(actual["number"]).zfill(2),"actualAnimal":actual.get("shengXiao", ""),"actualElement":actual.get("wuXing", ""),"hit":actual.get("wuXing", "") in predictions})
             methods.append({"rank":rank,"label":item["label"],"lineCount":item["lineCount"],"sourceKey":item["sourceKey"],"next":item["next"],"recentStreak":item["recentStreak"],"recent30Hits":item["recent30Hits"],"image":None,"branches":branches,"history":history})
     draws=[]
-    for record in records[-5:]:
-        draws.append({"period":int(record["period"]),"date":record.get("lotteryTime") or record.get("openTime") or record.get("date") or "","numbers":[{"number":str(value["number"]).zfill(2),"animal":value.get("shengXiao", ""),"element":value.get("wuXing", "")} for value in record["numberList"]]})
+    for record in history_records:
+        draws.append({"period":int(record["period"]),"displayPeriod":record.get("displayPeriod"),"date":record.get("lotteryTime") or record.get("openTime") or record.get("date") or "","numbers":[{"number":str(value["number"]).zfill(2),"animal":value.get("shengXiao", ""),"element":value.get("wuXing", "")} for value in record["numberList"]]})
     manifest={"lotteryType":5,"year":2026,"issue":issue,"draws":draws,"methods":methods}; path=output_dir/f"type-5-{issue:03d}-manifest.json"; path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf-8"); print(f"singles={len(singles)} pairs={len(pairs)} total={len(methods)}"); print(path)
 
 if __name__=="__main__": main()

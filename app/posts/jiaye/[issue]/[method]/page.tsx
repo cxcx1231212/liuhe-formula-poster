@@ -16,13 +16,14 @@ export default async function JiayePost({params,searchParams}:{params:Promise<{i
   if(requestedIssue!==currentIssue&&!isDerivedHistory)return <ArchivedFormulaPost type={type} path={`/posts/jiaye/${issue}/${method}`} backHref={`/?type=${type}#board-家野公式`} backLabel="返回家野板块"/>;
   const historicalCalculation=sourceEntry?.branches?.[0]?.calculation?.replace('｜','，').replace('·','＝')||'';
   const sourceLabel=currentItem.name?.match(/平([1-6])码/)?.[1];
-  const item=isDerivedHistory?{
+  const baseItem=isDerivedHistory?{
     ...currentItem,
     next:[sourceEntry.branches[0].result],
     branches:[{...currentItem.branches[0],next:sourceEntry.branches[0].result,calculation:`取${sourceLabel?`平码${sourceLabel}`:'号码'}：${historicalCalculation}`}],
     history:currentItem.history.filter((entry:{targetPeriod:number})=>entry.targetPeriod<requestedIssue)
   }:currentItem;
-  const draws=isDerivedHistory?manifest.draws.filter((draw:{period:number})=>draw.period<requestedIssue):manifest.draws;
+  const item={...baseItem,history:(baseItem.history||[]).slice(-4)};
+  const draws=manifest.draws.filter((draw:{period:number})=>draw.period<requestedIssue).slice(-5);
   const candidatePreviousIssue=requestedIssue-1;
   const previousIssue=currentItem.history?.some((entry:{targetPeriod:number})=>entry.targetPeriod===candidatePreviousIssue)?candidatePreviousIssue:null;
   const newerIssue=requestedIssue<currentIssue?requestedIssue+1:null;

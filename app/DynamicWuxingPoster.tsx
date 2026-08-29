@@ -99,7 +99,7 @@ export default function DynamicWuxingPoster({
     : 120;
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
   const rowHeight = genericMulti
-    ? Math.max(158, historyRows * 28 + 42)
+    ? Math.max(158, historyRows * 28 + (item.branches.length >= 18 ? 150 : 42))
     : item.branches.length > 1 ? 132 : 104;
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>

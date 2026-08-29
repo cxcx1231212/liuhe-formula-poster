@@ -62,6 +62,9 @@ const conciseCalculation = (text: string) =>
     .replace(/(\d+)岁属/g, "$1属")
     .replace(/[，,、]\s*属/g, "属");
 
+const compactMultiCalculation = (text: string) =>
+  conciseCalculation(text).replace(/^(?:平[1-6]码|特码码?)(?:合数|尾数)?[：:]\s*/, "");
+
 export default function DynamicWuxingPoster({
   issue,
   item,
@@ -90,11 +93,11 @@ export default function DynamicWuxingPoster({
   const genericColumns = genericMulti && item.branches.length >= 8 ? 2 : 1;
   const genericRows = Math.ceil(item.branches.length / genericColumns);
   const forecastHeight = genericMulti
-    ? Math.max(150, genericRows * 42 + 72)
+    ? Math.max(150, genericRows * 32 + 54)
     : 120;
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
   const rowHeight = genericMulti
-    ? Math.max(158, genericRows * 28 + 62)
+    ? Math.max(158, genericRows * 25 + 48)
     : item.branches.length > 1 ? 132 : 104;
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>
@@ -265,7 +268,7 @@ export default function DynamicWuxingPoster({
                   : multi ? 58 : 42;
                 const labelTop = joinY - labelHeight / 2;
                 const labelLines = entry.branches.map((branch) =>
-                  conciseCalculation(branch.calculation)
+                  (genericMulti ? compactMultiCalculation(branch.calculation) : conciseCalculation(branch.calculation))
                     .split(/[，,]/, 2)
                     .map((part) => part.trim())
                     .join(" "),
@@ -412,7 +415,7 @@ export default function DynamicWuxingPoster({
                 const result = branch.next || item.next[index];
                 return (
                   <div className="formula-pair" key={`${branch.name}-${index}`}>
-                    <span>{conciseCalculation(branch.calculation || branch.name)}</span>
+                    <span>{genericMulti ? compactMultiCalculation(branch.calculation || branch.name) : conciseCalculation(branch.calculation || branch.name)}</span>
                     {compactForecast && result && (
                       <strong
                         className="prediction-result"

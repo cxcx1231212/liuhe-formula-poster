@@ -258,6 +258,12 @@ export default function DynamicWuxingPoster({
                         const branchSources =
                           item.branches[branchIndex]?.sourcePositions ||
                           positions;
+                        const usesWholeDraw = /七码总分|总分/.test(
+                          item.branches[branchIndex]?.name || branch.name,
+                        );
+                        const sourceXs = usesWholeDraw
+                          ? [58]
+                          : branchSources.map(columnX);
                         const branchTargets = branch.targetPositions || [];
                         const branchTarget = branchTargets[0];
                         const branchTx =
@@ -267,10 +273,10 @@ export default function DynamicWuxingPoster({
                         const labelY = joinY + (branchIndex === 0 ? -13 : 13);
                         return (
                           <g key={`branch-${branchIndex}`}>
-                            {branchSources.map((position) => (
+                            {sourceXs.map((sourceX, sourceIndex) => (
                               <path
-                                key={`${branchIndex}-${position}`}
-                                d={`M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${labelY}, 470 ${labelY}, 540 ${labelY}`}
+                                key={`${branchIndex}-${sourceIndex}`}
+                                d={`M ${sourceX} ${sy - 18} C ${sourceX} ${labelY}, 470 ${labelY}, 540 ${labelY}`}
                               />
                             ))}
                             {entry.hit && branchTarget != null && (

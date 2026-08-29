@@ -65,6 +65,22 @@ const conciseCalculation = (text: string) =>
 const compactMultiCalculation = (text: string) =>
   conciseCalculation(text).replace(/^(?:平[1-6]码|特码码?)(?:合数|尾数)?[：:]\s*/, "");
 
+const additionValue = (text: string) => {
+  const match = text.match(/[+＋]\s*(\d+)/);
+  return match ? Number(match[1]) : Number.POSITIVE_INFINITY;
+};
+
+const sortByAddition = <T extends { calculation?: string; name: string }>(branches: T[]) =>
+  branches
+    .map((branch, index) => ({ branch, index }))
+    .sort(
+      (a, b) =>
+        additionValue(a.branch.calculation || a.branch.name) -
+          additionValue(b.branch.calculation || b.branch.name) ||
+        a.index - b.index,
+    )
+    .map(({ branch }) => branch);
+
 export default function DynamicWuxingPoster({
   issue,
   item,
@@ -90,6 +106,9 @@ export default function DynamicWuxingPoster({
     .slice()
     .sort((a, b) => b.targetPeriod - a.targetPeriod);
   const genericMulti = mode === "generic" && item.branches.length > 2;
+  const displayBranches = genericMulti
+    ? sortByAddition(item.branches)
+    : item.branches;
   const genericColumns = genericMulti && item.branches.length >= 8 ? 2 : 1;
   const genericRows = Math.ceil(item.branches.length / genericColumns);
   const historyColumns = genericMulti && item.branches.length >= 18 ? 4 : genericColumns;
@@ -269,7 +288,10 @@ export default function DynamicWuxingPoster({
                   ? historyRows * 28 + 20
                   : multi ? 58 : 42;
                 const labelTop = joinY - labelHeight / 2;
-                const labelLines = entry.branches.map((branch) =>
+                const historyBranches = genericMulti
+                  ? sortByAddition(entry.branches)
+                  : entry.branches;
+                const labelLines = historyBranches.map((branch) =>
                   (genericMulti ? compactMultiCalculation(branch.calculation) : conciseCalculation(branch.calculation))
                     .split(/[，,]/, 2)
                     .map((part) => part.trim())
@@ -417,7 +439,7 @@ export default function DynamicWuxingPoster({
           >
             <b>公式算法</b>
             <div className="formula-pairs">
-              {item.branches.map((branch, index) => {
+              {displayBranches.map((branch, index) => {
                 const result = branch.next || item.next[index];
                 return (
                   <div className="formula-pair" key={`${branch.name}-${index}`}>

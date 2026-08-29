@@ -1,5 +1,6 @@
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
+import StaticFormulaPost from '@/app/StaticFormulaPost';
 
 type Method={rank:string;image:string;numbers?:number[];animals?:string[]};
 type Group={label:string;kind:string;methods:Method[]};
@@ -16,21 +17,5 @@ export default async function FushiPost({params,searchParams}:{params:Promise<{c
   const values=group.kind==='animal'?item.animals:item.numbers?.map(number=>String(number).padStart(2,'0'));
   const previous=index>0?group.methods[index-1].rank:null;
   const next=index<group.methods.length-1?group.methods[index+1].rank:null;
-  return <main className="post-page">
-    <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="/">首页</a><a href="/#board-复式公式">复式公式</a></nav></header>
-    <article className="detail pingte-detail">
-      <div className="detail-topbar"><a className="detail-back" href="/#board-复式公式"><i>←</i><span><small>BACK TO INDEX</small><strong>返回复式板块</strong></span></a></div>
-      <header className="detail-title"><span>{group.label}</span><h1>2026-{issue}期｜{group.label}</h1></header>
-      <section className="method-card single-method">
-        <header className="simple-method-title"><strong>{group.kind==='animal'?'参考生肖':'参考号码'}：{values?.join('、')}</strong></header>
-        <figure className="formula-frame"><img src={item.image} alt={`${group.label}公式图`} draggable="false" /></figure>
-      </section>
-      <p className="formula-note">依据前期开奖数据推算下期复式组合，图中展示计算来源与历史命中轨迹。只计算六个平码，重复号码或生肖只计一次。仅供娱乐参考。</p>
-      <nav className="post-pager">
-        {previous?<a href={`/posts/fushi/${category}/${issue}/${previous}?type=${type}`}><small>上一个公式</small><strong>{group.label} 第{index}条</strong></a>:<span/>}
-        {next?<a href={`/posts/fushi/${category}/${issue}/${next}?type=${type}`}><small>下一个公式</small><strong>{group.label} 第{index+2}条</strong></a>:<span/>}
-      </nav>
-    </article>
-    <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>
-  </main>;
+  return <StaticFormulaPost type={type} board="复式" hash="复式公式" image={item.image} alt={`${group.label}公式图`} note={`【${group.label}】${group.kind==='animal'?'参考生肖':'参考号码'}：${values?.join('、')} · 只计算六个平码，重复号码或生肖只计一次 · 仅供娱乐参考`} previous={previous?{href:`/posts/fushi/${category}/${issue}/${previous}?type=${type}`,eyebrow:'上一个公式',label:`${group.label} 第${index}条`}:null} next={next?{href:`/posts/fushi/${category}/${issue}/${next}?type=${type}`,eyebrow:'下一个公式',label:`${group.label} 第${index+2}条`}:null}/>;
 }

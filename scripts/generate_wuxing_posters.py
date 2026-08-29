@@ -1,4 +1,5 @@
 import json
+import re
 from itertools import combinations
 
 from PIL import Image, ImageDraw
@@ -104,7 +105,9 @@ def render(item,issue,records,output):
 
 
 def main():
+    global _ELEMENT_MAP
     records=fetch_year(5,2026); issue=int(records[-1]["period"])+1; output_dir=ROOT/"public"/"generated"/"wuxing"; output_dir.mkdir(parents=True,exist_ok=True); singles,pairs=select(records); methods=[]
+    _ELEMENT_MAP={int(value["number"]):value["wuXing"] for record in records for value in record["numberList"]}
     for prefix,items in (("s",singles),("d",pairs)):
         for index,item in enumerate(items,1):
             rank=f"{prefix}{index:03d}"
@@ -112,8 +115,19 @@ def main():
             for branch in item["branches"]:
                 result_number=wrap(branch["calculate"](records[-1]))
                 expression=calculation_text(branch["name"],records[-1],{branch["name"]:branch["calculate"]})
-                branches.append({"name":branch["name"],"next":branch["next"],"calculation":f"{expression}＝{result_number}（{branch['next']}）"})
-            methods.append({"rank":rank,"label":item["label"],"lineCount":item["lineCount"],"sourceKey":item["sourceKey"],"next":item["next"],"recentStreak":item["recentStreak"],"recent30Hits":item["recent30Hits"],"image":None,"branches":branches})
+                source_positions=[6 if label=="特码" else int(label[1])-1 for label in re.findall(r"平[1-6]码|特码",branch["name"])]
+                branches.append({"name":branch["name"],"next":branch["next"],"calculation":f"{expression}＝{result_number}（{branch['next']}）","sourcePositions":source_positions})
+            history=[]
+            for source,target in zip(records[-5:-1],records[-4:]):
+                history_branches=[]
+                predictions=[]
+                for branch in item["branches"]:
+                    result_number=wrap(branch["calculate"](source)); result_element=next_value(result_number); predictions.append(result_element)
+                    expression=calculation_text(branch["name"],source,{branch["name"]:branch["calculate"]})
+                    history_branches.append({"name":branch["name"],"calculation":f"{expression}＝{result_number}（{result_element}）","result":result_element})
+                actual=target["numberList"][6]
+                history.append({"sourcePeriod":int(source["period"]),"targetPeriod":int(target["period"]),"branches":history_branches,"actualNumber":str(actual["number"]).zfill(2),"actualAnimal":actual.get("shengXiao", ""),"actualElement":actual.get("wuXing", ""),"hit":actual.get("wuXing", "") in predictions})
+            methods.append({"rank":rank,"label":item["label"],"lineCount":item["lineCount"],"sourceKey":item["sourceKey"],"next":item["next"],"recentStreak":item["recentStreak"],"recent30Hits":item["recent30Hits"],"image":None,"branches":branches,"history":history})
     draws=[]
     for record in records[-5:]:
         draws.append({"period":int(record["period"]),"date":record.get("lotteryTime") or record.get("openTime") or record.get("date") or "","numbers":[{"number":str(value["number"]).zfill(2),"animal":value.get("shengXiao", ""),"element":value.get("wuXing", "")} for value in record["numberList"]]})

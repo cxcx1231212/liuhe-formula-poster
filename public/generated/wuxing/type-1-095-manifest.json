@@ -226,12 +226,102 @@
         {
           "name": "平3码－特码加15",
           "next": "木",
-          "calculation": "44－35＋15＝24＝24（木）"
+          "calculation": "44－35＋15＝24＝24（木）",
+          "sourcePositions": [
+            2,
+            6
+          ]
         },
         {
           "name": "平3码－特码加17",
           "next": "金",
-          "calculation": "44－35＋17＝26＝26（金）"
+          "calculation": "44－35＋17＝26＝26（金）",
+          "sourcePositions": [
+            2,
+            6
+          ]
+        }
+      ],
+      "history": [
+        {
+          "sourcePeriod": 90,
+          "targetPeriod": 91,
+          "branches": [
+            {
+              "name": "平3码－特码加15",
+              "calculation": "08－49＋15＝-26→10＝10（火）",
+              "result": "火"
+            },
+            {
+              "name": "平3码－特码加17",
+              "calculation": "08－49＋17＝-24→12＝12（金）",
+              "result": "金"
+            }
+          ],
+          "actualNumber": "34",
+          "actualAnimal": "鸡",
+          "actualElement": "金",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 91,
+          "targetPeriod": 92,
+          "branches": [
+            {
+              "name": "平3码－特码加15",
+              "calculation": "24－34＋15＝5＝5（金）",
+              "result": "金"
+            },
+            {
+              "name": "平3码－特码加17",
+              "calculation": "24－34＋17＝7＝7（土）",
+              "result": "土"
+            }
+          ],
+          "actualNumber": "29",
+          "actualAnimal": "虎",
+          "actualElement": "土",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 92,
+          "targetPeriod": 93,
+          "branches": [
+            {
+              "name": "平3码－特码加15",
+              "calculation": "34－29＋15＝20＝20（土）",
+              "result": "土"
+            },
+            {
+              "name": "平3码－特码加17",
+              "calculation": "34－29＋17＝22＝22（水）",
+              "result": "水"
+            }
+          ],
+          "actualNumber": "07",
+          "actualAnimal": "鼠",
+          "actualElement": "土",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 93,
+          "targetPeriod": 94,
+          "branches": [
+            {
+              "name": "平3码－特码加15",
+              "calculation": "25－07＋15＝33＝33（火）",
+              "result": "火"
+            },
+            {
+              "name": "平3码－特码加17",
+              "calculation": "25－07＋17＝35＝35（金）",
+              "result": "金"
+            }
+          ],
+          "actualNumber": "35",
+          "actualAnimal": "猴",
+          "actualElement": "金",
+          "hit": true
         }
       ]
     },
@@ -251,12 +341,100 @@
         {
           "name": "平3码加2",
           "next": "木",
-          "calculation": "44＋2＝46＝46（木）"
+          "calculation": "44＋2＝46＝46（木）",
+          "sourcePositions": [
+            2
+          ]
         },
         {
           "name": "平3码加5",
           "next": "火",
-          "calculation": "44＋5＝49＝49（火）"
+          "calculation": "44＋5＝49＝49（火）",
+          "sourcePositions": [
+            2
+          ]
+        }
+      ],
+      "history": [
+        {
+          "sourcePeriod": 90,
+          "targetPeriod": 91,
+          "branches": [
+            {
+              "name": "平3码加2",
+              "calculation": "08＋2＝10＝10（火）",
+              "result": "火"
+            },
+            {
+              "name": "平3码加5",
+              "calculation": "08＋5＝13＝13（金）",
+              "result": "金"
+            }
+          ],
+          "actualNumber": "34",
+          "actualAnimal": "鸡",
+          "actualElement": "金",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 91,
+          "targetPeriod": 92,
+          "branches": [
+            {
+              "name": "平3码加2",
+              "calculation": "24＋2＝26＝26（金）",
+              "result": "金"
+            },
+            {
+              "name": "平3码加5",
+              "calculation": "24＋5＝29＝29（土）",
+              "result": "土"
+            }
+          ],
+          "actualNumber": "29",
+          "actualAnimal": "虎",
+          "actualElement": "土",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 92,
+          "targetPeriod": 93,
+          "branches": [
+            {
+              "name": "平3码加2",
+              "calculation": "34＋2＝36＝36（土）",
+              "result": "土"
+            },
+            {
+              "name": "平3码加5",
+              "calculation": "34＋5＝39＝39（木）",
+              "result": "木"
+            }
+          ],
+          "actualNumber": "07",
+          "actualAnimal": "鼠",
+          "actualElement": "土",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 93,
+          "targetPeriod": 94,
+          "branches": [
+            {
+              "name": "平3码加2",
+              "calculation": "25＋2＝27＝27（金）",
+              "result": "金"
+            },
+            {
+              "name": "平3码加5",
+              "calculation": "25＋5＝30＝30（水）",
+              "result": "水"
+            }
+          ],
+          "actualNumber": "35",
+          "actualAnimal": "猴",
+          "actualElement": "金",
+          "hit": true
         }
       ]
     },
@@ -276,12 +454,100 @@
         {
           "name": "平3码加2",
           "next": "木",
-          "calculation": "44＋2＝46＝46（木）"
+          "calculation": "44＋2＝46＝46（木）",
+          "sourcePositions": [
+            2
+          ]
         },
         {
           "name": "平3码加4",
           "next": "火",
-          "calculation": "44＋4＝48＝48（火）"
+          "calculation": "44＋4＝48＝48（火）",
+          "sourcePositions": [
+            2
+          ]
+        }
+      ],
+      "history": [
+        {
+          "sourcePeriod": 90,
+          "targetPeriod": 91,
+          "branches": [
+            {
+              "name": "平3码加2",
+              "calculation": "08＋2＝10＝10（火）",
+              "result": "火"
+            },
+            {
+              "name": "平3码加4",
+              "calculation": "08＋4＝12＝12（金）",
+              "result": "金"
+            }
+          ],
+          "actualNumber": "34",
+          "actualAnimal": "鸡",
+          "actualElement": "金",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 91,
+          "targetPeriod": 92,
+          "branches": [
+            {
+              "name": "平3码加2",
+              "calculation": "24＋2＝26＝26（金）",
+              "result": "金"
+            },
+            {
+              "name": "平3码加4",
+              "calculation": "24＋4＝28＝28（土）",
+              "result": "土"
+            }
+          ],
+          "actualNumber": "29",
+          "actualAnimal": "虎",
+          "actualElement": "土",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 92,
+          "targetPeriod": 93,
+          "branches": [
+            {
+              "name": "平3码加2",
+              "calculation": "34＋2＝36＝36（土）",
+              "result": "土"
+            },
+            {
+              "name": "平3码加4",
+              "calculation": "34＋4＝38＝38（木）",
+              "result": "木"
+            }
+          ],
+          "actualNumber": "07",
+          "actualAnimal": "鼠",
+          "actualElement": "土",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 93,
+          "targetPeriod": 94,
+          "branches": [
+            {
+              "name": "平3码加2",
+              "calculation": "25＋2＝27＝27（金）",
+              "result": "金"
+            },
+            {
+              "name": "平3码加4",
+              "calculation": "25＋4＝29＝29（土）",
+              "result": "土"
+            }
+          ],
+          "actualNumber": "35",
+          "actualAnimal": "猴",
+          "actualElement": "金",
+          "hit": true
         }
       ]
     }

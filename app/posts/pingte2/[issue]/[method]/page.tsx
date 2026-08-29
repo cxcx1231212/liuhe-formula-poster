@@ -7,6 +7,8 @@ import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 
 const sumDigits=(value:number)=>String(Math.abs(value)).split('').reduce((sum,char)=>sum+Number(char),0);
 const wrap=(value:number)=>{while(value>49)value-=12;while(value<1)value+=12;return value};
+const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
+const animalFor=(value:number)=>animals[(wrap(value)-1)%12];
 const positions=(name:string)=>Array.from(name.matchAll(/平([1-6])/g),match=>Number(match[1])-1);
 function targetPosition(draw:any,predictedNumber:number,predictedAnimal:string){
   const numbers=draw?.numbers||[];
@@ -19,8 +21,13 @@ function calculate(name:string,draw:any,result:number){
   const values=(draw?.numbers||[]).map((row:any)=>Number(row.number));let match=name.match(/平(\d)码固定(加|减)(\d+)/);
   if(match){const value=values[Number(match[1])-1],amount=Number(match[3]);return String(value).padStart(2,'0')+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(value+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
   match=name.match(/平(\d)码合数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],base=sumDigits(value),amount=Number(match[3]);return String(value).padStart(2,'0')+'合'+base+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(base+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
-  match=name.match(/平(\d)码尾数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],base=value%10||10,amount=Number(match[3]);return String(value).padStart(2,'0')+'尾'+base+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(base+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
+  match=name.match(/平(\d)码尾数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],base=value%10,amount=Number(match[3]);return String(value).padStart(2,'0')+'尾'+base+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(base+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
   return name+'＝'+String(result).padStart(2,'0');
+}
+function calculatedNumber(name:string,draw:any,fallback:number){
+  const equation=calculate(name,draw,fallback);
+  const matched=equation.match(/＝(\d+)$/);
+  return matched?Number(matched[1]):fallback;
 }
 
 export default async function PingteTwoPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}) {
@@ -46,19 +53,28 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
       .slice(-5);
     const transformedHistory=selectedHistory.map((entry:any)=>{
       const targetDraw:any=drawMap.get(entry.targetPeriod);
-      const targetPositions=(targetDraw?.numbers||[]).flatMap((value:any,position:number)=>entry.animals.includes(value.animal)?[position+1]:[]);
-      return {...entry,targetPositions,branches:[
-        {name:post.leftName,calculation:calculate(post.leftName,drawMap.get(entry.sourcePeriod),entry.numbers[0])+'，'+entry.numbers[0]+'岁属'+entry.animals[0],result:entry.animals[0],targetPositions:targetPosition(targetDraw,entry.numbers[0],entry.animals[0])},
-        {name:post.rightName,calculation:calculate(post.rightName,drawMap.get(entry.sourcePeriod),entry.numbers[1])+'，'+entry.numbers[1]+'岁属'+entry.animals[1],result:entry.animals[1],targetPositions:targetPosition(targetDraw,entry.numbers[1],entry.animals[1])}
+      const sourceDraw=drawMap.get(Number(entry.sourcePeriod));
+      const leftNumber=calculatedNumber(post.leftName,sourceDraw,entry.numbers[0]);
+      const rightNumber=calculatedNumber(post.rightName,sourceDraw,entry.numbers[1]);
+      const leftAnimal=animalFor(leftNumber),rightAnimal=animalFor(rightNumber);
+      const leftTargets=targetPosition(targetDraw,leftNumber,leftAnimal),rightTargets=targetPosition(targetDraw,rightNumber,rightAnimal);
+      const targetPositions=[...leftTargets,...rightTargets];
+      const hit=leftAnimal!==rightAnimal&&leftTargets.length>0&&rightTargets.length>0;
+      return {...entry,hit,targetPositions,animals:[leftAnimal,rightAnimal],numbers:[leftNumber,rightNumber],branches:[
+        {name:post.leftName,calculation:calculate(post.leftName,sourceDraw,leftNumber)+'，'+leftNumber+'岁属'+leftAnimal,result:leftAnimal,targetPositions:leftTargets},
+        {name:post.rightName,calculation:calculate(post.rightName,sourceDraw,rightNumber)+'，'+rightNumber+'岁属'+rightAnimal,result:rightAnimal,targetPositions:rightTargets}
       ],actualNumber:targetPositions.map((position:number)=>targetDraw.numbers[position-1].number).join('、'),actualAnimal:targetPositions.map((position:number)=>targetDraw.numbers[position-1].animal).join('、'),actualElement:''};
     });
-    const predictionAnimals=historyEntry?historyEntry.animals:post.predictionAnimals;
-    const predictionNumbers=historyEntry?historyEntry.numbers:post.predictionNumbers;
     const sourcePeriod=historyEntry?Number(issue)-1:Number(current.issue)-1;
+    const predictionSource=drawMap.get(sourcePeriod);
+    const storedPredictionNumbers=historyEntry?historyEntry.numbers:post.predictionNumbers;
+    const predictionNumbers=[calculatedNumber(post.leftName,predictionSource,storedPredictionNumbers[0]),calculatedNumber(post.rightName,predictionSource,storedPredictionNumbers[1])];
+    const predictionAnimals=predictionNumbers.map(animalFor);
+    const verifiedEntry=historyEntry?transformedHistory.find((entry:any)=>entry.targetPeriod===Number(issue)):null;
     const item={label:'平特二肖',sourceKey:post.leftName+'＋'+post.rightName,next:predictionAnimals,recentStreak:post.recentStreak,recent30Hits:Math.round((post.recent30Rate||0)*30),formulaId:post.formulaId,branches:[
       {name:post.leftName,next:predictionAnimals[0],calculation:'取号一：'+calculate(post.leftName,drawMap.get(sourcePeriod),predictionNumbers[0])+'，'+predictionNumbers[0]+'岁属'+predictionAnimals[0],sourcePositions:positions(post.leftName)},
       {name:post.rightName,next:predictionAnimals[1],calculation:'取号二：'+calculate(post.rightName,drawMap.get(sourcePeriod),predictionNumbers[1])+'，'+predictionNumbers[1]+'岁属'+predictionAnimals[1],sourcePositions:positions(post.rightName)}
-    ],history:transformedHistory,...(historyEntry?{verification:{hit:historyEntry.hit,actualNumber:'',actualAnimal:'',actualElement:''}}:{})};
+    ],history:transformedHistory,...(historyEntry?{verification:{hit:verifiedEntry?.hit??false,actualNumber:'',actualAnimal:'',actualElement:''}}:{})};
     const shownDraws=allDraws.filter((draw:any)=>draw.period<=(historyEntry?Number(issue):Number(current.issue)-1)).slice(-6);
     const periods=selectedHistory.map((entry:any)=>entry.targetPeriod);
     const posterIssue=historyEntry&&periods.length?Math.min(...periods)+'-'+Math.max(...periods):issue;

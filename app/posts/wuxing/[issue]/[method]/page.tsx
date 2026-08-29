@@ -14,9 +14,10 @@ export default async function WuxingPost({params,searchParams}:{params:Promise<{
   const sourceEntry=currentItem.history?.find((entry:{targetPeriod:number})=>entry.targetPeriod===requestedIssue);
   const isDerivedHistory=requestedIssue<currentIssue&&Boolean(sourceEntry);
   if(requestedIssue!==currentIssue&&!isDerivedHistory)return <ArchivedFormulaPost type={type} path={`/posts/wuxing/${issue}/${method}`} backHref={`/?type=${type}#board-五行公式`} backLabel="返回五行板块"/>;
-  const baseItem=isDerivedHistory?{...currentItem,next:sourceEntry.branches.map((branch:{result:string})=>branch.result),branches:sourceEntry.branches.map((branch:{name:string;calculation:string;result:string},branchIndex:number)=>({...currentItem.branches[branchIndex],name:branch.name,next:branch.result,calculation:branch.calculation})),history:currentItem.history.filter((entry:{targetPeriod:number})=>entry.targetPeriod<requestedIssue),verification:{hit:sourceEntry.hit,actualNumber:sourceEntry.actualNumber,actualAnimal:sourceEntry.actualAnimal,actualElement:sourceEntry.actualElement}}:currentItem;
+  const baseItem=isDerivedHistory?{...currentItem,next:sourceEntry.branches.map((branch:{result:string})=>branch.result),branches:sourceEntry.branches.map((branch:{name:string;calculation:string;result:string},branchIndex:number)=>({...currentItem.branches[branchIndex],name:branch.name,next:branch.result,calculation:branch.calculation})),history:currentItem.history.filter((entry:{targetPeriod:number})=>entry.targetPeriod<=requestedIssue),verification:{hit:sourceEntry.hit,actualNumber:sourceEntry.actualNumber,actualAnimal:sourceEntry.actualAnimal,actualElement:sourceEntry.actualElement}}:currentItem;
   const item={...baseItem,history:(baseItem.history||[]).slice(-4)};
-  const draws=manifest.draws.filter((draw:{period:number})=>draw.period<requestedIssue).slice(-5);
+  const drawCutoff=isDerivedHistory?requestedIssue:requestedIssue-1;
+  const draws=manifest.draws.filter((draw:{period:number})=>draw.period<=drawCutoff).slice(-5);
   const candidatePreviousIssue=requestedIssue-1;
   const previousIssue=currentItem.history?.some((entry:{targetPeriod:number})=>entry.targetPeriod===candidatePreviousIssue)?candidatePreviousIssue:null;
   const newerIssue=requestedIssue<currentIssue?requestedIssue+1:null;

@@ -20,11 +20,12 @@ export default async function JiayePost({params,searchParams}:{params:Promise<{i
     ...currentItem,
     next:[sourceEntry.branches[0].result],
     branches:[{...currentItem.branches[0],next:sourceEntry.branches[0].result,calculation:`取${sourceLabel?`平码${sourceLabel}`:'号码'}：${historicalCalculation}`}],
-    history:currentItem.history.filter((entry:{targetPeriod:number})=>entry.targetPeriod<requestedIssue),
+    history:currentItem.history.filter((entry:{targetPeriod:number})=>entry.targetPeriod<=requestedIssue),
     verification:{hit:sourceEntry.hit,actualNumber:sourceEntry.actualNumber,actualAnimal:sourceEntry.actualAnimal,actualElement:sourceEntry.actualElement}
   }:currentItem;
   const item={...baseItem,history:(baseItem.history||[]).slice(-4)};
-  const draws=manifest.draws.filter((draw:{period:number})=>draw.period<requestedIssue).slice(-5);
+  const drawCutoff=isDerivedHistory?requestedIssue:requestedIssue-1;
+  const draws=manifest.draws.filter((draw:{period:number})=>draw.period<=drawCutoff).slice(-5);
   const candidatePreviousIssue=requestedIssue-1;
   const previousIssue=currentItem.history?.some((entry:{targetPeriod:number})=>entry.targetPeriod===candidatePreviousIssue)?candidatePreviousIssue:null;
   const newerIssue=requestedIssue<currentIssue?requestedIssue+1:null;

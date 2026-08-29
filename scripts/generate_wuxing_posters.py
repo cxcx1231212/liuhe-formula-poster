@@ -107,8 +107,16 @@ def main():
     records=fetch_year(5,2026); issue=int(records[-1]["period"])+1; output_dir=ROOT/"public"/"generated"/"wuxing"; output_dir.mkdir(parents=True,exist_ok=True); singles,pairs=select(records); methods=[]
     for prefix,items in (("s",singles),("d",pairs)):
         for index,item in enumerate(items,1):
-            rank=f"{prefix}{index:03d}"; filename=f"type-5-{issue}-{rank}.png"; render(item,issue,records,output_dir/filename)
-            methods.append({"rank":rank,"label":item["label"],"lineCount":item["lineCount"],"sourceKey":item["sourceKey"],"next":item["next"],"recentStreak":item["recentStreak"],"recent30Hits":item["recent30Hits"],"image":f"/generated/wuxing/{filename}","branches":[{"name":b["name"],"next":b["next"]} for b in item["branches"]]})
-    manifest={"lotteryType":5,"year":2026,"issue":issue,"methods":methods}; path=output_dir/f"type-5-{issue}-manifest.json"; path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf-8"); print(f"singles={len(singles)} pairs={len(pairs)} total={len(methods)}"); print(path)
+            rank=f"{prefix}{index:03d}"
+            branches=[]
+            for branch in item["branches"]:
+                result_number=wrap(branch["calculate"](records[-1]))
+                expression=calculation_text(branch["name"],records[-1],{branch["name"]:branch["calculate"]})
+                branches.append({"name":branch["name"],"next":branch["next"],"calculation":f"{expression}＝{result_number}（{branch['next']}）"})
+            methods.append({"rank":rank,"label":item["label"],"lineCount":item["lineCount"],"sourceKey":item["sourceKey"],"next":item["next"],"recentStreak":item["recentStreak"],"recent30Hits":item["recent30Hits"],"image":None,"branches":branches})
+    draws=[]
+    for record in records[-5:]:
+        draws.append({"period":int(record["period"]),"date":record.get("lotteryTime") or record.get("openTime") or record.get("date") or "","numbers":[{"number":str(value["number"]).zfill(2),"animal":value.get("shengXiao", ""),"element":value.get("wuXing", "")} for value in record["numberList"]]})
+    manifest={"lotteryType":5,"year":2026,"issue":issue,"draws":draws,"methods":methods}; path=output_dir/f"type-5-{issue:03d}-manifest.json"; path.write_text(json.dumps(manifest,ensure_ascii=False,indent=2),encoding="utf-8"); print(f"singles={len(singles)} pairs={len(pairs)} total={len(methods)}"); print(path)
 
 if __name__=="__main__": main()

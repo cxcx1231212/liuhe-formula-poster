@@ -16,7 +16,7 @@ export default async function WuxingPost({params,searchParams}:{params:Promise<{
     <article className="detail pingte-detail">
       <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-五行公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回五行板块</strong></span></a><span className="dynamic-poster-badge">动态生成 · 不占图片存储</span></div>
       <header className="detail-title"><span>{item.label}</span><h1>2026-{issue}期｜{item.label}</h1></header>
-      <section className="method-card single-method"><DynamicWuxingPoster issue={issue} item={item}/></section>
+      <section className="method-card single-method"><DynamicWuxingPoster issue={issue} item={item} draws={manifest.draws}/></section>
       <p className="formula-note">本公式图由当前公式数据即时绘制，没有预先保存WebP图片。历史结果仍按固定公式编号连续记录。仅供娱乐参考。</p>
       <nav className="post-pager">{previous?<a href={`/posts/wuxing/${issue}/${previous}?type=${type}`}><small>上一个公式</small><strong>五行 第{index}条</strong></a>:<span/>}{next?<a href={`/posts/wuxing/${issue}/${next}?type=${type}`}><small>下一个公式</small><strong>五行 第{index+2}条</strong></a>:<span/>}</nav>
     </article>

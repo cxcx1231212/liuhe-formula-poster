@@ -2,6 +2,213 @@
   "lotteryType": 8,
   "year": 2026,
   "issue": 241,
+  "draws": [
+    {
+      "period": 236,
+      "date": "2026年08月24日",
+      "numbers": [
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        },
+        {
+          "number": "29",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 237,
+      "date": "2026年08月25日",
+      "numbers": [
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "24",
+          "animal": "羊",
+          "element": "木"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 238,
+      "date": "2026年08月26日",
+      "numbers": [
+        {
+          "number": "48",
+          "animal": "羊",
+          "element": "火"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        },
+        {
+          "number": "39",
+          "animal": "龙",
+          "element": "木"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 239,
+      "date": "2026年08月27日",
+      "numbers": [
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 240,
+      "date": "2026年08月28日",
+      "numbers": [
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "38",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        }
+      ]
+    }
+  ],
   "methods": [
     {
       "rank": "s001",
@@ -13,14 +220,14 @@
       ],
       "recentStreak": 4,
       "recent30Hits": 10,
-      "image": "/generated/wuxing/type-8-241-s001.webp",
+      "image": null,
       "branches": [
         {
           "name": "平4码－平1码减18",
-          "next": "火"
+          "next": "火",
+          "calculation": "10－06－18＝-14→10＝10（火）"
         }
-      ],
-      "formulaId": "WUXING--df45ba1238"
+      ]
     },
     {
       "rank": "s002",
@@ -32,14 +239,14 @@
       ],
       "recentStreak": 4,
       "recent30Hits": 10,
-      "image": "/generated/wuxing/type-8-241-s002.webp",
+      "image": null,
       "branches": [
         {
           "name": "平4码－平1码减6",
-          "next": "火"
+          "next": "火",
+          "calculation": "10－06－6＝-2→10＝10（火）"
         }
-      ],
-      "formulaId": "WUXING--c45257e687"
+      ]
     },
     {
       "rank": "s003",
@@ -51,14 +258,14 @@
       ],
       "recentStreak": 4,
       "recent30Hits": 8,
-      "image": "/generated/wuxing/type-8-241-s003.webp",
+      "image": null,
       "branches": [
         {
           "name": "平4码－平1码加6",
-          "next": "火"
+          "next": "火",
+          "calculation": "10－06＋6＝10＝10（火）"
         }
-      ],
-      "formulaId": "WUXING--3241af8d29"
+      ]
     },
     {
       "rank": "s004",
@@ -70,14 +277,14 @@
       ],
       "recentStreak": 4,
       "recent30Hits": 7,
-      "image": "/generated/wuxing/type-8-241-s004.webp",
+      "image": null,
       "branches": [
         {
           "name": "平5码－平6码减10",
-          "next": "金"
+          "next": "金",
+          "calculation": "41－26－10＝5＝5（金）"
         }
-      ],
-      "formulaId": "WUXING--49269a01c2"
+      ]
     },
     {
       "rank": "s005",
@@ -89,14 +296,14 @@
       ],
       "recentStreak": 4,
       "recent30Hits": 6,
-      "image": "/generated/wuxing/type-8-241-s005.webp",
+      "image": null,
       "branches": [
         {
           "name": "平4码－特码加12",
-          "next": "火"
+          "next": "火",
+          "calculation": "10－19＋12＝3＝3（火）"
         }
-      ],
-      "formulaId": "WUXING--143604ef19"
+      ]
     },
     {
       "rank": "d001",
@@ -109,18 +316,19 @@
       ],
       "recentStreak": 11,
       "recent30Hits": 19,
-      "image": "/generated/wuxing/type-8-241-d001.webp",
+      "image": null,
       "branches": [
         {
           "name": "平1码＋平4码减11",
-          "next": "金"
+          "next": "金",
+          "calculation": "06＋10－11＝5＝5（金）"
         },
         {
           "name": "平1码＋平4码减15",
-          "next": "水"
+          "next": "水",
+          "calculation": "06＋10－15＝1＝1（水）"
         }
-      ],
-      "formulaId": "WUXING--61d67eedcf"
+      ]
     },
     {
       "rank": "d002",
@@ -133,18 +341,19 @@
       ],
       "recentStreak": 8,
       "recent30Hits": 17,
-      "image": "/generated/wuxing/type-8-241-d002.webp",
+      "image": null,
       "branches": [
         {
           "name": "平5码－平1码减2",
-          "next": "火"
+          "next": "火",
+          "calculation": "41－06－2＝33＝33（火）"
         },
         {
           "name": "平5码－平1码减11",
-          "next": "木"
+          "next": "木",
+          "calculation": "41－06－11＝24＝24（木）"
         }
-      ],
-      "formulaId": "WUXING--8b05cbe50f"
+      ]
     },
     {
       "rank": "d003",
@@ -157,18 +366,19 @@
       ],
       "recentStreak": 10,
       "recent30Hits": 16,
-      "image": "/generated/wuxing/type-8-241-d003.webp",
+      "image": null,
       "branches": [
         {
           "name": "平6码－特码减1",
-          "next": "土"
+          "next": "土",
+          "calculation": "26－19－1＝6＝6（土）"
         },
         {
           "name": "平6码－特码减11",
-          "next": "木"
+          "next": "木",
+          "calculation": "26－19－11＝-4→08＝8（木）"
         }
-      ],
-      "formulaId": "WUXING--c7a3249d73"
+      ]
     },
     {
       "rank": "d004",
@@ -181,18 +391,19 @@
       ],
       "recentStreak": 9,
       "recent30Hits": 15,
-      "image": "/generated/wuxing/type-8-241-d004.webp",
+      "image": null,
       "branches": [
         {
           "name": "平2码－平4码加7",
-          "next": "金"
+          "next": "金",
+          "calculation": "38－10＋7＝35＝35（金）"
         },
         {
           "name": "平2码－平4码加9",
-          "next": "土"
+          "next": "土",
+          "calculation": "38－10＋9＝37＝37（土）"
         }
-      ],
-      "formulaId": "WUXING--02040820c2"
+      ]
     },
     {
       "rank": "d005",
@@ -205,18 +416,19 @@
       ],
       "recentStreak": 9,
       "recent30Hits": 14,
-      "image": "/generated/wuxing/type-8-241-d005.webp",
+      "image": null,
       "branches": [
         {
           "name": "平6码－平2码加3",
-          "next": "火"
+          "next": "火",
+          "calculation": "26－38＋3＝-9→03＝3（火）"
         },
         {
           "name": "平6码－平2码加13",
-          "next": "水"
+          "next": "水",
+          "calculation": "26－38＋13＝1＝1（水）"
         }
-      ],
-      "formulaId": "WUXING--3285cbe9a3"
+      ]
     }
   ]
 }

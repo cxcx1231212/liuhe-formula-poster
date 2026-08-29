@@ -2,54 +2,560 @@
   "lotteryType": 5,
   "year": 2026,
   "issue": 241,
+  "draws": [
+    {
+      "period": 236,
+      "date": "2026年08月24日",
+      "numbers": [
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "野"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "野"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "家"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "家"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "野"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "野"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "野"
+        }
+      ]
+    },
+    {
+      "period": 237,
+      "date": "2026年08月25日",
+      "numbers": [
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "野"
+        },
+        {
+          "number": "36",
+          "animal": "羊",
+          "element": "家"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "野"
+        },
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "家"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "野"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "家"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "家"
+        }
+      ]
+    },
+    {
+      "period": 238,
+      "date": "2026年08月26日",
+      "numbers": [
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "野"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "家"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "野"
+        },
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "野"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "野"
+        },
+        {
+          "number": "21",
+          "animal": "狗",
+          "element": "家"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "野"
+        }
+      ]
+    },
+    {
+      "period": 239,
+      "date": "2026年08月27日",
+      "numbers": [
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "野"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "野"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "家"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "野"
+        },
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "家"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "野"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "野"
+        }
+      ]
+    },
+    {
+      "period": 240,
+      "date": "2026年08月28日",
+      "numbers": [
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "野"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "家"
+        },
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "家"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "野"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "野"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "家"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "野"
+        }
+      ]
+    }
+  ],
   "methods": [
     {
       "sourceKey": "平1码固定加法",
       "name": "平1码加8",
-      "next": "家肖",
+      "next": [
+        "家肖"
+      ],
       "recentStreak": 7,
       "recent30Hits": 17,
       "total": 114,
       "kind": "formula",
       "rank": "001",
-      "image": "/generated/jiaye/type-5-241-001.webp",
-      "formulaId": "JIAYE--5a4f15228f"
+      "image": null,
+      "branches": [
+        {
+          "name": "平1码加8",
+          "next": "家肖",
+          "calculation": "02＋8＝10＝10＝鸡＝家肖",
+          "sourcePositions": [
+            0
+          ]
+        }
+      ],
+      "history": [
+        {
+          "sourcePeriod": 236,
+          "targetPeriod": 237,
+          "branches": [
+            {
+              "name": "平1码加8",
+              "calculation": "26＋8＝34＝34＝鸡＝家肖",
+              "result": "家肖"
+            }
+          ],
+          "actualNumber": "12",
+          "actualAnimal": "羊",
+          "actualElement": "家肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 237,
+          "targetPeriod": 238,
+          "branches": [
+            {
+              "name": "平1码加8",
+              "calculation": "47＋8＝55→43＝43＝鼠＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "17",
+          "actualAnimal": "虎",
+          "actualElement": "野肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 238,
+          "targetPeriod": 239,
+          "branches": [
+            {
+              "name": "平1码加8",
+              "calculation": "35＋8＝43＝43＝鼠＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "05",
+          "actualAnimal": "虎",
+          "actualElement": "野肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 239,
+          "targetPeriod": 240,
+          "branches": [
+            {
+              "name": "平1码加8",
+              "calculation": "47＋8＝55→43＝43＝鼠＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "27",
+          "actualAnimal": "龙",
+          "actualElement": "野肖",
+          "hit": true
+        }
+      ],
+      "label": "家野中特"
     },
     {
       "sourceKey": "平6码＋特码固定加法",
       "name": "平6码＋特码加2",
-      "next": "家肖",
+      "next": [
+        "家肖"
+      ],
       "recentStreak": 8,
       "recent30Hits": 16,
       "total": 118,
       "kind": "formula",
       "rank": "002",
-      "image": "/generated/jiaye/type-5-241-002.webp",
-      "formulaId": "JIAYE--9106643762"
+      "image": null,
+      "branches": [
+        {
+          "name": "平6码＋特码加2",
+          "next": "家肖",
+          "calculation": "37＋27＋2＝66→42＝42＝牛＝家肖",
+          "sourcePositions": [
+            5,
+            6
+          ]
+        }
+      ],
+      "history": [
+        {
+          "sourcePeriod": 236,
+          "targetPeriod": 237,
+          "branches": [
+            {
+              "name": "平6码＋特码加2",
+              "calculation": "17＋11＋2＝30＝30＝牛＝家肖",
+              "result": "家肖"
+            }
+          ],
+          "actualNumber": "12",
+          "actualAnimal": "羊",
+          "actualElement": "家肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 237,
+          "targetPeriod": 238,
+          "branches": [
+            {
+              "name": "平6码＋特码加2",
+              "calculation": "25＋12＋2＝39＝39＝龙＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "17",
+          "actualAnimal": "虎",
+          "actualElement": "野肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 238,
+          "targetPeriod": 239,
+          "branches": [
+            {
+              "name": "平6码＋特码加2",
+              "calculation": "21＋17＋2＝40＝40＝兔＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "05",
+          "actualAnimal": "虎",
+          "actualElement": "野肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 239,
+          "targetPeriod": 240,
+          "branches": [
+            {
+              "name": "平6码＋特码加2",
+              "calculation": "07＋05＋2＝14＝14＝蛇＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "27",
+          "actualAnimal": "龙",
+          "actualElement": "野肖",
+          "hit": true
+        }
+      ],
+      "label": "家野中特"
     },
     {
       "sourceKey": "特码－平5码固定加法",
       "name": "特码－平5码加4",
-      "next": "野肖",
+      "next": [
+        "野肖"
+      ],
       "recentStreak": 7,
       "recent30Hits": 16,
       "total": 129,
       "kind": "formula",
       "rank": "003",
-      "image": "/generated/jiaye/type-5-241-003.webp",
-      "formulaId": "JIAYE--6343a8746e"
+      "image": null,
+      "branches": [
+        {
+          "name": "特码－平5码加4",
+          "next": "野肖",
+          "calculation": "27－28＋4＝3＝03＝龙＝野肖",
+          "sourcePositions": [
+            6,
+            4
+          ]
+        }
+      ],
+      "history": [
+        {
+          "sourcePeriod": 236,
+          "targetPeriod": 237,
+          "branches": [
+            {
+              "name": "特码－平5码加4",
+              "calculation": "11－14＋4＝1＝01＝马＝家肖",
+              "result": "家肖"
+            }
+          ],
+          "actualNumber": "12",
+          "actualAnimal": "羊",
+          "actualElement": "家肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 237,
+          "targetPeriod": 238,
+          "branches": [
+            {
+              "name": "特码－平5码加4",
+              "calculation": "12－41＋4＝-25→11＝11＝猴＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "17",
+          "actualAnimal": "虎",
+          "actualElement": "野肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 238,
+          "targetPeriod": 239,
+          "branches": [
+            {
+              "name": "特码－平5码加4",
+              "calculation": "17－07＋4＝14＝14＝蛇＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "05",
+          "actualAnimal": "虎",
+          "actualElement": "野肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 239,
+          "targetPeriod": 240,
+          "branches": [
+            {
+              "name": "特码－平5码加4",
+              "calculation": "05－22＋4＝-13→11＝11＝猴＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "27",
+          "actualAnimal": "龙",
+          "actualElement": "野肖",
+          "hit": true
+        }
+      ],
+      "label": "家野中特"
     },
     {
       "sourceKey": "平3码－平2码固定加法",
       "name": "平3码－平2码加2",
-      "next": "野肖",
+      "next": [
+        "野肖"
+      ],
       "recentStreak": 7,
       "recent30Hits": 14,
       "total": 125,
       "kind": "formula",
       "rank": "004",
-      "image": "/generated/jiaye/type-5-241-004.webp",
-      "formulaId": "JIAYE--c8a852c320"
+      "image": null,
+      "branches": [
+        {
+          "name": "平3码－平2码加2",
+          "next": "野肖",
+          "calculation": "22－34＋2＝-10→02＝02＝蛇＝野肖",
+          "sourcePositions": [
+            2,
+            1
+          ]
+        }
+      ],
+      "history": [
+        {
+          "sourcePeriod": 236,
+          "targetPeriod": 237,
+          "branches": [
+            {
+              "name": "平3码－平2码加2",
+              "calculation": "42－35＋2＝9＝09＝狗＝家肖",
+              "result": "家肖"
+            }
+          ],
+          "actualNumber": "12",
+          "actualAnimal": "羊",
+          "actualElement": "家肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 237,
+          "targetPeriod": 238,
+          "branches": [
+            {
+              "name": "平3码－平2码加2",
+              "calculation": "14－36＋2＝-20→04＝04＝兔＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "17",
+          "actualAnimal": "虎",
+          "actualElement": "野肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 238,
+          "targetPeriod": 239,
+          "branches": [
+            {
+              "name": "平3码－平2码加2",
+              "calculation": "23－44＋2＝-19→05＝05＝虎＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "05",
+          "actualAnimal": "虎",
+          "actualElement": "野肖",
+          "hit": true
+        },
+        {
+          "sourcePeriod": 239,
+          "targetPeriod": 240,
+          "branches": [
+            {
+              "name": "平3码－平2码加2",
+              "calculation": "34－43＋2＝-7→05＝05＝虎＝野肖",
+              "result": "野肖"
+            }
+          ],
+          "actualNumber": "27",
+          "actualAnimal": "龙",
+          "actualElement": "野肖",
+          "hit": true
+        }
+      ],
+      "label": "家野中特"
     }
   ]
 }

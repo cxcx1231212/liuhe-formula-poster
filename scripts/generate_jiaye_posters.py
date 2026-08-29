@@ -1,4 +1,5 @@
 import json
+import re
 
 from PIL import Image, ImageDraw
 
@@ -59,6 +60,14 @@ def render(item,issue,records,animal_map,output):
 def main():
     records=fetch_year(5,2026);issue=int(records[-1]["period"])+1;items,animal_map=select(records);output_dir=ROOT/"public"/"generated"/"jiaye";output_dir.mkdir(parents=True,exist_ok=True);methods=[]
     for index,item in enumerate(items,1):
-        rank=f"{index:03d}";filename=f"type-5-{issue}-{rank}.png";render(item,issue,records,animal_map,output_dir/filename);methods.append({key:value for key,value in item.items() if key not in ("calculate","predictions")}|{"rank":rank,"image":f"/generated/jiaye/{filename}"})
-    path=output_dir/f"type-5-{issue}-manifest.json";path.write_text(json.dumps({"lotteryType":5,"year":2026,"issue":issue,"methods":methods},ensure_ascii=False,indent=2),encoding="utf-8");print(f"{len(methods)} posts");print(path)
+        rank=f"{index:03d}";source_positions=[6 if label=="特码" else int(label[1])-1 for label in re.findall(r"平[1-6]码|特码",item["name"])]
+        number=wrap(item["calculate"](records[-1]));animal=animal_map[number];calculation=(f"平3码{number:02d}＝{animal}＝{item['next']}" if item["kind"]=="follow" else f"{calculation_text(item['name'],records[-1],{item['name']:item['calculate']})}＝{number:02d}＝{animal}＝{item['next']}")
+        history=[]
+        for source,target in zip(records[-5:-1],records[-4:]):
+            result_number=wrap(item["calculate"](source));result_animal=animal_map[result_number];result="家肖" if result_animal in DOMESTIC else "野肖";actual=target["numberList"][6];actual_result="家肖" if actual["shengXiao"] in DOMESTIC else "野肖"
+            expression=(f"平3码{result_number:02d}＝{result_animal}＝{result}" if item["kind"]=="follow" else f"{calculation_text(item['name'],source,{item['name']:item['calculate']})}＝{result_number:02d}＝{result_animal}＝{result}")
+            history.append({"sourcePeriod":int(source["period"]),"targetPeriod":int(target["period"]),"branches":[{"name":item["name"],"calculation":expression,"result":result}],"actualNumber":str(actual["number"]).zfill(2),"actualAnimal":actual["shengXiao"],"actualElement":actual_result,"hit":result==actual_result})
+        methods.append({key:value for key,value in item.items() if key not in ("calculate","predictions")}|{"rank":rank,"next":[item["next"]],"image":None,"branches":[{"name":item["name"],"next":item["next"],"calculation":calculation,"sourcePositions":source_positions}],"history":history,"label":"家野中特"})
+    draws=[{"period":int(record["period"]),"date":record.get("lotteryTime") or record.get("openTime") or record.get("date") or "","numbers":[{"number":str(value["number"]).zfill(2),"animal":value.get("shengXiao", ""),"element":"家" if value.get("shengXiao", "") in DOMESTIC else "野"} for value in record["numberList"]]} for record in records[-5:]]
+    path=output_dir/f"type-5-{issue}-manifest.json";path.write_text(json.dumps({"lotteryType":5,"year":2026,"issue":issue,"draws":draws,"methods":methods},ensure_ascii=False,indent=2),encoding="utf-8");print(f"{len(methods)} posts");print(path)
 if __name__=="__main__":main()

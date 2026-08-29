@@ -87,12 +87,14 @@ export default function DynamicWuxingPoster({
     .slice()
     .sort((a, b) => b.targetPeriod - a.targetPeriod);
   const genericMulti = mode === "generic" && item.branches.length > 2;
+  const genericColumns = genericMulti && item.branches.length >= 8 ? 2 : 1;
+  const genericRows = Math.ceil(item.branches.length / genericColumns);
   const forecastHeight = genericMulti
-    ? Math.max(150, item.branches.length * 38 + 54)
+    ? Math.max(150, genericRows * 42 + 72)
     : 120;
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
   const rowHeight = genericMulti
-    ? Math.max(158, item.branches.length * 27 + 58)
+    ? Math.max(158, genericRows * 28 + 62)
     : item.branches.length > 1 ? 132 : 104;
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>
@@ -101,7 +103,7 @@ export default function DynamicWuxingPoster({
       rowHeight;
   return (
     <section
-      className={`dynamic-poster ${mode}${mode === "wuxing" ? " pingte" : ""}`}
+      className={`dynamic-poster ${mode}${mode === "wuxing" ? " pingte" : ""}${genericMulti ? " generic-multi" : ""}`}
       aria-label={`${issue}期${item.label}动态公式图`}
     >
       <div className="dynamic-poster-watermark" aria-hidden="true">
@@ -232,16 +234,17 @@ export default function DynamicWuxingPoster({
               </defs>
               {!item.verification &&
                 orderedDraws[0] &&
-                item.branches.flatMap((branch, branchIndex) =>
-                  (branch.sourcePositions || []).map((position) => (
+                (genericMulti
+                  ? [...new Set(item.branches.flatMap(branch=>branch.sourcePositions||[]))].slice(0,1).map(position=>({position,branchIndex:0}))
+                  : item.branches.flatMap((branch, branchIndex)=>(branch.sourcePositions||[]).map(position=>({position,branchIndex}))))
+                  .map(({position,branchIndex}) => (
                     <path
                       className="prediction-arrow"
                       key={`prediction-${branchIndex}-${position}`}
-                      d={`M ${columnX(position)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position)} 165, 430 138, 455 ${102 + branchIndex * 22}`}
+                      d={`M ${columnX(position)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position)} 165, 430 138, 455 ${genericMulti ? 112 : 102 + branchIndex * 22}`}
                       markerEnd="url(#prediction-arrow-head)"
                     />
-                  )),
-                )}
+                  ))}
               {validations.map((entry, index) => {
                 const positions =
                   item.branches[index % item.branches.length]
@@ -258,7 +261,7 @@ export default function DynamicWuxingPoster({
                 const joinY = (sy + ty) / 2;
                 const multi = entry.branches.length > 1;
                 const labelHeight = genericMulti
-                  ? entry.branches.length * 26 + 20
+                  ? genericRows * 28 + 20
                   : multi ? 58 : 42;
                 const labelTop = joinY - labelHeight / 2;
                 const labelLines = entry.branches.map((branch) =>
@@ -336,9 +339,9 @@ export default function DynamicWuxingPoster({
                     )}
                     <g className="wuxing-native-label">
                       <rect
-                        x="432"
+                        x={genericMulti ? 350 : 432}
                         y={labelTop}
-                        width="425"
+                        width={genericMulti ? 590 : 425}
                         height={labelHeight}
                         rx={multi ? 11 : 18}
                         fill="#c92529"
@@ -348,15 +351,17 @@ export default function DynamicWuxingPoster({
                           16,
                           Math.min(multi ? 22 : 21, Math.floor(340 / Math.max(line.length, 1))),
                         );
+                        const lineColumn = genericMulti ? lineIndex % genericColumns : 0;
+                        const lineRow = genericMulti ? Math.floor(lineIndex / genericColumns) : lineIndex;
                         const lineY = genericMulti
-                          ? labelTop + 23 + lineIndex * 26
+                          ? labelTop + 24 + lineRow * 28
                           : multi
                             ? joinY + (lineIndex === 0 ? -13 : 13)
                             : joinY + 1;
                         return (
                           <text
                             key={lineIndex}
-                            x="615"
+                            x={genericMulti ? 490 + lineColumn * 270 : 615}
                             y={lineY}
                             fill="#fff"
                             fontFamily="PingFang SC, Microsoft YaHei, sans-serif"
@@ -370,7 +375,7 @@ export default function DynamicWuxingPoster({
                         );
                       })}
                       <rect
-                        x="815"
+                        x={genericMulti ? 900 : 815}
                         y={joinY - 14}
                         width="29"
                         height="28"
@@ -378,7 +383,7 @@ export default function DynamicWuxingPoster({
                         fill="#fff"
                       />
                       <text
-                        x="829.5"
+                        x={genericMulti ? 914.5 : 829.5}
                         y={joinY + 1}
                         fill={statusColor}
                         fontFamily="PingFang SC, Microsoft YaHei, sans-serif"

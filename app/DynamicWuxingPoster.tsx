@@ -251,6 +251,24 @@ export default function DynamicWuxingPoster({
                 const joinX = tx - 56;
                 const joinY = (sy + ty) / 2;
                 const multi = entry.branches.length > 1;
+                const labelTop = joinY - (multi ? 28 : 18);
+                const labelHeight = multi ? 58 : 42;
+                const labelLines = entry.branches.map((branch) =>
+                  conciseCalculation(branch.calculation)
+                    .split(/[，,]/, 2)
+                    .map((part) => part.trim())
+                    .join(" "),
+                );
+                const statusText = entry.duplicateAnimal
+                  ? "重"
+                  : entry.hit
+                    ? "准"
+                    : "错";
+                const statusColor = entry.duplicateAnimal
+                  ? "#a56600"
+                  : entry.hit
+                    ? "#158241"
+                    : "#c4262b";
                 return (
                   <g key={`${entry.sourcePeriod}-${entry.targetPeriod}`}>
                     {isPingteMode ? (
@@ -308,31 +326,60 @@ export default function DynamicWuxingPoster({
                         )}
                       </>
                     )}
-                    <foreignObject
-                      x="432"
-                      y={joinY - (multi ? 28 : 18)}
-                      width="425"
-                      height={multi ? 58 : 42}
-                    >
-                      <div
-                        className={`wuxing-line-label${multi ? " multi" : ""}`}
+                    <g className="wuxing-native-label">
+                      <rect
+                        x="432"
+                        y={labelTop}
+                        width="425"
+                        height={labelHeight}
+                        rx={multi ? 11 : 18}
+                        fill="#c92529"
+                      />
+                      {labelLines.map((line, lineIndex) => {
+                        const fontSize = Math.max(
+                          16,
+                          Math.min(multi ? 22 : 21, Math.floor(340 / Math.max(line.length, 1))),
+                        );
+                        const lineY = multi
+                          ? joinY + (lineIndex === 0 ? -13 : 13)
+                          : joinY + 1;
+                        return (
+                          <text
+                            key={lineIndex}
+                            x="615"
+                            y={lineY}
+                            fill="#fff"
+                            fontFamily="PingFang SC, Microsoft YaHei, sans-serif"
+                            fontSize={fontSize}
+                            fontWeight="900"
+                            textAnchor="middle"
+                            dominantBaseline="middle"
+                          >
+                            {line}
+                          </text>
+                        );
+                      })}
+                      <rect
+                        x="815"
+                        y={joinY - 14}
+                        width="29"
+                        height="28"
+                        rx="7"
+                        fill="#fff"
+                      />
+                      <text
+                        x="829.5"
+                        y={joinY + 1}
+                        fill={statusColor}
+                        fontFamily="PingFang SC, Microsoft YaHei, sans-serif"
+                        fontSize="15"
+                        fontWeight="900"
+                        textAnchor="middle"
+                        dominantBaseline="middle"
                       >
-                        <span>
-                          {entry.branches.map((branch, branchIndex) => (
-                            <small key={branchIndex}>
-                              {conciseCalculation(branch.calculation)
-                                .split(/[，,]/, 2)
-                                .map((part, partIndex) => (
-                                  <b key={partIndex}>{part.trim()}</b>
-                                ))}
-                            </small>
-                          ))}
-                        </span>
-                        <i className={entry.duplicateAnimal ? "duplicate" : entry.hit ? "hit" : "miss"}>
-                          {entry.duplicateAnimal ? "重肖" : entry.hit ? "准" : "错"}
-                        </i>
-                      </div>
-                    </foreignObject>
+                        {statusText}
+                      </text>
+                    </g>
                   </g>
                 );
               })}

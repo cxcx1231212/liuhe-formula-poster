@@ -17,8 +17,7 @@ def is_renderable_name(name):
 
 
 def tail(number):
-    value = number % 10
-    return 10 if value == 0 else value
+    return number % 10
 
 
 def numbers(record):

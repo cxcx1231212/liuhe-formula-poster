@@ -38,8 +38,8 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
       const targetDraw:any=drawMap.get(entry.targetPeriod);
       const targetPositions=(targetDraw?.numbers||[]).flatMap((value:any,position:number)=>entry.animals.includes(value.animal)?[position+1]:[]);
       return {...entry,targetPositions,branches:[
-        {name:post.leftName,calculation:calculate(post.leftName,drawMap.get(entry.sourcePeriod),entry.numbers[0])+'，'+entry.numbers[0]+'岁属'+entry.animals[0],result:entry.animals[0]},
-        {name:post.rightName,calculation:calculate(post.rightName,drawMap.get(entry.sourcePeriod),entry.numbers[1])+'，'+entry.numbers[1]+'岁属'+entry.animals[1],result:entry.animals[1]}
+        {name:post.leftName,calculation:calculate(post.leftName,drawMap.get(entry.sourcePeriod),entry.numbers[0])+'，'+entry.numbers[0]+'岁属'+entry.animals[0],result:entry.animals[0],targetPositions:(targetDraw?.numbers||[]).flatMap((value:any,position:number)=>value.animal===entry.animals[0]?[position+1]:[])},
+        {name:post.rightName,calculation:calculate(post.rightName,drawMap.get(entry.sourcePeriod),entry.numbers[1])+'，'+entry.numbers[1]+'岁属'+entry.animals[1],result:entry.animals[1],targetPositions:(targetDraw?.numbers||[]).flatMap((value:any,position:number)=>value.animal===entry.animals[1]?[position+1]:[])}
       ],actualNumber:targetPositions.map((position:number)=>targetDraw.numbers[position-1].number).join('、'),actualAnimal:targetPositions.map((position:number)=>targetDraw.numbers[position-1].animal).join('、'),actualElement:''};
     });
     const predictionAnimals=historyEntry?historyEntry.animals:post.predictionAnimals;

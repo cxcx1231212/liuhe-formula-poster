@@ -9,7 +9,12 @@ type Branch = {
 type Validation = {
   sourcePeriod: number;
   targetPeriod: number;
-  branches: { name: string; calculation: string; result: string }[];
+  branches: {
+    name: string;
+    calculation: string;
+    result: string;
+    targetPositions?: number[];
+  }[];
   actualNumber: string;
   actualAnimal: string;
   actualElement: string;
@@ -237,19 +242,32 @@ export default function DynamicWuxingPoster({
                 return (
                   <g key={`${entry.sourcePeriod}-${entry.targetPeriod}`}>
                     {isPingteMode ? (
-                      positions.map((position) => (
-                        <path
-                          key={position}
-                          d={
-                            entry.hit
-                              ? `M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${joinY}, ${tx} ${joinY}, ${tx} ${ty + 7}`
-                              : `M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${joinY}, 410 ${joinY}, 445 ${joinY}`
-                          }
-                          markerEnd={
-                            entry.hit ? "url(#wuxing-arrow)" : undefined
-                          }
-                        />
-                      ))
+                      entry.branches.flatMap((branch, branchIndex) => {
+                        const branchSources =
+                          item.branches[branchIndex]?.sourcePositions ||
+                          positions;
+                        const branchTargets = branch.targetPositions || [];
+                        const branchTarget = branchTargets[0];
+                        const branchTx =
+                          branchTarget != null
+                            ? columnX(branchTarget - 1)
+                            : tx;
+                        return branchSources.map((position) => (
+                          <path
+                            key={`${branchIndex}-${position}`}
+                            d={
+                              entry.hit && branchTarget != null
+                                ? `M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${joinY}, ${branchTx} ${joinY}, ${branchTx} ${ty + 7}`
+                                : `M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${joinY}, 410 ${joinY}, 445 ${joinY}`
+                            }
+                            markerEnd={
+                              entry.hit && branchTarget != null
+                                ? "url(#wuxing-arrow)"
+                                : undefined
+                            }
+                          />
+                        ));
+                      })
                     ) : (
                       <>
                         {positions.map((position) => (

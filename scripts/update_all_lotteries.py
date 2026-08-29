@@ -109,17 +109,17 @@ def update(lottery_type: int, year: int):
 
 def refresh_manifest_imports(updated: list[dict]):
     """Point the website build at the manifests produced in this run."""
-    path = ROOT / "lib" / "formula-manifests.ts"
-    source = path.read_text(encoding="utf-8")
-    for row in updated:
-        lottery_type = row["lotteryType"]
-        issue = row["nextPeriod"]
-        source = re.sub(
-            rf"type-{lottery_type}-\d{{3}}-manifest\.json",
-            f"type-{lottery_type}-{issue:03d}-manifest.json",
-            source,
-        )
-    path.write_text(source, encoding="utf-8")
+    for path in (ROOT / "lib" / "formula-manifests.ts", ROOT / "app" / "page.tsx"):
+        source = path.read_text(encoding="utf-8")
+        for row in updated:
+            lottery_type = row["lotteryType"]
+            issue = row["nextPeriod"]
+            source = re.sub(
+                rf"type-{lottery_type}-\d{{3}}-manifest\.json",
+                f"type-{lottery_type}-{issue:03d}-manifest.json",
+                source,
+            )
+        path.write_text(source, encoding="utf-8")
 
 
 def main():

@@ -92,14 +92,14 @@ export default function DynamicWuxingPoster({
   const genericMulti = mode === "generic" && item.branches.length > 2;
   const genericColumns = genericMulti && item.branches.length >= 8 ? 2 : 1;
   const genericRows = Math.ceil(item.branches.length / genericColumns);
-  const historyColumns = genericMulti && item.branches.length >= 18 ? 3 : genericColumns;
+  const historyColumns = genericMulti && item.branches.length >= 18 ? 4 : genericColumns;
   const historyRows = Math.ceil(item.branches.length / historyColumns);
   const forecastHeight = genericMulti
     ? Math.max(150, genericRows * 22 + 54)
     : 120;
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
   const rowHeight = genericMulti
-    ? Math.max(158, historyRows * 28 + (item.branches.length >= 18 ? 150 : 42))
+    ? Math.max(158, historyRows * 28 + (item.branches.length >= 18 ? 100 : 42))
     : item.branches.length > 1 ? 132 : 104;
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>
@@ -366,7 +366,11 @@ export default function DynamicWuxingPoster({
                         return (
                           <text
                             key={lineIndex}
-                            x={genericMulti ? 345 + lineColumn * 220 : 615}
+                            x={genericMulti
+                              ? item.branches.length >= 18
+                                ? 310 + lineColumn * 165
+                                : 345 + lineColumn * 220
+                              : 615}
                             y={lineY}
                             fill="#fff"
                             fontFamily="PingFang SC, Microsoft YaHei, sans-serif"

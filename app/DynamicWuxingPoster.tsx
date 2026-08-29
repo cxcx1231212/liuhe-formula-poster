@@ -54,6 +54,12 @@ const colors: Record<string, string> = {
   野肖: "#278452",
 };
 
+const conciseCalculation = (text: string) =>
+  text
+    .replace(/([＝=]\s*)(\d+)[，,、\s]+\2岁属/g, "$1$2属")
+    .replace(/(\d+)岁属/g, "$1属")
+    .replace(/[，,、]\s*属/g, "属");
+
 export default function DynamicWuxingPoster({
   issue,
   item,
@@ -299,7 +305,7 @@ export default function DynamicWuxingPoster({
                         <span>
                           {entry.branches.map((branch, branchIndex) => (
                             <small key={branchIndex}>
-                              {branch.calculation
+                              {conciseCalculation(branch.calculation)
                                 .split(/[，,]/, 2)
                                 .map((part, partIndex) => (
                                   <b key={partIndex}>{part.trim()}</b>
@@ -328,7 +334,7 @@ export default function DynamicWuxingPoster({
                 const result = branch.next || item.next[index];
                 return (
                   <div className="formula-pair" key={`${branch.name}-${index}`}>
-                    <span>{branch.calculation || branch.name}</span>
+                    <span>{conciseCalculation(branch.calculation || branch.name)}</span>
                     {compactForecast && result && (
                       <strong
                         className="prediction-result"

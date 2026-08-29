@@ -61,7 +61,7 @@ def run(lottery_type=5, year=2026):
                     "hit": pair_hits[index],
                 }
                 for index, (source, target) in enumerate(zip(records, records[1:]))
-            ][-6:],
+            ],
         })
     candidate_map = {item["name"]: item for item in build_candidates()}
     for pair in pairs:

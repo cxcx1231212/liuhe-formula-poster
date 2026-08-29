@@ -1,43 +1,32 @@
-import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
-import {postAuthor} from '@/lib/post-authors';
-import macau239 from '../../../../../public/generated/pingte-all/type-5-239-manifest.json';
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
+import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
+import IssueScroller from '@/app/IssueScroller';
+import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
+import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 
-const lotteryNames:Record<string,string>={'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
-const slogans=['历史轨迹完整公开','平码尾数实战参考','连续命中规律分享','下期特肖重点参考','平码推演清晰易懂','合数公式逐期验证','精选公式稳定追踪','独家思路免费公开','七码总分规律解析','本期规律参考分享'];
+type Draw={period:number;displayPeriod?:string;date?:string;numbers:{number:string;animal:string;element:string}[]};
+type Check={sourcePeriod:number;targetPeriod:number;resultNumber:number;resultAnimal:string;hit:boolean;targetPositions:number[];targetNumbers:string[]};
+const digits=(value:number)=>String(Math.abs(value)).split('').reduce((sum,char)=>sum+Number(char),0);
+const wrap=(value:number)=>{while(value>49)value-=12;while(value<1)value+=12;return value};
+function sourcePositions(name:string){return Array.from(name.matchAll(/平([1-6])/g),match=>Number(match[1])-1)}
+function calculation(name:string,draw:Draw|undefined,result:number){
+  if(!draw)return `${name}＝${String(result).padStart(2,'0')}`;const values=draw.numbers.map(row=>Number(row.number));let match=name.match(/平(\d)码固定(加|减)(\d+)/);
+  if(match){const value=values[Number(match[1])-1],amount=Number(match[3]);return `${String(value).padStart(2,'0')}${match[2]==='加'?'＋':'－'}${amount}＝${String(wrap(value+(match[2]==='加'?amount:-amount))).padStart(2,'0')}`}
+  match=name.match(/平(\d)码尾数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],tail=value%10,amount=Number(match[3]);return `${String(value).padStart(2,'0')}尾${tail}${match[2]==='加'?'＋':'－'}${amount}＝${String(wrap(tail+(match[2]==='加'?amount:-amount))).padStart(2,'0')}`}
+  match=name.match(/平(\d)(?:码)?合数＋平(\d)(?:码)?合数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return `${String(a).padStart(2,'0')}合${digits(a)}＋${String(b).padStart(2,'0')}合${digits(b)}＝${String(wrap(digits(a)+digits(b))).padStart(2,'0')}`}
+  match=name.match(/平(\d)(?:码)?尾数＋平(\d)(?:码)?尾数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return `${String(a).padStart(2,'0')}尾${a%10}＋${String(b).padStart(2,'0')}尾${b%10}＝${String(wrap(a%10+b%10)).padStart(2,'0')}`}
+  return `${name}＝${String(result).padStart(2,'0')}`;
+}
 
-export default async function PingteMethodPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}) {
-  const {issue,method} = await params;
-  const type=requestedLotteryType(await searchParams);const current=formulaManifests.pingte[type];
-  const manifests:Record<string,any>=type==='5'?{'239':macau239,[String(current.issue)]:current}:{[String(current.issue)]:current};
-  const manifest=manifests[issue];const methods=manifest?.methods??[];
-  const index = Number(method)-1;
-  if (!manifest || !Number.isInteger(index) || index < 0 || index >= methods.length) {
-    return <ArchivedFormulaPost type={type} path={`/posts/pingte/${issue}/${method}`} backHref={`/?type=${type}#board-平特公式`} backLabel="返回平特板块"/>;
-  }
-  const name = methods[index].name;
-  const issueKeys=Object.keys(manifests).map(Number).sort((a,b)=>a-b);const issuePosition=issueKeys.indexOf(Number(issue));
-  const linkedIssue=(offset:number)=>{const target=issueKeys[issuePosition+offset];if(!target)return null;const targetIndex=manifests[String(target)].methods.findIndex((item:any)=>item.name===name);return targetIndex>=0?{issue:target,method:String(targetIndex+1).padStart(3,'0')}:null};
-  const older=linkedIssue(-1),newer=linkedIssue(1);
-  const currentIndex=current.methods.findIndex((item:any)=>item.name===name);const authorIndex=currentIndex>=0?currentIndex:index;
-  const author=postAuthor(type,'pingte',authorIndex);const postTitle=`${author}【平特一肖】${slogans[authorIndex%slogans.length]}`;
-  const previous = index > 0 ? String(index).padStart(3,'0') : null;
-  const next = index < methods.length-1 ? String(index+2).padStart(3,'0') : null;
-  return <main className="post-page">
-    <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="/">首页</a><a href="/#board-平特公式">平特公式</a></nav></header>
-    <article className="detail pingte-detail">
-      <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-平特公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回平特板块</strong></span></a><nav className="detail-issue-links">{newer?<a href={`/posts/pingte/${newer.issue}/${newer.method}?type=${type}`}><small>下一期</small><strong>{newer.issue}期</strong></a>:<span className="disabled">当前最新</span>}{older?<a href={`/posts/pingte/${older.issue}/${older.method}?type=${type}`}><small>上一期</small><strong>{older.issue}期</strong></a>:<span className="disabled">暂无上期</span>}</nav></div>
-      <header className="detail-title detail-title-rich"><div className="detail-title-copy"><p><span>{lotteryNames[type]}</span><b>平特一肖</b><time>2026-{issue}期</time></p><h1>{postTitle}</h1><small>本期公式：{name}</small></div><em>{String(issue).padStart(3,'0')}</em></header>
-      <section className="method-card single-method">
-        <header className="simple-method-title"><strong>{name}</strong></header>
-        <figure className="formula-frame"><img src={`/generated/pingte-all/type-${type}-${String(issue).padStart(3,'0')}-${method}.webp?v=35`} alt={`方法${method}：${name}`} draggable="false" /></figure>
-      </section>
-      <p className="formula-note">依据前期开奖数据逐期推算，红线标出公式来源与下期对应结果。历史规律仅供娱乐参考。</p>
-      <nav className="post-pager">
-        {previous?<a href={`/posts/pingte/${issue}/${previous}?type=${type}`}><small>上一个公式</small><strong>{methods[index-1].name}</strong></a>:<span/>}
-        {next?<a href={`/posts/pingte/${issue}/${next}?type=${type}`}><small>下一个公式</small><strong>{methods[index+1].name}</strong></a>:<span/>}
-      </nav>
-    </article>
-    <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>
-  </main>;
+export default async function PingteMethodPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
+  const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=formulaManifests.pingte[type];const requestedIssue=Number(issue);const currentIssue=Number(manifest.issue);const index=Number(method)-1;const currentItem=manifest.methods[index];
+  if(!currentItem||!Number.isInteger(index)||index<0)return <ArchivedFormulaPost type={type} path={`/posts/pingte/${issue}/${method}`} backHref={`/?type=${type}#board-平特公式`} backLabel="返回平特板块"/>;
+  const history:Check[]=currentItem.history||[];const sourceEntry=history.find(entry=>entry.targetPeriod===requestedIssue);const isDerivedHistory=requestedIssue<currentIssue&&Boolean(sourceEntry);
+  if(requestedIssue!==currentIssue&&!isDerivedHistory)return <ArchivedFormulaPost type={type} path={`/posts/pingte/${issue}/${method}`} backHref={`/?type=${type}#board-平特公式`} backLabel="返回平特板块"/>;
+  const draws:Draw[]=formulaManifests.wuxing[type].draws;const drawMap=new Map(draws.map(draw=>[draw.period,draw]));const selectedHistory=history.filter(entry=>entry.targetPeriod<=(isDerivedHistory?requestedIssue:currentIssue-1)).slice(-5);const positions=sourcePositions(currentItem.name);
+  const transformedHistory=selectedHistory.map(entry=>{const actualPosition=Math.max(0,(entry.targetPositions?.[0]||7)-1);const actual=drawMap.get(entry.targetPeriod)?.numbers[actualPosition];return {...entry,branches:[{name:currentItem.name,calculation:calculation(currentItem.name,drawMap.get(entry.sourcePeriod),entry.resultNumber),result:entry.resultAnimal}],actualNumber:actual?.number||entry.targetNumbers?.[0]||'',actualAnimal:actual?.animal||entry.resultAnimal,actualElement:actual?.element||''}});
+  const predictionAnimal=isDerivedHistory?sourceEntry!.resultAnimal:currentItem.predictionAnimal;const predictionNumber=isDerivedHistory?sourceEntry!.resultNumber:currentItem.predictionNumber;
+  const item={label:'平特一肖',sourceKey:currentItem.name,next:[predictionAnimal],recentStreak:currentItem.recentStreak,recent30Hits:Math.round((currentItem.recent30Rate||0)*30),formulaId:currentItem.formulaId,branches:[{name:currentItem.name,next:predictionAnimal,calculation:calculation(currentItem.name,drawMap.get(isDerivedHistory?requestedIssue-1:currentIssue-1),predictionNumber),sourcePositions:positions}],history:transformedHistory,...(isDerivedHistory?{verification:{hit:sourceEntry!.hit,actualNumber:transformedHistory.at(-1)?.actualNumber||'',actualAnimal:transformedHistory.at(-1)?.actualAnimal||'',actualElement:transformedHistory.at(-1)?.actualElement||''}}:{})};
+  const cutoff=isDerivedHistory?requestedIssue:currentIssue-1;const shownDraws=draws.filter(draw=>draw.period<=cutoff).slice(-6);const periods=selectedHistory.map(entry=>entry.targetPeriod);const posterIssue=isDerivedHistory&&periods.length?`${Math.min(...periods)}-${Math.max(...periods)}`:issue;const availableIssues=Array.from(new Set([currentIssue,...history.map(entry=>entry.targetPeriod)])).sort((a,b)=>b-a);const previous=index>0?String(index).padStart(3,'0'):null;const next=index<manifest.methods.length-1?String(index+2).padStart(3,'0'):null;
+  return <main className="post-page"><header className="site-header"><a className="brand" href={`/?type=${type}`}>六合公式库</a><nav><a href={`/?type=${type}`}>首页</a><a href={`/?type=${type}#board-平特公式`}>平特公式</a></nav></header><article className="detail pingte-detail"><div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-平特公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回平特板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath="/posts/pingte" method={method} type={type}/></div><section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={shownDraws} mode="pingte" lotteryName={LOTTERY_SHORT_NAMES[type]}/></section><p className="formula-note">按上期开奖推算下期平特一肖 · 平码与特码均计入 · 仅供娱乐参考</p><nav className="post-pager">{previous?<a href={`/posts/pingte/${issue}/${previous}?type=${type}`}><small>上一个公式</small><strong>平特 第{index}条</strong></a>:<span/>}{next?<a href={`/posts/pingte/${issue}/${next}?type=${type}`}><small>下一个公式</small><strong>平特 第{index+2}条</strong></a>:<span/>}</nav></article><footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer></main>;
 }

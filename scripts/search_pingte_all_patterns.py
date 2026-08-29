@@ -96,7 +96,7 @@ def evaluate(candidate, records):
         "totalRate": sum(item["hit"] for item in checks) / len(checks),
         "predictionNumber": animal_for(candidate["calculate"](records[-1]))[0],
         "predictionAnimal": animal_for(candidate["calculate"](records[-1]))[1],
-        "history": checks[-6:],
+        "history": checks,
         "trajectory": tuple(item["resultAnimal"] for item in checks),
     }
 

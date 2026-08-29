@@ -260,11 +260,11 @@ export default function DynamicWuxingPoster({
                         return branchSources.map((position) => (
                           <g key={`${branchIndex}-${position}`}>
                             <path
-                              d={`M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${labelY}, 410 ${labelY}, 445 ${labelY}`}
+                              d={`M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${labelY}, 470 ${labelY}, 540 ${labelY}`}
                             />
                             {entry.hit && branchTarget != null && (
                               <path
-                                d={`M 845 ${labelY} C 900 ${labelY}, ${branchTx} ${ty + 28}, ${branchTx} ${ty + 7}`}
+                                d={`M 700 ${labelY} C 900 ${labelY}, ${branchTx} ${ty + 28}, ${branchTx} ${ty + 7}`}
                                 markerEnd="url(#wuxing-arrow)"
                               />
                             )}

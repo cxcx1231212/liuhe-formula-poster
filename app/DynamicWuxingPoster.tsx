@@ -265,11 +265,14 @@ export default function DynamicWuxingPoster({
                             ? columnX(branchTarget - 1)
                             : tx;
                         const labelY = joinY + (branchIndex === 0 ? -13 : 13);
-                        return branchSources.map((position) => (
-                          <g key={`${branchIndex}-${position}`}>
-                            <path
-                              d={`M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${labelY}, 470 ${labelY}, 540 ${labelY}`}
-                            />
+                        return (
+                          <g key={`branch-${branchIndex}`}>
+                            {branchSources.map((position) => (
+                              <path
+                                key={`${branchIndex}-${position}`}
+                                d={`M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${labelY}, 470 ${labelY}, 540 ${labelY}`}
+                              />
+                            ))}
                             {entry.hit && branchTarget != null && (
                               <path
                                 d={`M 700 ${labelY} C 900 ${labelY}, ${branchTx} ${ty + 28}, ${branchTx} ${ty + 7}`}
@@ -277,7 +280,7 @@ export default function DynamicWuxingPoster({
                               />
                             )}
                           </g>
-                        ));
+                        );
                       })
                     ) : (
                       <>

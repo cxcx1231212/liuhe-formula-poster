@@ -1,5 +1,6 @@
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
+import IssueScroller from '@/app/IssueScroller';
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 
 export default async function WuxingPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
@@ -21,10 +22,12 @@ export default async function WuxingPost({params,searchParams}:{params:Promise<{
   const candidatePreviousIssue=requestedIssue-1;
   const previousIssue=currentItem.history?.some((entry:{targetPeriod:number})=>entry.targetPeriod===candidatePreviousIssue)?candidatePreviousIssue:null;
   const newerIssue=requestedIssue<currentIssue?requestedIssue+1:null;
+  const availableIssues=Array.from(new Set([currentIssue,...(currentItem.history||[]).map((entry:{targetPeriod:number})=>entry.targetPeriod)])).sort((a,b)=>b-a);
   return <main className="post-page">
     <header className="site-header"><a className="brand" href={`/?type=${type}`}>六合公式库</a><nav><a href={`/?type=${type}`}>首页</a><a href={`/?type=${type}#board-五行公式`}>五行公式</a></nav></header>
     <article className="detail pingte-detail">
-      <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-五行公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回五行板块</strong></span></a><nav className="detail-issue-links" aria-label="期数切换">{newerIssue?<a href={`/posts/wuxing/${newerIssue}/${method}?type=${type}`}><small>下一期</small><strong>{newerIssue}期</strong></a>:<span className="disabled">当前最新</span>}{previousIssue?<a href={`/posts/wuxing/${previousIssue}/${method}?type=${type}`}><small>上一期</small><strong>{previousIssue}期</strong></a>:<span className="disabled">暂无上期</span>}</nav></div>
+      <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-五行公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回五行板块</strong></span></a></div>
+      <IssueScroller issues={availableIssues} current={requestedIssue} basePath="/posts/wuxing" method={method} type={type}/>
       <section className="method-card single-method"><DynamicWuxingPoster issue={issue} item={item} draws={draws}/></section>
     </article>
     <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>

@@ -7,7 +7,7 @@ type Draw={period:number;displayPeriod?:string;date?:string;numbers:{number:stri
 
 const colors:Record<string,string>={金:'#b78934',木:'#24814a',水:'#247cae',火:'#c73538',土:'#85542f',家肖:'#bd8127',野肖:'#278452'};
 
-export default function DynamicWuxingPoster({issue,item,draws=[],mode='wuxing',lotteryName='澳门六合彩'}:{issue:string;item:Method;draws?:Draw[];mode?:'wuxing'|'jiaye'|'pingte'|'pingte2';lotteryName?:string}){
+export default function DynamicWuxingPoster({issue,item,draws=[],mode='wuxing',lotteryName='澳门六合彩'}:{issue:string;item:Method;draws?:Draw[];mode?:'wuxing'|'jiaye'|'pingte'|'pingte2'|'generic';lotteryName?:string}){
   const compactForecast=true;
   const isPingteMode=mode==='pingte'||mode==='pingte2';
   const sourcePositions=new Set([...item.sourceKey,...item.branches.flatMap(branch=>[...branch.name])].join('').match(/平[1-6]码|特码/g)||[]);

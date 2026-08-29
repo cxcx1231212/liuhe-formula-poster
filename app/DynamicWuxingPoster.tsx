@@ -261,9 +261,7 @@ export default function DynamicWuxingPoster({
                         const usesWholeDraw = /七码总分|总分/.test(
                           item.branches[branchIndex]?.name || branch.name,
                         );
-                        const sourceXs = usesWholeDraw
-                          ? [58]
-                          : branchSources.map(columnX);
+                        const sourceXs = branchSources.map(columnX);
                         const branchTargets = branch.targetPositions || [];
                         const branchTarget = branchTargets[0];
                         const branchTx =
@@ -273,12 +271,18 @@ export default function DynamicWuxingPoster({
                         const labelY = joinY + (branchIndex === 0 ? -13 : 13);
                         return (
                           <g key={`branch-${branchIndex}`}>
-                            {sourceXs.map((sourceX, sourceIndex) => (
+                            {usesWholeDraw ? (
                               <path
-                                key={`${branchIndex}-${sourceIndex}`}
-                                d={`M ${sourceX} ${sy - 18} C ${sourceX} ${labelY}, 470 ${labelY}, 540 ${labelY}`}
+                                d={`M ${columnX(0)} ${sy - 44} L ${columnX(0)} ${sy - 58} L ${columnX(6)} ${sy - 58} L ${columnX(6)} ${sy - 44} M ${columnX(3)} ${sy - 58} C ${columnX(3)} ${labelY}, 470 ${labelY}, 540 ${labelY}`}
                               />
-                            ))}
+                            ) : (
+                              sourceXs.map((sourceX, sourceIndex) => (
+                                <path
+                                  key={`${branchIndex}-${sourceIndex}`}
+                                  d={`M ${sourceX} ${sy - 18} C ${sourceX} ${labelY}, 470 ${labelY}, 540 ${labelY}`}
+                                />
+                              ))
+                            )}
                             {entry.hit && branchTarget != null && (
                               <path
                                 d={`M 700 ${labelY} C 900 ${labelY}, ${branchTx} ${ty + 28}, ${branchTx} ${ty + 7}`}

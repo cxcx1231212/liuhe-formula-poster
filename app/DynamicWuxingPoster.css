@@ -37,3 +37,7 @@
 @media(max-width:640px){.dynamic-poster.jiaye .wuxing-formula-note{grid-template-columns:auto minmax(0,1fr) auto;padding:6px 7px!important}.dynamic-poster.jiaye .wuxing-formula-note span{font-size:16px;line-height:1.2}.dynamic-poster.jiaye .wuxing-formula-note>b{font-size:13px}.prediction-result{min-width:51px;height:31px;padding:0 7px;font-size:15px}}
 .wuxing-line-label{gap:6px}.wuxing-line-label>span{min-width:0;overflow:hidden;text-overflow:ellipsis}.wuxing-line-label>i{display:grid;flex:0 0 27px;height:23px;place-items:center;border-radius:6px;background:#fff;color:#b32125;font-size:14px;font-style:normal;font-weight:900}.wuxing-line-label>i.hit{color:#158241}.wuxing-line-label>i.miss{color:#c4262b}.wuxing-formula-note{padding-right:82px!important}.wuxing-formula-note>em{position:absolute;right:8px;top:50%;display:grid;min-width:60px;height:30px;place-items:center;transform:translateY(-50%);border-radius:8px;color:#fff;font-size:13px;font-style:normal;font-weight:900}.wuxing-formula-note>em.hit{background:#198348}.wuxing-formula-note>em.miss{background:#c62d31}
 @media(max-width:640px){.wuxing-line-label>i{flex-basis:25px;height:22px;font-size:13px}.wuxing-formula-note{padding-right:72px!important}.wuxing-formula-note>em{min-width:55px;height:27px;font-size:12px}}
+.dynamic-poster.pingte .wuxing-forecast-row > strong small,
+.dynamic-poster.pingte .wuxing-forecast-row > div {
+  display: none;
+}

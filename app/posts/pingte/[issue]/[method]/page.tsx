@@ -1,6 +1,7 @@
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import {postAuthor} from '@/lib/post-authors';
 import macau239 from '../../../../../public/generated/pingte-all/type-5-239-manifest.json';
+import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 
 const lotteryNames:Record<string,string>={'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
 const slogans=['历史轨迹完整公开','平码尾数实战参考','连续命中规律分享','下期特肖重点参考','平码推演清晰易懂','合数公式逐期验证','精选公式稳定追踪','独家思路免费公开','七码总分规律解析','本期规律参考分享'];
@@ -12,7 +13,7 @@ export default async function PingteMethodPost({params,searchParams}:{params:Pro
   const manifest=manifests[issue];const methods=manifest?.methods??[];
   const index = Number(method)-1;
   if (!manifest || !Number.isInteger(index) || index < 0 || index >= methods.length) {
-    return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
+    return <ArchivedFormulaPost type={type} path={`/posts/pingte/${issue}/${method}`} backHref={`/?type=${type}#board-平特公式`} backLabel="返回平特板块"/>;
   }
   const name = methods[index].name;
   const issueKeys=Object.keys(manifests).map(Number).sort((a,b)=>a-b);const issuePosition=issueKeys.indexOf(Number(issue));

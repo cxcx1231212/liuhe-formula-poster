@@ -1,11 +1,12 @@
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import macau239 from '../../../../../public/generated/pingte-two/type-5-239-manifest.json';
+import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 
 export default async function PingteTwoPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}) {
   const {issue,method}=await params;
   const type=requestedLotteryType(await searchParams);const current=formulaManifests.pingte2[type];const manifests:Record<string,any>=type==='5'?{'239':macau239,[String(current.issue)]:current}:{[String(current.issue)]:current};const manifest=manifests[issue];const posts=manifest?.methods??[];
   const index=Number(method)-1;
-  if(!manifest||!Number.isInteger(index)||index<0||index>=posts.length) return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
+  if(!manifest||!Number.isInteger(index)||index<0||index>=posts.length) return <ArchivedFormulaPost type={type} path={`/posts/pingte2/${issue}/${method}`} backHref={`/?type=${type}#board-平特公式`} backLabel="返回平特板块"/>;
   const post=posts[index];
   const animals=post.predictionAnimals.join('、');
   const title=`${post.leftName} ＋ ${post.rightName}`;

@@ -15,3 +15,9 @@ export function formulaHistory(type:string,path:string){
   const entries=archive.snapshots.flatMap(snapshot=>snapshot.formulas.filter(row=>row.formulaId===current.row.formulaId).map(row=>({issue:snapshot.issue,...row}))).sort((a,b)=>b.issue-a.issue);
   return {lotteryType:archive.lotteryType,year:archive.year,formulaId:current.row.formulaId,label:current.row.label||current.row.signature,signature:current.row.signature,entries};
 }
+
+export function archivedFormula(type:string,path:string){
+  const history=formulaHistory(type,path);
+  if(!history)return null;
+  return history.entries.find(entry=>entry.href===path)??null;
+}

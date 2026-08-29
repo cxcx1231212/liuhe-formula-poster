@@ -26,8 +26,7 @@ export default async function WuxingPost({params,searchParams}:{params:Promise<{
   return <main className="post-page">
     <header className="site-header"><a className="brand" href={`/?type=${type}`}>六合公式库</a><nav><a href={`/?type=${type}`}>首页</a><a href={`/?type=${type}#board-五行公式`}>五行公式</a></nav></header>
     <article className="detail pingte-detail">
-      <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-五行公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回五行板块</strong></span></a></div>
-      <IssueScroller issues={availableIssues} current={requestedIssue} basePath="/posts/wuxing" method={method} type={type}/>
+      <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-五行公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回五行板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath="/posts/wuxing" method={method} type={type}/></div>
       <section className="method-card single-method"><DynamicWuxingPoster issue={issue} item={item} draws={draws}/></section>
     </article>
     <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>

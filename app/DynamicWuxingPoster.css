@@ -62,7 +62,7 @@
 }
 .wuxing-board-lines foreignObject{overflow:visible}
 @media(max-width:640px){
-  .dynamic-poster .wuxing-line-label.multi{position:relative;width:max-content;min-width:78%;max-width:132%;height:58px;margin:0 auto;padding:3px 52px 3px 22px;font-size:21px;line-height:1.12;transform:translateY(-8px)}
+  .dynamic-poster .wuxing-line-label.multi{position:relative;width:max-content;min-width:0;max-width:112%;height:58px;margin:0 auto;padding:3px 46px 3px 18px;font-size:21px;line-height:1.12;transform:translateY(-8px)}
   .dynamic-poster .wuxing-line-label.multi>span{width:max-content;gap:2px;text-align:center}
   .dynamic-poster .wuxing-line-label.multi>span>small{display:grid;grid-template-columns:max-content max-content;align-items:center;justify-content:center;gap:32px;line-height:1.12;text-align:center}
   .dynamic-poster .wuxing-line-label.multi>span>small>b{font:inherit;font-weight:900;text-align:center;white-space:nowrap}

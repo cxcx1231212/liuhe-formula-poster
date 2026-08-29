@@ -1,28 +1,68 @@
-import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
-import macau239 from '../../../../../../public/generated/tema-bundles/type-5-239-manifest.json';
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
+import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
+import IssueScroller from '@/app/IssueScroller';
 import StaticFormulaPost from '@/app/StaticFormulaPost';
+import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
+import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 
-type BundleMethod={numbers:number[];recentStreak:number;sourceKey:string};
-const labels:Record<string,string>={'1':'一码中特','3':'三码中特','8':'八码中特','10':'十码中特','18':'十八码中特'};
+type DrawNumber={number:string;animal:string;element:string};
+type Draw={period:number;displayPeriod?:string;date?:string;numbers:DrawNumber[]};
+type BundleBranch={name:string;number:number};
+type BundleMethod={sourceKey:string;branches:BundleBranch[];formulaId?:string};
+type Calculated={name:string;calculation:string;result:string;sourcePositions:number[]};
+const labels:Record<string,string>={'3':'三码中特','8':'八码中特','10':'十码中特','18':'十八码中特'};
 
-export default async function TemaMethodPost({params,searchParams}:{params:Promise<{size:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}) {
+function digits(value:number){return Math.floor(value/10)+(value%10)}
+function wrap(value:number){while(value>49)value-=12;while(value<1)value+=12;return value}
+function calculate(name:string,draw:Draw,fallback:number):Calculated{
+  const match=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)(加|减)(\d+)$/);
+  if(!match)return {name,calculation:name,result:String(wrap(fallback)).padStart(2,'0'),sourcePositions:[0]};
+  const [,source,mode,operator,amountText]=match;
+  const position=source==='特码码'?6:Number(source[1])-1;
+  const sourceNumber=Number(draw.numbers[position].number);
+  const base=mode==='合数'?digits(sourceNumber):mode==='尾数'?sourceNumber%10:sourceNumber;
+  const amount=Number(amountText);
+  const result=wrap(operator==='加'?base+amount:base-amount);
+  const resultText=String(result).padStart(2,'0');
+  return {name,calculation:`${source}${mode==='固定'?'':mode}：${String(base).padStart(2,'0')}${operator==='加'?'+':'−'}${amount}=${resultText}`,result:resultText,sourcePositions:[position]};
+}
+
+export default async function TemaMethodPost({params,searchParams}:{params:Promise<{size:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const {size,issue,method}=await params;
-  const type=requestedLotteryType(await searchParams);const oneComplete=formulaManifests.temaOne[type];const currentBundle=formulaManifests.tema[type];const bundleManifests:Record<string,any>=type==='5'?{'239':macau239,[String(currentBundle.issue)]:currentBundle}:{[String(currentBundle.issue)]:currentBundle};const bundleManifest=bundleManifests[issue];
-  const index=Number(method)-1;
+  const type=requestedLotteryType(await searchParams);
   const label=labels[size];
-  const bundleGroup=(bundleManifest?.groups as Record<string,{methods:BundleMethod[]}>|undefined)?.[size];
-  const methods=size==='1'?oneComplete.qualifiedMethods:bundleGroup?.methods;
-  if(!bundleManifest||!label||!methods||!Number.isInteger(index)||index<0||index>=methods.length){
-    return <ArchivedFormulaPost type={type} path={`/posts/tema/${size}/${issue}/${method}`} backHref={`/?type=${type}#board-特码公式`} backLabel="返回特码板块"/>;
+  const methodIndex=Number(method)-1;
+  const baseManifest=formulaManifests.tema[type] as any;
+  const latestManifest=formulaManifests.wuxing[type] as any;
+  const latestIssue=Number(latestManifest.issue??baseManifest.issue);
+  const requestedIssue=Number(issue);
+  const methods=(baseManifest.groups?.[size]?.methods??[]) as BundleMethod[];
+  const selected=methods[methodIndex];
+  const draws=(latestManifest.draws??[]) as Draw[];
+  const drawMap=new Map(draws.map(draw=>[Number(draw.period),draw]));
+  if(!label||!selected||!Number.isInteger(requestedIssue)||requestedIssue<1||requestedIssue>latestIssue)return <ArchivedFormulaPost type={type} path={`/posts/tema/${size}/${issue}/${method}`} backHref={`/?type=${type}#board-特码公式`} backLabel="返回特码板块"/>;
+  const calculateFor=(targetIssue:number)=>{const source=drawMap.get(targetIssue-1);return source?selected.branches.map(branch=>calculate(branch.name,source,branch.number)):null};
+  const currentBranches=calculateFor(requestedIssue);
+  if(!currentBranches)return <ArchivedFormulaPost type={type} path={`/posts/tema/${size}/${issue}/${method}`} backHref={`/?type=${type}#board-特码公式`} backLabel="返回特码板块"/>;
+
+  const fullHistory=[] as any[];
+  for(let target=1;target<=requestedIssue;target++){
+    const source=drawMap.get(target-1),actual=drawMap.get(target),branches=calculateFor(target);
+    if(!source||!actual||!branches)continue;
+    const special=actual.numbers[6];
+    fullHistory.push({sourcePeriod:source.period,targetPeriod:actual.period,branches:branches.map(branch=>({...branch,targetPositions:branch.result===special.number?[7]:[]})),actualNumber:special.number,actualAnimal:special.animal,actualElement:special.element,hit:branches.some(branch=>branch.result===special.number),targetPositions:[7]});
   }
-  const item=methods[index];
-  const numbers='numbers' in item?item.numbers:[];
-  const sourceName='sourceKey' in item?item.sourceKey:'';
-  const formulaName=size==='1'&&'name' in item?item.name:`${sourceName}参考号码：${numbers.map(number=>String(number).padStart(2,'0')).join('、')}`;
-  const previous=index>0?String(index).padStart(3,'0'):null;
-  const next=index<methods.length-1?String(index+2).padStart(3,'0'):null;
-  const image=size==='1'?`/generated/tema/type-${type}-${String(issue).padStart(3,'0')}-${method}.webp?v=34`:`/generated/tema-bundles/type-${type}-${String(issue).padStart(3,'0')}-${size.padStart(2,'0')}-${method}.webp?v=34`;
-  const signature=(value:any)=>`${value.sourceKey}|${(value.branches??[]).map((branch:any)=>branch.name).sort().join('|')}`;const issueKeys=Object.keys(bundleManifests).map(Number).sort((a,b)=>a-b);const issuePosition=issueKeys.indexOf(Number(issue));const linkedIssue=(offset:number)=>{if(size==='1')return null;const target=issueKeys[issuePosition+offset];const targetMethods=target?bundleManifests[String(target)]?.groups?.[size]?.methods:null;const targetIndex=targetMethods?.findIndex((value:any)=>signature(value)===signature(item))??-1;return targetIndex>=0?{issue:target,method:String(targetIndex+1).padStart(3,'0')}:null};const older=linkedIssue(-1),newer=linkedIssue(1);
-  return <StaticFormulaPost type={type} board="特码" hash="特码公式" image={image} alt={`${label}第${method}个公式`} note={`【${label}】${formulaName} · 图中标记展示取数来源与计算结果 · 仅供娱乐参考`} previous={previous?{href:`/posts/tema/${size}/${issue}/${previous}?type=${type}`,eyebrow:'上一个公式',label:`${label} 第${index}条`}:null} next={next?{href:`/posts/tema/${size}/${issue}/${next}?type=${type}`,eyebrow:'下一个公式',label:`${label} 第${index+2}条`}:null} extra={<nav className="post-pager issue-pager">{older?<a href={`/posts/tema/${size}/${older.issue}/${older.method}?type=${type}`}><small>查看上一期</small><strong>第{older.issue}期公式图</strong></a>:<span/>}{newer?<a href={`/posts/tema/${size}/${newer.issue}/${newer.method}?type=${type}`}><small>查看下一期</small><strong>第{newer.issue}期公式图</strong></a>:<span/>}</nav>}/>;
+  const sourceEntry=fullHistory.find(entry=>entry.targetPeriod===requestedIssue);
+  const verification=requestedIssue<latestIssue&&Boolean(sourceEntry);
+  const item={label,sourceKey:selected.sourceKey,next:currentBranches.map(branch=>branch.result),recentStreak:0,recent30Hits:0,formulaId:selected.formulaId,branches:currentBranches.map(branch=>({...branch,next:branch.result})),history:fullHistory.slice(-5),...(verification?{verification:{hit:sourceEntry.hit,actualNumber:sourceEntry.actualNumber,actualAnimal:sourceEntry.actualAnimal,actualElement:sourceEntry.actualElement}}:{})};
+  const cutoff=verification?requestedIssue:requestedIssue-1;
+  const shownDraws=draws.filter(draw=>draw.period<=cutoff).slice(-6);
+  const historyPeriods=item.history.map(entry=>entry.targetPeriod);
+  const posterIssue=verification&&historyPeriods.length?`${Math.min(...historyPeriods)}-${Math.max(...historyPeriods)}`:String(requestedIssue);
+  const issueButtons:number[]=[];for(let target=latestIssue;target>=1;target--)if(drawMap.has(target-1))issueButtons.push(target);
+  const previous=methodIndex>0?String(methodIndex).padStart(3,'0'):null;
+  const next=methodIndex<methods.length-1?String(methodIndex+2).padStart(3,'0'):null;
+  return <StaticFormulaPost type={type} board="特码" hash="特码公式" note={`按上期开奖推算下期${label} · 仅供娱乐参考`} previous={previous?{href:`/posts/tema/${size}/${issue}/${previous}?type=${type}`,eyebrow:'上一个公式',label:`${label} 第${methodIndex}条`}:null} next={next?{href:`/posts/tema/${size}/${issue}/${next}?type=${type}`,eyebrow:'下一个公式',label:`${label} 第${methodIndex+2}条`}:null} topExtra={<IssueScroller issues={issueButtons} current={requestedIssue} basePath={`/posts/tema/${size}`} method={method} type={type}/>}>
+    <section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={shownDraws} lotteryName={LOTTERY_SHORT_NAMES[type]} mode="generic"/></section>
+  </StaticFormulaPost>;
 }

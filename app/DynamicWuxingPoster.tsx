@@ -86,8 +86,14 @@ export default function DynamicWuxingPoster({
   const validations = (item.history || [])
     .slice()
     .sort((a, b) => b.targetPeriod - a.targetPeriod);
-  const boardOffset = item.verification ? 58 : 178;
-  const rowHeight = item.branches.length > 1 ? 132 : 104;
+  const genericMulti = mode === "generic" && item.branches.length > 2;
+  const forecastHeight = genericMulti
+    ? Math.max(150, item.branches.length * 38 + 54)
+    : 120;
+  const boardOffset = item.verification ? 58 : 58 + forecastHeight;
+  const rowHeight = genericMulti
+    ? Math.max(158, item.branches.length * 27 + 58)
+    : item.branches.length > 1 ? 132 : 104;
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>
     boardOffset +
@@ -129,7 +135,7 @@ export default function DynamicWuxingPoster({
               ))}
             </div>
             {!item.verification && (
-              <div className="wuxing-forecast-row">
+              <div className="wuxing-forecast-row" style={{height: forecastHeight}}>
                 <strong>
                   {issue}期{mode !== "jiaye" && <small>下期预测</small>}
                 </strong>
@@ -251,8 +257,10 @@ export default function DynamicWuxingPoster({
                 const joinX = tx - 56;
                 const joinY = (sy + ty) / 2;
                 const multi = entry.branches.length > 1;
-                const labelTop = joinY - (multi ? 28 : 18);
-                const labelHeight = multi ? 58 : 42;
+                const labelHeight = genericMulti
+                  ? entry.branches.length * 26 + 20
+                  : multi ? 58 : 42;
+                const labelTop = joinY - labelHeight / 2;
                 const labelLines = entry.branches.map((branch) =>
                   conciseCalculation(branch.calculation)
                     .split(/[，,]/, 2)
@@ -340,9 +348,11 @@ export default function DynamicWuxingPoster({
                           16,
                           Math.min(multi ? 22 : 21, Math.floor(340 / Math.max(line.length, 1))),
                         );
-                        const lineY = multi
-                          ? joinY + (lineIndex === 0 ? -13 : 13)
-                          : joinY + 1;
+                        const lineY = genericMulti
+                          ? labelTop + 23 + lineIndex * 26
+                          : multi
+                            ? joinY + (lineIndex === 0 ? -13 : 13)
+                            : joinY + 1;
                         return (
                           <text
                             key={lineIndex}
@@ -389,6 +399,7 @@ export default function DynamicWuxingPoster({
         {!item.verification && (
           <div
             className={`wuxing-formula-note${item.branches.length > 1 ? " multi" : ""}`}
+            style={genericMulti?{top:70}:undefined}
           >
             <b>公式算法</b>
             <div className="formula-pairs">

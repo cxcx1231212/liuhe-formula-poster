@@ -38,9 +38,12 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
   const next=index<posts.length-1?String(index+2).padStart(3,'0'):null;
   if(Number(issue)===Number(current.issue)||historyEntry){
     const allDraws=formulaManifests.wuxing[type].draws;
-    const drawMap=new Map(allDraws.map((draw:any)=>[draw.period,draw]));
+    const drawMap=new Map(allDraws.map((draw:any)=>[Number(draw.period),draw]));
     const cutoff=historyEntry?Number(issue):Number(current.issue)-1;
-    const selectedHistory=(currentPost.history||[]).filter((entry:any)=>entry.targetPeriod<=cutoff).slice(-5);
+    const selectedHistory=(currentPost.history||[])
+      .filter((entry:any)=>entry.targetPeriod<=cutoff)
+      .filter((entry:any)=>drawMap.has(Number(entry.sourcePeriod))&&drawMap.has(Number(entry.targetPeriod)))
+      .slice(-5);
     const transformedHistory=selectedHistory.map((entry:any)=>{
       const targetDraw:any=drawMap.get(entry.targetPeriod);
       const targetPositions=(targetDraw?.numbers||[]).flatMap((value:any,position:number)=>entry.animals.includes(value.animal)?[position+1]:[]);

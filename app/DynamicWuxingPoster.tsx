@@ -169,7 +169,9 @@ export default function DynamicWuxingPoster({
                       entry.hit &&
                       entry.targetPeriod === draw.period &&
                       (isPingteMode
-                        ? entry.targetPositions?.includes(index + 1)
+                        ? entry.branches.some((branch) =>
+                            branch.targetPositions?.includes(index + 1),
+                          )
                         : index === 6),
                   );
                   return (
@@ -216,14 +218,16 @@ export default function DynamicWuxingPoster({
               </defs>
               {!item.verification &&
                 orderedDraws[0] &&
-                item.branches[0]?.sourcePositions?.map((position) => (
-                  <path
-                    className="prediction-arrow"
-                    key={`prediction-${position}`}
-                    d={`M ${columnX(position)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position)} 165, 430 138, 455 110`}
-                    markerEnd="url(#prediction-arrow-head)"
-                  />
-                ))}
+                item.branches.flatMap((branch, branchIndex) =>
+                  (branch.sourcePositions || []).map((position) => (
+                    <path
+                      className="prediction-arrow"
+                      key={`prediction-${branchIndex}-${position}`}
+                      d={`M ${columnX(position)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position)} 165, 430 138, 455 ${102 + branchIndex * 22}`}
+                      markerEnd="url(#prediction-arrow-head)"
+                    />
+                  )),
+                )}
               {validations.map((entry, index) => {
                 const positions =
                   item.branches[index % item.branches.length]
@@ -252,20 +256,19 @@ export default function DynamicWuxingPoster({
                           branchTarget != null
                             ? columnX(branchTarget - 1)
                             : tx;
+                        const labelY = joinY + (branchIndex === 0 ? -13 : 13);
                         return branchSources.map((position) => (
-                          <path
-                            key={`${branchIndex}-${position}`}
-                            d={
-                              entry.hit && branchTarget != null
-                                ? `M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${joinY}, ${branchTx} ${joinY}, ${branchTx} ${ty + 7}`
-                                : `M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${joinY}, 410 ${joinY}, 445 ${joinY}`
-                            }
-                            markerEnd={
-                              entry.hit && branchTarget != null
-                                ? "url(#wuxing-arrow)"
-                                : undefined
-                            }
-                          />
+                          <g key={`${branchIndex}-${position}`}>
+                            <path
+                              d={`M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${labelY}, 410 ${labelY}, 445 ${labelY}`}
+                            />
+                            {entry.hit && branchTarget != null && (
+                              <path
+                                d={`M 845 ${labelY} C 900 ${labelY}, ${branchTx} ${ty + 28}, ${branchTx} ${ty + 7}`}
+                                markerEnd="url(#wuxing-arrow)"
+                              />
+                            )}
+                          </g>
                         ));
                       })
                     ) : (

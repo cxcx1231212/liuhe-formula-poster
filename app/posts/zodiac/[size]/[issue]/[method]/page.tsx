@@ -1,4 +1,5 @@
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
+import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 
 type ZodiacMethod={name?:string;sourceKey?:string;animals?:string[];nextAnimal?:string;recent30Rate:number};
 const labels:Record<string,string>={'1':'一肖','3':'三肖','6':'六肖','9':'九肖'};
@@ -11,7 +12,7 @@ export default async function ZodiacPost({params,searchParams}:{params:Promise<{
   const item=group?.methods[index];
   const label=labels[size];
   if(issue!==String(manifest.issue)||!label||!item||!Number.isInteger(index)||index<0){
-    return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
+    return <ArchivedFormulaPost type={type} path={`/posts/zodiac/${size}/${issue}/${method}`} backHref={`/?type=${type}#board-生肖公式`} backLabel="返回生肖板块"/>;
   }
   const animals=item.animals??(item.nextAnimal?[item.nextAnimal]:[]);
   const image=`/generated/zodiac/type-${type}-${String(issue).padStart(3,'0')}-${size.padStart(2,'0')}-${method}.webp`;

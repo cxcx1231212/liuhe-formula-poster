@@ -1,4 +1,5 @@
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
+import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 
 type Method={rank:string;image:string;numbers?:number[];animals?:string[]};
 type Group={label:string;kind:string;methods:Method[]};
@@ -10,7 +11,7 @@ export default async function FushiPost({params,searchParams}:{params:Promise<{c
   const index=group?.methods.findIndex(item=>item.rank===method)??-1;
   const item=index>=0?group.methods[index]:undefined;
   if(issue!==String(manifest.issue)||!group||!item){
-    return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
+    return <ArchivedFormulaPost type={type} path={`/posts/fushi/${category}/${issue}/${method}`} backHref={`/?type=${type}#board-复式公式`} backLabel="返回复式板块"/>;
   }
   const values=group.kind==='animal'?item.animals:item.numbers?.map(number=>String(number).padStart(2,'0'));
   const previous=index>0?group.methods[index-1].rank:null;

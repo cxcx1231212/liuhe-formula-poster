@@ -1,11 +1,12 @@
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
+import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 
 export default async function DanshuangPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const {issue,method}=await params;
   const type=requestedLotteryType(await searchParams);const manifest=formulaManifests.danshuang[type];
   const index=manifest.methods.findIndex(item=>item.rank===method);
   const item=index>=0?manifest.methods[index]:undefined;
-  if(issue!==String(manifest.issue)||!item)return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
+  if(issue!==String(manifest.issue)||!item)return <ArchivedFormulaPost type={type} path={`/posts/danshuang/${issue}/${method}`} backHref={`/?type=${type}#board-单双公式`} backLabel="返回单双板块"/>;
   const previous=index>0?manifest.methods[index-1].rank:null;
   const next=index<manifest.methods.length-1?manifest.methods[index+1].rank:null;
   return <main className="post-page">

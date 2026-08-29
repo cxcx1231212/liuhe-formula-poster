@@ -1,7 +1,8 @@
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
+import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 export default async function WavePost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
  const {issue,method}=await params; const type=requestedLotteryType(await searchParams);const manifest=formulaManifests.wave[type];const index=manifest.methods.findIndex((item:any)=>item.rank===method); const item=index>=0?manifest.methods[index]:undefined;
- if(issue!==String(manifest.issue)||!item)return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
+ if(issue!==String(manifest.issue)||!item)return <ArchivedFormulaPost type={type} path={`/posts/wave/${issue}/${method}`} backHref={`/?type=${type}#board-波色公式`} backLabel="返回波色板块"/>;
  const previous=index>0?manifest.methods[index-1].rank:null; const next=index<manifest.methods.length-1?manifest.methods[index+1].rank:null;
  return <main className="post-page"><header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="/">首页</a><a href="/#board-波色公式">波色公式</a></nav></header><article className="detail pingte-detail">
  <div className="detail-topbar"><a className="detail-back" href="/#board-波色公式"><i>←</i><span><small>BACK TO INDEX</small><strong>返回波色板块</strong></span></a></div>

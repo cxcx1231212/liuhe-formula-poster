@@ -1,5 +1,6 @@
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import macau239 from '../../../../../../public/generated/tema-bundles/type-5-239-manifest.json';
+import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 
 type BundleMethod={numbers:number[];recentStreak:number;sourceKey:string};
 const labels:Record<string,string>={'1':'一码中特','3':'三码中特','8':'八码中特','10':'十码中特','18':'十八码中特'};
@@ -12,7 +13,7 @@ export default async function TemaMethodPost({params,searchParams}:{params:Promi
   const bundleGroup=(bundleManifest?.groups as Record<string,{methods:BundleMethod[]}>|undefined)?.[size];
   const methods=size==='1'?oneComplete.qualifiedMethods:bundleGroup?.methods;
   if(!bundleManifest||!label||!methods||!Number.isInteger(index)||index<0||index>=methods.length){
-    return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
+    return <ArchivedFormulaPost type={type} path={`/posts/tema/${size}/${issue}/${method}`} backHref={`/?type=${type}#board-特码公式`} backLabel="返回特码板块"/>;
   }
   const item=methods[index];
   const numbers='numbers' in item?item.numbers:[];

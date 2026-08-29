@@ -61,7 +61,7 @@ def main():
  for key,(label,k,size,threshold) in CFG.items():
   methods=[]
   for i,item in enumerate(select(R,k,size,threshold),1):
-   rank=f'{i:03d}';fn=f'type-5-{issue}-{key}-{rank}.png';render(item,label,k,issue,R,od/fn);methods.append({'rank':rank,'values':item['values'],'recentStreak':item['recentStreak'],'image':f'/generated/kill/{fn}'})
+   rank=f'{i:03d}';fn=f'type-5-{issue}-{key}-{rank}.png';render(item,label,k,issue,R,od/fn);methods.append({'rank':rank,'sourceKey':item['sourceKey'],'branchNames':[b['name'] for b in item['branches']],'values':item['values'],'recentStreak':item['recentStreak'],'image':f'/generated/kill/{fn}'})
   groups[key]={'label':label,'methods':methods};print(label,len(methods))
  (od/f'type-5-{issue}-manifest.json').write_text(json.dumps({'issue':issue,'groups':groups},ensure_ascii=False,indent=2),encoding='utf-8')
 if __name__=='__main__':main()

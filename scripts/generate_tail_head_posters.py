@@ -58,6 +58,6 @@ def main():
     if selected:break
    if used<st:selected=selected[:5]
    for i,item in enumerate(selected,1):
-    rank=f'{size}-{i:03d}';fn=f'type-5-{issue}-{rank}.png';render(item,label,kind,issue,R,od/fn);methods.append({'rank':rank,'label':label,'values':item['values'],'streak':item['streak'],'image':f'/generated/{kind}/{fn}'})
+    rank=f'{size}-{i:03d}';fn=f'type-5-{issue}-{rank}.png';render(item,label,kind,issue,R,od/fn);methods.append({'rank':rank,'label':label,'sourceKey':item['sourceKey'],'branchNames':[b['name'] for b in item['branches']],'values':item['values'],'streak':item['streak'],'image':f'/generated/{kind}/{fn}'})
   (od/f'type-5-{issue}-manifest.json').write_text(json.dumps({'issue':issue,'methods':methods},ensure_ascii=False,indent=2),encoding='utf-8');print(kind,len(methods))
 if __name__=='__main__':main()

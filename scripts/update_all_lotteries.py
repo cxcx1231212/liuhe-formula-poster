@@ -1,6 +1,7 @@
 import argparse
 import importlib
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -106,6 +107,21 @@ def update(lottery_type: int, year: int):
     return {"lotteryType": lottery_type, "year": year, "nextPeriod": next_period}
 
 
+def refresh_manifest_imports(updated: list[dict]):
+    """Point the website build at the manifests produced in this run."""
+    path = ROOT / "lib" / "formula-manifests.ts"
+    source = path.read_text(encoding="utf-8")
+    for row in updated:
+        lottery_type = row["lotteryType"]
+        issue = row["nextPeriod"]
+        source = re.sub(
+            rf"type-{lottery_type}-\d{{3}}-manifest\.json",
+            f"type-{lottery_type}-{issue:03d}-manifest.json",
+            source,
+        )
+    path.write_text(source, encoding="utf-8")
+
+
 def main():
     parser = argparse.ArgumentParser(description="更新三个彩种的公式数据和图片")
     parser.add_argument("--types", nargs="+", type=int, default=[1, 5, 8])
@@ -117,6 +133,7 @@ def main():
     destination = ROOT / "public" / "generated" / "lottery-catalog.json"
     existing = json.loads(destination.read_text(encoding="utf-8")) if destination.exists() else []
     updated = [update(value, args.year) for value in args.types]
+    refresh_manifest_imports(updated)
     by_type = {item["lotteryType"]: item for item in [*existing, *updated]}
     catalog = [by_type[value] for value in sorted(by_type)]
     destination.write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding="utf-8")

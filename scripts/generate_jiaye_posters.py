@@ -13,6 +13,10 @@ W=1080
 DOMESTIC={"牛","马","羊","鸡","狗","猪"}
 COLORS={"家肖":"#c18a2c","野肖":"#2d8d55"}
 
+def source_text(name):
+    labels=re.findall(r"平[1-6]码|特码",name)
+    return "、".join(f"平码{label[1]}" if label.startswith("平") else "特码" for label in labels)
+
 def select(records):
     animal_map={int(x["number"]):x["shengXiao"] for r in records for x in r["numberList"]}
     classify=lambda value:"家肖" if animal_map[wrap(value)] in DOMESTIC else "野肖"
@@ -61,11 +65,11 @@ def main():
     records=fetch_year(5,2026);issue=int(records[-1]["period"])+1;items,animal_map=select(records);output_dir=ROOT/"public"/"generated"/"jiaye";output_dir.mkdir(parents=True,exist_ok=True);methods=[]
     for index,item in enumerate(items,1):
         rank=f"{index:03d}";source_positions=[6 if label=="特码" else int(label[1])-1 for label in re.findall(r"平[1-6]码|特码",item["name"])]
-        number=wrap(item["calculate"](records[-1]));animal=animal_map[number];calculation=(f"平3码{number:02d}＝{animal}＝{item['next']}" if item["kind"]=="follow" else f"{calculation_text(item['name'],records[-1],{item['name']:item['calculate']})}＝{number:02d}＝{animal}＝{item['next']}")
+        number=wrap(item["calculate"](records[-1]));animal=animal_map[number];calculation=(f"取平码3：{number:02d}，属{animal}＝{item['next']}" if item["kind"]=="follow" else f"取{source_text(item['name'])}：{calculation_text(item['name'],records[-1],{item['name']:item['calculate']})}，属{animal}＝{item['next']}")
         history=[]
         for source,target in zip(records[-5:-1],records[-4:]):
             result_number=wrap(item["calculate"](source));result_animal=animal_map[result_number];result="家肖" if result_animal in DOMESTIC else "野肖";actual=target["numberList"][6];actual_result="家肖" if actual["shengXiao"] in DOMESTIC else "野肖"
-            expression=(f"平3码{result_number:02d}＝{result_animal}＝{result}" if item["kind"]=="follow" else f"{calculation_text(item['name'],source,{item['name']:item['calculate']})}＝{result_number:02d}＝{result_animal}＝{result}")
+            expression=(f"取平码3：{result_number:02d}，属{result_animal}＝{result}" if item["kind"]=="follow" else f"取{source_text(item['name'])}：{calculation_text(item['name'],source,{item['name']:item['calculate']})}，属{result_animal}＝{result}")
             history.append({"sourcePeriod":int(source["period"]),"targetPeriod":int(target["period"]),"branches":[{"name":item["name"],"calculation":expression,"result":result}],"actualNumber":str(actual["number"]).zfill(2),"actualAnimal":actual["shengXiao"],"actualElement":actual_result,"hit":result==actual_result})
         methods.append({key:value for key,value in item.items() if key not in ("calculate","predictions")}|{"rank":rank,"next":[item["next"]],"image":None,"branches":[{"name":item["name"],"next":item["next"],"calculation":calculation,"sourcePositions":source_positions}],"history":history,"label":"家野中特"})
     draws=[{"period":int(record["period"]),"date":record.get("lotteryTime") or record.get("openTime") or record.get("date") or "","numbers":[{"number":str(value["number"]).zfill(2),"animal":value.get("shengXiao", ""),"element":"家" if value.get("shengXiao", "") in DOMESTIC else "野"} for value in record["numberList"]]} for record in records[-5:]]

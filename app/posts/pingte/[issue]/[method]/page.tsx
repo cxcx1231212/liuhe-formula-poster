@@ -16,7 +16,8 @@ function targetPosition(draw:Draw|undefined,predictedNumber:number,predictedAnim
   return same.length?[same[0].position+1]:[];
 }
 function sourcePositions(name:string){
-  if(name.includes('七码总分'))return [0,1,2,3,4,5,6];
+  // 总分是整行聚合值，不把七个球误画成七条独立取号线。
+  if(name.includes('七码总分'))return [];
   return Array.from(new Set(Array.from(name.matchAll(/平([1-6])/g),match=>Number(match[1])-1)));
 }
 function calculation(name:string,draw:Draw|undefined,result:number){

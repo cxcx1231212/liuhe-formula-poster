@@ -8,14 +8,14 @@ type Draw={period:number;displayPeriod?:string;date?:string;numbers:{number:stri
 const colors:Record<string,string>={金:'#b78934',木:'#24814a',水:'#247cae',火:'#c73538',土:'#85542f',家肖:'#bd8127',野肖:'#278452'};
 
 export default function DynamicWuxingPoster({issue,item,draws=[],mode='wuxing',lotteryName='澳门六合彩'}:{issue:string;item:Method;draws?:Draw[];mode?:'wuxing'|'jiaye'|'pingte';lotteryName?:string}){
-  const compactForecast=mode==='jiaye'||mode==='pingte';
+  const compactForecast=true;
   const sourcePositions=new Set([...item.sourceKey,...item.branches.flatMap(branch=>[...branch.name])].join('').match(/平[1-6]码|特码/g)||[]);
   const orderedDraws=draws.slice().sort((a,b)=>b.period-a.period);
   const validations=(item.history||[]).slice().sort((a,b)=>b.targetPeriod-a.targetPeriod);
   const boardOffset=item.verification?58:178;
   const columnX=(position:number)=>112+(position+.5)*126;
   const rowY=(period:number)=>boardOffset+(orderedDraws.findIndex(draw=>draw.period===period)+.5)*104;
-  return <section className={`dynamic-poster ${mode}`} aria-label={`${issue}期${item.label}动态公式图`}>
+  return <section className={`dynamic-poster ${mode}${mode==='wuxing'?' pingte':''}`} aria-label={`${issue}期${item.label}动态公式图`}>
     <div className="dynamic-poster-watermark" aria-hidden="true">六合公式库　六合公式库　六合公式库<br/>六合公式库　六合公式库　六合公式库<br/>六合公式库　六合公式库　六合公式库</div>
     <header><h2>{lotteryName}第{issue}期 · {item.sourceKey}{item.label}</h2></header>
     <div className="wuxing-board-wrap">

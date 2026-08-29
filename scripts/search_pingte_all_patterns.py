@@ -116,12 +116,10 @@ def run(lottery_type=5, year=2026):
     strict_five = [method for method in unique if method["recentStreak"] >= 4]
     recent_three = [method for method in unique if method["recentStreak"] >= 3]
     qualified = [method for method in unique if method["recentStreak"] >= 1]
-    published, published_animals = [], set()
-    for method in qualified:
-        if method["predictionAnimal"] in published_animals or not is_renderable_name(method["name"]):
-            continue
-        published_animals.add(method["predictionAnimal"])
-        published.append(method)
+    # Publish every distinct, renderable formula that currently qualifies.
+    # Formula trajectory de-duplication has already happened above; grouping by
+    # the predicted animal here used to hide most formulas (usually leaving 12).
+    published = [method for method in qualified if is_renderable_name(method["name"])]
     selected = []
     for method in strict_five:
         selected.append({**method, "tier": "5期公式"})

@@ -189,7 +189,9 @@ if __name__ == "__main__":
     next_period = int(records[-1]["period"]) + 1
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     methods = output["publishedMethods"]
-    paths = [render(method, records, rank, next_period) for rank, method in enumerate(methods, 1)]
+    # Current and historical posters are rendered dynamically by the website.
+    # Avoid generating hundreds of duplicate raster files every draw.
+    paths = []
     manifest = OUT_DIR / f"type-5-{next_period:03d}-manifest.json"
     manifest.write_text(json.dumps({"issue": next_period, "methods": methods, "images": [str(path.relative_to(ROOT / 'public')) for path in paths]}, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"已生成 {len(paths)} 张图片：{manifest}")

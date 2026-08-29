@@ -59,8 +59,9 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
       const leftAnimal=animalFor(leftNumber),rightAnimal=animalFor(rightNumber);
       const leftTargets=targetPosition(targetDraw,leftNumber,leftAnimal),rightTargets=targetPosition(targetDraw,rightNumber,rightAnimal);
       const targetPositions=[...leftTargets,...rightTargets];
-      const hit=leftAnimal!==rightAnimal&&leftTargets.length>0&&rightTargets.length>0;
-      return {...entry,hit,targetPositions,animals:[leftAnimal,rightAnimal],numbers:[leftNumber,rightNumber],branches:[
+      const duplicateAnimal=leftAnimal===rightAnimal;
+      const hit=!duplicateAnimal&&leftTargets.length>0&&rightTargets.length>0;
+      return {...entry,hit,duplicateAnimal,targetPositions,animals:[leftAnimal,rightAnimal],numbers:[leftNumber,rightNumber],branches:[
         {name:post.leftName,calculation:calculate(post.leftName,sourceDraw,leftNumber)+'属'+leftAnimal,result:leftAnimal,targetPositions:leftTargets},
         {name:post.rightName,calculation:calculate(post.rightName,sourceDraw,rightNumber)+'属'+rightAnimal,result:rightAnimal,targetPositions:rightTargets}
       ],actualNumber:targetPositions.map((position:number)=>targetDraw.numbers[position-1].number).join('、'),actualAnimal:targetPositions.map((position:number)=>targetDraw.numbers[position-1].animal).join('、'),actualElement:''};
@@ -71,7 +72,7 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
     const predictionNumbers=[calculatedNumber(post.leftName,predictionSource,storedPredictionNumbers[0]),calculatedNumber(post.rightName,predictionSource,storedPredictionNumbers[1])];
     const predictionAnimals=predictionNumbers.map(animalFor);
     const verifiedEntry=historyEntry?transformedHistory.find((entry:any)=>entry.targetPeriod===Number(issue)):null;
-    const item={label:'平特二肖',sourceKey:post.leftName+'＋'+post.rightName,next:predictionAnimals,recentStreak:post.recentStreak,recent30Hits:Math.round((post.recent30Rate||0)*30),formulaId:post.formulaId,branches:[
+    const item={label:'平特二肖',sourceKey:post.leftName+'＋'+post.rightName,next:predictionAnimals,duplicatePrediction:predictionAnimals[0]===predictionAnimals[1],recentStreak:post.recentStreak,recent30Hits:Math.round((post.recent30Rate||0)*30),formulaId:post.formulaId,branches:[
       {name:post.leftName,next:predictionAnimals[0],calculation:'取号一：'+calculate(post.leftName,drawMap.get(sourcePeriod),predictionNumbers[0])+'属'+predictionAnimals[0],sourcePositions:positions(post.leftName)},
       {name:post.rightName,next:predictionAnimals[1],calculation:'取号二：'+calculate(post.rightName,drawMap.get(sourcePeriod),predictionNumbers[1])+'属'+predictionAnimals[1],sourcePositions:positions(post.rightName)}
     ],history:transformedHistory,...(historyEntry?{verification:{hit:verifiedEntry?.hit??false,actualNumber:'',actualAnimal:'',actualElement:''}}:{})};

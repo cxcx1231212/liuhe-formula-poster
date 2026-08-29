@@ -46,12 +46,9 @@ if __name__ == "__main__":
     methods = pairs["publishedMethods"]
     issue = pairs["nextPeriod"]
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    records = fetch_year(5, 2026)
-    with tempfile.TemporaryDirectory() as temporary:
-        branch_dir = Path(temporary)
-        branch_names = sorted({name for pair in methods for name in (pair["leftName"], pair["rightName"])})
-        branch_paths = {name: render_single(single_map[name], records, index, issue, out_dir=branch_dir) for index, name in enumerate(branch_names, 1)}
-        paths = [render(pair, rank, issue, branch_paths) for rank, pair in enumerate(methods, 1)]
+    # The detail page draws both branches and their history from the manifest.
+    # Keeping raster copies here only multiplies storage and deployment size.
+    paths = []
     manifest = OUT_DIR / f"type-5-{issue:03d}-manifest.json"
     manifest.write_text(json.dumps({"issue": issue, "methods": methods, "images": [str(path.relative_to(ROOT / 'public')) for path in paths]}, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"已生成 {len(paths)} 张平特二肖图片：{manifest}")

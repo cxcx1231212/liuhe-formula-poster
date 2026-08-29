@@ -1,8 +1,8 @@
 import { getLatestLottery, isLotteryType, type LotteryType } from '@/lib/lottery';
 import LiveDraw from './LiveDraw';
 import PingteBoard from './PingteBoard';
-import one1 from '../public/generated/pingte-all/type-1-095-manifest.json';import one5 from '../public/generated/pingte-all/type-5-241-manifest.json';import one8 from '../public/generated/pingte-all/type-8-241-manifest.json';
-import two1 from '../public/generated/pingte-two/type-1-095-manifest.json';import two5 from '../public/generated/pingte-two/type-5-241-manifest.json';import two8 from '../public/generated/pingte-two/type-8-241-manifest.json';
+import one1 from '../public/generated/pingte-all/type-1-096-manifest.json';import one5 from '../public/generated/pingte-all/type-5-242-manifest.json';import one8 from '../public/generated/pingte-all/type-8-241-manifest.json';
+import two1 from '../public/generated/pingte-two/type-1-096-manifest.json';import two5 from '../public/generated/pingte-two/type-5-242-manifest.json';import two8 from '../public/generated/pingte-two/type-8-241-manifest.json';
 import TemaBoard from './TemaBoard';
 import temaOne1 from '../data/tema/one-complete-type-1-2026.json';import temaOne5 from '../data/tema/one-complete-type-5-2026.json';import temaOne8 from '../data/tema/one-complete-type-8-2026.json';
 import tema1 from '../public/generated/tema-bundles/type-1-095-manifest.json';import tema5 from '../public/generated/tema-bundles/type-5-241-manifest.json';import tema8 from '../public/generated/tema-bundles/type-8-241-manifest.json';
@@ -15,7 +15,7 @@ import ds1 from '../public/generated/danshuang/type-1-095-manifest.json';import 
 import WaveBoard from './WaveBoard';
 import wave1 from '../public/generated/wave/type-1-095-manifest.json';import wave5 from '../public/generated/wave/type-5-241-manifest.json';import wave8 from '../public/generated/wave/type-8-241-manifest.json';
 import WuxingBoard from './WuxingBoard';
-import wx1 from '../public/generated/wuxing/type-1-095-manifest.json';import wx5 from '../public/generated/wuxing/type-5-241-manifest.json';import wx8 from '../public/generated/wuxing/type-8-241-manifest.json';
+import wx1 from '../public/generated/wuxing/type-1-096-manifest.json';import wx5 from '../public/generated/wuxing/type-5-242-manifest.json';import wx8 from '../public/generated/wuxing/type-8-241-manifest.json';
 import JiayeBoard from './JiayeBoard';
 import jy1 from '../public/generated/jiaye/type-1-095-manifest.json';import jy5 from '../public/generated/jiaye/type-5-241-manifest.json';import jy8 from '../public/generated/jiaye/type-8-241-manifest.json';
 import KillBoard from './KillBoard';import kill1 from '../public/generated/kill/type-1-095-manifest.json';import kill5 from '../public/generated/kill/type-5-241-manifest.json';import kill8 from '../public/generated/kill/type-8-241-manifest.json';

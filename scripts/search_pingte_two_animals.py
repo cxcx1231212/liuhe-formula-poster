@@ -36,7 +36,11 @@ def run(lottery_type=5, year=2026):
         pair_hits = []
         pair_trajectory = []
         for index, (left_animal, right_animal) in enumerate(zip(left["animals"], right["animals"])):
-            both = left_animal != right_animal and left["hits"][index] and right["hits"][index]
+            duplicate = left_animal == right_animal
+            # A two-branch formula remains a 二肖 formula when both branches
+            # happen to return the same animal.  Keep the record, but do not
+            # count that draw as a normal two-animal hit.
+            both = not duplicate and left["hits"][index] and right["hits"][index]
             pair_hits.append(both)
             pair_trajectory.append(tuple(sorted((left_animal, right_animal))))
         streak = recent_streak(pair_hits)
@@ -59,6 +63,7 @@ def run(lottery_type=5, year=2026):
                     "animals": [left["animals"][index], right["animals"][index]],
                     "numbers": [left["numbers"][index], right["numbers"][index]],
                     "hit": pair_hits[index],
+                    "duplicateAnimal": left["animals"][index] == right["animals"][index],
                 }
                 for index, (source, target) in enumerate(zip(records, records[1:]))
             ],
@@ -73,9 +78,10 @@ def run(lottery_type=5, year=2026):
     unique, seen = [], set()
     for pair in pairs:
         signature = tuple(pair.pop("trajectory"))
-        if signature in seen or pair["predictionAnimals"][0] == pair["predictionAnimals"][1]:
+        if signature in seen:
             continue
         seen.add(signature)
+        pair["duplicatePrediction"] = pair["predictionAnimals"][0] == pair["predictionAnimals"][1]
         unique.append(pair)
     selected, predicted_pairs = [], set()
     for pair in unique:

@@ -19,6 +19,7 @@ type Validation = {
   actualAnimal: string;
   actualElement: string;
   hit: boolean;
+  duplicateAnimal?: boolean;
   targetPositions?: number[];
 };
 type Method = {
@@ -36,6 +37,7 @@ type Method = {
     actualAnimal: string;
     actualElement: string;
   };
+  duplicatePrediction?: boolean;
 };
 type Draw = {
   period: number;
@@ -133,7 +135,7 @@ export default function DynamicWuxingPoster({
                 </strong>
                 <div>
                   {mode !== "jiaye" && (
-                    <span>{isPingteMode ? "平特参考" : "五行参考"}</span>
+                    <span>{item.duplicatePrediction ? "本期重肖" : isPingteMode ? "平特参考" : "五行参考"}</span>
                   )}
                   {mode !== "jiaye" &&
                     item.next.map((value) => (
@@ -313,8 +315,8 @@ export default function DynamicWuxingPoster({
                             </small>
                           ))}
                         </span>
-                        <i className={entry.hit ? "hit" : "miss"}>
-                          {entry.hit ? "准" : "错"}
+                        <i className={entry.duplicateAnimal ? "duplicate" : entry.hit ? "hit" : "miss"}>
+                          {entry.duplicateAnimal ? "重肖" : entry.hit ? "准" : "错"}
                         </i>
                       </div>
                     </foreignObject>

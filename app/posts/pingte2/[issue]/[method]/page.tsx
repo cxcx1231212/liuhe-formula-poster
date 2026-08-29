@@ -8,6 +8,13 @@ import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 const sumDigits=(value:number)=>String(Math.abs(value)).split('').reduce((sum,char)=>sum+Number(char),0);
 const wrap=(value:number)=>{while(value>49)value-=12;while(value<1)value+=12;return value};
 const positions=(name:string)=>Array.from(name.matchAll(/平([1-6])/g),match=>Number(match[1])-1);
+function targetPosition(draw:any,predictedNumber:number,predictedAnimal:string){
+  const numbers=draw?.numbers||[];
+  const exact=numbers.findIndex((value:any)=>Number(value.number)===Number(predictedNumber));
+  if(exact>=0)return [exact+1];
+  const sameAnimal=numbers.map((value:any,position:number)=>({value,position})).filter(({value}:any)=>value.animal===predictedAnimal).sort((a:any,b:any)=>Math.abs(Number(a.value.number)-predictedNumber)-Math.abs(Number(b.value.number)-predictedNumber));
+  return sameAnimal.length?[sameAnimal[0].position+1]:[];
+}
 function calculate(name:string,draw:any,result:number){
   const values=(draw?.numbers||[]).map((row:any)=>Number(row.number));let match=name.match(/平(\d)码固定(加|减)(\d+)/);
   if(match){const value=values[Number(match[1])-1],amount=Number(match[3]);return String(value).padStart(2,'0')+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(value+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
@@ -38,8 +45,8 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
       const targetDraw:any=drawMap.get(entry.targetPeriod);
       const targetPositions=(targetDraw?.numbers||[]).flatMap((value:any,position:number)=>entry.animals.includes(value.animal)?[position+1]:[]);
       return {...entry,targetPositions,branches:[
-        {name:post.leftName,calculation:calculate(post.leftName,drawMap.get(entry.sourcePeriod),entry.numbers[0])+'，'+entry.numbers[0]+'岁属'+entry.animals[0],result:entry.animals[0],targetPositions:(targetDraw?.numbers||[]).flatMap((value:any,position:number)=>value.animal===entry.animals[0]?[position+1]:[])},
-        {name:post.rightName,calculation:calculate(post.rightName,drawMap.get(entry.sourcePeriod),entry.numbers[1])+'，'+entry.numbers[1]+'岁属'+entry.animals[1],result:entry.animals[1],targetPositions:(targetDraw?.numbers||[]).flatMap((value:any,position:number)=>value.animal===entry.animals[1]?[position+1]:[])}
+        {name:post.leftName,calculation:calculate(post.leftName,drawMap.get(entry.sourcePeriod),entry.numbers[0])+'，'+entry.numbers[0]+'岁属'+entry.animals[0],result:entry.animals[0],targetPositions:targetPosition(targetDraw,entry.numbers[0],entry.animals[0])},
+        {name:post.rightName,calculation:calculate(post.rightName,drawMap.get(entry.sourcePeriod),entry.numbers[1])+'，'+entry.numbers[1]+'岁属'+entry.animals[1],result:entry.animals[1],targetPositions:targetPosition(targetDraw,entry.numbers[1],entry.animals[1])}
       ],actualNumber:targetPositions.map((position:number)=>targetDraw.numbers[position-1].number).join('、'),actualAnimal:targetPositions.map((position:number)=>targetDraw.numbers[position-1].animal).join('、'),actualElement:''};
     });
     const predictionAnimals=historyEntry?historyEntry.animals:post.predictionAnimals;

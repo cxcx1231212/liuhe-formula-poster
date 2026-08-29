@@ -41,3 +41,21 @@
 .dynamic-poster.pingte .wuxing-forecast-row>div>*{display:none}
 .dynamic-poster.wuxing .wuxing-forecast-row>strong small,
 .dynamic-poster.wuxing .wuxing-forecast-row>div>*{display:none}
+
+/* 通用多结果布局：每条计算式与自己的结果始终同一行。 */
+.wuxing-formula-note .formula-pairs{display:grid;min-width:0;flex:1;gap:5px}
+.wuxing-formula-note .formula-pair{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:10px;min-width:0}
+.wuxing-formula-note .formula-pair>span{min-width:0;text-align:left}
+.wuxing-formula-note.multi{align-items:stretch}
+.wuxing-formula-note.multi>b{align-self:center}
+.wuxing-line-label>span{display:grid;min-width:0;gap:1px}
+.wuxing-line-label>span>small{display:block;min-width:0;overflow:hidden;text-overflow:ellipsis;color:inherit;font:inherit;line-height:1.05;white-space:nowrap}
+.wuxing-line-label.multi{height:52px;border-radius:12px}
+@media(max-width:640px){
+  .wuxing-formula-note .formula-pairs{gap:3px}
+  .wuxing-formula-note .formula-pair{gap:6px}
+  .wuxing-formula-note.multi{top:68px!important;padding:5px 7px!important}
+  .wuxing-formula-note.multi .formula-pair>span{font-size:13px!important;line-height:1.12!important}
+  .wuxing-formula-note.multi .prediction-result{min-width:42px;height:27px;padding:0 6px;font-size:14px}
+  .wuxing-line-label.multi{height:48px;padding:3px 8px;font-size:13px;transform:translateY(-5px) scaleX(1.08)}
+}

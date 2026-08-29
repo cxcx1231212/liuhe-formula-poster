@@ -31,9 +31,9 @@ export default async function JiayePost({params,searchParams}:{params:Promise<{i
   return <main className="post-page">
     <header className="site-header"><a className="brand" href={`/?type=${type}`}>六合公式库</a><nav><a href={`/?type=${type}`}>首页</a><a href={`/?type=${type}#board-家野公式`}>家野公式</a></nav></header>
     <article className="detail pingte-detail">
-      <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-家野公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回家野板块</strong></span></a><nav className="detail-issue-links" aria-label="期数切换">{previousIssue?<a href={`/posts/jiaye/${previousIssue}/${method}?type=${type}`}><small>上一期</small><strong>{previousIssue}期</strong></a>:<span className="disabled">暂无上期</span>}{newerIssue?<a href={`/posts/jiaye/${newerIssue}/${method}?type=${type}`}><small>下一期</small><strong>{newerIssue}期</strong></a>:<span className="disabled">当前最新</span>}</nav></div>
+      <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-家野公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回家野板块</strong></span></a><nav className="detail-issue-links" aria-label="期数切换">{newerIssue?<a href={`/posts/jiaye/${newerIssue}/${method}?type=${type}`}><small>下一期</small><strong>{newerIssue}期</strong></a>:<span className="disabled">当前最新</span>}{previousIssue?<a href={`/posts/jiaye/${previousIssue}/${method}?type=${type}`}><small>上一期</small><strong>{previousIssue}期</strong></a>:<span className="disabled">暂无上期</span>}</nav></div>
       <section className="method-card single-method"><DynamicWuxingPoster issue={issue} item={item} draws={draws} mode="jiaye"/></section>
-      <p className="formula-note">家肖：牛、马、羊、鸡、狗、猪；野肖：鼠、虎、兔、龙、蛇、猴。使用上一期开奖计算下一期家野，仅供娱乐参考。</p>
+      <aside className="jiaye-note"><p><strong>家肖</strong><span>牛、马、羊、鸡、狗、猪</span></p><p><strong>野肖</strong><span>鼠、虎、兔、龙、蛇、猴</span></p><small>按上期开奖推算下期家野 · 仅供娱乐参考</small></aside>
       <nav className="post-pager">{previous?<a href={`/posts/jiaye/${issue}/${previous}?type=${type}`}><small>上一个公式</small><strong>家野 第{index}条</strong></a>:<span/>}{next?<a href={`/posts/jiaye/${issue}/${next}?type=${type}`}><small>下一个公式</small><strong>家野 第{index+2}条</strong></a>:<span/>}</nav>
     </article>
     <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>

@@ -2,7 +2,7 @@ import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
 import IssueScroller from '@/app/IssueScroller';
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
-import {LOTTERY_TYPES} from '@/lib/lottery';
+import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 
 export default async function JiayePost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const {issue,method}=await params;
@@ -36,7 +36,7 @@ export default async function JiayePost({params,searchParams}:{params:Promise<{i
     <header className="site-header"><a className="brand" href={`/?type=${type}`}>六合公式库</a><nav><a href={`/?type=${type}`}>首页</a><a href={`/?type=${type}#board-家野公式`}>家野公式</a></nav></header>
     <article className="detail pingte-detail">
       <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-家野公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回家野板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath="/posts/jiaye" method={method} type={type}/></div>
-      <section className="method-card single-method"><DynamicWuxingPoster issue={issue} item={item} draws={draws} mode="jiaye" lotteryName={LOTTERY_TYPES[type]}/></section>
+      <section className="method-card single-method"><DynamicWuxingPoster issue={issue} item={item} draws={draws} mode="jiaye" lotteryName={LOTTERY_SHORT_NAMES[type]}/></section>
       <aside className="jiaye-note"><p><strong>家肖</strong><span>牛、马、羊、鸡、狗、猪</span></p><p><strong>野肖</strong><span>鼠、虎、兔、龙、蛇、猴</span></p></aside>
     </article>
     <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>

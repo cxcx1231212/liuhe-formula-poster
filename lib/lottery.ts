@@ -4,6 +4,12 @@ export const LOTTERY_TYPES = {
   '8': '疯狂天天六合彩',
 } as const;
 
+export const LOTTERY_SHORT_NAMES = {
+  '1': '香港彩',
+  '5': '澳门彩',
+  '8': '疯狂彩',
+} as const;
+
 export type LotteryType = keyof typeof LOTTERY_TYPES;
 
 export type LotteryNumber = {

@@ -9,7 +9,10 @@ const sumDigits=(value:number)=>String(Math.abs(value)).split('').reduce((sum,ch
 const wrap=(value:number)=>{while(value>49)value-=12;while(value<1)value+=12;return value};
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
 const animalFor=(value:number)=>animals[(wrap(value)-1)%12];
-const positions=(name:string)=>Array.from(name.matchAll(/平([1-6])/g),match=>Number(match[1])-1);
+const positions=(name:string)=>{
+  if(name.includes('七码总分'))return [0,1,2,3,4,5,6];
+  return Array.from(new Set(Array.from(name.matchAll(/平([1-6])/g),match=>Number(match[1])-1)));
+};
 function targetPosition(draw:any,predictedNumber:number,predictedAnimal:string){
   const numbers=draw?.numbers||[];
   const exact=numbers.findIndex((value:any)=>Number(value.number)===Number(predictedNumber));
@@ -22,6 +25,9 @@ function calculate(name:string,draw:any,result:number){
   if(match){const value=values[Number(match[1])-1],amount=Number(match[3]);return String(value).padStart(2,'0')+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(value+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
   match=name.match(/平(\d)码合数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],base=sumDigits(value),amount=Number(match[3]);return String(value).padStart(2,'0')+'合'+base+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(base+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
   match=name.match(/平(\d)码尾数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],base=value%10,amount=Number(match[3]);return String(value).padStart(2,'0')+'尾'+base+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(base+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
+  match=name.match(/平(\d)(?:码)?合数＋平(\d)(?:码)?合数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return String(a).padStart(2,'0')+'合'+sumDigits(a)+'＋'+String(b).padStart(2,'0')+'合'+sumDigits(b)+'＝'+String(wrap(sumDigits(a)+sumDigits(b))).padStart(2,'0')}
+  match=name.match(/平(\d)(?:码)?尾数＋平(\d)(?:码)?尾数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return String(a).padStart(2,'0')+'尾'+a%10+'＋'+String(b).padStart(2,'0')+'尾'+b%10+'＝'+String(wrap(a%10+b%10)).padStart(2,'0')}
+  match=name.match(/七码总分加(\d+)/);if(match){const total=values.reduce((sum:number,value:number)=>sum+value,0),amount=Number(match[1]);return '七码总分'+total+'＋'+amount+'＝'+String(wrap(total+amount)).padStart(2,'0')}
   return name+'＝'+String(result).padStart(2,'0');
 }
 function calculatedNumber(name:string,draw:any,fallback:number){

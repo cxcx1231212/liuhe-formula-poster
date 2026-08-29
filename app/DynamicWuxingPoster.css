@@ -62,9 +62,9 @@
 }
 .wuxing-board-lines foreignObject{overflow:visible}
 @media(max-width:640px){
-  .dynamic-poster .wuxing-line-label.multi{position:relative;width:140%;max-width:none;height:68px;margin-left:-20%;padding:5px 52px 5px 18px;font-size:23px;line-height:1.22}
-  .dynamic-poster .wuxing-line-label.multi>span{width:100%;gap:5px;text-align:center}
-  .dynamic-poster .wuxing-line-label.multi>span>small{line-height:1.22;text-align:center}
+  .dynamic-poster .wuxing-line-label.multi{position:relative;width:130%;max-width:none;height:58px;margin-left:-15%;padding:3px 48px 3px 14px;font-size:21px;line-height:1.12;transform:translateY(-8px)}
+  .dynamic-poster .wuxing-line-label.multi>span{width:100%;gap:2px;text-align:center}
+  .dynamic-poster .wuxing-line-label.multi>span>small{line-height:1.12;text-align:center}
   .dynamic-poster .wuxing-line-label.multi>i{position:absolute;right:14px;top:50%;width:28px;height:28px;transform:translateY(-50%);font-size:15px}
 }
 .dynamic-poster .wuxing-forecast-row>div>*{display:none}

@@ -4,7 +4,7 @@ import PingteBoard from './PingteBoard';
 import one1 from '../public/generated/pingte-all/type-1-096-manifest.json';import one5 from '../public/generated/pingte-all/type-5-242-manifest.json';import one8 from '../public/generated/pingte-all/type-8-241-manifest.json';
 import two1 from '../public/generated/pingte-two/type-1-096-manifest.json';import two5 from '../public/generated/pingte-two/type-5-242-manifest.json';import two8 from '../public/generated/pingte-two/type-8-241-manifest.json';
 import TemaBoard from './TemaBoard';
-import tema1 from '../public/generated/tema-bundles/type-1-095-manifest.json';import tema5 from '../public/generated/tema-bundles/type-5-241-manifest.json';import tema8 from '../public/generated/tema-bundles/type-8-241-manifest.json';
+import tema1 from '../public/generated/tema-bundles/type-1-096-manifest.json';import tema5 from '../public/generated/tema-bundles/type-5-242-manifest.json';import tema8 from '../public/generated/tema-bundles/type-8-242-manifest.json';
 import ZodiacBoard from './ZodiacBoard';
 import zodiac1 from '../public/generated/zodiac/type-1-095-manifest.json';import zodiac5 from '../public/generated/zodiac/type-5-241-manifest.json';import zodiac8 from '../public/generated/zodiac/type-8-241-manifest.json';
 import FushiBoard from './FushiBoard';

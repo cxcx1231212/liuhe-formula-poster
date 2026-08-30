@@ -54,6 +54,30 @@ def build_bundle(seed, representatives, size):
     }
 
 
+def build_complete_bundle(items, size):
+    """Build one deterministic post from every formula in a series.
+
+    Formula publishing must not depend on current hits or on whether two
+    branches happen to produce the same next number.  A 二/三/八码 formula is
+    still that formula even when some results repeat, so keep the branches in
+    numeric offset order and only take the requested amount.
+    """
+    selected = sorted(
+        items,
+        key=lambda item: int(re.search(r"(\d+)$", item["name"]).group(1)),
+    )[:size]
+    hits = merge_hits(selected)
+    return {
+        "size": size,
+        "numbers": [item["nextNumber"] for item in selected],
+        "branches": [{"name": item["name"], "number": item["nextNumber"]} for item in selected],
+        "recentStreak": streak(hits),
+        "recent30Rate": sum(hits[-30:]) / min(30, len(hits)),
+        "totalRate": sum(hits) / len(hits),
+        "history": hits[-6:],
+    }
+
+
 def series_key(name):
     match = re.fullmatch(r"(平[1-6]|特码)码(固定|合数|尾数)(加|减)\d+", name)
     if not match:
@@ -71,15 +95,10 @@ def run(lottery_type=5, year=2026):
         items = []
         series_names = sorted(set(filter(None, (series_key(item["name"]) for item in evaluated))))
         for source in series_names:
-            pool = [item for item in evaluated if series_key(item["name"]) == source and any(item["hits"])]
-            representatives = []
-            for number in sorted(set(item["nextNumber"] for item in pool)):
-                choices = [item for item in pool if item["nextNumber"] == number]
-                representatives.append(max(choices, key=lambda item: score(item["hits"])))
-            if len(representatives) < size:
+            pool = [item for item in evaluated if series_key(item["name"]) == source]
+            if len(pool) < size:
                 continue
-            choices = [build_bundle(seed, representatives, size) for seed in representatives]
-            bundle = max(choices, key=lambda item: (item["recentStreak"], item["recent30Rate"], item["totalRate"]))
+            bundle = build_complete_bundle(pool, size)
             bundle["sourceKey"] = source
             items.append(bundle)
         bundles[str(size)] = sorted(items, key=lambda item: (item["recentStreak"], item["recent30Rate"], item["totalRate"]), reverse=True)
@@ -93,7 +112,7 @@ def run(lottery_type=5, year=2026):
     print(f"一码（不去重）：{len(one)}")
     for size in (3, 8, 10, 18):
         items = bundles[str(size)]
-        print(f"{size}码（组合与轨迹去重）：{len(items)}；短期{sum(item['recentStreak'] < 3 for item in items)}；连准{sum(item['recentStreak'] >= 3 for item in items)}")
+        print(f"{size}码（全部公式）：{len(items)}；短期{sum(item['recentStreak'] < 3 for item in items)}；连准{sum(item['recentStreak'] >= 3 for item in items)}")
     print(destination)
     return output
 

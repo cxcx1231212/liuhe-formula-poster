@@ -14,7 +14,29 @@ const labels:Record<string,string>={'3':'三码中特','8':'八码中特','10':'
 
 function digits(value:number){return Math.floor(value/10)+(value%10)}
 function wrap(value:number){while(value>49)value-=12;while(value<1)value+=12;return value}
+function sourcePosition(label:string){return label==='特码'?6:Number(label.replace('平',''))-1}
+function baseFormula(name:string,draw:Draw):{value:number;text:string;positions:number[]}|null{
+  const values=draw.numbers.map(item=>Number(item.number));
+  let match=name.match(/^(平[1-6]|特码)码(原码|合数|尾数)$/);
+  if(match){const position=sourcePosition(match[1]),raw=values[position],value=match[2]==='合数'?digits(raw):match[2]==='尾数'?raw%10:raw;return {value,text:`${String(raw).padStart(2,'0')}${match[2]==='合数'?`合${value}`:match[2]==='尾数'?`尾${value}`:''}`,positions:[position]};}
+  match=name.match(/^(平[1-6]|特码)码(加|减)期数合数$/);
+  if(match){const position=sourcePosition(match[1]),raw=values[position],amount=digits(Number(draw.period)),value=match[2]==='加'?raw+amount:raw-amount;return {value,text:`${String(raw).padStart(2,'0')}${match[2]==='加'?'+':'−'}期合${amount}`,positions:[position]};}
+  match=name.match(/^(平[1-6]|特码)码(加|减)(平[1-6]|特码)码$/);
+  if(match){const left=sourcePosition(match[1]),right=sourcePosition(match[3]),value=match[2]==='加'?values[left]+values[right]:values[left]-values[right];return {value,text:`${String(values[left]).padStart(2,'0')}${match[2]==='加'?'+':'−'}${String(values[right]).padStart(2,'0')}`,positions:[left,right]};}
+  match=name.match(/^(平[1-6]|特码)(合数|尾数)加(平[1-6]|特码)(合数|尾数)$/);
+  if(match){const left=sourcePosition(match[1]),right=sourcePosition(match[3]),a=match[2]==='合数'?digits(values[left]):values[left]%10,b=match[4]==='合数'?digits(values[right]):values[right]%10;return {value:a+b,text:`${String(values[left]).padStart(2,'0')}${match[2]==='合数'?`合${a}`:`尾${a}`}+${String(values[right]).padStart(2,'0')}${match[4]==='合数'?`合${b}`:`尾${b}`}`,positions:[left,right]};}
+  const aggregate:Record<string,{value:number;positions:number[]}>= {
+    '六个平码总分':{value:values.slice(0,6).reduce((a,b)=>a+b,0),positions:[0,1,2,3,4,5]},
+    '七码总分':{value:values.reduce((a,b)=>a+b,0),positions:[0,1,2,3,4,5,6]},
+    '最小平码':{value:Math.min(...values.slice(0,6)),positions:[values.slice(0,6).indexOf(Math.min(...values.slice(0,6)))]},
+    '最大平码':{value:Math.max(...values.slice(0,6)),positions:[values.slice(0,6).indexOf(Math.max(...values.slice(0,6)))]},
+  };
+  if(name.endsWith('合数')||name.endsWith('尾数')){const root=name.replace(/(合数|尾数)$/,'');const base=aggregate[root];if(base){const value=name.endsWith('合数')?digits(base.value):base.value%10;return {value,text:`${root}${base.value}${name.endsWith('合数')?`合${value}`:`尾${value}`}`,positions:base.positions};}}
+  const base=aggregate[name];return base?{...base,text:`${name}${base.value}`}:null;
+}
 function calculate(name:string,draw:Draw,fallback:number):Calculated{
+  const spread=name.match(/^邻码【(.+)】偏移([+-]\d+)$/);
+  if(spread){const base=baseFormula(spread[1],draw);if(base){const offset=Number(spread[2]),result=wrap(base.value+offset),sign=offset>=0?'+':'−';return {name,calculation:`${base.text}${sign}${Math.abs(offset)}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:base.positions};}}
   const match=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)(加|减)(\d+)$/);
   if(!match)return {name,calculation:name,result:String(wrap(fallback)).padStart(2,'0'),sourcePositions:[0]};
   const [,source,mode,operator,amountText]=match;

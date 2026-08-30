@@ -1,7 +1,7 @@
 import json
 import re
 
-from search_pingte_all_patterns import build_candidates
+from search_pingte_all_patterns import POSITIONS, build_candidates, numbers, digit_sum, tail
 from search_pingte_methods import ROOT, fetch_year, wrap
 
 
@@ -87,6 +87,82 @@ def series_key(name):
     return f"{source}{method}{direction}法"
 
 
+def neighbor_offsets(size):
+    """Return a balanced left/right number set without inventing extra rules."""
+    if size == 3:
+        return [-1, 0, 1]
+    half = size // 2
+    return list(range(-half, 0)) + list(range(1, half + 1))
+
+
+def extended_series():
+    """The complete special-number formula library beyond fixed offsets.
+
+    Each entry is one stable formula.  Its single calculated centre is expanded
+    into the requested 3/8/10/18 neighbouring codes, so the formula identity is
+    unchanged across categories and historical pages.
+    """
+    result = []
+
+    def add(name, calculate):
+        result.append({"sourceKey": f"{name}左右码法", "baseName": name, "calculate": calculate})
+
+    # 7 positions × original/composite/tail = 21.
+    for position, label in enumerate(POSITIONS):
+        add(f"{label}码原码", lambda r, p=position: numbers(r)[p])
+        add(f"{label}码合数", lambda r, p=position: digit_sum(numbers(r)[p]))
+        add(f"{label}码尾数", lambda r, p=position: tail(numbers(r)[p]))
+
+    # 7 positions × add/subtract issue digit sum = 14.
+    for position, label in enumerate(POSITIONS):
+        add(f"{label}码加期数合数", lambda r, p=position: numbers(r)[p] + digit_sum(int(r["period"])))
+        add(f"{label}码减期数合数", lambda r, p=position: numbers(r)[p] - digit_sum(int(r["period"])))
+
+    # 21 unordered pairs × five transparent operations = 105.
+    for left in range(7):
+        for right in range(left + 1, 7):
+            a, b = POSITIONS[left], POSITIONS[right]
+            add(f"{a}码加{b}码", lambda r, x=left, y=right: numbers(r)[x] + numbers(r)[y])
+            add(f"{a}码减{b}码", lambda r, x=left, y=right: numbers(r)[x] - numbers(r)[y])
+            add(f"{b}码减{a}码", lambda r, x=left, y=right: numbers(r)[y] - numbers(r)[x])
+            add(f"{a}合数加{b}合数", lambda r, x=left, y=right: digit_sum(numbers(r)[x]) + digit_sum(numbers(r)[y]))
+            add(f"{a}尾数加{b}尾数", lambda r, x=left, y=right: tail(numbers(r)[x]) + tail(numbers(r)[y]))
+
+    # Totals and extrema = 8.
+    add("六个平码总分", lambda r: sum(numbers(r)[:6]))
+    add("七码总分", lambda r: sum(numbers(r)))
+    add("六个平码总分合数", lambda r: digit_sum(sum(numbers(r)[:6])))
+    add("七码总分合数", lambda r: digit_sum(sum(numbers(r))))
+    add("六个平码总分尾数", lambda r: tail(sum(numbers(r)[:6])))
+    add("七码总分尾数", lambda r: tail(sum(numbers(r))))
+    add("最小平码", lambda r: min(numbers(r)[:6]))
+    add("最大平码", lambda r: max(numbers(r)[:6]))
+    return result
+
+
+def build_extended_bundle(spec, records, size):
+    offsets = neighbor_offsets(size)
+    branches = []
+    branch_hits = []
+    for offset in offsets:
+        name = f"邻码【{spec['baseName']}】偏移{offset:+d}"
+        predictions = [wrap(spec["calculate"](source) + offset) for source in records[:-1]]
+        hits = [value == int(target["numberList"][6]["number"]) for value, target in zip(predictions, records[1:])]
+        branches.append({"name": name, "number": wrap(spec["calculate"](records[-1]) + offset)})
+        branch_hits.append(hits)
+    merged = [any(values) for values in zip(*branch_hits)]
+    return {
+        "size": size,
+        "numbers": [branch["number"] for branch in branches],
+        "branches": branches,
+        "recentStreak": streak(merged),
+        "recent30Rate": sum(merged[-30:]) / min(30, len(merged)),
+        "totalRate": sum(merged) / len(merged),
+        "history": merged[-6:],
+        "sourceKey": spec["sourceKey"],
+    }
+
+
 def run(lottery_type=5, year=2026):
     records = fetch_year(lottery_type, year)
     evaluated = [evaluate(candidate, records) for candidate in build_candidates()]
@@ -101,6 +177,7 @@ def run(lottery_type=5, year=2026):
             bundle = build_complete_bundle(pool, size)
             bundle["sourceKey"] = source
             items.append(bundle)
+        items.extend(build_extended_bundle(spec, records, size) for spec in extended_series())
         bundles[str(size)] = sorted(items, key=lambda item: (item["recentStreak"], item["recent30Rate"], item["totalRate"]), reverse=True)
     one = json.loads((ROOT / "data" / "tema" / f"type-{lottery_type}-{year}.json").read_text(encoding="utf-8"))["publishedMethods"]
     output = {

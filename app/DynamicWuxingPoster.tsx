@@ -63,7 +63,10 @@ const conciseCalculation = (text: string) =>
     .replace(/[，,、]\s*属/g, "属");
 
 const compactMultiCalculation = (text: string) =>
-  conciseCalculation(text).replace(/^(?:平[1-6]码|特码码?)(?:合数|尾数)?[：:]\s*/, "");
+  conciseCalculation(text)
+    .replace(/^(?:平[1-6]码|特码码?)(?:合数|尾数)?[：:]\s*/, "")
+    .replace(/期合/g, "合")
+    .replace(/\s+/g, "");
 
 const additionValue = (text: string) => {
   const match = text.match(/[+＋]\s*(\d+)/);
@@ -394,9 +397,17 @@ export default function DynamicWuxingPoster({
                         fill="#c92529"
                       />
                       {labelLines.map((line, lineIndex) => {
+                        const availableLineWidth = genericMulti
+                          ? item.branches.length >= 18
+                            ? 145
+                            : item.branches.length >= 10
+                              ? 195
+                              : 320
+                          : 340;
+                        const minimumFontSize = genericMulti && item.branches.length >= 18 ? 12 : 16;
                         const fontSize = Math.max(
-                          16,
-                          Math.min(multi ? 22 : 21, Math.floor(340 / Math.max(line.length, 1))),
+                          minimumFontSize,
+                          Math.min(multi ? 22 : 21, Math.floor(availableLineWidth / Math.max(line.length, 1))),
                         );
                         const lineColumn = genericMulti ? lineIndex % historyColumns : 0;
                         const lineRow = genericMulti ? Math.floor(lineIndex / historyColumns) : lineIndex;
@@ -420,6 +431,9 @@ export default function DynamicWuxingPoster({
                             fontWeight="900"
                             textAnchor="middle"
                             dominantBaseline="middle"
+                            {...(genericMulti && line.length * fontSize > availableLineWidth
+                              ? { textLength: availableLineWidth, lengthAdjust: "spacingAndGlyphs" as const }
+                              : {})}
                           >
                             {line}
                           </text>

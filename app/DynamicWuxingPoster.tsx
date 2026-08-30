@@ -111,14 +111,20 @@ export default function DynamicWuxingPoster({
     : item.branches;
   const genericColumns = genericMulti && item.branches.length >= 8 ? 2 : 1;
   const genericRows = Math.ceil(item.branches.length / genericColumns);
-  const historyColumns = genericMulti && item.branches.length >= 18 ? 4 : genericColumns;
+  const historyColumns = genericMulti
+    ? item.branches.length >= 18
+      ? 4
+      : item.branches.length >= 10
+        ? 3
+        : genericColumns
+    : genericColumns;
   const historyRows = Math.ceil(item.branches.length / historyColumns);
   const forecastHeight = genericMulti
     ? Math.max(150, genericRows * 22 + 54)
     : 120;
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
   const rowHeight = genericMulti
-    ? Math.max(158, historyRows * 28 + (item.branches.length >= 18 ? 100 : 42))
+    ? Math.max(158, historyRows * 28 + 90)
     : item.branches.length > 1 ? 132 : 104;
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>

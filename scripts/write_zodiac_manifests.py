@@ -10,5 +10,5 @@ for lottery_type in (1, 5, 8):
     groups = {size: {"label": f"{size}肖", "methods": methods} for size, methods in data["publishedGroups"].items()}
     target = ROOT / "public" / "generated" / "zodiac" / f"type-{lottery_type}-{issue:03d}-manifest.json"
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(json.dumps({"issue": issue, "groups": groups}, ensure_ascii=False), encoding="utf-8")
+    target.write_text(json.dumps({"issue": issue, "groups": groups, "draws": data["draws"]}, ensure_ascii=False), encoding="utf-8")
     print(target, sum(len(group["methods"]) for group in groups.values()))

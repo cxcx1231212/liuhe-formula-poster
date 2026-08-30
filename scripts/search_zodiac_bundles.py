@@ -22,17 +22,17 @@ def make_series():
     series = []
     for base_name, calculate in bases():
         groups = [
-            (f"{base_name}固定加法", [(f"{base_name}加{i}", lambda r, b=calculate, n=i: b(r) + n) for i in range(1, 19)]),
-            (f"{base_name}固定减法", [(f"{base_name}减{i}", lambda r, b=calculate, n=i: b(r) - n) for i in range(1, 19)]),
-            (f"{base_name}乘法", [(f"{base_name}乘{i}", lambda r, b=calculate, n=i: b(r) * n) for i in range(2, 13)]),
-            (f"{base_name}除法取整", [(f"{base_name}除{i}取整", lambda r, b=calculate, n=i: int(b(r) / n)) for i in range(2, 13)]),
-            (f"{base_name}除法余数", [(f"{base_name}除{i}余数", lambda r, b=calculate, n=i: b(r) % n) for i in range(2, 13)]),
+            (f"{base_name}固定加法", [(f"{base_name}加{i}", lambda r, b=calculate, n=i: b(r) + n, base_name, "add", i) for i in range(1, 19)]),
+            (f"{base_name}固定减法", [(f"{base_name}减{i}", lambda r, b=calculate, n=i: b(r) - n, base_name, "subtract", i) for i in range(1, 19)]),
+            (f"{base_name}乘法", [(f"{base_name}乘{i}", lambda r, b=calculate, n=i: b(r) * n, base_name, "multiply", i) for i in range(2, 13)]),
+            (f"{base_name}除法取整", [(f"{base_name}除{i}取整", lambda r, b=calculate, n=i: int(b(r) / n), base_name, "divide_floor", i) for i in range(2, 13)]),
+            (f"{base_name}除法余数", [(f"{base_name}除{i}余数", lambda r, b=calculate, n=i: b(r) % n, base_name, "modulo", i) for i in range(2, 13)]),
         ]
         series.extend(groups)
     return series
 
 
-def evaluate(name, calculate, records):
+def evaluate(name, calculate, base_name, operation, amount, records):
     predictions, hits = [], []
     for source, target in zip(records, records[1:]):
         predicted = animal(calculate(source))
@@ -42,6 +42,9 @@ def evaluate(name, calculate, records):
     next_value = wrap(calculate(records[-1]))
     return {
         "name": name,
+        "baseName": base_name,
+        "operation": operation,
+        "amount": amount,
         "predictions": predictions,
         "hits": hits,
         "nextNumber": next_value,
@@ -70,7 +73,11 @@ def make_bundle(seed, representatives, size):
     hits = combined_hits(selected)
     return {
         "animals": [item["nextAnimal"] for item in selected],
-        "branches": [{"name": item["name"], "number": item["nextNumber"], "animal": item["nextAnimal"]} for item in selected],
+        "branches": [{
+            "name": item["name"], "baseName": item["baseName"],
+            "operation": item["operation"], "amount": item["amount"],
+            "number": item["nextNumber"], "animal": item["nextAnimal"],
+        } for item in selected],
         "recentStreak": streak(hits),
         "recent30Rate": sum(hits[-30:]) / min(30, len(hits)),
         "totalRate": sum(hits) / len(hits),
@@ -83,7 +90,7 @@ def run(lottery_type=5, year=2026):
     evaluated_series = []
     all_methods = []
     for source_key, definitions in make_series():
-        methods = [evaluate(name, calculate, records) for name, calculate in definitions]
+        methods = [evaluate(*definition, records) for definition in definitions]
         evaluated_series.append((source_key, methods))
         all_methods.extend(methods)
 
@@ -128,6 +135,22 @@ def run(lottery_type=5, year=2026):
         "publishThresholds": thresholds,
         "publishThresholdsUsed": publish_thresholds_used,
         "publishedGroups": compact_groups,
+        "draws": [
+            {
+                "period": int(record["period"]),
+                "displayPeriod": f"{int(record['period']):03d}期",
+                "date": record.get("lotteryTime", ""),
+                "numbers": [
+                    {
+                        "number": str(value["number"]).zfill(2),
+                        "animal": value["shengXiao"],
+                        "element": value.get("wuXing", ""),
+                    }
+                    for value in record["numberList"]
+                ],
+            }
+            for record in records
+        ],
     }
     destination = ROOT / "data" / "zodiac" / f"bundles-type-{lottery_type}-{year}.json"
     destination.parent.mkdir(parents=True, exist_ok=True)

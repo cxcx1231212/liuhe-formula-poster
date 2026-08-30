@@ -109,10 +109,18 @@ export default function DynamicWuxingPoster({
   const displayBranches = genericMulti
     ? sortByAddition(item.branches)
     : item.branches;
-  const genericColumns = genericMulti && item.branches.length >= 8 ? 2 : 1;
+  const genericColumns = genericMulti
+    ? item.branches.length === 3
+      ? 3
+      : item.branches.length >= 8
+        ? 2
+        : 1
+    : 1;
   const genericRows = Math.ceil(item.branches.length / genericColumns);
   const historyColumns = genericMulti
-    ? item.branches.length >= 18
+    ? item.branches.length === 3
+      ? 3
+      : item.branches.length >= 18
       ? 4
       : item.branches.length >= 10
         ? 3
@@ -120,7 +128,9 @@ export default function DynamicWuxingPoster({
     : genericColumns;
   const historyRows = Math.ceil(item.branches.length / historyColumns);
   const forecastHeight = genericMulti
-    ? Math.max(150, genericRows * 22 + 54)
+    ? item.branches.length === 3
+      ? 120
+      : Math.max(150, genericRows * 22 + 54)
     : 120;
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
   const rowHeight = genericMulti
@@ -133,7 +143,7 @@ export default function DynamicWuxingPoster({
       rowHeight;
   return (
     <section
-      className={`dynamic-poster ${mode}${mode === "wuxing" ? " pingte" : ""}${genericMulti ? " generic-multi" : ""}`}
+      className={`dynamic-poster ${mode}${mode === "wuxing" ? " pingte" : ""}${genericMulti ? " generic-multi" : ""}${genericMulti && item.branches.length === 3 ? " generic-three" : ""}`}
       aria-label={`${issue}期${item.label}动态公式图`}
     >
       <div className="dynamic-poster-watermark" aria-hidden="true">

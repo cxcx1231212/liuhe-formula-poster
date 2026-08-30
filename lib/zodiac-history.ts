@@ -28,6 +28,16 @@ const baseValue=(draw:ZodiacDraw,base:string):number=>{
 const calculate=(base:number,operation:string,amount:number)=>operation==='add'?base+amount:operation==='subtract'?base-amount:operation==='multiply'?base*amount:operation==='divide_floor'?Math.trunc(base/amount):operation==='modulo'?base%amount:base;
 const symbol=(operation:string)=>operation==='add'?'+':operation==='subtract'?'−':operation==='multiply'?'×':operation==='divide_floor'?'÷取整':'÷余数';
 const sourcePositions=(base:string)=>Array.from(base.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
+const baseExpression=(draw:ZodiacDraw,base:string)=>{
+  const pair=base.match(/^(平[1-6]码|特码)(合数|尾数)?([＋－])(平[1-6]码|特码)(合数|尾数)?$/);
+  if(pair){
+    const display=(label:string,kind?:string)=>{const value=cellValue(draw,label);return kind==='合数'?digitSum(value):kind==='尾数'?value%10:value;};
+    return `${String(display(pair[1],pair[2])).padStart(2,'0')}${pair[3]}${String(display(pair[4],pair[5])).padStart(2,'0')}`;
+  }
+  const single=base.match(/^(平[1-6]码|特码)(合数|尾数)?$/);
+  if(single){const value=cellValue(draw,single[1]);const shown=single[2]==='合数'?digitSum(value):single[2]==='尾数'?value%10:value;return String(shown).padStart(2,'0');}
+  return String(baseValue(draw,base));
+};
 
 export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],requestedIssue:number){
   const definitions:ZodiacBranch[]=(method.branches?.length?method.branches:[{name:method.name||'',baseName:method.baseName,operation:method.operation,amount:method.amount,number:method.nextNumber,animal:method.nextAnimal}]);
@@ -35,7 +45,7 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
   const evaluate=(definition:ZodiacBranch,draw:ZodiacDraw)=>{
     const base=baseValue(draw,definition.baseName||'');const raw=calculate(base,definition.operation||'',definition.amount||0);const result=wrap(raw);
     const animal=animals[(result-1)%12];
-    return {result,animal,calculation:`${String(base).padStart(2,'0')}${symbol(definition.operation||'')}${definition.amount}=${String(result).padStart(2,'0')}属${animal}`};
+    return {result,animal,calculation:`${baseExpression(draw,definition.baseName||'')}${symbol(definition.operation||'')}${definition.amount}=${String(result).padStart(2,'0')}属${animal}`};
   };
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

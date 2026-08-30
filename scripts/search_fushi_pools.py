@@ -50,7 +50,7 @@ def build_pool(methods, pool_size, required):
 
 def run(lottery_type=5, year=2026):
     records = fetch_year(lottery_type, year)
-    evaluated_series = [(source_key, [evaluate(name, calculate, records) for name, calculate in definitions]) for source_key, definitions in make_series()]
+    evaluated_series = [(source_key, [evaluate(definition[0], definition[1], records) for definition in definitions]) for source_key, definitions in make_series()]
     groups = {}
     for category, spec in SPECS.items():
         pools = []

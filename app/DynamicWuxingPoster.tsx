@@ -94,11 +94,11 @@ export default function DynamicWuxingPoster({
   issue: string;
   item: Method;
   draws?: Draw[];
-  mode?: "wuxing" | "jiaye" | "pingte" | "pingte2" | "generic" | "zodiac";
+  mode?: "wuxing" | "jiaye" | "pingte" | "pingte2" | "generic" | "zodiac" | "fushi";
   lotteryName?: string;
 }) {
   const compactForecast = true;
-  const isPingteMode = mode === "pingte" || mode === "pingte2";
+  const isPingteMode = mode === "pingte" || mode === "pingte2" || mode === "fushi";
   const sourcePositions = new Set(
     [...item.sourceKey, ...item.branches.flatMap((branch) => [...branch.name])]
       .join("")
@@ -108,14 +108,14 @@ export default function DynamicWuxingPoster({
   const validations = (item.history || [])
     .slice()
     .sort((a, b) => b.targetPeriod - a.targetPeriod);
-  const genericMulti = (mode === "generic" || mode === "zodiac") && item.branches.length > 2;
+  const genericMulti = (mode === "generic" || mode === "zodiac" || mode === "fushi") && item.branches.length > 2;
   const displayBranches = genericMulti
     ? sortByAddition(item.branches)
     : item.branches;
   const genericColumns = genericMulti
     ? item.branches.length === 3
       ? 3
-      : item.branches.length >= 8
+      : item.branches.length >= 4
         ? 2
         : 1
     : 1;
@@ -123,6 +123,8 @@ export default function DynamicWuxingPoster({
   const historyColumns = genericMulti
     ? item.branches.length === 3
       ? 3
+      : mode === "fushi" && item.branches.length >= 12
+      ? 4
       : item.branches.length >= 18
       ? 4
       : item.branches.length >= 10
@@ -186,7 +188,7 @@ export default function DynamicWuxingPoster({
                 </strong>
                 <div>
                   {mode !== "jiaye" && (
-                    <span>{item.duplicatePrediction ? "本期重肖" : isPingteMode ? "平特参考" : mode === "zodiac" ? "生肖参考" : "五行参考"}</span>
+                    <span>{item.duplicatePrediction ? "本期重肖" : mode === "fushi" ? "复式参考" : isPingteMode ? "平特参考" : mode === "zodiac" ? "生肖参考" : "五行参考"}</span>
                   )}
                   {mode !== "jiaye" &&
                     item.next.map((value) => (

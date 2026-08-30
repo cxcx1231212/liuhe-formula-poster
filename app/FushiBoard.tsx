@@ -19,7 +19,7 @@ export default function FushiBoard({type,issue,groups}:{type:string;issue:number
   }));
   return <>
     <div className="pingte-tabs">{categories.map(([key,label])=><button className={active===key?'active':''} onClick={()=>setActive(key)} key={key}>{label}</button>)}</div>
-    <div className="pingte-count">高准确率榜 · 当前共 {posts.length} 条公式</div>
+    <div className="pingte-count">全公式库 · 当前共 {posts.length} 条公式</div>
     {posts.length?<BoardPostList listKey={active} posts={posts.map(post=>({href:post.href,issue:`${issue}期`,title:post.title}))}/>:<div className="pingte-empty"><strong>本期暂无精选复式公式</strong><span>我们会长期研究并持续追踪，达到上榜标准后第一时间发布。</span></div>}
   </>;
 }

@@ -6,7 +6,7 @@ import two1 from '../public/generated/pingte-two/type-1-096-manifest.json';impor
 import TemaBoard from './TemaBoard';
 import tema1 from '../public/generated/tema-bundles/type-1-096-manifest.json';import tema5 from '../public/generated/tema-bundles/type-5-242-manifest.json';import tema8 from '../public/generated/tema-bundles/type-8-242-manifest.json';
 import ZodiacBoard from './ZodiacBoard';
-import zodiac1 from '../public/generated/zodiac/type-1-095-manifest.json';import zodiac5 from '../public/generated/zodiac/type-5-241-manifest.json';import zodiac8 from '../public/generated/zodiac/type-8-241-manifest.json';
+import zodiac1 from '../public/generated/zodiac/type-1-096-manifest.json';import zodiac5 from '../public/generated/zodiac/type-5-242-manifest.json';import zodiac8 from '../public/generated/zodiac/type-8-242-manifest.json';
 import FushiBoard from './FushiBoard';
 import fushi1 from '../public/generated/fushi/type-1-095-manifest.json';import fushi5 from '../public/generated/fushi/type-5-241-manifest.json';import fushi8 from '../public/generated/fushi/type-8-241-manifest.json';
 import DanshuangBoard from './DanshuangBoard';

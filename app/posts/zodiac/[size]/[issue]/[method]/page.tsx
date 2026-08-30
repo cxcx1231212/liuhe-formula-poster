@@ -1,8 +1,9 @@
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import StaticFormulaPost from '@/app/StaticFormulaPost';
+import ZodiacFormulaPreview from '@/app/ZodiacFormulaPreview';
 
-type ZodiacMethod={name?:string;sourceKey?:string;animals?:string[];nextAnimal?:string;recent30Rate:number};
+type ZodiacMethod={name?:string;sourceKey?:string;animals?:string[];nextNumber?:number;nextAnimal?:string;branches?:{name?:string;number?:number;animal?:string}[];recent30Rate:number};
 const labels:Record<string,string>={'1':'一肖','3':'三肖','6':'六肖','9':'九肖'};
 
 export default async function ZodiacPost({params,searchParams}:{params:Promise<{size:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
@@ -16,8 +17,9 @@ export default async function ZodiacPost({params,searchParams}:{params:Promise<{
     return <ArchivedFormulaPost type={type} path={`/posts/zodiac/${size}/${issue}/${method}`} backHref={`/?type=${type}#board-生肖公式`} backLabel="返回生肖板块"/>;
   }
   const animals=item.animals??(item.nextAnimal?[item.nextAnimal]:[]);
-  const image=`/generated/zodiac/type-${type}-${String(issue).padStart(3,'0')}-${size.padStart(2,'0')}-${method}.webp`;
   const previous=index>0?String(index).padStart(3,'0'):null;
   const next=index<group.methods.length-1?String(index+2).padStart(3,'0'):null;
-  return <StaticFormulaPost type={type} board="生肖" hash="生肖公式" image={image} alt={`${label}中特公式图`} note={`【${label}中特】参考生肖：${animals.join('、')} · 依据前期开奖数据推算下期特码生肖 · 仅供娱乐参考`} previous={previous?{href:`/posts/zodiac/${size}/${issue}/${previous}?type=${type}`,eyebrow:'上一个公式',label:`${label} 第${index}条`}:null} next={next?{href:`/posts/zodiac/${size}/${issue}/${next}?type=${type}`,eyebrow:'下一个公式',label:`${label} 第${index+2}条`}:null}/>;
+  return <StaticFormulaPost type={type} board="生肖" hash="生肖公式" note={`【${label}中特】参考生肖：${animals.join('、')} · 按上期开奖推算下期特肖 · 仅供娱乐参考`} previous={previous?{href:`/posts/zodiac/${size}/${issue}/${previous}?type=${type}`,eyebrow:'上一个公式',label:`${label} 第${index}条`}:null} next={next?{href:`/posts/zodiac/${size}/${issue}/${next}?type=${type}`,eyebrow:'下一个公式',label:`${label} 第${index+2}条`}:null}>
+    <ZodiacFormulaPreview issue={issue} label={label} item={item}/>
+  </StaticFormulaPost>;
 }

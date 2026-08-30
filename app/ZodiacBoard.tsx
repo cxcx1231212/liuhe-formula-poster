@@ -20,7 +20,7 @@ export default function ZodiacBoard({type,issue,groups}:{type:string;issue:numbe
   }));
   return <>
     <div className="pingte-tabs">{categories.map(category=><button className={active===category?'active':''} onClick={()=>setActive(category)} key={category}>{category}</button>)}</div>
-    <div className="pingte-count">高准确率榜 · 当前共 {posts.length} 条公式</div>
-    {posts.length?<BoardPostList listKey={active} posts={posts.map(post=>({href:post.href,issue:`${issue}期`,title:post.title}))}/>:<div className="pingte-empty"><strong>本期暂无精选生肖公式</strong><span>我们会长期研究并持续追踪，达到上榜标准后第一时间发布。</span></div>}
+    <div className="pingte-count">全公式库 · 当前共 {posts.length} 条公式</div>
+    {posts.length?<BoardPostList listKey={active} posts={posts.map(post=>({href:post.href,issue:`${issue}期`,title:post.title}))}/>:<div className="pingte-empty"><strong>本期生肖公式正在生成</strong><span>全部公式生成完成后会自动显示在这里。</span></div>}
   </>;
 }

@@ -1,4 +1,4 @@
-import json, math
+import argparse, json, math, re
 from PIL import Image,ImageDraw
 from generate_fushi_samples import calculation_text,mark_sources,record_row
 from generate_pingte_all_pattern_images import center,font
@@ -7,6 +7,11 @@ from search_pingte_methods import ROOT,fetch_year,wrap,ANIMALS
 from search_zodiac_bundles import make_series
 W=1080; RED={1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46};BLUE={3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48}
 CFG={'code':('杀六码','码',6,85),'animal':('杀三肖','肖',3,24),'tail':('杀一尾','尾',1,50),'head':('杀一头','头',1,22),'wave':('杀一波','波',1,12)}
+def source_positions(name):
+ return sorted({6 if label=='特码' else int(label[1])-1 for label in re.findall(r'平[1-6]码|特码',name)})
+def draw_data(record):
+ return {'period':int(record['period']),'date':record.get('lotteryTime') or record.get('openTime') or record.get('date') or '',
+         'numbers':[{'number':str(value['number']).zfill(2),'animal':value.get('shengXiao',''),'element':value.get('wuXing','')} for value in record['numberList']]}
 def wave(n):return '红波' if n in RED else '蓝波' if n in BLUE else '绿波'
 def prop(k,v):
  n=wrap(v);return n if k=='码' else ANIMALS[(n-1)%12] if k=='肖' else n%10 if k=='尾' else n//10 if k=='头' else wave(n)
@@ -30,7 +35,7 @@ def pool(ms,size,k,R):
 def select(R,k,size,threshold):
  items=[]
  for source,defs in make_series():
-  defs=[(n,c) for n,c in defs if not any(x in n for x in ('除','合数','尾数','总分','乘')) and ('加' in n or '减' in n)]
+  defs=[(row[0],row[1]) for row in defs for n in [row[0]] if not any(x in n for x in ('除','合数','尾数','总分','乘')) and ('加' in n or '减' in n)]
   ms=[{'name':n,'calculate':c,'preds':[prop(k,c(a)) for a in R[:-1]],'next':prop(k,c(R[-1]))} for n,c in defs];q=pool(ms,size,k,R)
   if q and q['recentStreak']>=threshold:q['sourceKey']=source;items.append(q)
  u={}
@@ -56,12 +61,35 @@ def render(item,label,k,issue,R,out):
   pt=ys[i+1]+82;hh,hit=panel(d,pt,item,s,k,t);mark_sources(d,s,ys[i],item['branches'][0]['name'],pt,hh)
   if hit:d.text((65,pt+hh/2-14),f'命中{label}',font=font(23,True),fill='#c62f31');d.line((1005,pt+hh/2,1020,pt+hh/2,1020,ys[i+1]+38),fill='#c62f31',width=5);d.polygon([(1020,ys[i+1]+30),(1009,ys[i+1]+48),(1031,ys[i+1]+48)],fill='#c62f31')
  d.text((68,H-64),'所杀结果全部避开下期特号即中 · 仅供娱乐参考',font=font(20,True),fill='#8d6a2e');im.save(out,quality=95)
-def main():
- R=fetch_year(5,2026);issue=int(R[-1]['period'])+1;od=ROOT/'public'/'generated'/'kill';od.mkdir(parents=True,exist_ok=True);groups={}
+def generate(lottery_type,year):
+ R=fetch_year(lottery_type,year);issue=int(R[-1]['period'])+1;od=ROOT/'public'/'generated'/'kill';od.mkdir(parents=True,exist_ok=True);groups={}
  for key,(label,k,size,threshold) in CFG.items():
   methods=[]
-  for i,item in enumerate(select(R,k,size,threshold),1):
-   rank=f'{i:03d}';fn=f'type-5-{issue}-{key}-{rank}.png';render(item,label,k,issue,R,od/fn);methods.append({'rank':rank,'sourceKey':item['sourceKey'],'branchNames':[b['name'] for b in item['branches']],'values':item['values'],'recentStreak':item['recentStreak'],'image':f'/generated/kill/{fn}'})
+  # 全公式模式：不再用连准期数筛掉公式；历史准错仍由每张图逐期回算。
+  for i,item in enumerate(select(R,k,size,0),1):
+   rank=f'{i:03d}'
+   branches=[]
+   for branch in item['branches']:
+    result=prop(k,branch['calculate'](R[-1]))
+    branches.append({'name':branch['name'],'next':str(result),'calculation':f"{calculation_text(branch['name'],R[-1],{branch['name']:branch['calculate']})}→杀{result}",'sourcePositions':source_positions(branch['name'])})
+   history=[]
+   # 当前公式图只展示最近 5 组回测；更早期次由历史页单独生成，
+   # 不把全年记录重复塞进每一个公式对象。
+   recent_records=R[-6:]
+   for source,target in zip(recent_records[:-1],recent_records[1:]):
+    history_branches=[];results=[]
+    for branch in item['branches']:
+     result=prop(k,branch['calculate'](source));results.append(result)
+     history_branches.append({'name':branch['name'],'calculation':f"{calculation_text(branch['name'],source,{branch['name']:branch['calculate']})}→杀{result}",'result':str(result)})
+    actual_number=int(target['numberList'][6]['number']);actual=prop(k,actual_number);hit=actual not in set(results)
+    history.append({'sourcePeriod':int(source['period']),'targetPeriod':int(target['period']),'branches':history_branches,'actualNumber':str(actual_number).zfill(2),'actualAnimal':target['numberList'][6].get('shengXiao',''),'actualElement':str(actual),'hit':hit})
+   methods.append({'rank':rank,'label':label,'sourceKey':item['sourceKey'],'branchNames':[b['name'] for b in item['branches']],'values':[str(v) for v in item['values']],'next':[str(v) for v in item['values']],'recentStreak':item['recentStreak'],'recent30Hits':item['recent30Hits'],'branches':branches,'history':history,'image':None})
   groups[key]={'label':label,'methods':methods};print(label,len(methods))
- (od/f'type-5-{issue}-manifest.json').write_text(json.dumps({'issue':issue,'groups':groups},ensure_ascii=False,indent=2),encoding='utf-8')
+ (od/f'type-{lottery_type}-{issue}-manifest.json').write_text(json.dumps({'lotteryType':lottery_type,'year':year,'issue':issue,'draws':[draw_data(r) for r in R[-6:]],'groups':groups},ensure_ascii=False,indent=2),encoding='utf-8')
+def main():
+ p=argparse.ArgumentParser();p.add_argument('--type',type=int,choices=(1,5,8));p.add_argument('--year',type=int,default=2026);p.add_argument('--count-only',action='store_true');a=p.parse_args()
+ for lottery_type in ((a.type,) if a.type else (1,5,8)):
+  if a.count_only:
+   R=fetch_year(lottery_type,a.year);print('type',lottery_type,'issue',int(R[-1]['period'])+1,*(f'{key}={len(select(R,k,size,0))}' for key,(_,k,size,_) in CFG.items()))
+  else:generate(lottery_type,a.year)
 if __name__=='__main__':main()

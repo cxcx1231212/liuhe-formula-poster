@@ -97,6 +97,8 @@ def update(lottery_type: int, year: int):
     # 单双与复式一样保留全部加减公式，历史页在访问时按同一公式动态回算。
     from build_danshuang_full_manifests import run as build_danshuang_manifest
     build_danshuang_manifest(lottery_type, year)
+    from build_wave_full_manifests import run as build_wave_manifest
+    build_wave_manifest(lottery_type, year)
     from search_pingte_methods import fetch_year
     next_period = int(fetch_year(lottery_type, year)[-1]["period"]) + 1
     plain = f"type-{lottery_type}-{next_period}"

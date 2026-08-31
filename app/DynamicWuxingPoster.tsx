@@ -281,7 +281,7 @@ export default function DynamicWuxingPoster({
               {!item.verification &&
                 orderedDraws[0] &&
                 (genericMulti
-                  ? [...new Set(item.branches.flatMap(branch=>branch.sourcePositions||[]))].slice(0,1).map(position=>({position,branchIndex:0}))
+                  ? [...new Set(item.branches.flatMap(branch=>branch.sourcePositions||[]))].map(position=>({position,branchIndex:0}))
                   : item.branches.flatMap((branch, branchIndex)=>(branch.sourcePositions||[]).map(position=>({position,branchIndex}))))
                   .map(({position,branchIndex}) => (
                     <path
@@ -296,11 +296,18 @@ export default function DynamicWuxingPoster({
                     />
                   ))}
               {validations.map((entry, index) => {
-                const positions =
-                  item.branches[index % item.branches.length]
-                    ?.sourcePositions ||
-                  item.branches[0]?.sourcePositions ||
-                  [];
+                // A formula keeps the same source positions across every
+                // historical period. Do not rotate branches by history index:
+                // that made multi-result kill formulas lose or misplace lines.
+                const positions = genericMulti
+                  ? [
+                      ...new Set(
+                        item.branches.flatMap(
+                          (branch) => branch.sourcePositions || [],
+                        ),
+                      ),
+                    ]
+                  : item.branches[0]?.sourcePositions || [];
                 const sy = rowY(entry.sourcePeriod);
                 const ty = rowY(entry.targetPeriod);
                 const targetPosition = isPingteMode

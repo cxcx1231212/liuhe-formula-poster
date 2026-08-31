@@ -1,81 +1,137 @@
 import json
-import re
 
-from PIL import Image, ImageDraw
-
-from generate_fushi_samples import calculation_text, mark_sources, record_row
-from generate_pingte_all_pattern_images import center, font
-from generate_zodiac_posters import XS
 from search_pingte_methods import ROOT, fetch_year, wrap
-from search_zodiac_bundles import make_series
 
-W=1080
-DOMESTIC={"牛","马","羊","鸡","狗","猪"}
-COLORS={"家肖":"#c18a2c","野肖":"#2d8d55"}
+POSITIONS = ["平码1", "平码2", "平码3", "平码4", "平码5", "平码6", "特码"]
+DOMESTIC = {"牛", "马", "羊", "鸡", "狗", "猪"}
 
-def source_text(name):
-    labels=re.findall(r"平[1-6]码|特码",name)
-    return "、".join(f"平码{label[1]}" if label.startswith("平") else "特码" for label in labels)
 
-def age_calculation(name,record,calculate):
-    text=calculation_text(name,record,{name:calculate})
-    return re.sub(r"＝(\d+)→\d{2}$",r"＝\1",text)
+def digit_sum(value):
+    return sum(int(char) for char in str(abs(int(value))))
 
-def select(records):
-    animal_map={int(x["number"]):x["shengXiao"] for r in records for x in r["numberList"]}
-    classify=lambda value:"家肖" if animal_map[wrap(value)] in DOMESTIC else "野肖"
-    rows=[]
-    for source_key,definitions in make_series():
-        for name,calculate in definitions:
-            if any(word in name for word in ("除","合数","尾数","总分","乘")) or not ("加" in name or "减" in name):continue
-            predictions=[classify(calculate(r)) for r in records[:-1]]; hits=[p==("家肖" if t["numberList"][6]["shengXiao"] in DOMESTIC else "野肖") for p,t in zip(predictions,records[1:])]; streak=0
-            for hit in reversed(hits):
-                if not hit:break
-                streak+=1
-            if streak>=7:rows.append({"sourceKey":source_key,"name":name,"calculate":calculate,"predictions":predictions,"next":classify(calculate(records[-1])),"recentStreak":streak,"recent30Hits":sum(hits[-30:]),"total":sum(hits),"kind":"formula"})
-    follow_predictions=["家肖" if r["numberList"][2]["shengXiao"] in DOMESTIC else "野肖" for r in records[:-1]]
-    follow_hits=[p==("家肖" if t["numberList"][6]["shengXiao"] in DOMESTIC else "野肖") for p,t in zip(follow_predictions,records[1:])]; streak=0
-    for hit in reversed(follow_hits):
-        if not hit:break
-        streak+=1
-    if streak>=7:rows.append({"sourceKey":"平3码家野跟随","name":"平3码家野跟随","calculate":lambda r:int(r["numberList"][2]["number"]),"predictions":follow_predictions,"next":"家肖" if records[-1]["numberList"][2]["shengXiao"] in DOMESTIC else "野肖","recentStreak":streak,"recent30Hits":sum(follow_hits[-30:]),"total":sum(follow_hits),"kind":"follow"})
-    unique={}
-    for item in rows:
-        key=(tuple(item["predictions"]),item["next"]);old=unique.get(key)
-        if old is None or (item["recent30Hits"],item["recentStreak"],item["total"])>(old["recent30Hits"],old["recentStreak"],old["total"]):unique[key]=item
-    return sorted(unique.values(),key=lambda item:(item["recent30Hits"],item["recentStreak"],item["total"]),reverse=True),animal_map
 
-def panel(draw,y,item,source,animal_map,target=None):
-    number=wrap(item["calculate"](source));animal=animal_map[number];result="家肖" if animal in DOMESTIC else "野肖";color=COLORS[result]
-    if item["kind"]=="follow":text=f"平3码{number:02d}＝{animal}＝{result}"
-    else:text=f"{calculation_text(item['name'],source,{item['name']:item['calculate']})}＝{animal}＝{result}"
-    draw.rounded_rectangle((305,y,1005,y+84),radius=14,fill="#fffaf0",outline="#c59b43",width=3);draw.rounded_rectangle((325,y+12,865,y+72),radius=10,fill=color);center(draw,(595,y+42),text,font(22,True),"white");draw.rounded_rectangle((885,y+12,985,y+72),radius=10,fill=color);center(draw,(935,y+42),result,font(25,True),"white")
-    return target is not None and result==("家肖" if target["numberList"][6]["shengXiao"] in DOMESTIC else "野肖")
+def formula_specs():
+    rows = []
 
-def render(item,issue,records,animal_map,output):
-    row_ys=[560,820,1080,1340,1600];height=1760;image=Image.new("RGB",(W,height),"#e7dfd0");draw=ImageDraw.Draw(image)
-    draw.rounded_rectangle((28,26,W-28,height-26),radius=28,fill="#f8f4ea",outline="#8d6a2e",width=2);draw.rounded_rectangle((28,26,W-28,215),radius=28,fill="#11100d");draw.rectangle((28,160,W-28,215),fill="#11100d");draw.rectangle((28,26,38,215),fill="#c59b43");draw.text((70,56),"六合公式库",font=font(21,True),fill="#c59b43");center(draw,(W/2,112),f"2026-{issue:03d}期 · 家野中特",font(45,True),"#efd58e");center(draw,(W/2,174),f"{item['sourceKey']} · 当前连准{item['recentStreak']}期",font(22,True),"#9a875d")
-    for x,text in zip(XS,["期号","平1码","平2码","平3码","平4码","平5码","平6码","特码"]):center(draw,(x,248),text,font(21,True),"#8b6726")
-    draw.text((60,300),f"{issue:03d}期预测",font=font(25,True),fill="#c62f31");color=COLORS[item["next"]];draw.rounded_rectangle((400,285,680,365),radius=18,fill=color);center(draw,(540,325),f"下期{item['next']}",font(34,True),"white");panel(draw,400,item,records[-1],animal_map);shown=records[-5:]
-    for index,(record,y) in enumerate(zip(reversed(shown),row_ys)):record_row(draw,record,y,index%2==1)
-    mark_sources(draw,records[-1],row_ys[0],item["name"],400,84);ys=list(reversed(row_ys))
-    for index,(source,target) in enumerate(zip(shown,shown[1:])):
-        panel_y=ys[index+1]+82;hit=panel(draw,panel_y,item,source,animal_map,target);mark_sources(draw,source,ys[index],item["name"],panel_y,84)
-        if hit:
-            tx,ty=XS[7],ys[index+1];actual="家肖" if target["numberList"][6]["shengXiao"] in DOMESTIC else "野肖";color=COLORS[actual];draw.ellipse((tx-37,ty-37,tx+37,ty+37),outline=color,width=7);draw.text((65,panel_y+24),"命中家野",font=font(24,True),fill=color);draw.line((1005,panel_y+42,1020,panel_y+42,1020,ty+38),fill=color,width=5,joint="curve");draw.polygon([(1020,ty+30),(1009,ty+48),(1031,ty+48)],fill=color)
-    draw.text((68,height-64),"家肖：牛马羊鸡狗猪 · 野肖：鼠虎兔龙蛇猴 · 仅供娱乐参考",font=font(20,True),fill="#8d6a2e");image.save(output,quality=95)
+    def add(name, spec):
+        rows.append({"rank": f"{len(rows) + 1:03d}", "name": name, "spec": spec})
+
+    for pos, label in enumerate(POSITIONS):
+        add(label, {"kind": "single", "pos": pos, "feature": "raw"})
+        add(f"{label}合数", {"kind": "single", "pos": pos, "feature": "digit"})
+        add(f"{label}尾数", {"kind": "single", "pos": pos, "feature": "tail"})
+    add("最小平码", {"kind": "global", "op": "min"})
+    add("最大平码", {"kind": "global", "op": "max"})
+    add("六个平码总分", {"kind": "global", "op": "regular_sum"})
+    add("七码总分", {"kind": "global", "op": "all_sum"})
+    add("期数合数", {"kind": "global", "op": "period_digit_sum"})
+    for a in range(7):
+        for b in range(a + 1, 7):
+            left, right = POSITIONS[a], POSITIONS[b]
+            add(f"{left}＋{right}", {"kind": "pair", "a": a, "b": b, "op": "sum"})
+            add(f"{left}－{right}", {"kind": "pair", "a": a, "b": b, "op": "a_minus_b"})
+            add(f"{right}－{left}", {"kind": "pair", "a": a, "b": b, "op": "b_minus_a"})
+            add(f"{left}合数＋{right}合数", {"kind": "pair", "a": a, "b": b, "op": "digit_sum"})
+            add(f"{left}尾数＋{right}尾数", {"kind": "pair", "a": a, "b": b, "op": "tail_sum"})
+    return rows
+
+
+def evaluate(record, spec):
+    numbers = [int(item["number"]) for item in record["numberList"]]
+    if spec["kind"] == "single":
+        value = numbers[spec["pos"]]
+        if spec["feature"] == "digit":
+            value = digit_sum(value)
+        elif spec["feature"] == "tail":
+            value %= 10
+        return value
+    if spec["kind"] == "global":
+        return {"min": min(numbers[:6]), "max": max(numbers[:6]), "regular_sum": sum(numbers[:6]),
+                "all_sum": sum(numbers), "period_digit_sum": digit_sum(record.get("calcPeriod", record["period"]))}[spec["op"]]
+    a, b = numbers[spec["a"]], numbers[spec["b"]]
+    return {"sum": a + b, "a_minus_b": a - b, "b_minus_a": b - a,
+            "digit_sum": digit_sum(a) + digit_sum(b), "tail_sum": a % 10 + b % 10}[spec["op"]]
+
+
+def source_positions(spec, record):
+    numbers = [int(item["number"]) for item in record["numberList"]]
+    if spec["kind"] == "single": return [spec["pos"] + 1]
+    if spec["kind"] == "pair": return [spec["a"] + 1, spec["b"] + 1]
+    if spec["op"] == "min": return [numbers[:6].index(min(numbers[:6])) + 1]
+    if spec["op"] == "max": return [numbers[:6].index(max(numbers[:6])) + 1]
+    if spec["op"] == "regular_sum": return [1, 2, 3, 4, 5, 6]
+    if spec["op"] == "all_sum": return [1, 2, 3, 4, 5, 6, 7]
+    return []
+
+
+def expression(record, spec, raw_value, animal):
+    numbers = [int(item["number"]) for item in record["numberList"]]
+    shown = raw_value if raw_value > 0 else wrap(raw_value)
+    if spec["kind"] == "single":
+        source = numbers[spec["pos"]]
+        if spec["feature"] == "raw": text = f"取{POSITIONS[spec['pos']]}：{source:02d}"
+        elif spec["feature"] == "digit": text = f"取{POSITIONS[spec['pos']]}合数：{source:02d}合{digit_sum(source)}"
+        else: text = f"取{POSITIONS[spec['pos']]}尾数：{source:02d}尾{source % 10}"
+    elif spec["kind"] == "global":
+        label = {"min": "最小平码", "max": "最大平码", "regular_sum": "六个平码总分",
+                 "all_sum": "七码总分", "period_digit_sum": "期数合数"}[spec["op"]]
+        text = f"{label}={shown}"
+    else:
+        a, b = numbers[spec["a"]], numbers[spec["b"]]
+        if spec["op"] == "sum": text = f"{a:02d}+{b:02d}={shown}"
+        elif spec["op"] == "a_minus_b": text = f"{a:02d}-{b:02d}={shown}"
+        elif spec["op"] == "b_minus_a": text = f"{b:02d}-{a:02d}={shown}"
+        elif spec["op"] == "digit_sum": text = f"{a:02d}合{digit_sum(a)}+{b:02d}合{digit_sum(b)}={shown}"
+        else: text = f"{a:02d}尾{a % 10}+{b:02d}尾{b % 10}={shown}"
+    return f"{text}属{animal}"
+
+
+def draw_record(record):
+    return {"period": int(record["period"]), "displayPeriod": record.get("displayPeriod"),
+            "date": record.get("lotteryTime") or record.get("openTime") or record.get("date") or "",
+            "numbers": [{"number": str(item["number"]).zfill(2), "animal": item.get("shengXiao", ""),
+                         "element": "家" if item.get("shengXiao", "") in DOMESTIC else "野"}
+                        for item in record["numberList"]]}
+
+
+def build_method(row, records, animal_map):
+    spec = row["spec"]
+
+    def prediction(record):
+        raw = evaluate(record, spec); animal = animal_map[wrap(raw)]
+        return raw, animal, "家肖" if animal in DOMESTIC else "野肖"
+
+    raw, animal, result = prediction(records[-1]); positions = source_positions(spec, records[-1]); history = []
+    for source, target in zip(records[:-1], records[1:]):
+        source_raw, source_animal, source_result = prediction(source); actual = target["numberList"][6]
+        actual_result = "家肖" if actual["shengXiao"] in DOMESTIC else "野肖"
+        history.append({"sourcePeriod": int(source["period"]), "targetPeriod": int(target["period"]),
+                        "branches": [{"name": row["name"], "calculation": expression(source, spec, source_raw, source_animal),
+                                      "result": source_result, "sourcePositions": source_positions(spec, source)}],
+                        "actualNumber": str(actual["number"]).zfill(2), "actualAnimal": actual["shengXiao"],
+                        "actualElement": actual_result, "hit": source_result == actual_result})
+    return {"rank": row["rank"], "label": "家野中特", "name": row["name"], "sourceKey": row["name"],
+            "formulaId": f"JIAYE-{row['rank']}", "next": [result], "image": None,
+            "branches": [{"name": row["name"], "next": result,
+                          "calculation": expression(records[-1], spec, raw, animal), "sourcePositions": positions}],
+            "history": history}
+
 
 def main():
-    records=fetch_year(5,2026);previous=dict(fetch_year(5,2025)[-1]);previous["displayPeriod"]=f"2025-{int(previous['period']):03d}期";previous["period"]=0;history_records=[previous,*records];issue=int(records[-1]["period"])+1;items,animal_map=select(records);output_dir=ROOT/"public"/"generated"/"jiaye";output_dir.mkdir(parents=True,exist_ok=True);methods=[]
-    for index,item in enumerate(items,1):
-        rank=f"{index:03d}";source_positions=[6 if label=="特码" else int(label[1])-1 for label in re.findall(r"平[1-6]码|特码",item["name"])]
-        number=wrap(item["calculate"](records[-1]));raw_number=item["calculate"](records[-1]);age_number=raw_number if raw_number>0 else number;animal=animal_map[number];calculation=(f"取平码3：{age_number:02d}属{animal}＝{item['next']}" if item["kind"]=="follow" else f"取{source_text(item['name'])}：{age_calculation(item['name'],records[-1],item['calculate'])}属{animal}＝{item['next']}")
-        history=[]
-        for source,target in zip(history_records[:-1],history_records[1:]):
-            result_number=wrap(item["calculate"](source));result_animal=animal_map[result_number];result="家肖" if result_animal in DOMESTIC else "野肖";actual=target["numberList"][6];actual_result="家肖" if actual["shengXiao"] in DOMESTIC else "野肖"
-            raw_result=item["calculate"](source);age_result=raw_result if raw_result>0 else result_number;expression=(f"{age_result:02d}属{result_animal}·{result}" if item["kind"]=="follow" else f"{age_calculation(item['name'],source,item['calculate'])}属{result_animal}·{result}")
-            history.append({"sourcePeriod":int(source["period"]),"targetPeriod":int(target["period"]),"branches":[{"name":item["name"],"calculation":expression,"result":result}],"actualNumber":str(actual["number"]).zfill(2),"actualAnimal":actual["shengXiao"],"actualElement":actual_result,"hit":result==actual_result})
-        methods.append({key:value for key,value in item.items() if key not in ("calculate","predictions")}|{"rank":rank,"next":[item["next"]],"image":None,"branches":[{"name":item["name"],"next":item["next"],"calculation":calculation,"sourcePositions":source_positions}],"history":history,"label":"家野中特"})
-    draws=[{"period":int(record["period"]),"displayPeriod":record.get("displayPeriod"),"date":record.get("lotteryTime") or record.get("openTime") or record.get("date") or "","numbers":[{"number":str(value["number"]).zfill(2),"animal":value.get("shengXiao", ""),"element":"家" if value.get("shengXiao", "") in DOMESTIC else "野"} for value in record["numberList"]]} for record in history_records]
-    path=output_dir/f"type-5-{issue}-manifest.json";path.write_text(json.dumps({"lotteryType":5,"year":2026,"issue":issue,"draws":draws,"methods":methods},ensure_ascii=False,indent=2),encoding="utf-8");print(f"{len(methods)} posts");print(path)
-if __name__=="__main__":main()
+    output_dir = ROOT / "public" / "generated" / "jiaye"; output_dir.mkdir(parents=True, exist_ok=True)
+    legacy_names = {1: "095", 5: "241", 8: "241"}; specs = formula_specs()
+    for lottery_type in (1, 5, 8):
+        current = fetch_year(lottery_type, 2026); previous = dict(fetch_year(lottery_type, 2025)[-1])
+        previous["displayPeriod"] = f"2025-{int(previous['period']):03d}期"
+        previous["calcPeriod"] = int(previous["period"]); previous["period"] = 0
+        records = [previous, *current]
+        animal_map = {int(item["number"]): item["shengXiao"] for record in current for item in record["numberList"]}
+        payload = {"lotteryType": lottery_type, "year": 2026, "issue": int(current[-1]["period"]) + 1,
+                   "draws": [draw_record(record) for record in records],
+                   "methods": [build_method(row, records, animal_map) for row in specs]}
+        path = output_dir / f"type-{lottery_type}-{legacy_names[lottery_type]}-manifest.json"
+        path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(lottery_type, payload["issue"], len(payload["methods"]), path)
+
+
+if __name__ == "__main__": main()

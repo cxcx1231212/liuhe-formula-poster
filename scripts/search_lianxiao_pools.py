@@ -5,7 +5,7 @@ from search_pingte_methods import ANIMALS, ROOT, fetch_year, wrap
 from search_zodiac_bundles import make_series
 
 
-SPECS = {"2": {"poolSize": 4, "required": 2}, "3": {"poolSize": 6, "required": 3}}
+SPECS = {"2": {"poolSize": 2, "required": 2}, "3": {"poolSize": 4, "required": 3}}
 
 
 def animal(value):

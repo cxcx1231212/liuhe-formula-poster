@@ -5,7 +5,7 @@ from search_pingte_methods import ROOT, fetch_year
 from search_zodiac_bundles import make_series
 
 
-SPECS = {"2": {"poolSize": 16, "required": 2}, "3": {"poolSize": 10, "required": 3}}
+SPECS = {"2": {"poolSize": 2, "required": 2}, "3": {"poolSize": 3, "required": 3}}
 
 
 def period_counts(methods):

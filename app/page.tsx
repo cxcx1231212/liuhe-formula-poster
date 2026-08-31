@@ -8,7 +8,7 @@ import tema1 from '../public/generated/tema-bundles/type-1-096-manifest.json';im
 import ZodiacBoard from './ZodiacBoard';
 import zodiac1 from '../public/generated/zodiac/type-1-096-manifest.json';import zodiac5 from '../public/generated/zodiac/type-5-242-manifest.json';import zodiac8 from '../public/generated/zodiac/type-8-242-manifest.json';
 import FushiBoard from './FushiBoard';
-import fushi1 from '../public/generated/fushi/type-1-095-manifest.json';import fushi5 from '../public/generated/fushi/type-5-241-manifest.json';import fushi8 from '../public/generated/fushi/type-8-241-manifest.json';
+import fushi1 from '../public/generated/fushi/type-1-096-manifest.json';import fushi5 from '../public/generated/fushi/type-5-243-manifest.json';import fushi8 from '../public/generated/fushi/type-8-243-manifest.json';
 import DanshuangBoard from './DanshuangBoard';
 import ds1 from '../public/generated/danshuang/type-1-095-manifest.json';import ds5 from '../public/generated/danshuang/type-5-241-manifest.json';import ds8 from '../public/generated/danshuang/type-8-241-manifest.json';
 import WaveBoard from './WaveBoard';

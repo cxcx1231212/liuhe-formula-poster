@@ -91,6 +91,10 @@ def update(lottery_type: int, year: int):
     for filename in GENERATOR_SCRIPTS:
         print(f"-- 生成图片：{filename}")
         run_generator(filename, lottery_type, year)
+    # 复式页面使用全部公式清单；不要让旧的“只保留近期最佳”图片生成器
+    # 覆盖固定预测数量（2码、3码、2肖、4肖）的完整结果。
+    from build_fushi_full_manifests import run as build_fushi_manifest
+    build_fushi_manifest(lottery_type)
     from search_pingte_methods import fetch_year
     next_period = int(fetch_year(lottery_type, year)[-1]["period"]) + 1
     plain = f"type-{lottery_type}-{next_period}"

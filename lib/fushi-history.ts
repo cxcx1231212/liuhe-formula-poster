@@ -39,6 +39,7 @@ const evaluate=(draw:FushiDraw,name:string)=>{
 const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
 
 export function buildFushiPosterItem(method:FushiMethod,draws:FushiDraw[],requestedIssue:number,kind:'number'|'animal',required:number,label:string){
+  const displayCalculation=(item:ReturnType<typeof evaluate>)=>kind==='number'?item.calculation.replace(/属[^属]+$/,''):item.calculation;
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){
@@ -48,9 +49,9 @@ export function buildFushiPosterItem(method:FushiMethod,draws:FushiDraw[],reques
     const uniquePredictions=new Set(evaluated.map(item=>kind==='number'?String(item.number):item.animal));
     const matched=[...uniquePredictions].filter(value=>targetNumbers.some(cell=>kind==='number'?Number(cell.number)===Number(value):cell.animal===value));
     const hit=matched.length>=required;
-    histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches:evaluated.map((item,branchIndex)=>({name:method.branches[branchIndex].name,calculation:item.calculation,result:kind==='number'?String(item.number).padStart(2,'0'):item.animal,targetPositions:targetNumbers.map((cell,pos)=>((kind==='number'?Number(cell.number)===item.number:cell.animal===item.animal)?pos+1:0)).filter(Boolean)})),actualNumber:target.numbers[6].number,actualAnimal:target.numbers[6].animal,actualElement:target.numbers[6].element,hit,targetPositions:targetNumbers.map((cell,pos)=>(matched.some(value=>kind==='number'?Number(value)===Number(cell.number):value===cell.animal)?pos+1:0)).filter(Boolean)});
+    histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches:evaluated.map((item,branchIndex)=>({name:method.branches[branchIndex].name,calculation:displayCalculation(item),result:kind==='number'?String(item.number).padStart(2,'0'):item.animal,targetPositions:targetNumbers.map((cell,pos)=>((kind==='number'?Number(cell.number)===item.number:cell.animal===item.animal)?pos+1:0)).filter(Boolean)})),actualNumber:target.numbers[6].number,actualAnimal:target.numbers[6].animal,actualElement:target.numbers[6].element,hit,targetPositions:targetNumbers.map((cell,pos)=>(matched.some(value=>kind==='number'?Number(value)===Number(cell.number):value===cell.animal)?pos+1:0)).filter(Boolean)});
   }
   const source=ordered.find(draw=>draw.period===requestedIssue-1)||ordered.at(-1)!;
   const forecast=method.branches.map(branch=>evaluate(source,branch.name));
-  return {label,sourceKey:method.sourceKey,next:forecast.map(item=>kind==='number'?String(item.number).padStart(2,'0'):item.animal),recentStreak:method.recentStreak||0,recent30Hits:method.recent30Hits||0,branches:method.branches.map((branch,index)=>({name:branch.name,next:kind==='number'?String(forecast[index].number).padStart(2,'0'):forecast[index].animal,calculation:forecast[index].calculation,sourcePositions:sourcePositions(branch.name)})),history:histories.slice(-5),formulaId:`FUSHI-${method.rank}`};
+  return {label,sourceKey:method.sourceKey,next:forecast.map(item=>kind==='number'?String(item.number).padStart(2,'0'):item.animal),recentStreak:method.recentStreak||0,recent30Hits:method.recent30Hits||0,branches:method.branches.map((branch,index)=>({name:branch.name,next:kind==='number'?String(forecast[index].number).padStart(2,'0'):forecast[index].animal,calculation:displayCalculation(forecast[index]),sourcePositions:sourcePositions(branch.name)})),history:histories.slice(-5),formulaId:`FUSHI-${method.rank}`};
 }

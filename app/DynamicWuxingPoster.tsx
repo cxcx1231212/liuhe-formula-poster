@@ -304,9 +304,9 @@ export default function DynamicWuxingPoster({
                       key={`prediction-${branchIndex}-${position}`}
                       d={genericMulti
                         ? item.branches.length === 3
-                          ? `M ${columnX(position)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position)} 150, 345 112, 300 102`
-                          : `M ${columnX(position)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position)} 225, 345 205, 300 190`
-                        : `M ${columnX(position)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position)} 165, 430 138, 455 ${102 + branchIndex * 22}`}
+                          ? `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position - 1)} 150, 345 112, 300 102`
+                          : `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position - 1)} 225, 345 205, 300 190`
+                        : `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position - 1)} 165, 430 138, 455 ${102 + branchIndex * 22}`}
                       markerEnd="url(#prediction-arrow-head)"
                     />
                   ))}
@@ -366,7 +366,7 @@ export default function DynamicWuxingPoster({
                         const usesWholeDraw = /六码总分|七码总分|总分/.test(
                           branch.name || item.branches[branchIndex]?.name,
                         );
-                        const sourceXs = branchSources.map(columnX);
+                        const sourceXs = branchSources.map((position) => columnX(position - 1));
                         const branchTargets = branch.targetPositions || [];
                         const branchTarget = branchTargets[0];
                         const branchTx =
@@ -402,7 +402,7 @@ export default function DynamicWuxingPoster({
                         {positions.map((position) => (
                           <path
                             key={position}
-                            d={`M ${columnX(position)} ${sy - 18} C ${columnX(position)} ${joinY + 18}, ${joinX - 28} ${joinY + 12}, ${joinX} ${joinY}`}
+                            d={`M ${columnX(position - 1)} ${sy - 18} C ${columnX(position - 1)} ${joinY + 18}, ${joinX - 28} ${joinY + 12}, ${joinX} ${joinY}`}
                           />
                         ))}
                         {entry.hit && (

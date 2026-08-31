@@ -44,7 +44,7 @@ def run(lottery_type):
                "methods": [compact(item, index + 1) for index, item in enumerate(pools["groups"]["3"])]},
         "2x": {"label": "二连肖", "kind": "animal", "poolSize": 2, "required": 2,
                "methods": [compact(item, index + 1) for index, item in enumerate(lian["groups"]["2"])]},
-        "3x": {"label": "三连肖", "kind": "animal", "poolSize": 4, "required": 3,
+        "3x": {"label": "三连肖", "kind": "animal", "poolSize": 3, "required": 3,
                "methods": [compact(item, index + 1) for index, item in enumerate(lian["groups"]["3"])]},
     }
     output = {"lotteryType": lottery_type, "year": 2026, "issue": pools["nextPeriod"], "groups": groups, "draws": draws}

@@ -78,6 +78,12 @@
 .dynamic-poster.generic-six .wuxing-formula-note .formula-pair{grid-template-columns:minmax(0,1fr) 42px;gap:5px;min-width:0}
 .dynamic-poster.generic-six .wuxing-formula-note .formula-pair>span{overflow-wrap:anywhere;white-space:normal;font-size:14px;line-height:1.12}
 .dynamic-poster.generic-six .wuxing-formula-note .prediction-result{min-width:42px;width:42px;height:28px;padding:0 3px;font-size:14px}
+.dynamic-poster.kill.generic-multi .wuxing-formula-note{left:calc(11.2% + 18px);right:18px;top:63px!important;align-items:start;padding:8px 10px!important}
+.dynamic-poster.kill.generic-multi .wuxing-formula-note .formula-pairs{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:14px;row-gap:6px;width:100%}
+.dynamic-poster.kill.generic-multi .wuxing-formula-note .formula-pair{grid-template-columns:minmax(0,1fr) 45px;gap:5px;min-width:0}
+.dynamic-poster.kill.generic-multi .wuxing-formula-note .formula-pair>span{overflow-wrap:anywhere;white-space:normal;font-size:15px;line-height:1.15}
+.dynamic-poster.kill.generic-multi .prediction-result{min-width:45px;width:45px;height:29px;padding:0 3px;font-size:14px}
+.dynamic-poster.kill.generic-three .wuxing-formula-note .formula-pairs{grid-template-columns:minmax(0,1fr)}
 @media(max-width:640px){
   .dynamic-poster.generic-multi .wuxing-formula-note{left:calc(11.2% + 6px);right:5px;top:68px!important;padding:6px!important}
   .dynamic-poster.generic-multi .wuxing-formula-note .formula-pairs{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:6px;row-gap:1px}
@@ -94,6 +100,12 @@
   .dynamic-poster.generic-six .wuxing-formula-note .formula-pair{grid-template-columns:minmax(0,1fr) 31px;gap:3px}
   .dynamic-poster.generic-six .wuxing-formula-note .formula-pair>span{overflow-wrap:anywhere;white-space:normal;font-size:12px!important;line-height:1.08!important}
   .dynamic-poster.generic-six .wuxing-formula-note .prediction-result{min-width:31px;width:31px;height:25px;padding:0 2px;font-size:12px}
+  .dynamic-poster.kill.generic-multi .wuxing-formula-note{left:calc(11.2% + 5px);right:4px;top:63px!important;padding:6px 7px!important}
+  .dynamic-poster.kill.generic-multi .wuxing-formula-note .formula-pairs{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:7px;row-gap:5px}
+  .dynamic-poster.kill.generic-multi .wuxing-formula-note .formula-pair{grid-template-columns:minmax(0,1fr) 34px;gap:3px}
+  .dynamic-poster.kill.generic-multi .wuxing-formula-note .formula-pair>span{overflow-wrap:anywhere;white-space:normal;font-size:12px!important;line-height:1.12!important}
+  .dynamic-poster.kill.generic-multi .prediction-result{min-width:34px;width:34px;height:25px;padding:0 2px;font-size:12px}
+  .dynamic-poster.kill.generic-three .wuxing-formula-note .formula-pairs{grid-template-columns:minmax(0,1fr)}
   .dynamic-poster .wuxing-line-label.multi{position:relative;width:max-content;min-width:0;max-width:112%;height:58px;margin:0 auto;padding:3px 46px 3px 18px;font-size:21px;line-height:1.12;transform:translateY(-8px)}
   .dynamic-poster .wuxing-line-label.multi>span{width:max-content;gap:2px;text-align:center}
   .dynamic-poster .wuxing-line-label.multi>span>small{display:grid;grid-template-columns:max-content max-content;align-items:center;justify-content:center;gap:32px;line-height:1.12;text-align:center}

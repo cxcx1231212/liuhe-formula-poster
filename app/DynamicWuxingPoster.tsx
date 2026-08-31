@@ -94,7 +94,7 @@ export default function DynamicWuxingPoster({
   issue: string;
   item: Method;
   draws?: Draw[];
-  mode?: "wuxing" | "jiaye" | "pingte" | "pingte2" | "generic" | "zodiac" | "fushi";
+  mode?: "wuxing" | "jiaye" | "pingte" | "pingte2" | "generic" | "zodiac" | "fushi" | "kill";
   lotteryName?: string;
 }) {
   const compactForecast = true;
@@ -108,12 +108,14 @@ export default function DynamicWuxingPoster({
   const validations = (item.history || [])
     .slice()
     .sort((a, b) => b.targetPeriod - a.targetPeriod);
-  const genericMulti = (mode === "generic" || mode === "zodiac" || mode === "fushi") && item.branches.length > 2;
+  const genericMulti = (mode === "generic" || mode === "zodiac" || mode === "fushi" || mode === "kill") && item.branches.length > 2;
   const displayBranches = genericMulti
     ? sortByAddition(item.branches)
     : item.branches;
   const genericColumns = genericMulti
-    ? item.branches.length === 3
+    ? mode === "kill"
+      ? item.branches.length > 3 ? 2 : 1
+      : item.branches.length === 3
       ? 3
       : item.branches.length >= 4
         ? 2
@@ -133,7 +135,9 @@ export default function DynamicWuxingPoster({
     : genericColumns;
   const historyRows = Math.ceil(item.branches.length / historyColumns);
   const forecastHeight = genericMulti
-    ? item.branches.length === 3
+    ? mode === "kill"
+      ? Math.max(150, genericRows * 34 + 58)
+      : item.branches.length === 3
       ? 120
       : Math.max(150, genericRows * 22 + 54)
     : 120;

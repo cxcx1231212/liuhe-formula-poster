@@ -12,7 +12,7 @@ import fushi1 from '../public/generated/fushi/type-1-096-manifest.json';import f
 import DanshuangBoard from './DanshuangBoard';
 import ds1 from '../public/generated/danshuang/type-1-096-manifest.json';import ds5 from '../public/generated/danshuang/type-5-243-manifest.json';import ds8 from '../public/generated/danshuang/type-8-243-manifest.json';
 import WaveBoard from './WaveBoard';
-import wave1 from '../public/generated/wave/type-1-095-manifest.json';import wave5 from '../public/generated/wave/type-5-241-manifest.json';import wave8 from '../public/generated/wave/type-8-241-manifest.json';
+import wave1 from '../public/generated/wave/type-1-096-manifest.json';import wave5 from '../public/generated/wave/type-5-243-manifest.json';import wave8 from '../public/generated/wave/type-8-243-manifest.json';
 import WuxingBoard from './WuxingBoard';
 import wx1 from '../public/generated/wuxing/type-1-096-manifest.json';import wx5 from '../public/generated/wuxing/type-5-242-manifest.json';import wx8 from '../public/generated/wuxing/type-8-241-manifest.json';
 import JiayeBoard from './JiayeBoard';

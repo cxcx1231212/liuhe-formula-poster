@@ -8,31 +8,33 @@ const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,dig
 const wrap=(value:number)=>((Math.trunc(value)-1)%49+49)%49+1;
 const values=(draw:FushiDraw)=>draw.numbers.map(item=>Number(item.number));
 const cellValue=(draw:FushiDraw,label:string)=>values(draw)[label==='特码'?6:Number(label.match(/平([1-6])码/)?.[1]||1)-1]||0;
-const baseValue=(draw:FushiDraw,base:string):number=>{
-  if(base==='最小平码')return Math.min(...values(draw).slice(0,6));
-  if(base==='最大平码')return Math.max(...values(draw).slice(0,6));
-  if(base==='六个平码总分')return values(draw).slice(0,6).reduce((a,b)=>a+b,0);
-  if(base==='七码总分')return values(draw).reduce((a,b)=>a+b,0);
-  if(base==='期数合数')return digitSum(draw.period);
+const formatNumber=(value:number)=>value>=0&&value<10?String(value).padStart(2,'0'):String(value);
+const baseDetails=(draw:FushiDraw,base:string):{value:number;expression:string}=>{
+  if(base==='最小平码'){const value=Math.min(...values(draw).slice(0,6));return {value,expression:formatNumber(value)};}
+  if(base==='最大平码'){const value=Math.max(...values(draw).slice(0,6));return {value,expression:formatNumber(value)};}
+  if(base==='六个平码总分'){const value=values(draw).slice(0,6).reduce((a,b)=>a+b,0);return {value,expression:String(value)};}
+  if(base==='七码总分'){const value=values(draw).reduce((a,b)=>a+b,0);return {value,expression:String(value)};}
+  if(base==='期数合数'){const value=digitSum(draw.period);return {value,expression:String(value)};}
   const pair=base.match(/^(平[1-6]码|特码)(合数|尾数)?([＋－])(平[1-6]码|特码)(合数|尾数)?$/);
   if(pair){
     const convert=(label:string,kind?:string)=>{const value=cellValue(draw,label);return kind==='合数'?digitSum(value):kind==='尾数'?value%10:value;};
-    return pair[3]==='＋'?convert(pair[1],pair[2])+convert(pair[4],pair[5]):convert(pair[1],pair[2])-convert(pair[4],pair[5]);
+    const left=convert(pair[1],pair[2]),right=convert(pair[4],pair[5]);
+    return {value:pair[3]==='＋'?left+right:left-right,expression:`${formatNumber(left)}${pair[3]}${formatNumber(right)}`};
   }
   const single=base.match(/^(平[1-6]码|特码)(合数|尾数)?$/);
-  if(single){const value=cellValue(draw,single[1]);return single[2]==='合数'?digitSum(value):single[2]==='尾数'?value%10:value;}
-  return 0;
+  if(single){const source=cellValue(draw,single[1]);const value=single[2]==='合数'?digitSum(source):single[2]==='尾数'?source%10:source;return {value,expression:formatNumber(value)};}
+  return {value:0,expression:'00'};
 };
 const parse=(name:string)=>{
   const match=name.match(/^(.*?)(加|减|乘|除)(\d+)(取整|余数)?$/);
   return {base:match?.[1]||name,operation:match?.[2]||'加',amount:Number(match?.[3]||0),suffix:match?.[4]||''};
 };
 const evaluate=(draw:FushiDraw,name:string)=>{
-  const definition=parse(name),base=baseValue(draw,definition.base);
+  const definition=parse(name),baseDetailsValue=baseDetails(draw,definition.base),base=baseDetailsValue.value;
   const raw=definition.operation==='加'?base+definition.amount:definition.operation==='减'?base-definition.amount:definition.operation==='乘'?base*definition.amount:definition.suffix==='余数'?base%definition.amount:Math.trunc(base/definition.amount);
   const result=wrap(raw),animal=animals[(result-1)%12];
   const symbol=definition.operation==='加'?'+':definition.operation==='减'?'−':definition.operation==='乘'?'×':definition.suffix==='余数'?'÷余':'÷整';
-  return {number:result,animal,calculation:`${String(base).padStart(2,'0')}${symbol}${definition.amount}=${String(result).padStart(2,'0')}属${animal}`};
+  return {number:result,animal,calculation:`${baseDetailsValue.expression}${symbol}${definition.amount}=${formatNumber(result)}属${animal}`};
 };
 const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
 

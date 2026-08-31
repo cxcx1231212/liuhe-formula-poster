@@ -149,7 +149,7 @@ export default function DynamicWuxingPoster({
       rowHeight;
   return (
     <section
-      className={`dynamic-poster ${mode}${mode === "wuxing" ? " pingte" : ""}${genericMulti ? " generic-multi" : ""}${genericMulti && item.branches.length === 3 ? " generic-three" : ""}`}
+      className={`dynamic-poster ${mode}${mode === "wuxing" ? " pingte" : ""}${genericMulti ? " generic-multi" : ""}${genericMulti && item.branches.length === 3 ? " generic-three" : ""}${genericMulti && item.branches.length === 6 ? " generic-six" : ""}`}
       aria-label={`${issue}期${item.label}动态公式图`}
     >
       <div className="dynamic-poster-watermark" aria-hidden="true">

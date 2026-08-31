@@ -35,7 +35,6 @@ GENERATOR_SCRIPTS = [
     "generate_tema_manifest.py",
     "generate_zodiac_posters.py",
     "generate_fushi_posters.py",
-    "generate_danshuang_posters.py",
     "generate_wave_posters.py",
     "generate_wuxing_posters.py",
     "generate_jiaye_posters.py",
@@ -95,6 +94,9 @@ def update(lottery_type: int, year: int):
     # 覆盖固定预测数量（2码、3码、2肖、4肖）的完整结果。
     from build_fushi_full_manifests import run as build_fushi_manifest
     build_fushi_manifest(lottery_type)
+    # 单双与复式一样保留全部加减公式，历史页在访问时按同一公式动态回算。
+    from build_danshuang_full_manifests import run as build_danshuang_manifest
+    build_danshuang_manifest(lottery_type, year)
     from search_pingte_methods import fetch_year
     next_period = int(fetch_year(lottery_type, year)[-1]["period"]) + 1
     plain = f"type-{lottery_type}-{next_period}"

@@ -17,7 +17,7 @@ import WuxingBoard from './WuxingBoard';
 import wx1 from '../public/generated/wuxing/type-1-096-manifest.json';import wx5 from '../public/generated/wuxing/type-5-242-manifest.json';import wx8 from '../public/generated/wuxing/type-8-241-manifest.json';
 import JiayeBoard from './JiayeBoard';
 import jy1 from '../public/generated/jiaye/type-1-095-manifest.json';import jy5 from '../public/generated/jiaye/type-5-241-manifest.json';import jy8 from '../public/generated/jiaye/type-8-241-manifest.json';
-import KillBoard from './KillBoard';import kill1 from '../public/generated/kill/type-1-095-manifest.json';import kill5 from '../public/generated/kill/type-5-241-manifest.json';import kill8 from '../public/generated/kill/type-8-241-manifest.json';
+import KillBoard from './KillBoard';import kill1 from '../public/generated/kill/type-1-96-manifest.json';import kill5 from '../public/generated/kill/type-5-243-manifest.json';import kill8 from '../public/generated/kill/type-8-243-manifest.json';
 import SizeBoard from './SizeBoard';import size1 from '../public/generated/size/type-1-095-manifest.json';import size5 from '../public/generated/size/type-5-241-manifest.json';import size8 from '../public/generated/size/type-8-241-manifest.json';
 import TailHeadBoard from './TailHeadBoard';import tail1 from '../public/generated/tail/type-1-095-manifest.json';import tail5 from '../public/generated/tail/type-5-241-manifest.json';import tail8 from '../public/generated/tail/type-8-241-manifest.json';import head1 from '../public/generated/head/type-1-095-manifest.json';import head5 from '../public/generated/head/type-5-241-manifest.json';import head8 from '../public/generated/head/type-8-241-manifest.json';
 
@@ -60,8 +60,8 @@ const boards = [
 const lotteryNames: Record<LotteryType, string> = {'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
 // 首页只需要生成帖子标题和链接。不要把每条公式的全年历史、取数轨迹等
 // 大对象序列化给浏览器，否则手机首次打开会下载数 MB 的无用数据。
-const compactMethods=(methods:any[]|undefined,keys:string[])=>(methods??[]).map(method=>Object.fromEntries(keys.map(key=>[key,method?.[key]])));
-const compactGroups=(groups:Record<string,any>|undefined,keys:string[])=>Object.fromEntries(Object.entries(groups??{}).map(([key,group])=>[key,{label:group?.label,methods:compactMethods(group?.methods,keys)}]));
+const compactMethods=(methods:any[]|undefined,keys:string[]):any[]=>(methods??[]).map(method=>Object.fromEntries([...new Set([...keys,'name'])].map(key=>[key,method?.[key]])));
+const compactGroups=(groups:Record<string,any>|undefined,keys:string[]):any=>Object.fromEntries(Object.entries(groups??{}).map(([key,group])=>[key,{label:group?.label,methods:compactMethods(group?.methods,keys)}]));
 export default async function Home({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const query = await searchParams;
   const requestedType = typeof query.type === 'string' ? query.type : '5';

@@ -43,17 +43,18 @@ export default function LiveDraw({ initial, type }: { initial: LatestLottery; ty
   useEffect(() => {
     if (!showPlayer || !videoRef.current) return;
     let disposed = false;
-    let player: { attachMediaElement(element: HTMLMediaElement): void; load(): void; play(): Promise<void>; pause(): void; unload(): void; detachMediaElement(): void; destroy(): void } | undefined;
+    let player: { attachMediaElement(element: HTMLMediaElement): void; load(): void; play(): void | Promise<void>; pause(): void; unload(): void; detachMediaElement(): void; destroy(): void } | undefined;
     const source = latest.videoUrlForH5 || latest.videoUrl;
     if (!source) return;
     void import('mpegts.js').then(module => {
       if (disposed || !videoRef.current) return;
       const mpegts = module.default;
       if (mpegts.isSupported()) {
-        player = mpegts.createPlayer({ type: 'flv', isLive: true, url: source }, { enableWorker: true, enableStashBuffer: false });
-        player.attachMediaElement(videoRef.current);
-        player.load();
-        void player.play().catch(() => undefined);
+        const createdPlayer = mpegts.createPlayer({ type: 'flv', isLive: true, url: source }, { enableWorker: true, enableStashBuffer: false });
+        player = createdPlayer;
+        createdPlayer.attachMediaElement(videoRef.current);
+        createdPlayer.load();
+        void Promise.resolve(createdPlayer.play()).catch(() => undefined);
       } else {
         videoRef.current.src = source;
       }

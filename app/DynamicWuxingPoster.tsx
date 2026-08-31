@@ -13,6 +13,7 @@ type Validation = {
     name: string;
     calculation: string;
     result: string;
+    sourcePositions?: number[];
     targetPositions?: number[];
   }[];
   actualNumber: string;
@@ -94,7 +95,7 @@ export default function DynamicWuxingPoster({
   issue: string;
   item: Method;
   draws?: Draw[];
-  mode?: "wuxing" | "jiaye" | "pingte" | "pingte2" | "generic" | "zodiac" | "fushi" | "kill";
+  mode?: "wuxing" | "jiaye" | "pingte" | "pingte2" | "generic" | "zodiac" | "fushi" | "kill" | "size";
   lotteryName?: string;
 }) {
   const compactForecast = true;
@@ -193,7 +194,7 @@ export default function DynamicWuxingPoster({
                 </strong>
                 <div>
                   {mode !== "jiaye" && (
-                    <span>{item.duplicatePrediction ? "本期重肖" : mode === "fushi" ? "复式参考" : isPingteMode ? "平特参考" : mode === "zodiac" ? "生肖参考" : "五行参考"}</span>
+                    <span>{item.duplicatePrediction ? "本期重肖" : mode === "fushi" ? "复式参考" : isPingteMode ? "平特参考" : mode === "zodiac" ? "生肖参考" : mode === "size" ? "大小参考" : "五行参考"}</span>
                   )}
                   {mode !== "jiaye" &&
                     item.next.map((value) => (
@@ -223,9 +224,19 @@ export default function DynamicWuxingPoster({
                   const isPredictionSource =
                     !item.verification &&
                     drawIndex === 0 &&
-                    sourcePositions.has(label);
+                    (sourcePositions.has(label) ||
+                      item.branches.some((branch) =>
+                        branch.sourcePositions?.includes(index + 1),
+                      ));
                   const isSource =
                     isPredictionSource ||
+                    validations.some(
+                      (entry) =>
+                        entry.sourcePeriod === draw.period &&
+                        entry.branches.some((branch) =>
+                          branch.sourcePositions?.includes(index + 1),
+                        ),
+                    ) ||
                     (sourcePositions.has(label) &&
                       validations.some(
                         (entry) => entry.sourcePeriod === draw.period,
@@ -349,10 +360,11 @@ export default function DynamicWuxingPoster({
                     {isPingteMode ? (
                       entry.branches.flatMap((branch, branchIndex) => {
                         const branchSources =
+                          branch.sourcePositions ||
                           item.branches[branchIndex]?.sourcePositions ||
                           positions;
-                        const usesWholeDraw = /七码总分|总分/.test(
-                          item.branches[branchIndex]?.name || branch.name,
+                        const usesWholeDraw = /六码总分|七码总分|总分/.test(
+                          branch.name || item.branches[branchIndex]?.name,
                         );
                         const sourceXs = branchSources.map(columnX);
                         const branchTargets = branch.targetPositions || [];

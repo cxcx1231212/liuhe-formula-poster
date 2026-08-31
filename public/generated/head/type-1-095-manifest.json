@@ -1,110 +1,5576 @@
 {
-  "issue": 95,
+  "lotteryType": 1,
+  "year": 2026,
+  "issue": 96,
   "methods": [
     {
-      "rank": "1-001",
-      "label": "一头中特",
-      "values": [
-        1
-      ],
-      "streak": 2,
-      "image": "/generated/head/type-1-095-1-001.webp",
-      "formulaId": "HEAD--5cb915c797"
+      "rank": "001",
+      "label": "头数中特",
+      "name": "平1码",
+      "sourceKey": "平1码",
+      "formulaId": "HEAD-001",
+      "spec": {
+        "kind": "single",
+        "pos": 0,
+        "feature": "raw"
+      }
     },
     {
-      "rank": "1-002",
-      "label": "一头中特",
-      "values": [
-        0
-      ],
-      "streak": 2,
-      "image": "/generated/head/type-1-095-1-002.webp",
-      "formulaId": "HEAD--51f101f7a9"
+      "rank": "002",
+      "label": "头数中特",
+      "name": "平1码合数",
+      "sourceKey": "平1码合数",
+      "formulaId": "HEAD-002",
+      "spec": {
+        "kind": "single",
+        "pos": 0,
+        "feature": "digit"
+      }
     },
     {
-      "rank": "1-003",
-      "label": "一头中特",
-      "values": [
-        1
-      ],
-      "streak": 2,
-      "image": "/generated/head/type-1-095-1-003.webp",
-      "formulaId": "HEAD--69f74808db"
+      "rank": "003",
+      "label": "头数中特",
+      "name": "平1码尾数",
+      "sourceKey": "平1码尾数",
+      "formulaId": "HEAD-003",
+      "spec": {
+        "kind": "single",
+        "pos": 0,
+        "feature": "tail"
+      }
     },
     {
-      "rank": "1-004",
-      "label": "一头中特",
-      "values": [
-        0
-      ],
-      "streak": 2,
-      "image": "/generated/head/type-1-095-1-004.webp",
-      "formulaId": "HEAD--3351034984"
+      "rank": "004",
+      "label": "头数中特",
+      "name": "平2码",
+      "sourceKey": "平2码",
+      "formulaId": "HEAD-004",
+      "spec": {
+        "kind": "single",
+        "pos": 1,
+        "feature": "raw"
+      }
     },
     {
-      "rank": "1-005",
-      "label": "一头中特",
-      "values": [
-        0
-      ],
-      "streak": 2,
-      "image": "/generated/head/type-1-095-1-005.webp",
-      "formulaId": "HEAD--270cd24b0d"
+      "rank": "005",
+      "label": "头数中特",
+      "name": "平2码合数",
+      "sourceKey": "平2码合数",
+      "formulaId": "HEAD-005",
+      "spec": {
+        "kind": "single",
+        "pos": 1,
+        "feature": "digit"
+      }
     },
     {
-      "rank": "2-001",
-      "label": "二头中特",
-      "values": [
-        3,
-        4
-      ],
-      "streak": 5,
-      "image": "/generated/head/type-1-095-2-001.webp",
-      "formulaId": "HEAD--ee9ffdc644"
+      "rank": "006",
+      "label": "头数中特",
+      "name": "平2码尾数",
+      "sourceKey": "平2码尾数",
+      "formulaId": "HEAD-006",
+      "spec": {
+        "kind": "single",
+        "pos": 1,
+        "feature": "tail"
+      }
     },
     {
-      "rank": "2-002",
-      "label": "二头中特",
-      "values": [
-        3,
-        4
-      ],
-      "streak": 5,
-      "image": "/generated/head/type-1-095-2-002.webp",
-      "formulaId": "HEAD--e7e7b95df4"
+      "rank": "007",
+      "label": "头数中特",
+      "name": "平3码",
+      "sourceKey": "平3码",
+      "formulaId": "HEAD-007",
+      "spec": {
+        "kind": "single",
+        "pos": 2,
+        "feature": "raw"
+      }
     },
     {
-      "rank": "2-003",
-      "label": "二头中特",
-      "values": [
-        3,
-        4
-      ],
-      "streak": 5,
-      "image": "/generated/head/type-1-095-2-003.webp",
-      "formulaId": "HEAD--41ac1db486"
+      "rank": "008",
+      "label": "头数中特",
+      "name": "平3码合数",
+      "sourceKey": "平3码合数",
+      "formulaId": "HEAD-008",
+      "spec": {
+        "kind": "single",
+        "pos": 2,
+        "feature": "digit"
+      }
     },
     {
-      "rank": "2-004",
-      "label": "二头中特",
-      "values": [
-        3,
-        4
-      ],
-      "streak": 5,
-      "image": "/generated/head/type-1-095-2-004.webp",
-      "formulaId": "HEAD--e9de419c57"
+      "rank": "009",
+      "label": "头数中特",
+      "name": "平3码尾数",
+      "sourceKey": "平3码尾数",
+      "formulaId": "HEAD-009",
+      "spec": {
+        "kind": "single",
+        "pos": 2,
+        "feature": "tail"
+      }
     },
     {
-      "rank": "2-005",
-      "label": "二头中特",
-      "values": [
-        3,
-        4
-      ],
-      "streak": 5,
-      "image": "/generated/head/type-1-095-2-005.webp",
-      "formulaId": "HEAD--8b8621fb72"
+      "rank": "010",
+      "label": "头数中特",
+      "name": "平4码",
+      "sourceKey": "平4码",
+      "formulaId": "HEAD-010",
+      "spec": {
+        "kind": "single",
+        "pos": 3,
+        "feature": "raw"
+      }
+    },
+    {
+      "rank": "011",
+      "label": "头数中特",
+      "name": "平4码合数",
+      "sourceKey": "平4码合数",
+      "formulaId": "HEAD-011",
+      "spec": {
+        "kind": "single",
+        "pos": 3,
+        "feature": "digit"
+      }
+    },
+    {
+      "rank": "012",
+      "label": "头数中特",
+      "name": "平4码尾数",
+      "sourceKey": "平4码尾数",
+      "formulaId": "HEAD-012",
+      "spec": {
+        "kind": "single",
+        "pos": 3,
+        "feature": "tail"
+      }
+    },
+    {
+      "rank": "013",
+      "label": "头数中特",
+      "name": "平5码",
+      "sourceKey": "平5码",
+      "formulaId": "HEAD-013",
+      "spec": {
+        "kind": "single",
+        "pos": 4,
+        "feature": "raw"
+      }
+    },
+    {
+      "rank": "014",
+      "label": "头数中特",
+      "name": "平5码合数",
+      "sourceKey": "平5码合数",
+      "formulaId": "HEAD-014",
+      "spec": {
+        "kind": "single",
+        "pos": 4,
+        "feature": "digit"
+      }
+    },
+    {
+      "rank": "015",
+      "label": "头数中特",
+      "name": "平5码尾数",
+      "sourceKey": "平5码尾数",
+      "formulaId": "HEAD-015",
+      "spec": {
+        "kind": "single",
+        "pos": 4,
+        "feature": "tail"
+      }
+    },
+    {
+      "rank": "016",
+      "label": "头数中特",
+      "name": "平6码",
+      "sourceKey": "平6码",
+      "formulaId": "HEAD-016",
+      "spec": {
+        "kind": "single",
+        "pos": 5,
+        "feature": "raw"
+      }
+    },
+    {
+      "rank": "017",
+      "label": "头数中特",
+      "name": "平6码合数",
+      "sourceKey": "平6码合数",
+      "formulaId": "HEAD-017",
+      "spec": {
+        "kind": "single",
+        "pos": 5,
+        "feature": "digit"
+      }
+    },
+    {
+      "rank": "018",
+      "label": "头数中特",
+      "name": "平6码尾数",
+      "sourceKey": "平6码尾数",
+      "formulaId": "HEAD-018",
+      "spec": {
+        "kind": "single",
+        "pos": 5,
+        "feature": "tail"
+      }
+    },
+    {
+      "rank": "019",
+      "label": "头数中特",
+      "name": "特码",
+      "sourceKey": "特码",
+      "formulaId": "HEAD-019",
+      "spec": {
+        "kind": "single",
+        "pos": 6,
+        "feature": "raw"
+      }
+    },
+    {
+      "rank": "020",
+      "label": "头数中特",
+      "name": "特码合数",
+      "sourceKey": "特码合数",
+      "formulaId": "HEAD-020",
+      "spec": {
+        "kind": "single",
+        "pos": 6,
+        "feature": "digit"
+      }
+    },
+    {
+      "rank": "021",
+      "label": "头数中特",
+      "name": "特码尾数",
+      "sourceKey": "特码尾数",
+      "formulaId": "HEAD-021",
+      "spec": {
+        "kind": "single",
+        "pos": 6,
+        "feature": "tail"
+      }
+    },
+    {
+      "rank": "022",
+      "label": "头数中特",
+      "name": "最小平码",
+      "sourceKey": "最小平码",
+      "formulaId": "HEAD-022",
+      "spec": {
+        "kind": "global",
+        "op": "min"
+      }
+    },
+    {
+      "rank": "023",
+      "label": "头数中特",
+      "name": "最大平码",
+      "sourceKey": "最大平码",
+      "formulaId": "HEAD-023",
+      "spec": {
+        "kind": "global",
+        "op": "max"
+      }
+    },
+    {
+      "rank": "024",
+      "label": "头数中特",
+      "name": "六个平码总分",
+      "sourceKey": "六个平码总分",
+      "formulaId": "HEAD-024",
+      "spec": {
+        "kind": "global",
+        "op": "regular_sum"
+      }
+    },
+    {
+      "rank": "025",
+      "label": "头数中特",
+      "name": "七码总分",
+      "sourceKey": "七码总分",
+      "formulaId": "HEAD-025",
+      "spec": {
+        "kind": "global",
+        "op": "all_sum"
+      }
+    },
+    {
+      "rank": "026",
+      "label": "头数中特",
+      "name": "期数合数",
+      "sourceKey": "期数合数",
+      "formulaId": "HEAD-026",
+      "spec": {
+        "kind": "global",
+        "op": "period_digit_sum"
+      }
+    },
+    {
+      "rank": "027",
+      "label": "头数中特",
+      "name": "平1码＋平2码",
+      "sourceKey": "平1码＋平2码",
+      "formulaId": "HEAD-027",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 1,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "028",
+      "label": "头数中特",
+      "name": "平1码－平2码",
+      "sourceKey": "平1码－平2码",
+      "formulaId": "HEAD-028",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 1,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "029",
+      "label": "头数中特",
+      "name": "平2码－平1码",
+      "sourceKey": "平2码－平1码",
+      "formulaId": "HEAD-029",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 1,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "030",
+      "label": "头数中特",
+      "name": "平1码合数＋平2码合数",
+      "sourceKey": "平1码合数＋平2码合数",
+      "formulaId": "HEAD-030",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 1,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "031",
+      "label": "头数中特",
+      "name": "平1码尾数＋平2码尾数",
+      "sourceKey": "平1码尾数＋平2码尾数",
+      "formulaId": "HEAD-031",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 1,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "032",
+      "label": "头数中特",
+      "name": "平1码＋平3码",
+      "sourceKey": "平1码＋平3码",
+      "formulaId": "HEAD-032",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 2,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "033",
+      "label": "头数中特",
+      "name": "平1码－平3码",
+      "sourceKey": "平1码－平3码",
+      "formulaId": "HEAD-033",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 2,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "034",
+      "label": "头数中特",
+      "name": "平3码－平1码",
+      "sourceKey": "平3码－平1码",
+      "formulaId": "HEAD-034",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 2,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "035",
+      "label": "头数中特",
+      "name": "平1码合数＋平3码合数",
+      "sourceKey": "平1码合数＋平3码合数",
+      "formulaId": "HEAD-035",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 2,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "036",
+      "label": "头数中特",
+      "name": "平1码尾数＋平3码尾数",
+      "sourceKey": "平1码尾数＋平3码尾数",
+      "formulaId": "HEAD-036",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 2,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "037",
+      "label": "头数中特",
+      "name": "平1码＋平4码",
+      "sourceKey": "平1码＋平4码",
+      "formulaId": "HEAD-037",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 3,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "038",
+      "label": "头数中特",
+      "name": "平1码－平4码",
+      "sourceKey": "平1码－平4码",
+      "formulaId": "HEAD-038",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 3,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "039",
+      "label": "头数中特",
+      "name": "平4码－平1码",
+      "sourceKey": "平4码－平1码",
+      "formulaId": "HEAD-039",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 3,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "040",
+      "label": "头数中特",
+      "name": "平1码合数＋平4码合数",
+      "sourceKey": "平1码合数＋平4码合数",
+      "formulaId": "HEAD-040",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 3,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "041",
+      "label": "头数中特",
+      "name": "平1码尾数＋平4码尾数",
+      "sourceKey": "平1码尾数＋平4码尾数",
+      "formulaId": "HEAD-041",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 3,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "042",
+      "label": "头数中特",
+      "name": "平1码＋平5码",
+      "sourceKey": "平1码＋平5码",
+      "formulaId": "HEAD-042",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 4,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "043",
+      "label": "头数中特",
+      "name": "平1码－平5码",
+      "sourceKey": "平1码－平5码",
+      "formulaId": "HEAD-043",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 4,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "044",
+      "label": "头数中特",
+      "name": "平5码－平1码",
+      "sourceKey": "平5码－平1码",
+      "formulaId": "HEAD-044",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 4,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "045",
+      "label": "头数中特",
+      "name": "平1码合数＋平5码合数",
+      "sourceKey": "平1码合数＋平5码合数",
+      "formulaId": "HEAD-045",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 4,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "046",
+      "label": "头数中特",
+      "name": "平1码尾数＋平5码尾数",
+      "sourceKey": "平1码尾数＋平5码尾数",
+      "formulaId": "HEAD-046",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 4,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "047",
+      "label": "头数中特",
+      "name": "平1码＋平6码",
+      "sourceKey": "平1码＋平6码",
+      "formulaId": "HEAD-047",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 5,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "048",
+      "label": "头数中特",
+      "name": "平1码－平6码",
+      "sourceKey": "平1码－平6码",
+      "formulaId": "HEAD-048",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 5,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "049",
+      "label": "头数中特",
+      "name": "平6码－平1码",
+      "sourceKey": "平6码－平1码",
+      "formulaId": "HEAD-049",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 5,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "050",
+      "label": "头数中特",
+      "name": "平1码合数＋平6码合数",
+      "sourceKey": "平1码合数＋平6码合数",
+      "formulaId": "HEAD-050",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 5,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "051",
+      "label": "头数中特",
+      "name": "平1码尾数＋平6码尾数",
+      "sourceKey": "平1码尾数＋平6码尾数",
+      "formulaId": "HEAD-051",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 5,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "052",
+      "label": "头数中特",
+      "name": "平1码＋特码",
+      "sourceKey": "平1码＋特码",
+      "formulaId": "HEAD-052",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 6,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "053",
+      "label": "头数中特",
+      "name": "平1码－特码",
+      "sourceKey": "平1码－特码",
+      "formulaId": "HEAD-053",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 6,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "054",
+      "label": "头数中特",
+      "name": "特码－平1码",
+      "sourceKey": "特码－平1码",
+      "formulaId": "HEAD-054",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 6,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "055",
+      "label": "头数中特",
+      "name": "平1码合数＋特码合数",
+      "sourceKey": "平1码合数＋特码合数",
+      "formulaId": "HEAD-055",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 6,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "056",
+      "label": "头数中特",
+      "name": "平1码尾数＋特码尾数",
+      "sourceKey": "平1码尾数＋特码尾数",
+      "formulaId": "HEAD-056",
+      "spec": {
+        "kind": "pair",
+        "a": 0,
+        "b": 6,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "057",
+      "label": "头数中特",
+      "name": "平2码＋平3码",
+      "sourceKey": "平2码＋平3码",
+      "formulaId": "HEAD-057",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 2,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "058",
+      "label": "头数中特",
+      "name": "平2码－平3码",
+      "sourceKey": "平2码－平3码",
+      "formulaId": "HEAD-058",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 2,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "059",
+      "label": "头数中特",
+      "name": "平3码－平2码",
+      "sourceKey": "平3码－平2码",
+      "formulaId": "HEAD-059",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 2,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "060",
+      "label": "头数中特",
+      "name": "平2码合数＋平3码合数",
+      "sourceKey": "平2码合数＋平3码合数",
+      "formulaId": "HEAD-060",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 2,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "061",
+      "label": "头数中特",
+      "name": "平2码尾数＋平3码尾数",
+      "sourceKey": "平2码尾数＋平3码尾数",
+      "formulaId": "HEAD-061",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 2,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "062",
+      "label": "头数中特",
+      "name": "平2码＋平4码",
+      "sourceKey": "平2码＋平4码",
+      "formulaId": "HEAD-062",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 3,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "063",
+      "label": "头数中特",
+      "name": "平2码－平4码",
+      "sourceKey": "平2码－平4码",
+      "formulaId": "HEAD-063",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 3,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "064",
+      "label": "头数中特",
+      "name": "平4码－平2码",
+      "sourceKey": "平4码－平2码",
+      "formulaId": "HEAD-064",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 3,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "065",
+      "label": "头数中特",
+      "name": "平2码合数＋平4码合数",
+      "sourceKey": "平2码合数＋平4码合数",
+      "formulaId": "HEAD-065",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 3,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "066",
+      "label": "头数中特",
+      "name": "平2码尾数＋平4码尾数",
+      "sourceKey": "平2码尾数＋平4码尾数",
+      "formulaId": "HEAD-066",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 3,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "067",
+      "label": "头数中特",
+      "name": "平2码＋平5码",
+      "sourceKey": "平2码＋平5码",
+      "formulaId": "HEAD-067",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 4,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "068",
+      "label": "头数中特",
+      "name": "平2码－平5码",
+      "sourceKey": "平2码－平5码",
+      "formulaId": "HEAD-068",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 4,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "069",
+      "label": "头数中特",
+      "name": "平5码－平2码",
+      "sourceKey": "平5码－平2码",
+      "formulaId": "HEAD-069",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 4,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "070",
+      "label": "头数中特",
+      "name": "平2码合数＋平5码合数",
+      "sourceKey": "平2码合数＋平5码合数",
+      "formulaId": "HEAD-070",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 4,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "071",
+      "label": "头数中特",
+      "name": "平2码尾数＋平5码尾数",
+      "sourceKey": "平2码尾数＋平5码尾数",
+      "formulaId": "HEAD-071",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 4,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "072",
+      "label": "头数中特",
+      "name": "平2码＋平6码",
+      "sourceKey": "平2码＋平6码",
+      "formulaId": "HEAD-072",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 5,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "073",
+      "label": "头数中特",
+      "name": "平2码－平6码",
+      "sourceKey": "平2码－平6码",
+      "formulaId": "HEAD-073",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 5,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "074",
+      "label": "头数中特",
+      "name": "平6码－平2码",
+      "sourceKey": "平6码－平2码",
+      "formulaId": "HEAD-074",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 5,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "075",
+      "label": "头数中特",
+      "name": "平2码合数＋平6码合数",
+      "sourceKey": "平2码合数＋平6码合数",
+      "formulaId": "HEAD-075",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 5,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "076",
+      "label": "头数中特",
+      "name": "平2码尾数＋平6码尾数",
+      "sourceKey": "平2码尾数＋平6码尾数",
+      "formulaId": "HEAD-076",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 5,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "077",
+      "label": "头数中特",
+      "name": "平2码＋特码",
+      "sourceKey": "平2码＋特码",
+      "formulaId": "HEAD-077",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 6,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "078",
+      "label": "头数中特",
+      "name": "平2码－特码",
+      "sourceKey": "平2码－特码",
+      "formulaId": "HEAD-078",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 6,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "079",
+      "label": "头数中特",
+      "name": "特码－平2码",
+      "sourceKey": "特码－平2码",
+      "formulaId": "HEAD-079",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 6,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "080",
+      "label": "头数中特",
+      "name": "平2码合数＋特码合数",
+      "sourceKey": "平2码合数＋特码合数",
+      "formulaId": "HEAD-080",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 6,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "081",
+      "label": "头数中特",
+      "name": "平2码尾数＋特码尾数",
+      "sourceKey": "平2码尾数＋特码尾数",
+      "formulaId": "HEAD-081",
+      "spec": {
+        "kind": "pair",
+        "a": 1,
+        "b": 6,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "082",
+      "label": "头数中特",
+      "name": "平3码＋平4码",
+      "sourceKey": "平3码＋平4码",
+      "formulaId": "HEAD-082",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 3,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "083",
+      "label": "头数中特",
+      "name": "平3码－平4码",
+      "sourceKey": "平3码－平4码",
+      "formulaId": "HEAD-083",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 3,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "084",
+      "label": "头数中特",
+      "name": "平4码－平3码",
+      "sourceKey": "平4码－平3码",
+      "formulaId": "HEAD-084",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 3,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "085",
+      "label": "头数中特",
+      "name": "平3码合数＋平4码合数",
+      "sourceKey": "平3码合数＋平4码合数",
+      "formulaId": "HEAD-085",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 3,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "086",
+      "label": "头数中特",
+      "name": "平3码尾数＋平4码尾数",
+      "sourceKey": "平3码尾数＋平4码尾数",
+      "formulaId": "HEAD-086",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 3,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "087",
+      "label": "头数中特",
+      "name": "平3码＋平5码",
+      "sourceKey": "平3码＋平5码",
+      "formulaId": "HEAD-087",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 4,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "088",
+      "label": "头数中特",
+      "name": "平3码－平5码",
+      "sourceKey": "平3码－平5码",
+      "formulaId": "HEAD-088",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 4,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "089",
+      "label": "头数中特",
+      "name": "平5码－平3码",
+      "sourceKey": "平5码－平3码",
+      "formulaId": "HEAD-089",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 4,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "090",
+      "label": "头数中特",
+      "name": "平3码合数＋平5码合数",
+      "sourceKey": "平3码合数＋平5码合数",
+      "formulaId": "HEAD-090",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 4,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "091",
+      "label": "头数中特",
+      "name": "平3码尾数＋平5码尾数",
+      "sourceKey": "平3码尾数＋平5码尾数",
+      "formulaId": "HEAD-091",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 4,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "092",
+      "label": "头数中特",
+      "name": "平3码＋平6码",
+      "sourceKey": "平3码＋平6码",
+      "formulaId": "HEAD-092",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 5,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "093",
+      "label": "头数中特",
+      "name": "平3码－平6码",
+      "sourceKey": "平3码－平6码",
+      "formulaId": "HEAD-093",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 5,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "094",
+      "label": "头数中特",
+      "name": "平6码－平3码",
+      "sourceKey": "平6码－平3码",
+      "formulaId": "HEAD-094",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 5,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "095",
+      "label": "头数中特",
+      "name": "平3码合数＋平6码合数",
+      "sourceKey": "平3码合数＋平6码合数",
+      "formulaId": "HEAD-095",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 5,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "096",
+      "label": "头数中特",
+      "name": "平3码尾数＋平6码尾数",
+      "sourceKey": "平3码尾数＋平6码尾数",
+      "formulaId": "HEAD-096",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 5,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "097",
+      "label": "头数中特",
+      "name": "平3码＋特码",
+      "sourceKey": "平3码＋特码",
+      "formulaId": "HEAD-097",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 6,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "098",
+      "label": "头数中特",
+      "name": "平3码－特码",
+      "sourceKey": "平3码－特码",
+      "formulaId": "HEAD-098",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 6,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "099",
+      "label": "头数中特",
+      "name": "特码－平3码",
+      "sourceKey": "特码－平3码",
+      "formulaId": "HEAD-099",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 6,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "100",
+      "label": "头数中特",
+      "name": "平3码合数＋特码合数",
+      "sourceKey": "平3码合数＋特码合数",
+      "formulaId": "HEAD-100",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 6,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "101",
+      "label": "头数中特",
+      "name": "平3码尾数＋特码尾数",
+      "sourceKey": "平3码尾数＋特码尾数",
+      "formulaId": "HEAD-101",
+      "spec": {
+        "kind": "pair",
+        "a": 2,
+        "b": 6,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "102",
+      "label": "头数中特",
+      "name": "平4码＋平5码",
+      "sourceKey": "平4码＋平5码",
+      "formulaId": "HEAD-102",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 4,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "103",
+      "label": "头数中特",
+      "name": "平4码－平5码",
+      "sourceKey": "平4码－平5码",
+      "formulaId": "HEAD-103",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 4,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "104",
+      "label": "头数中特",
+      "name": "平5码－平4码",
+      "sourceKey": "平5码－平4码",
+      "formulaId": "HEAD-104",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 4,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "105",
+      "label": "头数中特",
+      "name": "平4码合数＋平5码合数",
+      "sourceKey": "平4码合数＋平5码合数",
+      "formulaId": "HEAD-105",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 4,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "106",
+      "label": "头数中特",
+      "name": "平4码尾数＋平5码尾数",
+      "sourceKey": "平4码尾数＋平5码尾数",
+      "formulaId": "HEAD-106",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 4,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "107",
+      "label": "头数中特",
+      "name": "平4码＋平6码",
+      "sourceKey": "平4码＋平6码",
+      "formulaId": "HEAD-107",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 5,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "108",
+      "label": "头数中特",
+      "name": "平4码－平6码",
+      "sourceKey": "平4码－平6码",
+      "formulaId": "HEAD-108",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 5,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "109",
+      "label": "头数中特",
+      "name": "平6码－平4码",
+      "sourceKey": "平6码－平4码",
+      "formulaId": "HEAD-109",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 5,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "110",
+      "label": "头数中特",
+      "name": "平4码合数＋平6码合数",
+      "sourceKey": "平4码合数＋平6码合数",
+      "formulaId": "HEAD-110",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 5,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "111",
+      "label": "头数中特",
+      "name": "平4码尾数＋平6码尾数",
+      "sourceKey": "平4码尾数＋平6码尾数",
+      "formulaId": "HEAD-111",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 5,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "112",
+      "label": "头数中特",
+      "name": "平4码＋特码",
+      "sourceKey": "平4码＋特码",
+      "formulaId": "HEAD-112",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 6,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "113",
+      "label": "头数中特",
+      "name": "平4码－特码",
+      "sourceKey": "平4码－特码",
+      "formulaId": "HEAD-113",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 6,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "114",
+      "label": "头数中特",
+      "name": "特码－平4码",
+      "sourceKey": "特码－平4码",
+      "formulaId": "HEAD-114",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 6,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "115",
+      "label": "头数中特",
+      "name": "平4码合数＋特码合数",
+      "sourceKey": "平4码合数＋特码合数",
+      "formulaId": "HEAD-115",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 6,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "116",
+      "label": "头数中特",
+      "name": "平4码尾数＋特码尾数",
+      "sourceKey": "平4码尾数＋特码尾数",
+      "formulaId": "HEAD-116",
+      "spec": {
+        "kind": "pair",
+        "a": 3,
+        "b": 6,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "117",
+      "label": "头数中特",
+      "name": "平5码＋平6码",
+      "sourceKey": "平5码＋平6码",
+      "formulaId": "HEAD-117",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 5,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "118",
+      "label": "头数中特",
+      "name": "平5码－平6码",
+      "sourceKey": "平5码－平6码",
+      "formulaId": "HEAD-118",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 5,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "119",
+      "label": "头数中特",
+      "name": "平6码－平5码",
+      "sourceKey": "平6码－平5码",
+      "formulaId": "HEAD-119",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 5,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "120",
+      "label": "头数中特",
+      "name": "平5码合数＋平6码合数",
+      "sourceKey": "平5码合数＋平6码合数",
+      "formulaId": "HEAD-120",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 5,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "121",
+      "label": "头数中特",
+      "name": "平5码尾数＋平6码尾数",
+      "sourceKey": "平5码尾数＋平6码尾数",
+      "formulaId": "HEAD-121",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 5,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "122",
+      "label": "头数中特",
+      "name": "平5码＋特码",
+      "sourceKey": "平5码＋特码",
+      "formulaId": "HEAD-122",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 6,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "123",
+      "label": "头数中特",
+      "name": "平5码－特码",
+      "sourceKey": "平5码－特码",
+      "formulaId": "HEAD-123",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 6,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "124",
+      "label": "头数中特",
+      "name": "特码－平5码",
+      "sourceKey": "特码－平5码",
+      "formulaId": "HEAD-124",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 6,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "125",
+      "label": "头数中特",
+      "name": "平5码合数＋特码合数",
+      "sourceKey": "平5码合数＋特码合数",
+      "formulaId": "HEAD-125",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 6,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "126",
+      "label": "头数中特",
+      "name": "平5码尾数＋特码尾数",
+      "sourceKey": "平5码尾数＋特码尾数",
+      "formulaId": "HEAD-126",
+      "spec": {
+        "kind": "pair",
+        "a": 4,
+        "b": 6,
+        "op": "tail_sum"
+      }
+    },
+    {
+      "rank": "127",
+      "label": "头数中特",
+      "name": "平6码＋特码",
+      "sourceKey": "平6码＋特码",
+      "formulaId": "HEAD-127",
+      "spec": {
+        "kind": "pair",
+        "a": 5,
+        "b": 6,
+        "op": "sum"
+      }
+    },
+    {
+      "rank": "128",
+      "label": "头数中特",
+      "name": "平6码－特码",
+      "sourceKey": "平6码－特码",
+      "formulaId": "HEAD-128",
+      "spec": {
+        "kind": "pair",
+        "a": 5,
+        "b": 6,
+        "op": "a_minus_b"
+      }
+    },
+    {
+      "rank": "129",
+      "label": "头数中特",
+      "name": "特码－平6码",
+      "sourceKey": "特码－平6码",
+      "formulaId": "HEAD-129",
+      "spec": {
+        "kind": "pair",
+        "a": 5,
+        "b": 6,
+        "op": "b_minus_a"
+      }
+    },
+    {
+      "rank": "130",
+      "label": "头数中特",
+      "name": "平6码合数＋特码合数",
+      "sourceKey": "平6码合数＋特码合数",
+      "formulaId": "HEAD-130",
+      "spec": {
+        "kind": "pair",
+        "a": 5,
+        "b": 6,
+        "op": "digit_sum"
+      }
+    },
+    {
+      "rank": "131",
+      "label": "头数中特",
+      "name": "平6码尾数＋特码尾数",
+      "sourceKey": "平6码尾数＋特码尾数",
+      "formulaId": "HEAD-131",
+      "spec": {
+        "kind": "pair",
+        "a": 5,
+        "b": 6,
+        "op": "tail_sum"
+      }
+    }
+  ],
+  "draws": [
+    {
+      "period": 1,
+      "date": "2026年01月03日",
+      "numbers": [
+        {
+          "number": "20",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "16",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "02",
+          "animal": "龙",
+          "element": "火"
+        },
+        {
+          "number": "21",
+          "animal": "鸡",
+          "element": "水"
+        },
+        {
+          "number": "13",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "10",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "14",
+          "animal": "龙",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 2,
+      "date": "2026年01月06日",
+      "numbers": [
+        {
+          "number": "12",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "02",
+          "animal": "龙",
+          "element": "火"
+        },
+        {
+          "number": "08",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "19",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "28",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "36",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "01",
+          "animal": "蛇",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 3,
+      "date": "2026年01月08日",
+      "numbers": [
+        {
+          "number": "45",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "15",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "46",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "21",
+          "animal": "鸡",
+          "element": "水"
+        },
+        {
+          "number": "24",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "40",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "13",
+          "animal": "蛇",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 4,
+      "date": "2026年01月10日",
+      "numbers": [
+        {
+          "number": "37",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "20",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "22",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "24",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "16",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "03",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "42",
+          "animal": "鼠",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 5,
+      "date": "2026年01月13日",
+      "numbers": [
+        {
+          "number": "38",
+          "animal": "龙",
+          "element": "木"
+        },
+        {
+          "number": "48",
+          "animal": "马",
+          "element": "火"
+        },
+        {
+          "number": "14",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "49",
+          "animal": "蛇",
+          "element": "土"
+        },
+        {
+          "number": "24",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "34",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "27",
+          "animal": "兔",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 6,
+      "date": "2026年01月15日",
+      "numbers": [
+        {
+          "number": "44",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "06",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "37",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "03",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "38",
+          "animal": "龙",
+          "element": "木"
+        },
+        {
+          "number": "39",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "48",
+          "animal": "马",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 7,
+      "date": "2026年01月17日",
+      "numbers": [
+        {
+          "number": "27",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "12",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "42",
+          "animal": "鼠",
+          "element": "金"
+        },
+        {
+          "number": "05",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "23",
+          "animal": "羊",
+          "element": "木"
+        },
+        {
+          "number": "15",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "46",
+          "animal": "猴",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 8,
+      "date": "2026年01月20日",
+      "numbers": [
+        {
+          "number": "06",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "46",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "44",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "09",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "01",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "04",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "27",
+          "animal": "兔",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 9,
+      "date": "2026年01月22日",
+      "numbers": [
+        {
+          "number": "31",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "04",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "24",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "27",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "15",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "09",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "45",
+          "animal": "鸡",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 10,
+      "date": "2026年01月24日",
+      "numbers": [
+        {
+          "number": "16",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "17",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "48",
+          "animal": "马",
+          "element": "火"
+        },
+        {
+          "number": "22",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "28",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "06",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "45",
+          "animal": "鸡",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 11,
+      "date": "2026年01月27日",
+      "numbers": [
+        {
+          "number": "38",
+          "animal": "龙",
+          "element": "木"
+        },
+        {
+          "number": "47",
+          "animal": "羊",
+          "element": "火"
+        },
+        {
+          "number": "25",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "12",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "14",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "07",
+          "animal": "猪",
+          "element": "木"
+        },
+        {
+          "number": "15",
+          "animal": "兔",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 12,
+      "date": "2026年01月29日",
+      "numbers": [
+        {
+          "number": "14",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "44",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "09",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "06",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "35",
+          "animal": "羊",
+          "element": "土"
+        },
+        {
+          "number": "12",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "11",
+          "animal": "羊",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 13,
+      "date": "2026年01月31日",
+      "numbers": [
+        {
+          "number": "30",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "35",
+          "animal": "羊",
+          "element": "土"
+        },
+        {
+          "number": "32",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "36",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "25",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "47",
+          "animal": "羊",
+          "element": "火"
+        },
+        {
+          "number": "46",
+          "animal": "猴",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 14,
+      "date": "2026年02月03日",
+      "numbers": [
+        {
+          "number": "42",
+          "animal": "鼠",
+          "element": "金"
+        },
+        {
+          "number": "39",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "23",
+          "animal": "羊",
+          "element": "木"
+        },
+        {
+          "number": "27",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "12",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "37",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "05",
+          "animal": "牛",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 15,
+      "date": "2026年02月05日",
+      "numbers": [
+        {
+          "number": "35",
+          "animal": "羊",
+          "element": "土"
+        },
+        {
+          "number": "24",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "36",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "09",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "01",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "17",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "42",
+          "animal": "鼠",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 16,
+      "date": "2026年02月07日",
+      "numbers": [
+        {
+          "number": "32",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "12",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "37",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "22",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "44",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "28",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "20",
+          "animal": "狗",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 17,
+      "date": "2026年02月10日",
+      "numbers": [
+        {
+          "number": "39",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "04",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "26",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "03",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "18",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "14",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "40",
+          "animal": "虎",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 18,
+      "date": "2026年02月12日",
+      "numbers": [
+        {
+          "number": "03",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "46",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "37",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "25",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "02",
+          "animal": "龙",
+          "element": "火"
+        },
+        {
+          "number": "14",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "10",
+          "animal": "猴",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 19,
+      "date": "2026年02月15日",
+      "numbers": [
+        {
+          "number": "08",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "28",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "46",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "37",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "36",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "33",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "04",
+          "animal": "虎",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 20,
+      "date": "2026年02月21日",
+      "numbers": [
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 21,
+      "date": "2026年02月24日",
+      "numbers": [
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "03",
+          "animal": "龙",
+          "element": "火"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 22,
+      "date": "2026年02月26日",
+      "numbers": [
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "38",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 23,
+      "date": "2026年02月28日",
+      "numbers": [
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "39",
+          "animal": "龙",
+          "element": "木"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "29",
+          "animal": "虎",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 24,
+      "date": "2026年03月03日",
+      "numbers": [
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 25,
+      "date": "2026年03月05日",
+      "numbers": [
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "24",
+          "animal": "羊",
+          "element": "木"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 26,
+      "date": "2026年03月07日",
+      "numbers": [
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "水"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 27,
+      "date": "2026年03月10日",
+      "numbers": [
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 28,
+      "date": "2026年03月12日",
+      "numbers": [
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 29,
+      "date": "2026年03月17日",
+      "numbers": [
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "水"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 30,
+      "date": "2026年03月19日",
+      "numbers": [
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "48",
+          "animal": "羊",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 31,
+      "date": "2026年03月21日",
+      "numbers": [
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "24",
+          "animal": "羊",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 32,
+      "date": "2026年03月24日",
+      "numbers": [
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "水"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 33,
+      "date": "2026年03月26日",
+      "numbers": [
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "03",
+          "animal": "龙",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 34,
+      "date": "2026年03月28日",
+      "numbers": [
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "21",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 35,
+      "date": "2026年03月31日",
+      "numbers": [
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 36,
+      "date": "2026年04月04日",
+      "numbers": [
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 37,
+      "date": "2026年04月07日",
+      "numbers": [
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "29",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 38,
+      "date": "2026年04月09日",
+      "numbers": [
+        {
+          "number": "24",
+          "animal": "羊",
+          "element": "木"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 39,
+      "date": "2026年04月11日",
+      "numbers": [
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 40,
+      "date": "2026年04月14日",
+      "numbers": [
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "水"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 41,
+      "date": "2026年04月16日",
+      "numbers": [
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 42,
+      "date": "2026年04月18日",
+      "numbers": [
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "39",
+          "animal": "龙",
+          "element": "木"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 43,
+      "date": "2026年04月21日",
+      "numbers": [
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 44,
+      "date": "2026年04月23日",
+      "numbers": [
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "38",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "48",
+          "animal": "羊",
+          "element": "火"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 45,
+      "date": "2026年04月25日",
+      "numbers": [
+        {
+          "number": "21",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "36",
+          "animal": "羊",
+          "element": "土"
+        },
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 46,
+      "date": "2026年05月02日",
+      "numbers": [
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "48",
+          "animal": "羊",
+          "element": "火"
+        },
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        },
+        {
+          "number": "03",
+          "animal": "龙",
+          "element": "火"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 47,
+      "date": "2026年05月05日",
+      "numbers": [
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        },
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 48,
+      "date": "2026年05月07日",
+      "numbers": [
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 49,
+      "date": "2026年05月10日",
+      "numbers": [
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 50,
+      "date": "2026年05月12日",
+      "numbers": [
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "水"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 51,
+      "date": "2026年05月14日",
+      "numbers": [
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 52,
+      "date": "2026年05月16日",
+      "numbers": [
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "36",
+          "animal": "羊",
+          "element": "土"
+        },
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 53,
+      "date": "2026年05月19日",
+      "numbers": [
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "21",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 54,
+      "date": "2026年05月21日",
+      "numbers": [
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 55,
+      "date": "2026年05月23日",
+      "numbers": [
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 56,
+      "date": "2026年05月26日",
+      "numbers": [
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 57,
+      "date": "2026年05月28日",
+      "numbers": [
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 58,
+      "date": "2026年05月30日",
+      "numbers": [
+        {
+          "number": "39",
+          "animal": "龙",
+          "element": "木"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "21",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 59,
+      "date": "2026年06月02日",
+      "numbers": [
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 60,
+      "date": "2026年06月04日",
+      "numbers": [
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 61,
+      "date": "2026年06月06日",
+      "numbers": [
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "36",
+          "animal": "羊",
+          "element": "土"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 62,
+      "date": "2026年06月09日",
+      "numbers": [
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 63,
+      "date": "2026年06月11日",
+      "numbers": [
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "29",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "03",
+          "animal": "龙",
+          "element": "火"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 64,
+      "date": "2026年06月14日",
+      "numbers": [
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "29",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 65,
+      "date": "2026年06月18日",
+      "numbers": [
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "24",
+          "animal": "羊",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 66,
+      "date": "2026年06月20日",
+      "numbers": [
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 67,
+      "date": "2026年06月23日",
+      "numbers": [
+        {
+          "number": "39",
+          "animal": "龙",
+          "element": "木"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 68,
+      "date": "2026年06月25日",
+      "numbers": [
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "29",
+          "animal": "虎",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 69,
+      "date": "2026年06月28日",
+      "numbers": [
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 70,
+      "date": "2026年06月30日",
+      "numbers": [
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "水"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 71,
+      "date": "2026年07月02日",
+      "numbers": [
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 72,
+      "date": "2026年07月05日",
+      "numbers": [
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "03",
+          "animal": "龙",
+          "element": "火"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "38",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 73,
+      "date": "2026年07月07日",
+      "numbers": [
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "48",
+          "animal": "羊",
+          "element": "火"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 74,
+      "date": "2026年07月09日",
+      "numbers": [
+        {
+          "number": "21",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "38",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        },
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 75,
+      "date": "2026年07月11日",
+      "numbers": [
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 76,
+      "date": "2026年07月14日",
+      "numbers": [
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 77,
+      "date": "2026年07月16日",
+      "numbers": [
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "21",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 78,
+      "date": "2026年07月21日",
+      "numbers": [
+        {
+          "number": "06",
+          "animal": "牛",
+          "element": "土"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 79,
+      "date": "2026年07月23日",
+      "numbers": [
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "29",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 80,
+      "date": "2026年07月25日",
+      "numbers": [
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "05",
+          "animal": "虎",
+          "element": "金"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 81,
+      "date": "2026年07月28日",
+      "numbers": [
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        },
+        {
+          "number": "21",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "20",
+          "animal": "猪",
+          "element": "土"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 82,
+      "date": "2026年07月30日",
+      "numbers": [
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        },
+        {
+          "number": "02",
+          "animal": "蛇",
+          "element": "火"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        },
+        {
+          "number": "48",
+          "animal": "羊",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 83,
+      "date": "2026年08月01日",
+      "numbers": [
+        {
+          "number": "37",
+          "animal": "马",
+          "element": "土"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        },
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "22",
+          "animal": "鸡",
+          "element": "水"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 84,
+      "date": "2026年08月04日",
+      "numbers": [
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "38",
+          "animal": "蛇",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 85,
+      "date": "2026年08月06日",
+      "numbers": [
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        },
+        {
+          "number": "24",
+          "animal": "羊",
+          "element": "木"
+        },
+        {
+          "number": "29",
+          "animal": "虎",
+          "element": "土"
+        },
+        {
+          "number": "48",
+          "animal": "羊",
+          "element": "火"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        },
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        },
+        {
+          "number": "03",
+          "animal": "龙",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 86,
+      "date": "2026年08月08日",
+      "numbers": [
+        {
+          "number": "03",
+          "animal": "龙",
+          "element": "火"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "32",
+          "animal": "猪",
+          "element": "火"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        },
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        }
+      ]
+    },
+    {
+      "period": 87,
+      "date": "2026年08月11日",
+      "numbers": [
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "36",
+          "animal": "羊",
+          "element": "土"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "48",
+          "animal": "羊",
+          "element": "火"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "43",
+          "animal": "鼠",
+          "element": "金"
+        },
+        {
+          "number": "13",
+          "animal": "马",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 88,
+      "date": "2026年08月13日",
+      "numbers": [
+        {
+          "number": "47",
+          "animal": "猴",
+          "element": "木"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "21",
+          "animal": "狗",
+          "element": "土"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        },
+        {
+          "number": "48",
+          "animal": "羊",
+          "element": "火"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "23",
+          "animal": "猴",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 89,
+      "date": "2026年08月15日",
+      "numbers": [
+        {
+          "number": "33",
+          "animal": "狗",
+          "element": "火"
+        },
+        {
+          "number": "27",
+          "animal": "龙",
+          "element": "金"
+        },
+        {
+          "number": "16",
+          "animal": "兔",
+          "element": "木"
+        },
+        {
+          "number": "28",
+          "animal": "兔",
+          "element": "土"
+        },
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        }
+      ]
+    },
+    {
+      "period": 90,
+      "date": "2026年08月18日",
+      "numbers": [
+        {
+          "number": "39",
+          "animal": "龙",
+          "element": "木"
+        },
+        {
+          "number": "41",
+          "animal": "虎",
+          "element": "火"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "14",
+          "animal": "蛇",
+          "element": "水"
+        },
+        {
+          "number": "49",
+          "animal": "马",
+          "element": "火"
+        }
+      ]
+    },
+    {
+      "period": 91,
+      "date": "2026年08月20日",
+      "numbers": [
+        {
+          "number": "10",
+          "animal": "鸡",
+          "element": "火"
+        },
+        {
+          "number": "15",
+          "animal": "龙",
+          "element": "水"
+        },
+        {
+          "number": "24",
+          "animal": "羊",
+          "element": "木"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "46",
+          "animal": "鸡",
+          "element": "木"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 92,
+      "date": "2026年08月22日",
+      "numbers": [
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "09",
+          "animal": "狗",
+          "element": "木"
+        },
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "40",
+          "animal": "兔",
+          "element": "火"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "29",
+          "animal": "虎",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 93,
+      "date": "2026年08月25日",
+      "numbers": [
+        {
+          "number": "34",
+          "animal": "鸡",
+          "element": "金"
+        },
+        {
+          "number": "01",
+          "animal": "马",
+          "element": "水"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "19",
+          "animal": "鼠",
+          "element": "火"
+        },
+        {
+          "number": "18",
+          "animal": "牛",
+          "element": "火"
+        },
+        {
+          "number": "38",
+          "animal": "蛇",
+          "element": "木"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        }
+      ]
+    },
+    {
+      "period": 94,
+      "date": "2026年08月27日",
+      "numbers": [
+        {
+          "number": "12",
+          "animal": "羊",
+          "element": "金"
+        },
+        {
+          "number": "45",
+          "animal": "狗",
+          "element": "水"
+        },
+        {
+          "number": "44",
+          "animal": "猪",
+          "element": "水"
+        },
+        {
+          "number": "25",
+          "animal": "马",
+          "element": "木"
+        },
+        {
+          "number": "17",
+          "animal": "虎",
+          "element": "木"
+        },
+        {
+          "number": "31",
+          "animal": "鼠",
+          "element": "水"
+        },
+        {
+          "number": "35",
+          "animal": "猴",
+          "element": "金"
+        }
+      ]
+    },
+    {
+      "period": 95,
+      "date": "2026年08月29日",
+      "numbers": [
+        {
+          "number": "30",
+          "animal": "牛",
+          "element": "水"
+        },
+        {
+          "number": "04",
+          "animal": "兔",
+          "element": "金"
+        },
+        {
+          "number": "11",
+          "animal": "猴",
+          "element": "火"
+        },
+        {
+          "number": "26",
+          "animal": "蛇",
+          "element": "金"
+        },
+        {
+          "number": "08",
+          "animal": "猪",
+          "element": "木"
+        },
+        {
+          "number": "07",
+          "animal": "鼠",
+          "element": "土"
+        },
+        {
+          "number": "42",
+          "animal": "牛",
+          "element": "金"
+        }
+      ]
     }
   ]
 }

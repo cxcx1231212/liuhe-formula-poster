@@ -37,17 +37,13 @@ def score(methods, required):
 
 
 def build_pool(methods, pool_size, required):
-    representatives = []
-    for zodiac in ANIMALS:
-        choices = [method for method in methods if method["nextAnimal"] == zodiac]
-        if choices:
-            representatives.append(max(choices, key=lambda item: (sum(item["hits"][-30:]), sum(item["hits"]))))
-    if len(representatives) < pool_size:
+    # 分类由公式分支数决定；某一期分支算出相同生肖时也保留原分类。
+    candidates = list(methods)
+    if len(candidates) < pool_size:
         return None
-    selected = [max(representatives, key=lambda item: (sum(item["hits"][-30:]), sum(item["hits"])))]
+    selected = [max(candidates, key=lambda item: (sum(item["hits"][-30:]), sum(item["hits"])))]
     while len(selected) < pool_size:
-        used = {item["nextAnimal"] for item in selected}
-        choices = [item for item in representatives if item["nextAnimal"] not in used]
+        choices = [item for item in candidates if item not in selected]
         selected.append(max(choices, key=lambda item: score(selected + [item], required)))
     counts = period_counts(selected)
     hits = [count >= required for count in counts]

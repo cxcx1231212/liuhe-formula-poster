@@ -60,7 +60,20 @@ const boards = [
 const lotteryNames: Record<LotteryType, string> = {'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
 // 首页只需要生成帖子标题和链接。不要把每条公式的全年历史、取数轨迹等
 // 大对象序列化给浏览器，否则手机首次打开会下载数 MB 的无用数据。
-const compactMethods=(methods:any[]|undefined,keys:string[]):any[]=>(methods??[]).map(method=>Object.fromEntries([...new Set([...keys,'name'])].map(key=>[key,method?.[key]])));
+const numericScore=(value:unknown):number=>typeof value==='number'&&Number.isFinite(value)?value:0;
+const historicalAccuracy=(method:any):number=>{
+  if(typeof method?.totalRate==='number')return numericScore(method.totalRate);
+  const history=Array.isArray(method?.history)?method.history:[];
+  if(history.length)return history.filter((item:any)=>item?.hit===true).length/history.length;
+  if(typeof method?.recent30Rate==='number')return numericScore(method.recent30Rate);
+  if(typeof method?.recent30Hits==='number')return numericScore(method.recent30Hits)/30;
+  return 0;
+};
+const sortMethods=(methods:any[]|undefined):any[]=>(methods??[])
+  .map((method,index)=>({method,index,streak:numericScore(method?.recentStreak??method?.streak),accuracy:historicalAccuracy(method)}))
+  .sort((a,b)=>b.streak-a.streak||b.accuracy-a.accuracy||a.index-b.index)
+  .map(item=>item.method);
+const compactMethods=(methods:any[]|undefined,keys:string[]):any[]=>sortMethods(methods).map(method=>Object.fromEntries([...new Set([...keys,'name'])].map(key=>[key,method?.[key]])));
 const compactGroups=(groups:Record<string,any>|undefined,keys:string[]):any=>Object.fromEntries(Object.entries(groups??{}).map(([key,group])=>[key,{label:group?.label,methods:compactMethods(group?.methods,keys)}]));
 export default async function Home({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const query = await searchParams;

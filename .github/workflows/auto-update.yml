@@ -31,6 +31,9 @@ jobs:
     timeout-minutes: 360
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -53,6 +56,7 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           for lottery_type in ${{ steps.check.outputs.types }}; do
             echo "开始更新彩种 ${lottery_type}"
+            git pull --rebase origin main
             python scripts/update_all_lotteries.py --types "${lottery_type}" --year "$(date +%Y)"
             git add data public/generated
             git commit -m "自动保存彩种 ${lottery_type} 更新进度 [skip ci]" || true

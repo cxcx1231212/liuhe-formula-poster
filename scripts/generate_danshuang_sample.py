@@ -49,7 +49,7 @@ def formula_panel(draw, y, name, calculate, source, target=None):
     draw.rounded_rectangle((885, y + 12, 985, y + 72), radius=10, fill="#11100d")
     center(draw, (935, y + 42), f"特{result}", font(27, True), "#efd58e")
     hit = target is not None and result == ("单" if int(target["numberList"][6]["number"]) % 2 else "双")
-    return hit
+    return hitfor name, calculate in definitionsfor name, calculate, *_ in definitions
 
 
 def main():

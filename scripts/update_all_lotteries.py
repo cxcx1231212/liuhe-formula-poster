@@ -31,11 +31,8 @@ SEARCH_MODULES = [
 GENERATOR_SCRIPTS = [
     "generate_pingte_all_pattern_images.py",
     "generate_pingte_two_animal_images.py",
-    "generate_tema_images.py",
     "generate_tema_manifest.py",
     "generate_zodiac_posters.py",
-    "generate_fushi_posters.py",
-    "generate_wave_posters.py",
     "generate_wuxing_posters.py",
     "generate_jiaye_posters.py",
     "generate_kill_posters.py",

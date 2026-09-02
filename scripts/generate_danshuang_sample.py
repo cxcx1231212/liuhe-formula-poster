@@ -19,7 +19,7 @@ def parity(value):
 def choose(records):
     candidates = []
     for source_key, definitions in make_series():
-        for name, calculate in definitions:
+        for name, calculate, *_ in definitions:
             if any(word in name for word in ("除", "合数", "尾数", "总分", "乘")) or not ("加" in name or "减" in name):
                 continue
             hits = []
@@ -49,7 +49,7 @@ def formula_panel(draw, y, name, calculate, source, target=None):
     draw.rounded_rectangle((885, y + 12, 985, y + 72), radius=10, fill="#11100d")
     center(draw, (935, y + 42), f"特{result}", font(27, True), "#efd58e")
     hit = target is not None and result == ("单" if int(target["numberList"][6]["number"]) % 2 else "双")
-    return hitfor name, calculate in definitionsfor name, calculate, *_ in definitions
+    return hit
 
 
 def main():

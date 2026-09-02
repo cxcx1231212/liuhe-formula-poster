@@ -1,5 +1,48 @@
 {
   "totalFormulaCount": 9170,
-  "qualifiedCount": 0,
-  "qualifiedMethods": []
+  "qualifiedCount": 3,
+  "qualifiedMethods": [
+    {
+      "name": "平3码加10",
+      "family": "加法",
+      "predictionNumber": 21,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "最大平码减3",
+      "family": "减法",
+      "predictionNumber": 27,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平2码＋平5码加16",
+      "family": "加法",
+      "predictionNumber": 28,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    }
+  ]
 }

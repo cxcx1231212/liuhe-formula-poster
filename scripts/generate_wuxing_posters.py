@@ -18,7 +18,7 @@ def evaluated(records, element):
     groups=[]
     for source_key, definitions in make_series():
         methods=[]
-        for name, calculate in definitions:
+        for name, calculate, *_ in definitions:
             if any(word in name for word in ("除","合数","尾数","总分","乘")) or not ("加" in name or "减" in name): continue
             predictions=[element(calculate(record)) for record in records[:-1]]
             methods.append({"name":name,"calculate":calculate,"predictions":predictions,"next":element(calculate(records[-1]))})
@@ -66,7 +66,7 @@ def formula_group(draw,top,item,source,target=None):
     for index,branch in enumerate(item["branches"]):
         result=branch["next"] if target is None and source is None else None
         if source is not None:
-            number=wrap(branch["calculate"](source)); result=next_value(number)for name, calculfor name, calculate, *_ in definitions
+            number=wrap(branch["calculate"](source)); result=next_value(number)
             text=f"{calculation_text(branch['name'],source,{branch['name']:branch['calculate']})}＝{result}"
         else: text=f"下期参考＝{result}"
         y=top+index*92; color=COLORS[result]; results.append(result)

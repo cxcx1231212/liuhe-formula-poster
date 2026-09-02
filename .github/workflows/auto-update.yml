@@ -57,7 +57,13 @@ jobs:
           for lottery_type in ${{ steps.check.outputs.types }}; do
             echo "开始更新彩种 ${lottery_type}"
             git pull --rebase origin main
-            python scripts/update_all_lotteries.py --types "${lottery_type}" --year "$(date +%Y)"
+            python scripts/update_all_lotteries.py --types "${lottery_type}" --year "$(date +%Y)" &
+            generator_pid=$!
+            while kill -0 "${generator_pid}" 2>/dev/null; do
+              echo "彩种 ${lottery_type} 仍在计算中，请勿中断"
+              sleep 60
+            done
+            wait "${generator_pid}"
             git add data public/generated
             git commit -m "自动保存彩种 ${lottery_type} 更新进度 [skip ci]" || true
             git push

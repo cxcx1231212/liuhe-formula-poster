@@ -19,7 +19,7 @@ XS = [112, 272, 392, 512, 632, 752, 872, 992]
 def candidate_map():
     result = {}
     for _, definitions in make_series():
-        for name, calculate in definitions:
+        for name, calculate, *_ in definitions:
             result[name] = calculate
     return result
 

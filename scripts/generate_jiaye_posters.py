@@ -1,3 +1,4 @@
+import argparse
 import json
 
 from search_pingte_methods import ROOT, fetch_year, wrap
@@ -118,20 +119,31 @@ def build_method(row, records, animal_map):
 
 
 def main():
-    output_dir = ROOT / "public" / "generated" / "jiaye"; output_dir.mkdir(parents=True, exist_ok=True)
-    legacy_names = {1: "095", 5: "241", 8: "241"}; specs = formula_specs()
-    for lottery_type in (1, 5, 8):
-        current = fetch_year(lottery_type, 2026); previous = dict(fetch_year(lottery_type, 2025)[-1])
-        previous["displayPeriod"] = f"2025-{int(previous['period']):03d}期"
-        previous["calcPeriod"] = int(previous["period"]); previous["period"] = 0
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--type", type=int, choices=(1, 5, 8))
+    parser.add_argument("--year", type=int, default=2026)
+    args = parser.parse_args()
+    lottery_types = (args.type,) if args.type else (1, 5, 8)
+    output_dir = ROOT / "public" / "generated" / "jiaye"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    specs = formula_specs()
+    for lottery_type in lottery_types:
+        current = fetch_year(lottery_type, args.year)
+        previous = dict(fetch_year(lottery_type, args.year - 1)[-1])
+        previous["displayPeriod"] = f"{args.year - 1}-{int(previous['period']):03d}期"
+        previous["calcPeriod"] = int(previous["period"])
+        previous["period"] = 0
         records = [previous, *current]
         animal_map = {int(item["number"]): item["shengXiao"] for record in current for item in record["numberList"]}
-        payload = {"lotteryType": lottery_type, "year": 2026, "issue": int(current[-1]["period"]) + 1,
+        issue = int(current[-1]["period"]) + 1
+        payload = {"lotteryType": lottery_type, "year": args.year, "issue": issue,
                    "draws": [draw_record(record) for record in records],
                    "methods": [build_method(row, records, animal_map) for row in specs]}
-        path = output_dir / f"type-{lottery_type}-{legacy_names[lottery_type]}-manifest.json"
+        path = output_dir / f"type-{lottery_type}-{issue:03d}-manifest.json"
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(lottery_type, payload["issue"], len(payload["methods"]), path)
+        print(lottery_type, issue, len(payload["methods"]), path)
 
 
-if __name__ == "__main__": main()
+if __name__ == "__main__":
+    main()
+

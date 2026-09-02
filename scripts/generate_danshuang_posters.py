@@ -21,7 +21,7 @@ def heshu_parity(value):
 def qualified(records, mode="normal", minimum_streak=3):
     rows = []
     for source_key, definitions in make_series():
-        for name, calculate in definitions:
+        for name, calculate, *_ in definitions:
             if any(word in name for word in ("除", "合数", "尾数", "总分", "乘")) or not ("加" in name or "减" in name):
                 continue
             predictions, hits = [], []
@@ -63,7 +63,7 @@ def heshu_panel(draw, y, name, calculate, source, target=None):
     return target is not None and result == heshu_parity(int(target["numberList"][6]["number"]))
 
 
-def render(item, issue, records, output, mode="normal", title_label=None, cufor name, calculate in definitionsfor name, calculate, *_ in definitionsstom_panel=None):
+def render(item, issue, records, output, mode="normal", title_label=None, custom_panel=None):
     row_ys = [560, 820, 1080, 1340, 1600]
     height = 1760
     image = Image.new("RGB", (W, height), "#e7dfd0")

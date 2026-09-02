@@ -56,7 +56,7 @@ def build_bundle(seed, representatives, size):
         "recentStreak": streak(hits),
         "recent30Hits": sum(hits[-30:]),
         "recent30Rate": sum(hits[-30:]) / min(30, len(hits)),
-        "totalRate": sum(hits) / len(hits),
+        "totalRate": sum(hits) / len(hits),for name, calculate, *_ in definitions
         "history": hits[-6:],
     }
 

@@ -42,7 +42,7 @@ def qualified(records):
         if old is None or (item["recent30Hits"],item["recentStreak"],item["totalRate"]) > (old["recent30Hits"],old["recentStreak"],old["totalRate"]): unique[key] = item
     return sorted(unique.values(), key=lambda item:(item["recent30Hits"],item["recentStreak"],item["totalRate"]), reverse=True)
 
-
+for name, calculate in definitionsfor name, calculate, *_ in definitions
 def panel(draw, y, item, source, target=None):
     result = wave(item["calculate"](source)); color = WAVE_COLORS[result]
     draw.rounded_rectangle((305,y,1005,y+84),radius=14,fill="#fffaf0",outline="#c59b43",width=3)

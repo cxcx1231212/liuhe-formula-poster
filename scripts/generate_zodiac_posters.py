@@ -211,7 +211,6 @@ def render(item, size, rank, issue, records, formulas):
 def main():
     payload = json.loads((ROOT / "data" / "zodiac" / "bundles-type-5-2026.json").read_text(encoding="utf-8"))
     records = fetch_year(5, 2026)
-    formulas = candidate_map()
     OUT.mkdir(parents=True, exist_ok=True)
     groups = {}
     for size_text, methods in payload["publishedGroups"].items():

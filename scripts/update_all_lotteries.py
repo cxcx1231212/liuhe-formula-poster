@@ -78,7 +78,12 @@ def run_generator(filename: str, lottery_type: int, year: int):
         "__file__": str(SCRIPTS / filename),
         "__package__": None,
     }
-    exec(compile(source, str(SCRIPTS / filename), "exec"), namespace)
+    previous_argv = sys.argv
+    try:
+        sys.argv = [str(SCRIPTS / filename), "--type", str(lottery_type), "--year", str(year)]
+        exec(compile(source, str(SCRIPTS / filename), "exec"), namespace)
+    finally:
+        sys.argv = previous_argv
 
 
 def update(lottery_type: int, year: int):

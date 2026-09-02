@@ -66,7 +66,7 @@ def formula_group(draw,top,item,source,target=None):
     for index,branch in enumerate(item["branches"]):
         result=branch["next"] if target is None and source is None else None
         if source is not None:
-            number=wrap(branch["calculate"](source)); result=next_value(number)
+            number=wrap(branch["calculate"](source)); result=next_value(number)for name, calculfor name, calculate, *_ in definitions
             text=f"{calculation_text(branch['name'],source,{branch['name']:branch['calculate']})}＝{result}"
         else: text=f"下期参考＝{result}"
         y=top+index*92; color=COLORS[result]; results.append(result)

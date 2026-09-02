@@ -216,7 +216,8 @@ def main():
     groups = {}
     for size_text, methods in payload["publishedGroups"].items():
         size = int(size_text)
-        paths = [render(item, size, rank, payload["nextPeriod"], records, formulas) for rank, item in enumerate(methods, 1)]
+        # Pages render formulas and history from JSON; do not create raster copies.
+        paths = []
         groups[size_text] = {"methods": methods, "images": [str(path.relative_to(ROOT / "public")) for path in paths]}
     manifest = OUT / f"type-5-{payload['nextPeriod']:03d}-manifest.json"
     manifest.write_text(json.dumps({"issue": payload["nextPeriod"], "groups": groups}, ensure_ascii=False, indent=2), encoding="utf-8")

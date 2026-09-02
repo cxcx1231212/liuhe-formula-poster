@@ -56,7 +56,7 @@ def build_bundle(seed, representatives, size):
         "recentStreak": streak(hits),
         "recent30Hits": sum(hits[-30:]),
         "recent30Rate": sum(hits[-30:]) / min(30, len(hits)),
-        "totalRate": sum(hits) / len(hits),for name, calculate, *_ in definitions
+        "totalRate": sum(hits) / len(hits),
         "history": hits[-6:],
     }
 
@@ -66,7 +66,7 @@ def run(lottery_type=5, year=2026):
     evaluated_series = []
     raw_count = 0
     for source_key, definitions in make_series():
-        methods = [evaluate(name, calculate, records) for name, calculate in definitions]
+        methods = [evaluate(name, calculate, records) for name, calculate, *_ in definitions]
         evaluated_series.append((source_key, methods))
         raw_count += len(methods)
 

@@ -63,7 +63,7 @@ def heshu_panel(draw, y, name, calculate, source, target=None):
     return target is not None and result == heshu_parity(int(target["numberList"][6]["number"]))
 
 
-def render(item, issue, records, output, mode="normal", title_label=None, custom_panel=None):
+def render(item, issue, records, output, mode="normal", title_label=None, cufor name, calculate in definitionsfor name, calculate, *_ in definitionsstom_panel=None):
     row_ys = [560, 820, 1080, 1340, 1600]
     height = 1760
     image = Image.new("RGB", (W, height), "#e7dfd0")

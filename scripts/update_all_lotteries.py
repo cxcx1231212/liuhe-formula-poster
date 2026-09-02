@@ -29,8 +29,6 @@ SEARCH_MODULES = [
 ]
 
 GENERATOR_SCRIPTS = [
-    "generate_pingte_all_pattern_images.py",
-    "generate_pingte_two_animal_images.py",
     "generate_tema_manifest.py",
     "generate_zodiac_posters.py",
     "generate_wuxing_posters.py",
@@ -65,11 +63,6 @@ def run_generator(filename: str, lottery_type: int, year: int):
     }
     for old, new in replacements.items():
         source = source.replace(old, new)
-    if filename == "generate_pingte_all_pattern_images.py":
-        source = source.replace(
-            "render(method, records, rank, next_period)",
-            f"render(method, records, rank, next_period, {lottery_type})",
-        )
     namespace = {
         "__name__": "__main__",
         "__file__": str(SCRIPTS / filename),
@@ -89,8 +82,22 @@ def update(lottery_type: int, year: int):
     for module_name in SEARCH_MODULES:
         print(f"-- 数据分析：{module_name}")
         results[module_name] = run_search(module_name, lottery_type, year)
+
+    # Reuse the search results directly; the website renders these formulas from JSON.
+    next_period = results["search_pingte_two_animals"]["nextPeriod"]
+    pingte_manifests = (
+        ("pingte-all", results["search_pingte_all_patterns"]),
+        ("pingte-two", results["search_pingte_two_animals"]),
+    )
+    for folder, payload in pingte_manifests:
+        output_dir = ROOT / "public" / "generated" / folder
+        output_dir.mkdir(parents=True, exist_ok=True)
+        manifest = output_dir / f"type-{lottery_type}-{next_period:03d}-manifest.json"
+        manifest.write_text(json.dumps({"issue": next_period, "methods": payload["publishedMethods"], "images": []}, ensure_ascii=False, indent=2), encoding="utf-8")
+        print(f"-- 生成清单：{manifest}")
+
     for filename in GENERATOR_SCRIPTS:
-        print(f"-- 生成图片：{filename}")
+        print(f"-- 生成清单：{filename}")
         run_generator(filename, lottery_type, year)
     # 复式页面使用全部公式清单；不要让旧的“只保留近期最佳”图片生成器
     # 覆盖固定预测数量（2码、3码、2肖、4肖）的完整结果。

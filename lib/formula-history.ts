@@ -1,17 +1,16 @@
-import {headers} from 'next/headers';
+import {env} from 'cloudflare:workers';
 
 export type FormulaHistoryRow={formulaId:string;board:string;group:string;signature:string;rank?:string;label?:string;image?:string|null;href?:string;prediction?:Record<string,unknown>|null;score?:Record<string,unknown>;status:string;actual?:{number:number;animal:string;date:string}};
 export type FormulaSnapshot={issue:number;formulaCount:number;formulas:FormulaHistoryRow[]};
 type FormulaArchive={lotteryType:number;year:number;snapshots:FormulaSnapshot[]};
+type AssetBinding={fetch(request:Request):Promise<Response>};
 
 async function loadArchive(type:string){
   const safeType=['1','5','8'].includes(type)?type:'5';
-  const requestHeaders=await headers();
-  const host=requestHeaders.get('x-forwarded-host')??requestHeaders.get('host');
-  if(!host)return null;
-  const protocol=requestHeaders.get('x-forwarded-proto')??'https';
+  const assets=(env as unknown as {ASSETS?:AssetBinding}).ASSETS;
+  if(!assets)return null;
   try{
-    const response=await fetch(`${protocol}://${host}/generated/formula-history/type-${safeType}-2026.json`,{cache:'no-store'});
+    const response=await assets.fetch(new Request(`https://assets.local/generated/formula-history/type-${safeType}-2026.json`));
     if(!response.ok)return null;
     return await response.json() as FormulaArchive;
   }catch{return null;}

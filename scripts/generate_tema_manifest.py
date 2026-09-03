@@ -1,20 +1,21 @@
 import json
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data" / "tema" / "bundles-type-5-2026.json"
 OUT = ROOT / "public" / "generated" / "tema-bundles"
 
 
 def compact(method):
+    branches = method.get("branches", [])
     return {
         "sourceKey": method["sourceKey"],
         "formulaId": method.get("formulaId", ""),
         "recentStreak": method.get("recentStreak", 0),
+        "numbers": [branch["number"] for branch in branches],
         "branches": [
             {"name": branch["name"], "number": branch["number"]}
-            for branch in method.get("branches", [])
+            for branch in branches
         ],
     }
 

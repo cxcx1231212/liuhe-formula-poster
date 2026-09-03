@@ -1,7 +1,5 @@
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
-import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';import IssueScroller from '@/app/IssueScroller';
-import {requestedLotteryType} from '@/lib/formula-manifests';
-import {pingteManifests} from '@/lib/pingte-manifests';
+import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';import IssueScroller from '@/app/IssueScroller';import {pingteManifests,requestedLotteryType} from '@/lib/pingte-manifests';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 
 type Draw={period:number;displayPeriod?:string;date?:string;numbers:{number:string;animal:string;element:string}[]};

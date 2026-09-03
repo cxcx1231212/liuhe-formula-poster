@@ -29,16 +29,18 @@ const sorted=(items:any[]=[])=>items.map((method,index)=>({method,index,streak:n
 const pad=(v:number|string)=>String(v).padStart(3,'0');
 
 async function source(type:LotteryType,board:HomeBoardKey,category:string){
-  const key=board==='pingte'&&category==='two'?'pingte2':board;
-  const info=manifestInfo[key],assets=(env as unknown as {ASSETS?:AssetBinding}).ASSETS;
+  const key=board==='pingte'?`pingte:${category==='two'?'two':'one'}`:`${board}:${category}`;
+  const assets=(env as unknown as {ASSETS?:AssetBinding}).ASSETS;
   if(!assets)throw new Error('ASSETS binding unavailable');
-  const path=`/generated/${info.dir}/type-${type}-${info.issues[type]}-manifest.json`;
+  const path=`/generated/home-board/type-${type}.json`;
   const response=await assets.fetch(new Request(`https://assets.local${path}`));
-  if(!response.ok)throw new Error(`Manifest not found: ${path}`);
-  return await response.json();
+  if(!response.ok)throw new Error(`Homepage data not found: ${path}`);
+  const data=await response.json() as {boards:Record<string,unknown>};
+  const manifest=data.boards[key];
+  if(!manifest)throw new Error(`Homepage board not found: ${key}`);
+  return manifest;
 }
 function groupItems(manifest:any,board:HomeBoardKey,category:string){
-  if(['tema','zodiac','fushi','kill'].includes(board))return manifest.groups?.[category]?.methods??[];
   return manifest.methods??[];
 }
 function makePost(type:LotteryType,board:HomeBoardKey,category:string,issue:number,m:any,index:number):Post{

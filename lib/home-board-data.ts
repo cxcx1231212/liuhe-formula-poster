@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {postAuthor} from '@/lib/post-authors';
-import one1 from '@/public/generated/pingte-all/type-1-096-manifest.json';import one5 from '@/public/generated/pingte-all/type-5-242-manifest.json';import one8 from '@/public/generated/pingte-all/type-8-241-manifest.json';
-import two1 from '@/public/generated/pingte-two/type-1-096-manifest.json';import two5 from '@/public/generated/pingte-two/type-5-242-manifest.json';import two8 from '@/public/generated/pingte-two/type-8-241-manifest.json';
-import tema1 from '@/public/generated/tema-bundles/type-1-096-manifest.json';import tema5 from '@/public/generated/tema-bundles/type-5-242-manifest.json';import tema8 from '@/public/generated/tema-bundles/type-8-242-manifest.json';
-import zodiac1 from '@/public/generated/zodiac/type-1-096-manifest.json';import zodiac5 from '@/public/generated/zodiac/type-5-242-manifest.json';import zodiac8 from '@/public/generated/zodiac/type-8-242-manifest.json';
-import fushi1 from '@/public/generated/fushi/type-1-096-manifest.json';import fushi5 from '@/public/generated/fushi/type-5-244-manifest.json';import fushi8 from '@/public/generated/fushi/type-8-244-manifest.json';
-import ds1 from '@/public/generated/danshuang/type-1-096-manifest.json';import ds5 from '@/public/generated/danshuang/type-5-244-manifest.json';import ds8 from '@/public/generated/danshuang/type-8-244-manifest.json';
-import wave1 from '@/public/generated/wave/type-1-096-manifest.json';import wave5 from '@/public/generated/wave/type-5-244-manifest.json';import wave8 from '@/public/generated/wave/type-8-244-manifest.json';
-import wx1 from '@/public/generated/wuxing/type-1-096-manifest.json';import wx5 from '@/public/generated/wuxing/type-5-242-manifest.json';import wx8 from '@/public/generated/wuxing/type-8-241-manifest.json';
-import jy1 from '@/public/generated/jiaye/type-1-095-manifest.json';import jy5 from '@/public/generated/jiaye/type-5-241-manifest.json';import jy8 from '@/public/generated/jiaye/type-8-241-manifest.json';
-import kill1 from '@/public/generated/kill/type-1-096-manifest.json';import kill5 from '@/public/generated/kill/type-5-243-manifest.json';import kill8 from '@/public/generated/kill/type-8-243-manifest.json';
-import size1 from '@/public/generated/size/type-1-095-manifest.json';import size5 from '@/public/generated/size/type-5-241-manifest.json';import size8 from '@/public/generated/size/type-8-241-manifest.json';
-import tail1 from '@/public/generated/tail/type-1-095-manifest.json';import tail5 from '@/public/generated/tail/type-5-241-manifest.json';import tail8 from '@/public/generated/tail/type-8-241-manifest.json';
-import head1 from '@/public/generated/head/type-1-095-manifest.json';import head5 from '@/public/generated/head/type-5-241-manifest.json';import head8 from '@/public/generated/head/type-8-241-manifest.json';
+import one1 from '@/public/generated/pingte-all/type-1-096-manifest.json';import one5 from '@/public/generated/pingte-all/type-5-246-manifest.json';import one8 from '@/public/generated/pingte-all/type-8-246-manifest.json';
+import two1 from '@/public/generated/pingte-two/type-1-096-manifest.json';import two5 from '@/public/generated/pingte-two/type-5-246-manifest.json';import two8 from '@/public/generated/pingte-two/type-8-246-manifest.json';
+import tema1 from '@/public/generated/tema-bundles/type-1-096-manifest.json';import tema5 from '@/public/generated/tema-bundles/type-5-246-manifest.json';import tema8 from '@/public/generated/tema-bundles/type-8-246-manifest.json';
+import zodiac1 from '@/public/generated/zodiac/type-1-096-manifest.json';import zodiac5 from '@/public/generated/zodiac/type-5-246-manifest.json';import zodiac8 from '@/public/generated/zodiac/type-8-246-manifest.json';
+import fushi1 from '@/public/generated/fushi/type-1-096-manifest.json';import fushi5 from '@/public/generated/fushi/type-5-246-manifest.json';import fushi8 from '@/public/generated/fushi/type-8-246-manifest.json';
+import ds1 from '@/public/generated/danshuang/type-1-096-manifest.json';import ds5 from '@/public/generated/danshuang/type-5-246-manifest.json';import ds8 from '@/public/generated/danshuang/type-8-246-manifest.json';
+import wave1 from '@/public/generated/wave/type-1-096-manifest.json';import wave5 from '@/public/generated/wave/type-5-246-manifest.json';import wave8 from '@/public/generated/wave/type-8-246-manifest.json';
+import wx1 from '@/public/generated/wuxing/type-1-096-manifest.json';import wx5 from '@/public/generated/wuxing/type-5-246-manifest.json';import wx8 from '@/public/generated/wuxing/type-8-246-manifest.json';
+import jy1 from '@/public/generated/jiaye/type-1-095-manifest.json';import jy5 from '@/public/generated/jiaye/type-5-246-manifest.json';import jy8 from '@/public/generated/jiaye/type-8-246-manifest.json';
+import kill1 from '@/public/generated/kill/type-1-096-manifest.json';import kill5 from '@/public/generated/kill/type-5-246-manifest.json';import kill8 from '@/public/generated/kill/type-8-246-manifest.json';
+import size1 from '@/public/generated/size/type-1-095-manifest.json';import size5 from '@/public/generated/size/type-5-246-manifest.json';import size8 from '@/public/generated/size/type-8-246-manifest.json';
+import tail1 from '@/public/generated/tail/type-1-095-manifest.json';import tail5 from '@/public/generated/tail/type-5-246-manifest.json';import tail8 from '@/public/generated/tail/type-8-246-manifest.json';
+import head1 from '@/public/generated/head/type-1-095-manifest.json';import head5 from '@/public/generated/head/type-5-246-manifest.json';import head8 from '@/public/generated/head/type-8-246-manifest.json';
 
 export type HomeBoardKey='pingte'|'tema'|'zodiac'|'fushi'|'danshuang'|'wave'|'wuxing'|'jiaye'|'kill'|'size'|'tail'|'head';
 type LotteryType='1'|'5'|'8';

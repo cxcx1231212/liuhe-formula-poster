@@ -39,8 +39,8 @@ export default {
       return response;
     }
 
-    const returned = withCacheHeaders(response, 'MISS');
     const copy = response.clone();
+    const returned = withCacheHeaders(response, 'MISS');
     ctx?.waitUntil((async () => {
       const html = await copy.text();
       const isHistory = !html.includes('等待开奖');

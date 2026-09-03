@@ -84,6 +84,26 @@ jobs:
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
         run: |
           pnpm install --frozen-lockfile
+          # 当前生肖清单只保留展示数据；完整逐期记录保存在 formula-history。
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          def strip_duplicate_history(value):
+              if isinstance(value, dict):
+                  value.pop("history", None)
+                  for child in value.values():
+                      strip_duplicate_history(child)
+              elif isinstance(value, list):
+                  for child in value:
+                      strip_duplicate_history(child)
+
+          for path in Path("public/generated/zodiac").glob("*-manifest.json"):
+              data = json.loads(path.read_text(encoding="utf-8"))
+              strip_duplicate_history(data)
+              path.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+              print(f"已精简重复生肖历史：{path}")
+          PY
           pnpm run build
 
       - name: 发布到 Cloudflare

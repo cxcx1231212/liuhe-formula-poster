@@ -3,9 +3,9 @@ import { join } from 'node:path';
 
 const ORIGIN = 'https://liuhe-formula-poster.xcx8088.workers.dev';
 const BOARD_DIR = join(process.cwd(), 'public', 'generated', 'home-board');
-const MAX_PAGES = 600;
-const TOP_PER_BOARD = 8;
-const CONCURRENCY = 6;
+const MAX_PAGES = 300;
+const TOP_PER_BOARD = 4;
+const CONCURRENCY = 12;
 const pad = (value) => String(value).padStart(3, '0');
 
 function linksFrom(html, type) {
@@ -39,6 +39,7 @@ async function load(url) {
   const response = await fetch(url, {
     headers: { accept: 'text/html', 'user-agent': 'formula-cache-warmer/2.0' },
     redirect: 'follow',
+    signal: AbortSignal.timeout(15000),
   });
   if (!response.ok) throw new Error(response.status + ' ' + url);
   return { html: await response.text(), cache: response.headers.get('x-formula-global-cache') };

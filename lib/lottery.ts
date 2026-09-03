@@ -1,3 +1,6 @@
+import cache1 from '@/data/lottery-cache/type-1-2026.json';
+import cache5 from '@/data/lottery-cache/type-5-2026.json';
+import cache8 from '@/data/lottery-cache/type-8-2026.json';
 export const LOTTERY_TYPES = {
   '1': '香港六合彩',
   '5': '澳门六合彩',
@@ -103,12 +106,9 @@ export function isLotteryType(value: string): value is LotteryType {
 }
 
 export async function getLatestLottery(type: LotteryType): Promise<LatestLottery> {
-  const response = await fetch(`${LATEST_API_URL}?lotteryType=${type}`, {
-    cache: 'no-store',
-    headers: { accept: 'application/json' },
-  });
-  if (!response.ok) throw new Error(`最新开奖接口请求失败：${response.status}`);
-  const payload = await response.json() as { success: boolean; data?: LatestLottery };
-  if (!payload.success || !payload.data) throw new Error('最新开奖接口没有返回有效数据');
-  return payload.data;
+  const caches:Record<LotteryType,LotteryRecord[]>={'1':cache1 as LotteryRecord[],'5':cache5 as LotteryRecord[],'8':cache8 as LotteryRecord[]};
+  const record=caches[type][caches[type].length-1];
+  if(!record)throw new Error('本地开奖缓存没有有效数据');
+  const date=record.lotteryTime.replace('年','/').replace('月','/').replace('日','');
+  return {lotteryTime:date,lotteryType:type,nextLotteryNumber:String(record.period+1),nextLotteryTime:'',numberList:record.numberList,period:String(record.period),title:LOTTERY_TYPES[type],year:record.year};
 }

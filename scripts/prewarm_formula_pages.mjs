@@ -47,6 +47,10 @@ async function load(url) {
 
 const queue = [];
 const seen = new Set();
+
+await Promise.all(['1', '5', '8'].map((type) =>
+  load(ORIGIN + '/?type=' + type).catch((error) => console.warn(error?.message || error))
+));
 for (const file of (await readdir(BOARD_DIR)).sort()) {
   const match = file.match(/^type-(\d+)-(.+)\.json$/);
   if (!match) continue;

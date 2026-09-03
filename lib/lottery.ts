@@ -104,7 +104,8 @@ export function isLotteryType(value: string): value is LotteryType {
 
 export async function getLatestLottery(type: LotteryType): Promise<LatestLottery> {
   const response = await fetch(`${LATEST_API_URL}?lotteryType=${type}`, {
-    cache: 'no-store',
+    cache: 'force-cache',
+    next: { revalidate: 300 },
     headers: { accept: 'application/json' },
   });
   if (!response.ok) throw new Error(`最新开奖接口请求失败：${response.status}`);

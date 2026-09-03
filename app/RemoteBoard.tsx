@@ -2,10 +2,10 @@
 import {useEffect,useMemo,useRef,useState} from 'react';
 import type {BoardPost} from './BoardPostList';
 type Category={key:string;label:string};type Data={total:number;page:number;pages:number;posts:BoardPost[]};
-export default function RemoteBoard({type,board,categories=[{key:'',label:''}]}:{type:string;board:string;categories?:Category[]}){
+export default function RemoteBoard({type,board,version,categories=[{key:'',label:''}]}:{type:string;board:string;version:number;categories?:Category[]}){
   const [category,setCategory]=useState(categories[0].key),[page,setPage]=useState(1),[data,setData]=useState<Data|null>(null),[visible,setVisible]=useState(false),[error,setError]=useState(false);const root=useRef<HTMLDivElement>(null);
   useEffect(()=>{const el=root.current;if(!el)return;const observer=new IntersectionObserver(([entry])=>{if(entry.isIntersecting){setVisible(true);observer.disconnect();}},{rootMargin:'500px'});observer.observe(el);return()=>observer.disconnect()},[]);
-  useEffect(()=>{if(!visible)return;const controller=new AbortController();fetch(`/api/home-board?type=${type}&board=${board}&category=${encodeURIComponent(category)}&page=${page}`,{signal:controller.signal}).then(async r=>{if(!r.ok)throw Error();return await r.json() as Data}).then(value=>{setData(value);setError(false)}).catch(e=>{if(e.name!=='AbortError')setError(true)});return()=>controller.abort()},[visible,type,board,category,page]);
+  useEffect(()=>{if(!visible)return;const controller=new AbortController();fetch(`/api/home-board?type=${type}&board=${board}&category=${encodeURIComponent(category)}&page=${page}&v=${version}`,{signal:controller.signal}).then(async r=>{if(!r.ok)throw Error();return await r.json() as Data}).then(value=>{setData(value);setError(false)}).catch(e=>{if(e.name!=='AbortError')setError(true)});return()=>controller.abort()},[visible,type,board,category,page,version]);
   const pageNumbers=useMemo(()=>{const pages=data?.pages??1;if(pages<=5)return Array.from({length:pages},(_,i)=>i+1);const start=Math.min(Math.max(1,page-2),pages-4);return Array.from({length:5},(_,i)=>start+i)},[data?.pages,page]);
   const change=(key:string)=>{setCategory(key);setPage(1);setData(null);setError(false)};
   return <div ref={root} className="remote-board">

@@ -1,12 +1,17 @@
 import type {LotteryType} from './lottery';
+import {env} from 'cloudflare:workers';
 
-import zodiac1 from '../public/generated/zodiac/type-1-096-manifest.json';
-import zodiac5 from '../public/generated/zodiac/type-5-246-manifest.json';
-import zodiac8 from '../public/generated/zodiac/type-8-246-manifest.json';
+type AssetBinding={fetch(request:Request):Promise<Response>};
+const issues:Record<LotteryType,string>={1:'096',5:'246',8:'246'};
 
-const map=(one:unknown,five:unknown,eight:unknown)=>({1:one,5:five,8:eight} as Record<LotteryType,any>);
-
-export const zodiacManifests=map(zodiac1,zodiac5,zodiac8);
+export async function getZodiacManifest(type:LotteryType):Promise<any>{
+  const assets=(env as unknown as {ASSETS?:AssetBinding}).ASSETS;
+  if(!assets)throw new Error('ASSETS binding unavailable');
+  const path=`/generated/zodiac/type-${type}-${issues[type]}-manifest.json`;
+  const response=await assets.fetch(new Request(`https://assets.local${path}`));
+  if(!response.ok)throw new Error(`Zodiac manifest not found: ${path}`);
+  return await response.json();
+}
 
 export function requestedLotteryType(query:Record<string,string|string[]|undefined>):LotteryType{
   const value=typeof query.type==='string'?query.type:'5';

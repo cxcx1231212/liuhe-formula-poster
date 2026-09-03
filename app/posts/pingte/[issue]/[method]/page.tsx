@@ -1,7 +1,7 @@
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
-import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
-import IssueScroller from '@/app/IssueScroller';
-import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
+import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';import IssueScroller from '@/app/IssueScroller';
+import {requestedLotteryType} from '@/lib/formula-manifests';
+import {pingteManifests} from '@/lib/pingte-manifests';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 
 type Draw={period:number;displayPeriod?:string;date?:string;numbers:{number:string;animal:string;element:string}[]};
@@ -32,11 +32,11 @@ function calculation(name:string,draw:Draw|undefined,result:number){
 function calculatedNumber(name:string,draw:Draw|undefined,fallback:number){const match=calculation(name,draw,fallback).match(/＝(\d+)$/);return match?Number(match[1]):fallback}
 
 export default async function PingteMethodPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
-  const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=formulaManifests.pingte[type];const requestedIssue=Number(issue);const currentIssue=Number(manifest.issue);const index=Number(method)-1;const currentItem=manifest.methods[index];
+  const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=pingteManifests.pingte[type];const requestedIssue=Number(issue);const currentIssue=Number(manifest.issue);const index=Number(method)-1;const currentItem=manifest.methods[index];
   if(!currentItem||!Number.isInteger(index)||index<0)return <ArchivedFormulaPost type={type} path={`/posts/pingte/${issue}/${method}`} backHref={`/?type=${type}#board-平特公式`} backLabel="返回平特板块"/>;
   const history:Check[]=currentItem.history||[];const sourceEntry=history.find(entry=>entry.targetPeriod===requestedIssue);const isDerivedHistory=requestedIssue<currentIssue&&Boolean(sourceEntry);
   if(requestedIssue!==currentIssue&&!isDerivedHistory)return <ArchivedFormulaPost type={type} path={`/posts/pingte/${issue}/${method}`} backHref={`/?type=${type}#board-平特公式`} backLabel="返回平特板块"/>;
-  const draws:Draw[]=formulaManifests.wuxing[type].draws;const drawMap=new Map(draws.map(draw=>[Number(draw.period),draw]));const selectedHistory=history.filter(entry=>entry.targetPeriod<=(isDerivedHistory?requestedIssue:currentIssue-1)).filter(entry=>drawMap.has(Number(entry.sourcePeriod))&&drawMap.has(Number(entry.targetPeriod))).slice(-5);const positions=sourcePositions(currentItem.name);
+  const draws:Draw[]=pingteManifests.wuxing[type].draws;const drawMap=new Map(draws.map(draw=>[Number(draw.period),draw]));const selectedHistory=history.filter(entry=>entry.targetPeriod<=(isDerivedHistory?requestedIssue:currentIssue-1)).filter(entry=>drawMap.has(Number(entry.sourcePeriod))&&drawMap.has(Number(entry.targetPeriod))).slice(-5);const positions=sourcePositions(currentItem.name);
   const transformedHistory=selectedHistory.map(entry=>{const sourceDraw=drawMap.get(Number(entry.sourcePeriod)),targetDraw=drawMap.get(Number(entry.targetPeriod));const resultNumber=calculatedNumber(currentItem.name,sourceDraw,entry.resultNumber),resultAnimal=animalFor(resultNumber),targets=targetPosition(targetDraw,resultNumber,resultAnimal),actual=targets.length?targetDraw?.numbers[targets[0]-1]:undefined;return {...entry,resultNumber,resultAnimal,hit:targets.length>0,targetPositions:targets,branches:[{name:currentItem.name,calculation:`${calculation(currentItem.name,sourceDraw,resultNumber)}属${resultAnimal}`,result:resultAnimal,targetPositions:targets}],actualNumber:actual?.number||'',actualAnimal:actual?.animal||'',actualElement:actual?.element||''}});
   const predictionSource=drawMap.get(isDerivedHistory?requestedIssue-1:currentIssue-1);const storedPrediction=isDerivedHistory?sourceEntry!.resultNumber:currentItem.predictionNumber;const predictionNumber=calculatedNumber(currentItem.name,predictionSource,storedPrediction),predictionAnimal=animalFor(predictionNumber);const verifiedEntry=isDerivedHistory?transformedHistory.find(entry=>entry.targetPeriod===requestedIssue):undefined;
   const sourceText=positions.length===1?`取平码${positions[0]+1}`:'取公式号码';const item={label:'平特一肖',sourceKey:currentItem.name,next:[predictionAnimal],recentStreak:currentItem.recentStreak,recent30Hits:Math.round((currentItem.recent30Rate||0)*30),formulaId:currentItem.formulaId,branches:[{name:currentItem.name,next:predictionAnimal,calculation:`${sourceText}：${calculation(currentItem.name,predictionSource,predictionNumber)}属${predictionAnimal}`,sourcePositions:positions}],history:transformedHistory,...(isDerivedHistory?{verification:{hit:verifiedEntry?.hit??false,actualNumber:verifiedEntry?.actualNumber||'',actualAnimal:verifiedEntry?.actualAnimal||'',actualElement:verifiedEntry?.actualElement||''}}:{})};

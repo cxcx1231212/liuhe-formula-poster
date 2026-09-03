@@ -127,3 +127,8 @@ jobs:
           git add data public/generated
           git commit -m "自动更新新一期公式 [skip ci]" || true
           git push
+
+
+      - name: 预热首页和历史帖子
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        run: node scripts/prewarm_formula_pages.mjs

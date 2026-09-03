@@ -26,11 +26,12 @@ export default async function Home({searchParams}:{searchParams:Promise<Record<s
   const latest=await getLatestLottery(type);
   const version=Number(latest.period)+1;
   return <main>
+    {(['1','5','8'] as LotteryType[]).filter(value=>value!==type).map(value=><link key={value} rel="prefetch" href={`/?type=${value}`}/>)}
     <link rel="preload" as="fetch" href={`/api/home-board?type=${type}&board=pingte&category=one&page=1&v=${version}`}/>
     <link rel="preload" as="fetch" href={`/api/home-board?type=${type}&board=tema&category=3&page=1&v=${version}`}/>
     <header className="site-header"><Link className="brand" href="/">六合公式库</Link><nav><a href="#boards">公式板块</a></nav></header>
     <section className="draw-hero">
-      <div className="lottery-switch"><div>{(['5','1','8'] as LotteryType[]).map(value=><Link prefetch className={value===type?'active':''} href={`/?type=${value}`} key={value}>{lotteryNames[value]}</Link>)}</div></div>
+      <div className="lottery-switch"><div>{(['5','1','8'] as LotteryType[]).map(value=><a className={value===type?'active':''} href={`/?type=${value}`} key={value}>{lotteryNames[value]}</a>)}</div></div>
       <LiveDraw initial={latest} type={type}/>
     </section>
     <section className="board-sections" id="boards">{boards.map((board,index)=><section className="board-section" key={board.key} id={`board-${board.name}`}>

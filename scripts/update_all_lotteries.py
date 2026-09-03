@@ -2,7 +2,9 @@ import argparse
 import importlib
 import json
 import re
+import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -60,17 +62,26 @@ def run_generator(filename: str, lottery_type: int, year: int):
     }
     for old, new in replacements.items():
         source = source.replace(old, new)
-    namespace = {
-        "__name__": "__main__",
-        "__file__": str(SCRIPTS / filename),
-        "__package__": None,
-    }
-    previous_argv = sys.argv
+    temp_path = None
     try:
-        sys.argv = [str(SCRIPTS / filename), "--type", str(lottery_type), "--year", str(year)]
-        exec(compile(source, str(SCRIPTS / filename), "exec"), namespace)
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            suffix=f"_{filename}",
+            prefix=".generated_",
+            dir=SCRIPTS,
+            delete=False,
+        ) as temp_file:
+            temp_file.write(source)
+            temp_path = Path(temp_file.name)
+        subprocess.run(
+            [sys.executable, str(temp_path), "--type", str(lottery_type), "--year", str(year)],
+            cwd=ROOT,
+            check=True,
+        )
     finally:
-        sys.argv = previous_argv
+        if temp_path is not None:
+            temp_path.unlink(missing_ok=True)
 
 def update(lottery_type: int, year: int):
     print(f"\n===== 更新 {LOTTERIES[lottery_type]}（{lottery_type}） =====")

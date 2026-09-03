@@ -5,6 +5,7 @@ import {getZodiacManifest,requestedLotteryType} from '@/lib/zodiac-manifests';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 import {buildZodiacPosterItem,type ZodiacMethod} from '@/lib/zodiac-history';
 
+// Load only the requested lottery's manifest to keep the page responsive.
 const labels:Record<string,string>={'1':'一肖','3':'三肖','6':'六肖','9':'九肖'};
 
 export default async function ZodiacPost({params,searchParams}:{params:Promise<{size:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){

@@ -31,7 +31,7 @@ def number(value):
 def rate(method):
     if isinstance(method.get("totalRate"), (int, float)):
         return method["totalRate"]
-        
+                split.write_text(json.dumps({"issue": int(data["issue"]), "group": data.get("groups", {}).get(category, {}), "draws": (data.get("draws") or fallback_draws)}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     history = method.get("history")
     if isinstance(history, list) and history:
         return sum(row.get("hit") is True for row in history) / len(history)

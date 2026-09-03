@@ -1,14 +1,14 @@
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
 import IssueScroller from '@/app/IssueScroller';
-import {zodiacManifests,requestedLotteryType} from '@/lib/zodiac-manifests';
+import {getZodiacManifest,requestedLotteryType} from '@/lib/zodiac-manifests';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 import {buildZodiacPosterItem,type ZodiacMethod} from '@/lib/zodiac-history';
 
 const labels:Record<string,string>={'1':'一肖','3':'三肖','6':'六肖','9':'九肖'};
 
 export default async function ZodiacPost({params,searchParams}:{params:Promise<{size:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
-  const {size,issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=zodiacManifests[type];
+  const {size,issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=await getZodiacManifest(type);
   const requestedIssue=Number(issue),currentIssue=Number(manifest.issue),index=Number(method)-1;
   const group=manifest.groups?.[size];const raw=group?.methods?.[index] as ZodiacMethod|undefined;const label=labels[size];
   const back=`/?type=${type}#board-生肖公式`;

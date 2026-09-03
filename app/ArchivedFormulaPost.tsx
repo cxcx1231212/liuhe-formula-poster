@@ -1,7 +1,7 @@
 import {formulaHistory} from '@/lib/formula-history';
 
 const names:Record<string,string>={'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
-const fieldNames:Record<string,string>={numbers:'本期号码',number:'本期号码',animals:'本期生肖',animal:'本期生肖',tails:'本期尾数',tail:'本期尾数',heads:'本期头数',head:'本期头数',waves:'本期波色',wave:'本期波色',elements:'本期五行',element:'本期五行',values:'本期结果',value:'本期结果',result:'本期结果',next:'本期预测',prediction:'本期预测',calculation:'计算过程',source:'取数来源'};
+const fieldNames:Record<string,string>={predictionAnimal:'本期生肖',predictionNumber:'本期号码',predictionAnimals:'本期生肖',predictionNumbers:'本期号码',numbers:'本期号码',number:'本期号码',animals:'本期生肖',animal:'本期生肖',nextAnimal:'本期生肖',tails:'本期尾数',tail:'本期尾数',heads:'本期头数',head:'本期头数',waves:'本期波色',wave:'本期波色',elements:'本期五行',element:'本期五行',values:'本期结果',value:'本期结果',result:'本期结果',next:'本期预测',prediction:'本期预测',branches:'计算明细',name:'公式分支',calculation:'计算过程',source:'取数来源',recentStreak:'近期连中',streak:'当前连中',maxStreak:'最高连中',recent30Rate:'近30期准确率',recent30Hits:'近30期命中',totalRate:'总准确率',totalHits:'总命中',totalTests:'统计期数'};
 
 function valueText(value:unknown):string{
   if(value===null||value===undefined||value==='')return '—';
@@ -18,12 +18,13 @@ export default async function ArchivedFormulaPost({type,path,backHref='/',backLa
   const newer=position>0?history.entries[position-1]:null;
   const older=position<history.entries.length-1?history.entries[position+1]:null;
   const predictions=Object.entries(item.prediction??{}).filter(([,value])=>value!==null&&value!==undefined&&value!=='');
+  const scores=Object.entries(item.score??{}).filter(([,value])=>value!==null&&value!==undefined&&value!=='');
   return <main className="post-page">
     <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="/">首页</a></nav></header>
     <article className="detail pingte-detail">
       <div className="detail-topbar"><a className="detail-back" href={backHref}><i>←</i><span><small>BACK TO INDEX</small><strong>{backLabel}</strong></span></a><nav className="detail-issue-links">{newer?.href?<a href={newer.href+'?type='+type}><small>下一期</small><strong>{newer.issue}期</strong></a>:<span className="disabled">当前最新</span>}{older?.href?<a href={older.href+'?type='+type}><small>上一期</small><strong>{older.issue}期</strong></a>:<span className="disabled">暂无上期</span>}</nav></div>
       <header className="detail-title detail-title-rich"><div className="detail-title-copy"><p><span>{names[type]??names['5']}</span><b>历史公式</b><time>2026-{item.issue}期</time></p><h1>{item.label||history.label}</h1><small>历史档案 · 已按同一公式连续保存</small></div><em>{String(item.issue).padStart(3,'0')}</em></header>
-      <section className="method-card single-method"><header className="simple-method-title"><strong>{item.label||history.label}</strong></header><div style={{display:'grid',gap:'12px',padding:'18px'}}><p><b>公式算法：</b>{item.signature||history.signature}</p>{predictions.length?predictions.map(([key,value])=><p key={key}><b>{fieldNames[key]||key}：</b>{valueText(value)}</p>):<p className="formula-note">本期公式数据已保存，暂无单独预测字段。</p>}<p><b>公式编号：</b>{item.formulaId}</p>{item.actual?<p><b>开奖结果：</b>{item.actual.number}（{item.actual.animal}）</p>:<p><b>开奖结果：</b>等待开奖</p>}</div></section>
+      <section className="method-card single-method"><header className="simple-method-title"><strong>{item.label||history.label}</strong></header><div style={{display:'grid',gap:'12px',padding:'18px'}}><p><b>公式算法：</b>{item.signature||history.signature}</p>{predictions.length?predictions.map(([key,value])=><p key={key}><b>{fieldNames[key]||key}：</b>{valueText(value)}</p>):<p className="formula-note">本期公式资料已保存，等待生成预测结果。</p>}{scores.length?<p><b>历史成绩：</b>{scores.map(([key,value])=>(fieldNames[key]||key)+' '+valueText(value)).join(' · ')}</p>:null}<p><b>公式编号：</b>{item.formulaId}</p>{item.actual?<p><b>开奖结果：</b>{item.actual.number}（{item.actual.animal}）</p>:<p><b>开奖结果：</b>等待开奖</p>}</div></section>
       <p className="formula-note">本页为该公式当期原始存档，开奖结果公布后自动记录命中状态。仅供娱乐参考。</p>
       <a className="history-inline-link" href={'/formula-history?type='+type+'&path='+encodeURIComponent(path)}>查看这个公式的全部历史记录</a>
     </article>

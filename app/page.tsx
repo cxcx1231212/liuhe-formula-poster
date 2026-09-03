@@ -26,7 +26,7 @@ export default async function Home({searchParams}:{searchParams:Promise<Record<s
   const latest=await getLatestLottery(type);
   const version=Number(latest.period)+1;
   return <main>
-    {(['1','5','8'] as LotteryType[]).filter(value=>value!==type).map(value=><link key={value} rel="prefetch" href={`/?type=${value}`}/>)}
+    {(['1','5','8'] as LotteryType[]).filter(value=>value!==type).flatMap(value=>[<link key={`${value}-page`} rel="prefetch" href={`/?type=${value}`}/>,<link key={`${value}-pingte`} rel="prefetch" href={`/generated/home-board/type-${value}-pingte-one.json`}/>,<link key={`${value}-tema`} rel="prefetch" href={`/generated/home-board/type-${value}-tema-3.json`}/>])}
     <link rel="preload" as="fetch" href={`/api/home-board?type=${type}&board=pingte&category=one&page=1&v=${version}`}/>
     <link rel="preload" as="fetch" href={`/api/home-board?type=${type}&board=tema&category=3&page=1&v=${version}`}/>
     <header className="site-header"><Link className="brand" href="/">六合公式库</Link><nav><a href="#boards">公式板块</a></nav></header>

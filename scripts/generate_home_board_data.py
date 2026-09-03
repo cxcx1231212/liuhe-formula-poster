@@ -31,7 +31,6 @@ def number(value):
 def rate(method):
     if isinstance(method.get("totalRate"), (int, float)):
         return method["totalRate"]
-                split.write_text(json.dumps({"issue": int(data["issue"]), "group": data.get("groups", {}).get(category, {}), "draws": (data.get("draws") or fallback_draws)}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     history = method.get("history")
     if isinstance(history, list) and history:
         return sum(row.get("hit") is True for row in history) / len(history)
@@ -42,14 +41,14 @@ def rate(method):
 def compact(method):
     return {key: method[key] for key in ("rank", "label", "name") if key in method}
 
-(data.get("draws") or fallback_draws)
+def build(lottery_type):
     boards = {}
     fallback_draws = json.loads(latest("wuxing", lottery_type).read_text(encoding="utf-8")).get("draws", [])
     for key, folder, category in SOURCES:
         data = json.loads(latest(folder, lottery_type).read_text(encoding="utf-8"))
         if folder == "zodiac" and category:
             split = GENERATED / "zodiac" / f"type-{lottery_type}-{int(data['issue']):03d}-{category}-manifest.json"
-                    split.write_text(json.dumps({"issue": int(data["issue"]), "group": data.get("groups", {}).get(category, {}), "draws": (data.get("draws") or fallback_draws)}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+            split.write_text(json.dumps({"issue": int(data["issue"]), "group": data.get("groups", {}).get(category, {}), "draws": (data.get("draws") or fallback_draws)}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
         methods = data.get("groups", {}).get(category, {}).get("methods", []) if category else data.get("methods", [])
         methods = sorted(methods, key=lambda m: (-number(m.get("recentStreak", m.get("streak"))), -rate(m)))
         boards[key] = {"issue": int(data["issue"]), "methods": [compact(m) for m in methods]}

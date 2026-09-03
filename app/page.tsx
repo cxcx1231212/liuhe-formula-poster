@@ -24,7 +24,10 @@ export default async function Home({searchParams}:{searchParams:Promise<Record<s
   const requestedType=typeof query.type==='string'?query.type:'5';
   const type:LotteryType=isLotteryType(requestedType)?requestedType:'5';
   const latest=await getLatestLottery(type);
+  const version=Number(latest.period)+1;
   return <main>
+    <link rel="preload" as="fetch" href={`/api/home-board?type=${type}&board=pingte&category=one&page=1&v=${version}`}/>
+    <link rel="preload" as="fetch" href={`/api/home-board?type=${type}&board=tema&category=3&page=1&v=${version}`}/>
     <header className="site-header"><Link className="brand" href="/">六合公式库</Link><nav><a href="#boards">公式板块</a></nav></header>
     <section className="draw-hero">
       <div className="lottery-switch"><div>{(['5','1','8'] as LotteryType[]).map(value=><a className={value===type?'active':''} href={`/?type=${value}`} key={value}>{lotteryNames[value]}</a>)}</div></div>
@@ -32,7 +35,7 @@ export default async function Home({searchParams}:{searchParams:Promise<Record<s
     </section>
     <section className="board-sections" id="boards">{boards.map((board,index)=><section className="board-section" key={board.key} id={`board-${board.name}`}>
       <header><span>{String(index+1).padStart(2,'0')}</span><h2>{board.name}</h2><i>{board.tagline}</i></header>
-      <RemoteBoard type={type} board={board.key} categories={'categories' in board?[...board.categories]:undefined}/>
+      <RemoteBoard type={type} board={board.key} version={version} categories={'categories' in board?[...board.categories]:undefined}/>
     </section>)}</section>
     <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>
   </main>;

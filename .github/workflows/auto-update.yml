@@ -84,6 +84,7 @@ jobs:
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
         run: |
           pnpm install --frozen-lockfile
+          python scripts/generate_home_board_data.py
           # 当前生肖清单只保留展示数据；完整逐期记录保存在 formula-history。
           python - <<'PY'
           import json

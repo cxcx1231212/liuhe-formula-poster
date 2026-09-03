@@ -1,13 +1,18 @@
 import {formulaHistory} from '@/lib/formula-history';
 
 
+
+
 const names:Record<string,string>={'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
 const fieldNames:Record<string,string>={predictionAnimal:'本期生肖',predictionNumber:'本期号码',predictionAnimals:'本期生肖',predictionNumbers:'本期号码',numbers:'本期号码',number:'本期号码',animals:'本期生肖',animal:'本期生肖',nextAnimal:'本期生肖',tails:'本期尾数',tail:'本期尾数',heads:'本期头数',head:'本期头数',waves:'本期波色',wave:'本期波色',elements:'本期五行',element:'本期五行',values:'本期结果',value:'本期结果',result:'本期结果',next:'本期预测',prediction:'本期预测',branches:'计算明细',name:'公式分支',calculation:'计算过程',source:'取数来源',recentStreak:'近期连中',streak:'当前连中',maxStreak:'最高连中',recent30Rate:'近30期准确率',recent30Hits:'近30期命中',totalRate:'总准确率',totalHits:'总命中',totalTests:'统计期数'};
+
+
 
 
 function scoreText(key:string,value:unknown):string{
   return key.toLowerCase().includes('rate')&&typeof value==='number'?Math.round(value*100)+'%':valueText(value);
 }
+
 
 function valueText(value:unknown):string{
   if(value===null||value===undefined||value==='')return '—';
@@ -15,6 +20,8 @@ function valueText(value:unknown):string{
   if(typeof value==='object')return Object.entries(value as Record<string,unknown>).map(([key,item])=>(fieldNames[key]||key)+'：'+valueText(item)).join('；');
   return String(value);
 }
+
+
 
 
 export default async function ArchivedFormulaPost({type,path,backHref='/',backLabel='返回公式板块'}:{type:string;path:string;backHref?:string;backLabel?:string}){
@@ -26,15 +33,33 @@ export default async function ArchivedFormulaPost({type,path,backHref='/',backLa
   const older=position<history.entries.length-1?history.entries[position+1]:null;
   const predictions=Object.entries(item.prediction??{}).filter(([,value])=>value!==null&&value!==undefined&&value!=='');
   const scores=Object.entries(item.score??{}).filter(([,value])=>value!==null&&value!==undefined&&value!=='');
+  const algorithmParts=(item.signature||history.signature).split('|').filter(Boolean);
+  const resultRows=predictions.filter(([key])=>key!=='branches');
+  const branchRows=predictions.find(([key])=>key==='branches');
+  const displayId=item.formulaId.replace(/-+/g,'-');
   return <main className="post-page">
     <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="/">首页</a></nav></header>
     <article className="detail pingte-detail">
       <div className="detail-topbar"><a className="detail-back" href={backHref}><i>←</i><span><small>BACK TO INDEX</small><strong>{backLabel}</strong></span></a><nav className="detail-issue-links">{newer?.href?<a href={newer.href+'?type='+type}><small>下一期</small><strong>{newer.issue}期</strong></a>:<span className="disabled">当前最新</span>}{older?.href?<a href={older.href+'?type='+type}><small>上一期</small><strong>{older.issue}期</strong></a>:<span className="disabled">暂无上期</span>}</nav></div>
       <header className="detail-title detail-title-rich"><div className="detail-title-copy"><p><span>{names[type]??names['5']}</span><b>历史公式</b><time>2026-{item.issue}期</time></p><h1>{item.label||history.label}</h1><small>历史档案 · 已按同一公式连续保存</small></div><em>{String(item.issue).padStart(3,'0')}</em></header>
-      <section className="method-card single-method"><header className="simple-method-title"><strong>{item.label||history.label}</strong></header><div style={{display:'grid',gap:'12px',padding:'18px'}}><p><b>公式算法：</b>{item.signature||history.signature}</p>{predictions.length?predictions.map(([key,value])=><p key={key}><b>{fieldNames[key]||key}：</b>{valueText(value)}</p>):<p className="formula-note">本期公式资料已保存，等待生成预测结果。</p>}{scores.length?<p><b>历史成绩：</b>{scores.map(([key,value])=>(fieldNames[key]||key)+' '+scoreText(key,value)).join(' · ')}</p>:null}<p><b>公式编号：</b>{item.formulaId}</p>{item.actual?<p><b>开奖结果：</b>{item.actual.number}（{item.actual.animal}）</p>:<p><b>开奖结果：</b>等待开奖</p>}</div></section>
+      <section className="method-card single-method" style={{overflow:'hidden'}}>
+        <div style={{padding:'20px',background:'linear-gradient(135deg,#17130a,#090909)',borderBottom:'1px solid #614a14'}}>
+          <p style={{margin:'0 0 8px',color:'#d9ae3f',fontSize:'13px',fontWeight:700}}>{names[type]??names['5']} · 第{item.issue}期</p>
+          <h1 style={{margin:0,color:'#fff',fontSize:'clamp(22px,5vw,34px)',lineHeight:1.3}}>{item.label||history.label}</h1>
+        </div>
+        <div style={{display:'grid',gap:'16px',padding:'20px'}}>
+          <div><strong style={{display:'block',marginBottom:'10px',color:'#d9ae3f'}}>公式算法</strong><ol style={{margin:0,paddingLeft:'22px',display:'grid',gap:'8px'}}>{algorithmParts.map((part,index)=><li key={index}>{part}</li>)}</ol></div>
+          {branchRows?<div><strong style={{display:'block',marginBottom:'10px',color:'#d9ae3f'}}>计算过程</strong><p style={{margin:0,lineHeight:1.8}}>{valueText(branchRows[1])}</p></div>:null}
+          {resultRows.length?<div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))',gap:'10px'}}>{resultRows.map(([key,value])=><div key={key} style={{padding:'14px',border:'1px solid #765817',borderRadius:'10px',background:'#171208'}}><small style={{display:'block',marginBottom:'6px',color:'#c9a64a'}}>{fieldNames[key]||key}</small><strong style={{fontSize:'22px',color:'#fff'}}>{valueText(value)}</strong></div>)}</div>:<p className="formula-note">本期公式资料已保存，等待生成预测结果。</p>}
+          {scores.length?<div style={{padding:'12px 14px',borderRadius:'10px',background:'#0d0d0d',lineHeight:1.8}}><b style={{color:'#d9ae3f'}}>历史成绩：</b>{scores.map(([key,value])=>(fieldNames[key]||key)+' '+scoreText(key,value)).join(' · ')}</div>:null}
+          <div style={{display:'flex',flexWrap:'wrap',gap:'12px',justifyContent:'space-between',fontSize:'14px',color:'#bbb'}}><span>公式编号：{displayId}</span><span>开奖结果：{item.actual?item.actual.number+'（'+item.actual.animal+'）':'等待开奖'}</span></div>
+        </div>
+      </section>
       <p className="formula-note">本页为该公式当期原始存档，开奖结果公布后自动记录命中状态。仅供娱乐参考。</p>
       <a className="history-inline-link" href={'/formula-history?type='+type+'&path='+encodeURIComponent(path)}>查看这个公式的全部历史记录</a>
     </article>
   </main>;
 }
+
+
 

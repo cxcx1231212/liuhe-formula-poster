@@ -4,10 +4,10 @@ import {env} from 'cloudflare:workers';
 type AssetBinding={fetch(request:Request):Promise<Response>};
 const issues:Record<LotteryType,string>={1:'096',5:'246',8:'246'};
 
-export async function getZodiacManifest(type:LotteryType):Promise<any>{
+export async function getZodiacManifest(type:LotteryType,size:string):Promise<any>{
   const assets=(env as unknown as {ASSETS?:AssetBinding}).ASSETS;
   if(!assets)throw new Error('ASSETS binding unavailable');
-  const path=`/generated/zodiac/type-${type}-${issues[type]}-manifest.json`;
+  const path=`/generated/zodiac/type-${type}-${issues[type]}-${size}-manifest.json`;
   const response=await assets.fetch(new Request(`https://assets.local${path}`));
   if(!response.ok)throw new Error(`Zodiac manifest not found: ${path}`);
   return await response.json();

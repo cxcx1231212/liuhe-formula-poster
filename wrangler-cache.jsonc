@@ -1,0 +1,16 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "liuhe-formula-poster",
+  "main": "./worker/cache-proxy.js",
+  "compatibility_date": "2026-09-03",
+  "services": [
+    {
+      "binding": "APP",
+      "service": "liuhe-formula-poster-backend"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 0.1
+  }
+}

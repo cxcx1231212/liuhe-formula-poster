@@ -107,12 +107,19 @@ jobs:
           PY
           pnpm run build
 
-      - name: 发布到 Cloudflare
+      - name: 发布公式程序后端
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm exec wrangler deploy --config dist/server/wrangler.json --name liuhe-formula-poster
+        run: pnpm exec wrangler deploy --config dist/server/wrangler.json --name liuhe-formula-poster-backend
+
+      - name: 发布轻量缓存入口
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler deploy --config wrangler-cache.jsonc
 
       - name: 发布成功后确认历史已保存
         if: steps.check.outputs.changed == 'true'

@@ -58,7 +58,7 @@ def select(records):
             key=(item["pattern"],tuple(item["next"])); old=unique.get(key)
             if old is None or (item["recent30Hits"],item["recentStreak"],item["total"])>(old["recent30Hits"],old["recentStreak"],old["total"]): unique[key]=item
         return sorted(unique.values(),key=lambda item:(item["recent30Hits"],item["recentStreak"],item["total"]),reverse=True)
-    return dedupe(singles),dedupe(pairs)
+    return singles,pairs
 
 
 def formula_group(draw,top,item,source,target=None):

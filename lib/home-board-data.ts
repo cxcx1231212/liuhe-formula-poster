@@ -1,26 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {postAuthor} from '@/lib/post-authors';
-import one1 from '@/public/generated/pingte-all/type-1-096-manifest.json';import one5 from '@/public/generated/pingte-all/type-5-246-manifest.json';import one8 from '@/public/generated/pingte-all/type-8-246-manifest.json';
-import two1 from '@/public/generated/pingte-two/type-1-096-manifest.json';import two5 from '@/public/generated/pingte-two/type-5-246-manifest.json';import two8 from '@/public/generated/pingte-two/type-8-246-manifest.json';
-import tema1 from '@/public/generated/tema-bundles/type-1-096-manifest.json';import tema5 from '@/public/generated/tema-bundles/type-5-246-manifest.json';import tema8 from '@/public/generated/tema-bundles/type-8-246-manifest.json';
-import zodiac1 from '@/public/generated/zodiac/type-1-096-manifest.json';import zodiac5 from '@/public/generated/zodiac/type-5-246-manifest.json';import zodiac8 from '@/public/generated/zodiac/type-8-246-manifest.json';
-import fushi1 from '@/public/generated/fushi/type-1-096-manifest.json';import fushi5 from '@/public/generated/fushi/type-5-246-manifest.json';import fushi8 from '@/public/generated/fushi/type-8-246-manifest.json';
-import ds1 from '@/public/generated/danshuang/type-1-096-manifest.json';import ds5 from '@/public/generated/danshuang/type-5-246-manifest.json';import ds8 from '@/public/generated/danshuang/type-8-246-manifest.json';
-import wave1 from '@/public/generated/wave/type-1-096-manifest.json';import wave5 from '@/public/generated/wave/type-5-246-manifest.json';import wave8 from '@/public/generated/wave/type-8-246-manifest.json';
-import wx1 from '@/public/generated/wuxing/type-1-096-manifest.json';import wx5 from '@/public/generated/wuxing/type-5-246-manifest.json';import wx8 from '@/public/generated/wuxing/type-8-246-manifest.json';
-import jy1 from '@/public/generated/jiaye/type-1-095-manifest.json';import jy5 from '@/public/generated/jiaye/type-5-246-manifest.json';import jy8 from '@/public/generated/jiaye/type-8-246-manifest.json';
-import kill1 from '@/public/generated/kill/type-1-096-manifest.json';import kill5 from '@/public/generated/kill/type-5-246-manifest.json';import kill8 from '@/public/generated/kill/type-8-246-manifest.json';
-import size1 from '@/public/generated/size/type-1-095-manifest.json';import size5 from '@/public/generated/size/type-5-246-manifest.json';import size8 from '@/public/generated/size/type-8-246-manifest.json';
-import tail1 from '@/public/generated/tail/type-1-095-manifest.json';import tail5 from '@/public/generated/tail/type-5-246-manifest.json';import tail8 from '@/public/generated/tail/type-8-246-manifest.json';
-import head1 from '@/public/generated/head/type-1-095-manifest.json';import head5 from '@/public/generated/head/type-5-246-manifest.json';import head8 from '@/public/generated/head/type-8-246-manifest.json';
+import {env} from 'cloudflare:workers';
 
 export type HomeBoardKey='pingte'|'tema'|'zodiac'|'fushi'|'danshuang'|'wave'|'wuxing'|'jiaye'|'kill'|'size'|'tail'|'head';
 type LotteryType='1'|'5'|'8';
 type Post={href:string;issue:string;title:string};
-const manifests:any={
-  pingte:{1:one1,5:one5,8:one8},pingte2:{1:two1,5:two5,8:two8},tema:{1:tema1,5:tema5,8:tema8},zodiac:{1:zodiac1,5:zodiac5,8:zodiac8},
-  fushi:{1:fushi1,5:fushi5,8:fushi8},danshuang:{1:ds1,5:ds5,8:ds8},wave:{1:wave1,5:wave5,8:wave8},wuxing:{1:wx1,5:wx5,8:wx8},
-  jiaye:{1:jy1,5:jy5,8:jy8},kill:{1:kill1,5:kill5,8:kill8},size:{1:size1,5:size5,8:size8},tail:{1:tail1,5:tail5,8:tail8},head:{1:head1,5:head5,8:head8},
+type AssetBinding={fetch(request:Request):Promise<Response>};
+const manifestInfo:any={
+  pingte:{dir:'pingte-all',issues:{1:'096',5:'246',8:'246'}},pingte2:{dir:'pingte-two',issues:{1:'096',5:'246',8:'246'}},
+  tema:{dir:'tema-bundles',issues:{1:'096',5:'246',8:'246'}},zodiac:{dir:'zodiac',issues:{1:'096',5:'246',8:'246'}},
+  fushi:{dir:'fushi',issues:{1:'096',5:'246',8:'246'}},danshuang:{dir:'danshuang',issues:{1:'096',5:'246',8:'246'}},
+  wave:{dir:'wave',issues:{1:'096',5:'246',8:'246'}},wuxing:{dir:'wuxing',issues:{1:'096',5:'246',8:'246'}},
+  jiaye:{dir:'jiaye',issues:{1:'095',5:'246',8:'246'}},kill:{dir:'kill',issues:{1:'096',5:'246',8:'246'}},
+  size:{dir:'size',issues:{1:'095',5:'246',8:'246'}},tail:{dir:'tail',issues:{1:'095',5:'246',8:'246'}},head:{dir:'head',issues:{1:'095',5:'246',8:'246'}},
 };
 const oneTitles=['历史轨迹完整公开','平码尾数实战参考','连续命中规律分享','下期特肖重点参考','平码推演清晰易懂','合数公式逐期验证','精选公式稳定追踪','独家思路免费公开','七码总分规律解析','本期规律参考分享'];
 const twoTitles=['双肖同时开轨迹公开','两条公式同步验证','平码特码全部计入','双支公式清楚易懂','历史同期开出参考','两肖组合重点分享','逐期双线轨迹整理','精选双肖免费公开','双肖规律手机大字图','本期两肖参考分享'];
@@ -36,9 +28,14 @@ const accuracy=(m:any)=>typeof m?.totalRate==='number'?n(m.totalRate):Array.isAr
 const sorted=(items:any[]=[])=>items.map((method,index)=>({method,index,streak:n(method?.recentStreak??method?.streak),accuracy:accuracy(method)})).sort((a,b)=>b.streak-a.streak||b.accuracy-a.accuracy||a.index-b.index).map(x=>x.method);
 const pad=(v:number|string)=>String(v).padStart(3,'0');
 
-function source(type:LotteryType,board:HomeBoardKey,category:string){
-  if(board==='pingte')return category==='two'?manifests.pingte2[type]:manifests.pingte[type];
-  return manifests[board][type];
+async function source(type:LotteryType,board:HomeBoardKey,category:string){
+  const key=board==='pingte'&&category==='two'?'pingte2':board;
+  const info=manifestInfo[key],assets=(env as unknown as {ASSETS?:AssetBinding}).ASSETS;
+  if(!assets)throw new Error('ASSETS binding unavailable');
+  const path=`/generated/${info.dir}/type-${type}-${info.issues[type]}-manifest.json`;
+  const response=await assets.fetch(new Request(`https://assets.local${path}`));
+  if(!response.ok)throw new Error(`Manifest not found: ${path}`);
+  return await response.json();
 }
 function groupItems(manifest:any,board:HomeBoardKey,category:string){
   if(['tema','zodiac','fushi','kill'].includes(board))return manifest.groups?.[category]?.methods??[];
@@ -59,8 +56,8 @@ function makePost(type:LotteryType,board:HomeBoardKey,category:string,issue:numb
   return {issue:i,href:`/posts/${board}/${issue}/${rank}${q}`,title:`${postAuthor(type,board,index)}【${m.label}】每期公式完整公开`};
 }
 
-export function getHomeBoardPage(type:LotteryType,board:HomeBoardKey,category:string,page=1,pageSize=10){
-  const manifest=source(type,board,category),issue=Number(manifest.issue);
+export async function getHomeBoardPage(type:LotteryType,board:HomeBoardKey,category:string,page=1,pageSize=10){
+  const manifest:any=await source(type,board,category),issue=Number(manifest.issue);
   const methods=sorted(groupItems(manifest,board,category));
   const pages=Math.max(1,Math.ceil(methods.length/pageSize)),safe=Math.min(Math.max(1,page),pages);
   const start=(safe-1)*pageSize;

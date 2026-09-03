@@ -31,7 +31,7 @@ SEARCH_MODULES = [
 
 GENERATOR_SCRIPTS = [
     "generate_tema_manifest.py",
-    "generate_zodiac_posters.py",
+    "write_zodiac_manifests.py",
     "generate_wuxing_posters.py",
     "generate_jiaye_posters.py",
     "generate_kill_posters.py",

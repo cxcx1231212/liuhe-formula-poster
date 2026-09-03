@@ -1,6 +1,7 @@
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
-import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';import IssueScroller from '@/app/IssueScroller';import {pingteManifests,requestedLotteryType} from '@/lib/pingte-manifests';
-import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
+import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';import IssueScroller from '@/app/IssueScroller';import {pingteManifests,requestedLotteryType} from '@/lib/pingte-manifests';import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
+
+export const revalidate=3600;
 
 type Draw={period:number;displayPeriod?:string;date?:string;numbers:{number:string;animal:string;element:string}[]};
 type Check={sourcePeriod:number;targetPeriod:number;resultNumber:number;resultAnimal:string;hit:boolean;targetPositions:number[];targetNumbers:string[]};

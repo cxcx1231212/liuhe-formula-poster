@@ -5,7 +5,6 @@ import re
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / "scripts"
 sys.path.insert(0, str(SCRIPTS))
@@ -38,12 +37,10 @@ GENERATOR_SCRIPTS = [
     "generate_tail_head_posters.py",
 ]
 
-
 def run_search(module_name: str, lottery_type: int, year: int):
     module = importlib.import_module(module_name)
     function = getattr(module, "run", None) or getattr(module, "search")
     return function(lottery_type, year)
-
 
 def run_generator(filename: str, lottery_type: int, year: int):
     source = (SCRIPTS / filename).read_text(encoding="utf-8")
@@ -74,7 +71,6 @@ def run_generator(filename: str, lottery_type: int, year: int):
         exec(compile(source, str(SCRIPTS / filename), "exec"), namespace)
     finally:
         sys.argv = previous_argv
-
 
 def update(lottery_type: int, year: int):
     print(f"\n===== 更新 {LOTTERIES[lottery_type]}（{lottery_type}） =====")
@@ -123,10 +119,9 @@ def update(lottery_type: int, year: int):
     archive(lottery_type, year, next_period)
     return {"lotteryType": lottery_type, "year": year, "nextPeriod": next_period}
 
-
 def refresh_manifest_imports(updated: list[dict]):
     """Point the website build at the manifests produced in this run."""
-    for path in (ROOT / "lib" / "formula-manifests.ts", ROOT / "app" / "page.tsx"):
+    for path in (ROOT / "lib" / "formula-manifests.ts", ROOT / "lib" / "home-board-data.ts", ROOT / "app" / "page.tsx"):
         source = path.read_text(encoding="utf-8")
         for row in updated:
             lottery_type = row["lotteryType"]
@@ -137,7 +132,6 @@ def refresh_manifest_imports(updated: list[dict]):
                 source,
             )
         path.write_text(source, encoding="utf-8")
-
 
 def main():
     parser = argparse.ArgumentParser(description="更新三个彩种的公式数据和图片")
@@ -155,7 +149,6 @@ def main():
     catalog = [by_type[value] for value in sorted(by_type)]
     destination.write_text(json.dumps(catalog, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"\n全部更新完成：{destination}")
-
 
 if __name__ == "__main__":
     main()

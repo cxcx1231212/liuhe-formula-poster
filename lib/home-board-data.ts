@@ -32,13 +32,11 @@ async function source(type:LotteryType,board:HomeBoardKey,category:string){
   const key=board==='pingte'?`pingte:${category==='two'?'two':'one'}`:`${board}:${category}`;
   const assets=(env as unknown as {ASSETS?:AssetBinding}).ASSETS;
   if(!assets)throw new Error('ASSETS binding unavailable');
-  const path=`/generated/home-board/type-${type}.json`;
+  const safeKey=key.replace(':','-');
+  const path=`/generated/home-board/type-${type}-${safeKey}.json`;
   const response=await assets.fetch(new Request(`https://assets.local${path}`));
   if(!response.ok)throw new Error(`Homepage data not found: ${path}`);
-  const data=await response.json() as {boards:Record<string,unknown>};
-  const manifest=data.boards[key];
-  if(!manifest)throw new Error(`Homepage board not found: ${key}`);
-  return manifest;
+  return await response.json();
 }
 function groupItems(manifest:any,board:HomeBoardKey,category:string){
   return manifest.methods??[];

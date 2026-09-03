@@ -1,10 +1,10 @@
-import {archivedFormula,formulaHistory} from '@/lib/formula-history';
+import {formulaHistory} from '@/lib/formula-history';
 
 const names:Record<string,string>={'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
 
-export default function ArchivedFormulaPost({type,path,backHref='/',backLabel='返回公式板块'}:{type:string;path:string;backHref?:string;backLabel?:string}){
-  const item=archivedFormula(type,path);
-  const history=formulaHistory(type,path);
+export default async function ArchivedFormulaPost({type,path,backHref='/',backLabel='返回公式板块'}:{type:string;path:string;backHref?:string;backLabel?:string}){
+  const history=await formulaHistory(type,path);
+  const item=history?.entries.find(entry=>entry.href===path)??null;
   if(!item||!history)return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
   const position=history.entries.findIndex(entry=>entry.href===path);
   const newer=position>0?history.entries[position-1]:null;

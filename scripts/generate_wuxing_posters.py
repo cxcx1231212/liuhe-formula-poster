@@ -22,7 +22,11 @@ def evaluated(records, element):
             if any(word in name for word in ("除","合数","尾数","总分","乘")) or not ("加" in name or "减" in name): continue
             predictions=[element(calculate(record)) for record in records[:-1]]
             methods.append({"name":name,"calculate":calculate,"predictions":predictions,"next":element(calculate(records[-1]))})
-        groups.append((source_key,methods))
+        unique_methods = {}
+        for method in methods:
+            key = (tuple(method["predictions"]), method["next"])
+            unique_methods.setdefault(key, method)
+        groups.append((source_key, list(unique_methods.values())))
     return groups
 
 

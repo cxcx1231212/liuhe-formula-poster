@@ -3,7 +3,7 @@ import { join } from 'node:path';
 
 const ORIGIN = 'https://liuhe-formula-poster.xcx8088.workers.dev';
 const BOARD_DIR = join(process.cwd(), 'public', 'generated', 'home-board');
-const MAX_PAGES = 300;
+const MAX_PAGES = 180;
 const TOP_PER_BOARD = 4;
 const CONCURRENCY = 12;
 const pad = (value) => String(value).padStart(3, '0');
@@ -39,7 +39,7 @@ async function load(url) {
   const response = await fetch(url, {
     headers: { accept: 'text/html', 'user-agent': 'formula-cache-warmer/2.0' },
     redirect: 'follow',
-    signal: AbortSignal.timeout(15000),
+    signal: AbortSignal.timeout(8000),
   });
   if (!response.ok) throw new Error(response.status + ' ' + url);
   return { html: await response.text(), cache: response.headers.get('x-formula-global-cache') };
@@ -51,6 +51,7 @@ for (const file of (await readdir(BOARD_DIR)).sort()) {
   const match = file.match(/^type-(\d+)-(.+)\.json$/);
   if (!match) continue;
   const [, type, boardKey] = match;
+  if (type === '1' || boardKey.startsWith('zodiac-')) continue;
   const payload = JSON.parse(await readFile(join(BOARD_DIR, file), 'utf8'));
   for (const [index, method] of (payload.methods || []).slice(0, TOP_PER_BOARD).entries()) {
     const url = postUrl(boardKey, payload.issue, method, index, type);

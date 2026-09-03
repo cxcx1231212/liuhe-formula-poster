@@ -44,14 +44,14 @@ def select(records):
     for source_key,methods in groups:
         for method in methods:
             sets=[(value,) for value in method["predictions"]]; streak,recent,total,_=hit_stats(sets,targets)
-            if streak>=4: singles.append({"sourceKey":source_key,"branches":[method],"next":[method["next"]],"recentStreak":streak,"recent30Hits":recent,"total":total,"pattern":tuple(sets),"lineCount":1,"label":"一行中特"})
+            singles.append({"sourceKey":source_key,"branches":[method],"next":[method["next"]],"recentStreak":streak,"recent30Hits":recent,"total":total,"pattern":tuple(sets),"lineCount":1,"label":"一行中特"})
     pairs=[]
     for source_key,methods in groups:
         for first,second in combinations(methods,2):
             if first["next"]==second["next"]: continue
             sets=[tuple(sorted((a,b))) for a,b in zip(first["predictions"],second["predictions"])]
             streak,recent,total,_=hit_stats(sets,targets)
-            if streak>=8: pairs.append({"sourceKey":source_key,"branches":[first,second],"next":list(sorted((first["next"],second["next"]))),"recentStreak":streak,"recent30Hits":recent,"total":total,"pattern":tuple(sets),"lineCount":2,"label":"两行中特"})
+            pairs.append({"sourceKey":source_key,"branches":[first,second],"next":list(sorted((first["next"],second["next"]))),"recentStreak":streak,"recent30Hits":recent,"total":total,"pattern":tuple(sets),"lineCount":2,"label":"两行中特"})
     def dedupe(items):
         unique={}
         for item in items:

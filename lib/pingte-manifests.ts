@@ -13,3 +13,8 @@ export const pingteManifests={
   pingte:map(pingte1,pingte5,pingte8),
   wuxing:map(wuxing1,wuxing5,wuxing8),
 };
+
+export function requestedLotteryType(query:Record<string,string|string[]|undefined>):LotteryType{
+  const value=typeof query.type==='string'?query.type:'5';
+  return value==='1'||value==='8'?value:'5';
+}

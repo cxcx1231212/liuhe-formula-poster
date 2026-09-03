@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import {Suspense} from 'react';
+import FormulaHistoryButton from './FormulaHistoryButton';
 import './globals.css';
 
 const geistSans = Geist({
@@ -13,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: '公式图｜每期公式一图看完',
-  description: '只发布每期已经生成好的公式图片，打开即可查看与保存。',
+  title: '六合公式库｜每期公式自动更新',
+  description: '汇总香港、澳门和疯狂天天彩各类公式，按期开奖后自动更新。',
 };
 
 export default function RootLayout({
@@ -28,6 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <Suspense fallback={null}><FormulaHistoryButton/></Suspense>
       </body>
     </html>
   );

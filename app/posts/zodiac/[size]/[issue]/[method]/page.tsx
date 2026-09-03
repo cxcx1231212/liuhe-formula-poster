@@ -1,14 +1,14 @@
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
 import IssueScroller from '@/app/IssueScroller';
-import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
+import {zodiacManifests,requestedLotteryType} from '@/lib/zodiac-manifests';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 import {buildZodiacPosterItem,type ZodiacMethod} from '@/lib/zodiac-history';
 
 const labels:Record<string,string>={'1':'一肖','3':'三肖','6':'六肖','9':'九肖'};
 
 export default async function ZodiacPost({params,searchParams}:{params:Promise<{size:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
-  const {size,issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=formulaManifests.zodiac[type];
+  const {size,issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=zodiacManifests[type];
   const requestedIssue=Number(issue),currentIssue=Number(manifest.issue),index=Number(method)-1;
   const group=manifest.groups?.[size];const raw=group?.methods?.[index] as ZodiacMethod|undefined;const label=labels[size];
   const back=`/?type=${type}#board-生肖公式`;
@@ -24,3 +24,4 @@ export default async function ZodiacPost({params,searchParams}:{params:Promise<{
   const padded=String(index+1).padStart(3,'0');
   return <main className="post-page"><header className="site-header"><a className="brand" href={`/?type=${type}`}>六合公式库</a><nav><a href={`/?type=${type}`}>首页</a><a href={back}>生肖公式</a></nav></header><article className="detail pingte-detail"><div className="detail-topbar"><a className="detail-back" href={back}><i>←</i><span><small>BACK TO INDEX</small><strong>返回生肖板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath={`/posts/zodiac/${size}`} method={padded} type={type}/></div><section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={draws} mode="zodiac" lotteryName={LOTTERY_SHORT_NAMES[type]}/></section></article><footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer></main>;
 }
+

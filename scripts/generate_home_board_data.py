@@ -48,10 +48,13 @@ def build(lottery_type):
         methods = data.get("groups", {}).get(category, {}).get("methods", []) if category else data.get("methods", [])
         methods = sorted(methods, key=lambda m: (-number(m.get("recentStreak", m.get("streak"))), -rate(m)))
         boards[key] = {"issue": int(data["issue"]), "methods": [compact(m) for m in methods]}
-    output = GENERATED / "home-board" / f"type-{lottery_type}.json"
-    output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps({"boards": boards}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    print(f"首页轻量清单：{output} ({output.stat().st_size // 1024} KB)")
+    output_dir = GENERATED / "home-board"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    for key, payload in boards.items():
+        safe_key = key.replace(":", "-")
+        output = output_dir / f"type-{lottery_type}-{safe_key}.json"
+        output.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+        print(f"首页轻量清单：{output} ({output.stat().st_size // 1024} KB)")
 
 if __name__ == "__main__":
     for value in (1, 5, 8):

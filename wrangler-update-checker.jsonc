@@ -1,0 +1,15 @@
+{
+  "name": "liuhe-formula-update-checker",
+  "main": "worker/update-checker.js",
+  "compatibility_date": "2026-08-01",
+  "workers_dev": true,
+  "kv_namespaces": [
+    {
+      "binding": "LOTTERY_CACHE",
+      "id": "2c8a78b384e34253b341ce878f77a0d0"
+    }
+  ],
+  "triggers": {
+    "crons": ["*/10 15-16 * * *", "20 4,10,13,19 * * *"]
+  }
+}

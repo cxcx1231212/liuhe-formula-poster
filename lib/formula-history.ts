@@ -33,7 +33,7 @@ function predictionOf(method:Record<string,unknown>){
 async function livePrediction(type:string,issue:number,row:FormulaHistoryRow){
   const folder=folders[row.board];if(!folder)return null;
   const payload=await loadJson('generated/'+folder+'/type-'+type+'-'+String(issue).padStart(3,'0')+'-manifest.json');
-  if(!payload)return null;
+  if(!payload||Number(payload.issue??payload.nextPeriod)!==issue)return null;
   const methods=(row.group?payload.groups?.[row.group]?.methods:payload.methods)??[];
   const wanted=row.formulaId;
   const method=methods.find((item:any,index:number)=>item.formulaId===wanted)??null;

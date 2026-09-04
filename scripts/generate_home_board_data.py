@@ -1,65 +1,64 @@
 import json
 import re
 from pathlib import Path
+from board_sort_scores import Scorer
 
 ROOT = Path(__file__).resolve().parents[1]
-GENERATED = ROOT / "public" / "generated"
+GENERATED = ROOT / 'public' / 'generated'
 SOURCES = [
-    ("pingte:one", "pingte-all", None), ("pingte:two", "pingte-two", None),
-    *((f"tema:{c}", "tema-bundles", c) for c in ("3", "8", "10", "18")),
-    *((f"zodiac:{c}", "zodiac", c) for c in ("1", "3", "6", "9")),
-    *((f"fushi:{c}", "fushi", c) for c in ("22", "33", "2x", "3x")),
-    ("danshuang:", "danshuang", None), ("wave:", "wave", None),
-    ("wuxing:", "wuxing", None), ("jiaye:", "jiaye", None),
-    *((f"kill:{c}", "kill", c) for c in ("code", "animal", "tail", "head", "wave")),
-    ("size:", "size", None), ("tail:", "tail", None), ("head:", "head", None),
+    ('pingte:one','pingte-all',None),('pingte:two','pingte-two',None),
+    *((f'tema:{c}','tema-bundles',c) for c in ('3','8','10','18')),
+    *((f'zodiac:{c}','zodiac',c) for c in ('1','3','6','9')),
+    *((f'fushi:{c}','fushi',c) for c in ('22','33','2x','3x')),
+    ('danshuang:','danshuang',None),('wave:','wave',None),('wuxing:','wuxing',None),('jiaye:','jiaye',None),
+    *((f'kill:{c}','kill',c) for c in ('code','animal','tail','head','wave')),
+    ('size:','size',None),('tail:','tail',None),('head:','head',None),
 ]
 
-def latest(folder, lottery_type):
-    found = []
-    for path in (GENERATED / folder).glob(f"type-{lottery_type}-*-manifest.json"):
-        match = re.search(r"type-\d+-(\d+)-manifest", path.name)
-        if match:
-            found.append((int(match.group(1)), path))
-    if not found:
-        raise FileNotFoundError(f"missing {folder} for type {lottery_type}")
+def latest(folder,lottery_type):
+    found=[]
+    for path in (GENERATED/folder).glob(f'type-{lottery_type}-*-manifest.json'):
+        match=re.fullmatch(r'type-\d+-(\d+)-manifest.json',path.name)
+        if match: found.append((int(match[1]),path))
+    if not found: raise FileNotFoundError(f'missing {folder} for type {lottery_type}')
     return max(found)[1]
 
-def number(value):
-    return value if isinstance(value, (int, float)) else 0
-
-def rate(method):
-    if isinstance(method.get("totalRate"), (int, float)):
-        return method["totalRate"]
-    history = method.get("history")
-    if isinstance(history, list) and history:
-        return sum(row.get("hit") is True for row in history) / len(history)
-    if isinstance(method.get("recent30Rate"), (int, float)):
-        return method["recent30Rate"]
-    return number(method.get("recent30Hits")) / 30
-
-def compact(method):
-    return {key: method[key] for key in ("rank", "label", "name") if key in method}
+def compact(method,index):
+    return {**{key:method[key] for key in ('rank','label','name') if key in method},'sourceIndex':index}
 
 def build(lottery_type):
-    boards = {}
-    fallback_draws = json.loads(latest("wuxing", lottery_type).read_text(encoding="utf-8")).get("draws", [])
-    for key, folder, category in SOURCES:
-        data = json.loads(latest(folder, lottery_type).read_text(encoding="utf-8"))
-        if folder == "zodiac" and category:
-            split = GENERATED / "zodiac" / f"type-{lottery_type}-{int(data['issue']):03d}-{category}-manifest.json"
-            split.write_text(json.dumps({"issue": int(data["issue"]), "group": data.get("groups", {}).get(category, {}), "draws": (data.get("draws") or fallback_draws)}, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-        methods = data.get("groups", {}).get(category, {}).get("methods", []) if category else data.get("methods", [])
-        methods = sorted(methods, key=lambda m: (-number(m.get("recentStreak", m.get("streak"))), -rate(m)))
-        boards[key] = {"issue": int(data["issue"]), "methods": [compact(m) for m in methods]}
-    output_dir = GENERATED / "home-board"
-    output_dir.mkdir(parents=True, exist_ok=True)
-    for key, payload in boards.items():
-        safe_key = key.replace(":", "-")
-        output = output_dir / f"type-{lottery_type}-{safe_key}.json"
-        output.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-        print(f"首页轻量清单：{output} ({output.stat().st_size // 1024} KB)")
+    boards={};audit=[]
+    fallback_draws=json.loads(latest('wuxing',lottery_type).read_text(encoding='utf-8')).get('draws',[])
+    scorers={}
+    for key,folder,category in SOURCES:
+        data=json.loads(latest(folder,lottery_type).read_text(encoding='utf-8'))
+        issue=int(data['issue'])
+        if folder=='zodiac' and category:
+            split=GENERATED/'zodiac'/f'type-{lottery_type}-{issue:03d}-{category}-manifest.json'
+            split.write_text(json.dumps({'issue':issue,'group':data.get('groups',{}).get(category,{}),'draws':data.get('draws') or fallback_draws},ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+        if issue not in scorers: scorers[issue]=Scorer([d for d in fallback_draws if int(d['period'])<issue])
+        scorer=scorers[issue]
+        methods=data.get('groups',{}).get(category,{}).get('methods',[]) if category else data.get('methods',[])
+        board=key.split(':')[0]
+        if key=='pingte:two': board='pingte2'
+        scored=[]
+        for index,method in enumerate(methods):
+            try: metrics=scorer.score(board,category or '',method)
+            except Exception as error: raise RuntimeError(f'Cannot score {lottery_type}/{key}/{index+1}: {error}') from error
+            scored.append((index,method,metrics))
+        # Stable tie break keeps original formula identities; missing scores never become zero.
+        scored.sort(key=lambda row:(-row[2]['recentStreak'],-row[2]['totalRate'],row[0]))
+        boards[key]={'issue':issue,'sortVersion':'verified-streak-total-v1','methods':[compact(m,i) for i,m,_ in scored]}
+        audit.append({'type':lottery_type,'board':key,'issue':issue,'count':len(methods),'scored':len(scored),'top':[{'sourceIndex':i,'rank':m.get('rank',str(i+1).zfill(3)),'name':m.get('name',m.get('sourceKey','')),**score} for i,m,score in scored[:3]]})
+        print('Verified sort',lottery_type,key,len(scored),flush=True)
+    output_dir=GENERATED/'home-board';output_dir.mkdir(parents=True,exist_ok=True)
+    for key,payload in boards.items():
+        output=output_dir/f"type-{lottery_type}-{key.replace(':','-')}.json"
+        output.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+    for scorer in scorers.values(): scorer.numeric.cache_clear()
+    return audit
 
-if __name__ == "__main__":
-    for value in (1, 5, 8):
-        build(value)
+if __name__=='__main__':
+    report=[]
+    for value in (1,5,8): report.extend(build(value))
+    (GENERATED/'home-board-sort-audit.json').write_text(json.dumps({'rule':'recentStreak desc, totalRate desc, original index asc','boards':report},ensure_ascii=False,separators=(',',':')),encoding='utf-8')

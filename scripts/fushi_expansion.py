@@ -4,9 +4,9 @@ from functools import lru_cache
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ACTIVATION = {1: 97, 5: 248, 8: 248}
+ACTIVATION = {1: 1, 5: 1, 8: 1}
 SIZES = {'22': 8, '33': 10}
-VERSION = 'fushi-8-10-v1'
+VERSION = 'fushi-8-10-annual-v1'
 
 
 def wrap(value):
@@ -121,8 +121,12 @@ def patch_sources():
     changes[path] = text
     path = ROOT / 'app/posts/fushi/[category]/[issue]/[method]/page.tsx'
     text = path.read_text(encoding='utf-8')
+    annual_note = "{raw.expansionSize}码公式：按固定分支去重计算，只计六个正码，命中至少{info.required}码才算中。历史按当前公式回算，原发布存档保留。"
+    old_note = "{raw.activationIssue}期起启用{raw.expansionSize}码扩展方案：保留原公式结果，按固定分支去重补足；只计六个正码，命中至少{info.required}码才算中。启用前保留旧方案，启用后成绩单独累计，不保证盈利。"
+    if annual_note in text: text = text.replace(annual_note, old_note)
     text = replace_once(text, '</section></article>',
         '</section>{info.kind===\'number\'&&raw.expansionSize&&<p className="formula-note">{raw.activationIssue}期起启用{raw.expansionSize}码扩展方案：保留原公式结果，按固定分支去重补足；只计六个正码，命中至少{info.required}码才算中。启用前保留旧方案，启用后成绩单独累计，不保证盈利。</p>}</article>')
+    text = replace_once(text, old_note, annual_note)
     changes[path] = text
     for path, text in changes.items(): path.write_text(text, encoding='utf-8')
 

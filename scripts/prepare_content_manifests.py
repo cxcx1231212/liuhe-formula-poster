@@ -259,6 +259,9 @@ def run():
         backend.write_text(source, encoding='utf-8')
     # A changed page implementation must not reuse HTML cached by an older build.
     digest = hashlib.sha256(json.dumps(catalog, sort_keys=True).encode())
+    sort_audit = ROOT / 'public/generated/home-board-sort-audit.json'
+    if sort_audit.exists():
+        digest.update(sort_audit.read_bytes())
     for folder in ('app', 'lib', 'worker'):
         for path in sorted((ROOT / folder).rglob('*')):
             if path.is_file() and path.suffix in ('.ts', '.tsx', '.css', '.js'):

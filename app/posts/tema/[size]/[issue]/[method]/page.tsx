@@ -1,3 +1,4 @@
+/* asset-manifests-v1 */
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
 import IssueScroller from '@/app/IssueScroller';
@@ -54,8 +55,8 @@ export default async function TemaMethodPost({params,searchParams}:{params:Promi
   const type=requestedLotteryType(await searchParams);
   const label=labels[size];
   const methodIndex=Number(method)-1;
-  const baseManifest=formulaManifests.tema[type] as any;
-  const latestManifest=formulaManifests.wuxing[type] as any;
+  const baseManifest=(await formulaManifests.tema[type]) as any;
+  const latestManifest=(await formulaManifests.wuxing[type]) as any;
   const latestIssue=Number(latestManifest.issue??baseManifest.issue);
   const requestedIssue=Number(issue);
   const methods=(baseManifest.groups?.[size]?.methods??[]) as BundleMethod[];

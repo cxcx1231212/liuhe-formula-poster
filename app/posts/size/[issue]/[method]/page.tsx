@@ -1,3 +1,4 @@
+/* asset-manifests-v1 */
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicSimpleFormulaPost from '@/app/DynamicSimpleFormulaPost';
 import IssueScroller from '@/app/IssueScroller';
@@ -35,7 +36,7 @@ function evaluate(spec:Spec,draw:Draw){
 }
 
 export default async function SizePost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
-  const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=formulaManifests.size[type];
+  const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=(await formulaManifests.size[type]);
   const requestedIssue=Number(issue),currentIssue=Number(manifest.issue);const index=manifest.methods.findIndex((value:any)=>value.rank===method);const methodItem:any=index>=0?manifest.methods[index]:null;
   if(!methodItem||requestedIssue<2||requestedIssue>currentIssue)return <ArchivedFormulaPost type={type} path={`/posts/size/${issue}/${method}`} backHref={`/?type=${type}#board-大小公式`} backLabel="返回大小板块"/>;
   const allDraws=(manifest.draws as Draw[]).slice().sort((a,b)=>a.period-b.period);const drawByPeriod=new Map(allDraws.map(draw=>[draw.period,draw]));

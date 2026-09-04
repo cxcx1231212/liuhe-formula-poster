@@ -1,3 +1,4 @@
+/* asset-manifests-v1 */
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicSimpleFormulaPost from '@/app/DynamicSimpleFormulaPost';
 import IssueScroller from '@/app/IssueScroller';
@@ -5,8 +6,8 @@ import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import {buildWavePosterItem,type WaveMethod} from '@/lib/wave-history';
 
 export default async function WavePost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
-  const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=formulaManifests.wave[type];const index=manifest.methods.findIndex((value:any)=>value.rank===method);const item=index>=0?manifest.methods[index] as WaveMethod:null;
-  const requestedIssue=Number(issue),currentIssue=Number(manifest.issue),allDraws=formulaManifests.wuxing[type].draws;const minimumIssue=Math.min(...allDraws.map((draw:any)=>Number(draw.period)))+1;
+  const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=(await formulaManifests.wave[type]);const index=manifest.methods.findIndex((value:any)=>value.rank===method);const item=index>=0?manifest.methods[index] as WaveMethod:null;
+  const requestedIssue=Number(issue),currentIssue=Number(manifest.issue),allDraws=(await formulaManifests.wuxing[type]).draws;const minimumIssue=Math.min(...allDraws.map((draw:any)=>Number(draw.period)))+1;
   if(!item||!Number.isFinite(requestedIssue)||requestedIssue<minimumIssue||requestedIssue>currentIssue)return <ArchivedFormulaPost type={type} path={`/posts/wave/${issue}/${method}`} backHref={`/?type=${type}#board-波色公式`} backLabel="返回波色板块"/>;
   const posterItem=buildWavePosterItem(item,allDraws.filter((draw:any)=>Number(draw.period)<=requestedIssue),requestedIssue);const isHistory=requestedIssue<currentIssue;const verified=posterItem.history.find((entry:any)=>entry.targetPeriod===requestedIssue);
   const shownItem=isHistory&&verified?{...posterItem,next:verified.branches.map((branch:any)=>branch.result),branches:posterItem.branches.map((branch:any,branchIndex:number)=>({...branch,next:verified.branches[branchIndex]?.result||branch.next,calculation:verified.branches[branchIndex]?.calculation||branch.calculation})),verification:{hit:verified.hit,actualNumber:verified.actualNumber,actualAnimal:verified.actualAnimal,actualElement:verified.actualElement}}:posterItem;

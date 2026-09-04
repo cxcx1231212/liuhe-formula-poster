@@ -1,3 +1,4 @@
+/* asset-manifests-v1 */
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicSimpleFormulaPost from '@/app/DynamicSimpleFormulaPost';
 import IssueScroller from '@/app/IssueScroller';
@@ -5,8 +6,8 @@ import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import {buildDanshuangPosterItem,type DanshuangMethod} from '@/lib/danshuang-history';
 
 export default async function DanshuangPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
-  const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=formulaManifests.danshuang[type];const index=manifest.methods.findIndex((value:any)=>value.rank===method);const item=index>=0?manifest.methods[index] as DanshuangMethod:null;
-  const requestedIssue=Number(issue),currentIssue=Number(manifest.issue),allDraws=formulaManifests.wuxing[type].draws;
+  const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=(await formulaManifests.danshuang[type]);const index=manifest.methods.findIndex((value:any)=>value.rank===method);const item=index>=0?manifest.methods[index] as DanshuangMethod:null;
+  const requestedIssue=Number(issue),currentIssue=Number(manifest.issue),allDraws=(await formulaManifests.wuxing[type]).draws;
   const minimumIssue=Math.min(...allDraws.map((draw:any)=>Number(draw.period)))+1;
   if(!item||!Number.isFinite(requestedIssue)||requestedIssue<minimumIssue||requestedIssue>currentIssue)return <ArchivedFormulaPost type={type} path={`/posts/danshuang/${issue}/${method}`} backHref={`/?type=${type}#board-单双公式`} backLabel="返回单双板块"/>;
   const posterItem=buildDanshuangPosterItem(item,allDraws.filter((draw:any)=>Number(draw.period)<=requestedIssue),requestedIssue);

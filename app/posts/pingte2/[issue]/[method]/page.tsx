@@ -1,3 +1,4 @@
+/* asset-manifests-v1 */
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import macau239 from '../../../../../public/generated/pingte-two/type-5-239-manifest.json';
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
@@ -39,7 +40,7 @@ function calculatedNumber(name:string,draw:any,fallback:number){
 
 export default async function PingteTwoPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}) {
   const {issue,method}=await params;
-  const type=requestedLotteryType(await searchParams);const current=formulaManifests.pingte2[type];const manifests:Record<string,any>=type==='5'?{'239':macau239,[String(current.issue)]:current}:{[String(current.issue)]:current};const manifest=manifests[issue];const posts=manifest?.methods??[];
+  const type=requestedLotteryType(await searchParams);const current=(await formulaManifests.pingte2[type]);const manifests:Record<string,any>=type==='5'?{'239':macau239,[String(current.issue)]:current}:{[String(current.issue)]:current};const manifest=manifests[issue];const posts=manifest?.methods??[];
   const index=Number(method)-1;
   const currentPost=current.methods?.[index];
   const historyEntry=currentPost?.history?.find((entry:any)=>entry.targetPeriod===Number(issue));
@@ -51,7 +52,7 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
   const previous=index>0?String(index).padStart(3,'0'):null;
   const next=index<posts.length-1?String(index+2).padStart(3,'0'):null;
   if(Number(issue)===Number(current.issue)||historyEntry){
-    const allDraws=formulaManifests.wuxing[type].draws;
+    const allDraws=(await formulaManifests.wuxing[type]).draws;
     const drawMap=new Map(allDraws.map((draw:any)=>[Number(draw.period),draw]));
     const cutoff=historyEntry?Number(issue):Number(current.issue)-1;
     const selectedHistory=(currentPost.history||[])

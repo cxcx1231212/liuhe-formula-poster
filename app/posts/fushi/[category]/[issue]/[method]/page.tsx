@@ -1,3 +1,4 @@
+/* asset-manifests-v1 */
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
 import IssueScroller from '@/app/IssueScroller';
@@ -14,7 +15,7 @@ const meta:Record<string,{label:string;kind:'number'|'animal';required:number}>=
 
 export default async function FushiPost({params,searchParams}:{params:Promise<{category:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const {category,issue,method}=await params;
-  const type=requestedLotteryType(await searchParams),manifest=formulaManifests.fushi[type];
+  const type=requestedLotteryType(await searchParams),manifest=(await formulaManifests.fushi[type]);
   const requestedIssue=Number(issue),currentIssue=Number(manifest.issue),group=manifest.groups?.[category],info=meta[category];
   const index=Number(method)-1,raw=group?.methods?.[index] as FushiMethod|undefined;
   const back=`/?type=${type}#board-复式公式`;

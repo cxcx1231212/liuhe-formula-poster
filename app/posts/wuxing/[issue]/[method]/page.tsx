@@ -1,3 +1,4 @@
+/* asset-manifests-v1 */
 import {hydrateWuxingHistory} from '@/lib/wuxing-history';
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
@@ -9,7 +10,7 @@ import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 export default async function WuxingPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const {issue,method}=await params;
   const type=requestedLotteryType(await searchParams);
-  const manifest=formulaManifests.wuxing[type];
+  const manifest=(await formulaManifests.wuxing[type]);
   const requestedIssue=Number(issue);
   const currentIssue=Number(manifest.issue);
   const index=manifest.methods.findIndex((value:{rank:string})=>value.rank===method);

@@ -1,3 +1,4 @@
+/* asset-manifests-v1 */
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
 import IssueScroller from '@/app/IssueScroller';
@@ -7,7 +8,7 @@ import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 export default async function JiayePost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const {issue,method}=await params;
   const type=requestedLotteryType(await searchParams);
-  const manifest=formulaManifests.jiaye[type];
+  const manifest=(await formulaManifests.jiaye[type]);
   const requestedIssue=Number(issue);
   const currentIssue=Number(manifest.issue);
   const index=manifest.methods.findIndex((value:{rank:string})=>value.rank===method);

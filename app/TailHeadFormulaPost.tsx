@@ -1,3 +1,4 @@
+/* asset-manifests-v1 */
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicSimpleFormulaPost from '@/app/DynamicSimpleFormulaPost';
 import IssueScroller from '@/app/IssueScroller';
@@ -35,8 +36,8 @@ function evaluate(spec:Spec,draw:Draw){
   return {number,calculation:`${expression}${number!==value?`→${number}`:''}`,sourcePositions:[spec.a+1,spec.b+1]};
 }
 
-export default function TailHeadFormulaPost({type,issue,method,kind}:{type:LotteryType;issue:string;method:string;kind:'tail'|'head'}){
-  const board=kind==='tail'?'尾数':'头数',manifest:any=formulaManifests[kind][type];
+export default async function TailHeadFormulaPost({type,issue,method,kind}:{type:LotteryType;issue:string;method:string;kind:'tail'|'head'}){
+  const board=kind==='tail'?'尾数':'头数',manifest:any=(await formulaManifests[kind][type]);
   const requestedIssue=Number(issue),currentIssue=Number(manifest.issue);const index=manifest.methods.findIndex((value:any)=>value.rank===method);const methodItem:any=index>=0?manifest.methods[index]:null;
   if(!methodItem||requestedIssue<2||requestedIssue>currentIssue)return <ArchivedFormulaPost type={type} path={`/posts/${kind}/${issue}/${method}`} backHref={`/?type=${type}#board-${board}公式`} backLabel={`返回${board}板块`}/>;
   const allDraws=(manifest.draws as Draw[]).slice().sort((a,b)=>a.period-b.period);const drawByPeriod=new Map(allDraws.map(draw=>[draw.period,draw]));

@@ -178,7 +178,7 @@ def raw_draw(row):
 
 def repair_snapshots(catalog):
     from archive_formula_history import signature_of, stable_id, iter_methods, snapshot
-    counts = {'restored':0,'unknown':0,'settlementChanged':0}
+    counts = {'restored':0,'unknown':0,'settlementChanged':0,'rejectedManifests':[]}
     for entry in catalog:
         kind,issue = int(entry['lotteryType']),int(entry['nextPeriod'])
         # Use the same saved draw history as the deployed content pages.
@@ -201,7 +201,10 @@ def repair_snapshots(catalog):
                 manifest = ROOT / f'public/generated/{folder}/type-{kind}-{period:03d}-manifest.json'
                 if not manifest.exists(): continue
                 data = json.loads(manifest.read_text(encoding='utf-8'))
-                if int(data.get('issue',data.get('nextPeriod',-1))) != period: raise ValueError('Wrong issue manifest')
+                if int(data.get('issue',data.get('nextPeriod',-1))) != period:
+                    counts['rejectedManifests'].append(str(manifest.relative_to(ROOT)))
+                    print('Do not restore from mismatched period:',manifest,flush=True)
+                    continue
                 for group,_,item in iter_methods(data):
                     signature = signature_of(item)
                     fid = stable_id(f'{board}-{group}',signature)
@@ -246,6 +249,7 @@ def patch_pages():
     source = path.read_text(encoding='utf-8')
     source = source.replace("const wanted=String(row.rank??'').padStart(3,'0');", "const wanted=row.formulaId;")
     source = source.replace("String(item.rank??index+1).padStart(3,'0')===wanted", "item.formulaId===wanted")
+    source = source.replace('if(!payload)return null;', 'if(!payload||Number(payload.issue??payload.nextPeriod)!==issue)return null;')
     path.write_text(source,encoding='utf-8')
     path = ROOT / 'app/posts/zodiac/[size]/[issue]/[method]/page.tsx'
     source = path.read_text(encoding='utf-8')

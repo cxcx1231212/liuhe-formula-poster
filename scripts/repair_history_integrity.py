@@ -138,6 +138,22 @@ def save(path, payload):
     path.parent.mkdir(parents=True,exist_ok=True)
     path.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
 
+def materialize_legacy(directory):
+    legacy = directory.parent.with_suffix('.json')
+    if not legacy.exists(): return
+    for saved in json.loads(legacy.read_text(encoding='utf-8')).get('snapshots',[]):
+        saved_path = directory / f"{int(saved['issue']):03d}.json"
+        if not saved_path.exists(): save(saved_path,saved)
+        # Old periods must retain all original identities even after migration.
+        existing = json.loads(saved_path.read_text(encoding='utf-8'))
+        ids = {r['formulaId'] for r in existing.get('formulas',[])}
+        missing = [r for r in saved.get('formulas',[]) if r['formulaId'] not in ids]
+        if missing:
+            backup(saved_path)
+            existing.setdefault('formulas',[]).extend(missing)
+            existing['formulaCount'] = len(existing['formulas'])
+            save(saved_path,existing)
+
 def patch_archiver():
     path = ROOT / 'scripts/archive_formula_history.py'
     source = path.read_text(encoding='utf-8')
@@ -170,6 +186,9 @@ def repair_snapshots(catalog):
         draws = {int(d['period']):d for d in json.loads(draw_path.read_text(encoding='utf-8'))['draws']}
         directory = ROOT / f'public/generated/formula-history/type-{kind}-2026/snapshots'
         directory.mkdir(parents=True,exist_ok=True)
+        # Some lotteries still store older periods only in the annual archive.
+        # Materialize every absent period before the shard builder prefers this directory.
+        materialize_legacy(directory)
         current = directory / f'{issue:03d}.json'
         if current.exists(): backup(current)
         # Refresh only the current snapshot; historic identities are never replaced.

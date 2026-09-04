@@ -96,3 +96,8 @@ body{background-image:none}
 .jiaye-note,.jiaye-note p{background:#f5f9ff;color:#365779}
 .live-screen{background:#f1f5f9}.live-screen video{background:#000}.live-screen p{color:#536b86}
 a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5eb5;outline-offset:3px}
+
+/* Keep the API next-draw schedule readable on phones. */
+.next-draw{height:auto;min-height:36px;flex-wrap:wrap;gap:3px 8px;padding:5px 4px;line-height:1.35}
+.next-draw strong{white-space:normal;text-align:center;overflow-wrap:anywhere}
+@media(max-width:600px){.next-draw{min-height:42px;display:grid;justify-items:center;align-content:center;gap:2px}}

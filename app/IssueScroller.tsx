@@ -9,6 +9,7 @@ export default function IssueScroller({issues,current,basePath,method,type,metho
   const oldest=Math.min(...issues);
   const pageIssues=[newest];
   for(let issue=newest-6;issue>=oldest;issue-=5)pageIssues.push(issue);
+  if(pageIssues.at(-1)!>oldest+4)pageIssues.push(oldest);
   const currentPage=current>=newest-5?0:Math.max(1,pageIssues.findIndex(issue=>current<=issue&&current>=issue-4));
   return <nav className="issue-scroller" aria-label="期数切换">
     {pageIssues.map((issue,index)=><a ref={index===currentPage?currentRef:null} className={index===currentPage?'current':''} href={`${basePath}/${issue}/${methods?.[issue]||method}?type=${type}`} key={issue}>第{index+1}页</a>)}

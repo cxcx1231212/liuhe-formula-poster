@@ -35,8 +35,8 @@ async function livePrediction(type:string,issue:number,row:FormulaHistoryRow){
   const payload=await loadJson('generated/'+folder+'/type-'+type+'-'+String(issue).padStart(3,'0')+'-manifest.json');
   if(!payload)return null;
   const methods=(row.group?payload.groups?.[row.group]?.methods:payload.methods)??[];
-  const wanted=String(row.rank??'').padStart(3,'0');
-  const method=methods.find((item:any,index:number)=>String(item.rank??index+1).padStart(3,'0')===wanted)??null;
+  const wanted=row.formulaId;
+  const method=methods.find((item:any,index:number)=>item.formulaId===wanted)??null;
   return method?predictionOf(method):null;
 }
 

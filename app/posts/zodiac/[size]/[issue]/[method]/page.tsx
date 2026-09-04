@@ -15,7 +15,7 @@ export default async function ZodiacPost({params,searchParams}:{params:Promise<{
   const back=`/?type=${type}#board-生肖公式`;
   if(!raw||!label||!Number.isFinite(requestedIssue))return <ArchivedFormulaPost type={type} path={`/posts/zodiac/${size}/${issue}/${method}`} backHref={back} backLabel="返回生肖板块"/>;
   const minimumIssue=Math.min(...manifest.draws.map((draw:{period:number})=>draw.period))+1;
-  const availableIssues:number[]=[];for(let value=currentIssue;value>=minimumIssue;value-=6)availableIssues.push(value);
+  const availableIssues:number[]=[];for(let value=currentIssue;value>=minimumIssue;value--)availableIssues.push(value);
   if(!availableIssues.includes(requestedIssue))return <ArchivedFormulaPost type={type} path={`/posts/zodiac/${size}/${issue}/${method}`} backHref={back} backLabel="返回生肖板块"/>;
   const fullItem=buildZodiacPosterItem(raw,manifest.draws,requestedIssue);
   const isHistory=requestedIssue<currentIssue;const verified=fullItem.history.find(entry=>entry.targetPeriod===requestedIssue);

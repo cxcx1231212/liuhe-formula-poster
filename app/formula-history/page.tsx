@@ -2,11 +2,15 @@ import {formulaHistory} from '@/lib/formula-history';
 
 const names:Record<string,string>={'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
 const statusText:Record<string,string>={hit:'命中',miss:'未中',pending:'待开奖',unknown:'待核对'};
-const predictionText=(value:unknown)=>{
-  if(value==null)return '暂无预测数据';
-  if(Array.isArray(value))return value.join('、');
-  if(typeof value==='object')return Object.values(value as Record<string,unknown>).flatMap(item=>Array.isArray(item)?item:[item]).filter(item=>item!==null&&item!==undefined&&item!=='').join('、')||'暂无预测数据';
-  return String(value);
+const predictionText=(value:unknown):string=>{
+  const keys=['predictionAnimal','predictionNumber','predictionAnimals','predictionNumbers','animals','numbers','nextAnimal','next','values','outputs','output','prediction','result'];
+  const collect=(input:unknown):string[]=>{
+    if(input==null||input==='')return [];
+    if(Array.isArray(input))return input.flatMap(collect);
+    if(typeof input==='object'){const row=input as Record<string,unknown>;return keys.flatMap(key=>collect(row[key]));}
+    return typeof input==='string'||typeof input==='number'?[String(input)]:[];
+  };
+  return [...new Set(collect(value))].join('、')||'暂无预测数据';
 };
 
 export default async function FormulaHistoryPage({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){

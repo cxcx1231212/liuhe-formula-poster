@@ -37,14 +37,8 @@ def signature_of(item: dict[str, Any]) -> str:
     return "|".join(values) or f"legacy-rank:{item.get('rank', '')}"
 
 
-def prediction_of(item: dict[str, Any]) -> Any:
-    keys = (
-        "predictionAnimal", "predictionNumber", "predictionAnimals",
-        "predictionNumbers", "numbers", "nextAnimal", "animals", "next",
-        "values", "outputs", "output", "prediction", "result",
-    )
-    result = {key: item[key] for key in keys if key in item}
-    return result or None
+from repair_history_integrity import prediction_for as prediction_of, settle, draw_record, backup
+# history-integrity-v1
 
 
 def score_of(item: dict[str, Any]) -> dict[str, Any]:
@@ -69,55 +63,6 @@ def post_href(board: str, group: str, issue: int, rank: str) -> str:
     return f"/posts/{board}/{issue}/{rank}"
 
 
-def settle(snapshot: dict[str, Any], draw: dict[str, Any]) -> None:
-    balls = draw["numberList"]
-    regular = balls[:6]
-    special = balls[6]
-    all_animals = {row["shengXiao"] for row in balls}
-    regular_numbers = {int(row["number"]) for row in regular}
-    special_number = int(special["number"])
-    domestic = {"牛", "马", "羊", "鸡", "狗", "猪"}
-    color = {1: "红波", 2: "蓝波", 3: "绿波"}.get(int(special["color"]))
-    for row in snapshot.get("formulas", []):
-        prediction = row.get("prediction") or {}
-        board, group = row["board"], row.get("group", "")
-        hit = None
-        if board == "pingte":
-            hit = prediction.get("predictionAnimal") in all_animals
-        elif board == "pingte2":
-            hit = set(prediction.get("predictionAnimals", [])) <= all_animals
-        elif board == "tema":
-            hit = special_number in set(map(int, prediction.get("numbers", [])))
-        elif board == "zodiac":
-            animals = prediction.get("animals") or ([prediction.get("nextAnimal")] if prediction.get("nextAnimal") else [])
-            hit = special["shengXiao"] in animals
-        elif board == "fushi":
-            pool = set(map(int, prediction.get("numbers", [])))
-            required = 3 if group in {"3x", "33"} else 2
-            hit = len(pool & regular_numbers) >= required
-        elif board == "danshuang":
-            expected = str(prediction.get("next", ""))
-            value = sum(map(int, f"{special_number:02d}")) if "合数" in str(row.get("label", "")) else special_number
-            hit = expected == ("双" if value % 2 == 0 else "单")
-        elif board == "wave":
-            hit = prediction.get("next") == color
-        elif board == "wuxing":
-            hit = special["wuXing"] in prediction.get("next", [])
-        elif board == "jiaye":
-            hit = prediction.get("next") == ("家肖" if special["shengXiao"] in domestic else "野肖")
-        elif board == "size":
-            hit = prediction.get("next") == special["daXiao"]
-        elif board == "tail":
-            hit = special_number % 10 in set(prediction.get("values", []))
-        elif board == "head":
-            hit = special_number // 10 in set(prediction.get("values", []))
-        elif board == "kill":
-            actual = special_number if group == "code" else special["shengXiao"] if group == "animal" else special_number % 10 if group == "tail" else special_number // 10 if group == "head" else color
-            hit = str(actual) not in set(map(str, prediction.get("values", [])))
-        row["status"] = "hit" if hit else "miss" if hit is not None else "unknown"
-        row["actual"] = {"number": special_number, "animal": special["shengXiao"], "date": draw.get("lotteryTime", "")}
-
-
 def snapshot(lottery_type: int, year: int, issue: int) -> dict[str, Any]:
     patterns = [
         ("pingte", GENERATED / "pingte-all" / f"type-{lottery_type}-{issue:03d}-manifest.json"),
@@ -134,6 +79,8 @@ def snapshot(lottery_type: int, year: int, issue: int) -> dict[str, Any]:
         ("tail", GENERATED / "tail" / f"type-{lottery_type}-{issue:03d}-manifest.json"),
         ("head", GENERATED / "head" / f"type-{lottery_type}-{issue:03d}-manifest.json"),
     ]
+    from search_pingte_methods import fetch_year
+    source_draw = next((draw_record(x) for x in fetch_year(lottery_type, year) if int(x["period"]) == issue-1), None)
     records = []
     for board, path in patterns:
         if not path.exists():
@@ -156,7 +103,7 @@ def snapshot(lottery_type: int, year: int, issue: int) -> dict[str, Any]:
                 "label": item.get("label") or item.get("name") or item.get("sourceKey") or board,
                 "image": item.get("image"),
                 "href": post_href(board, group, issue, rank),
-                "prediction": prediction_of(item),
+                "prediction": prediction_of(item, board, group, source_draw),
                 "score": score_of(item),
                 "status": "pending",
             })
@@ -177,6 +124,7 @@ def archive(lottery_type: int, year: int, issue: int) -> Path:
                 path.write_text(json.dumps(row, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     current = snapshot(lottery_type, year, issue)
     current_path = destination / f"{issue:03d}.json"
+    if current_path.exists(): backup(current_path)
     current_path.write_text(json.dumps(current, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     from search_pingte_methods import fetch_year
     draws = {int(row["period"]): row for row in fetch_year(lottery_type, year)}

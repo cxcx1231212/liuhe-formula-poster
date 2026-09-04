@@ -249,15 +249,25 @@ def run():
         for kind, period in re.findall(r'type-([158])-(\d+)-manifest\.json', path.read_text(encoding='utf-8')):
             if int(period) != issues[kind]:
                 raise RuntimeError(f'Stale hard-coded reference in {path}: type={kind} issue={period}')
+    # Both cache layers must change together; a new proxy must never refill
+    # itself from the backend's old seven-day HTML cache.
+    backend = ROOT / 'worker/index.ts'
+    if backend.exists():
+        source = backend.read_text(encoding='utf-8')
+        source = source.replace("const isHistory = !html.includes('等待开奖');", "const isHistory = !html.includes('等待开奖') && !html.includes('wuxing-forecast-row');")
+        backend.write_text(source, encoding='utf-8')
     # A changed page implementation must not reuse HTML cached by an older build.
     digest = hashlib.sha256(json.dumps(catalog, sort_keys=True).encode())
-    for folder in ('app', 'lib'):
+    for folder in ('app', 'lib', 'worker'):
         for path in sorted((ROOT / folder).rglob('*')):
-            if path.is_file() and path.suffix in ('.ts', '.tsx', '.css'):
+            if path.is_file() and path.suffix in ('.ts', '.tsx', '.css', '.js'):
                 digest.update(str(path.relative_to(ROOT)).replace('\\', '/').encode())
-                digest.update(path.read_bytes())
-    proxy = ROOT / 'worker/cache-proxy.js'
-    if proxy.exists():
+                contents = path.read_text(encoding='utf-8')
+                if folder == 'worker':
+                    contents = re.sub(r"const CACHE_VERSION = '[^']*';", "const CACHE_VERSION = '<build>';", contents)
+                digest.update(contents.encode('utf-8'))
+    for proxy in (ROOT / 'worker/cache-proxy.js', ROOT / 'worker/index.ts'):
+        if not proxy.exists(): continue
         text = proxy.read_text(encoding='utf-8')
         text, count = re.subn(r"const CACHE_VERSION = '[^']*';", "const CACHE_VERSION = 'poster-" + digest.hexdigest()[:16] + "';", text)
         if count != 1:

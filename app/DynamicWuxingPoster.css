@@ -124,3 +124,15 @@
 }
 /* Shared light palette without changing formula geometry or semantic arrows. */
 .dynamic-draws,.wuxing-line-board{background:#fff}.dynamic-draw-head,.wuxing-board-head{background:#edf5ff;color:#365779}.dynamic-draw-row>span>b,.wuxing-board-row>span>b{background:#fff;color:#253247}.dynamic-poster .wuxing-forecast-row{background:#f5f9ff}.dynamic-poster .wuxing-forecast-row>strong{background:#1d5eb5;color:#fff;text-shadow:none}.dynamic-poster .wuxing-forecast-row>strong small{color:#fff}.dynamic-poster .wuxing-forecast-row>div{background:#f5f9ff}.dynamic-poster .wuxing-formula-note span{color:#253247}
+
+/* Formula wave colors and independent selection rings; no geometry changes. */
+.dynamic-poster .formula-number[data-wave="red"]{--number-wave:#c92a35}
+.dynamic-poster .formula-number[data-wave="blue"]{--number-wave:#1d5eb5}
+.dynamic-poster .formula-number[data-wave="green"]{--number-wave:#187842}
+.dynamic-poster .formula-number[data-wave="neutral"]{--number-wave:#64748b}
+.dynamic-poster .wuxing-board-row>span>b.formula-number{color:var(--number-wave);border-color:var(--number-wave);background:#fff}
+.dynamic-poster .wuxing-board-row>span.picked>b,.dynamic-poster .wuxing-board-row>span.target>b{box-shadow:0 0 0 2px #fff,0 0 0 4px #1d5eb5}
+.dynamic-poster .wuxing-board-lines path:not([d^="M0"]){stroke:#1d5eb5}
+.dynamic-poster .wuxing-line-label,.dynamic-poster .validation-calc{background:#1d5eb5;color:#fff;text-shadow:none}
+.dynamic-poster .wuxing-formula-note>b{background:#1d5eb5;color:#fff}
+.dynamic-poster .dynamic-draw-row:last-child>span.source:after{color:#1d5eb5}

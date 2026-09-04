@@ -46,5 +46,5 @@ export function buildDanshuangPosterItem(method:DanshuangMethod,draws:ZodiacDraw
     histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches:[{name:method.name,calculation:answer.calculation,result:answer.prediction,targetPositions:hit?[7]:[]}],actualNumber:target.numbers[6].number,actualAnimal:target.numbers[6].animal,actualElement:target.numbers[6].element,hit,targetPositions:hit?[7]:[]});
   }
   const forecastSource=ordered.find(draw=>draw.period===requestedIssue-1)||ordered.at(-1)!;const forecast=evaluate(forecastSource);
-  return {label:method.label,sourceKey:method.sourceKey,next:[forecast.prediction],recentStreak:0,recent30Hits:0,branches:[{name:method.name,next:forecast.prediction,calculation:forecast.calculation,sourcePositions:sourcePositions(method.baseName)}],history:histories.slice(-5),formulaId:method.rank};
+  return {label:method.label,sourceKey:method.sourceKey,next:[forecast.prediction],recentStreak:histories.reduce((count,row)=>row.hit?count+1:0,0),recent30Hits:histories.slice(-30).filter(row=>row.hit).length,branches:[{name:method.name,next:forecast.prediction,calculation:forecast.calculation,sourcePositions:sourcePositions(method.baseName)}],history:histories.slice(-5),formulaId:method.rank};
 }

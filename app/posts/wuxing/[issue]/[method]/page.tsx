@@ -20,7 +20,7 @@ export default async function WuxingPost({params,searchParams}:{params:Promise<{
   const isDerivedHistory=requestedIssue<currentIssue&&Boolean(sourceEntry);
   if(requestedIssue!==currentIssue&&!isDerivedHistory)return <ArchivedFormulaPost type={type} path={`/posts/wuxing/${issue}/${method}`} backHref={`/?type=${type}#board-五行公式`} backLabel="返回五行板块"/>;
   const baseItem=isDerivedHistory?{...currentItem,next:sourceEntry.branches.map((branch:{result:string})=>branch.result),branches:sourceEntry.branches.map((branch:{name:string;calculation:string;result:string},branchIndex:number)=>({...currentItem.branches[branchIndex],name:branch.name,next:branch.result,calculation:branch.calculation})),history:currentItem.history.filter((entry:{targetPeriod:number})=>entry.targetPeriod<=requestedIssue),verification:{hit:sourceEntry.hit,actualNumber:sourceEntry.actualNumber,actualAnimal:sourceEntry.actualAnimal,actualElement:sourceEntry.actualElement}}:currentItem;
-  const item={...baseItem,history:(baseItem.history||[]).slice(-5)};
+  const item={...baseItem,branches:baseItem.branches.map((branch:any)=>({...branch,sourcePositions:(branch.sourcePositions||[]).map((position:number)=>position+1)})),history:(baseItem.history||[]).slice(-5)};
   const historyPeriods=(item.history||[]).map((entry:{targetPeriod:number})=>entry.targetPeriod);
   const posterIssue=isDerivedHistory&&historyPeriods.length?`${Math.min(...historyPeriods)}-${Math.max(...historyPeriods)}`:issue;
   const drawCutoff=isDerivedHistory?requestedIssue:requestedIssue-1;

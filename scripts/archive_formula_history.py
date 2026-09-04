@@ -113,7 +113,7 @@ def settle(snapshot: dict[str, Any], draw: dict[str, Any]) -> None:
             hit = special_number // 10 in set(prediction.get("values", []))
         elif board == "kill":
             actual = special_number if group == "code" else special["shengXiao"] if group == "animal" else special_number % 10 if group == "tail" else special_number // 10 if group == "head" else color
-            hit = actual not in set(prediction.get("values", []))
+            hit = str(actual) not in set(map(str, prediction.get("values", [])))
         row["status"] = "hit" if hit else "miss" if hit is not None else "unknown"
         row["actual"] = {"number": special_number, "animal": special["shengXiao"], "date": draw.get("lotteryTime", "")}
 

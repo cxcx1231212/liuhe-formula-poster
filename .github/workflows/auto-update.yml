@@ -65,7 +65,7 @@ jobs:
               sleep 60
             done
             wait "${generator_pid}"
-            git add lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data public/generated lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx app/IssueScroller.tsx app/formula-history/page.tsx
+            git add lib/fushi-history.ts scripts/board_sort_scores.py scripts/repair_history_integrity.py lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data public/generated lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx app/IssueScroller.tsx app/formula-history/page.tsx
             if ! git diff --cached --quiet; then
               git commit -m "自动保存彩种 ${lottery_type} 更新进度 [skip ci]"
             fi
@@ -87,6 +87,8 @@ jobs:
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
         run: |
           pnpm install --frozen-lockfile
+          python -u scripts/fushi_expansion.py
+          node --experimental-strip-types scripts/test_fushi_expansion.mjs
           python -u scripts/repair_history_integrity.py
           python scripts/generate_home_board_data.py
           # 当前生肖清单只保留展示数据；完整逐期记录保存在 formula-history。
@@ -112,6 +114,7 @@ jobs:
           python scripts/externalize_formula_assets.py
           python scripts/publish_history_shards.py
           python scripts/prepare_content_manifests.py
+          node --experimental-strip-types scripts/test_fushi_expansion.mjs
           pnpm run build
           python scripts/publish_history_shards.py --prune-build
           pnpm exec wrangler --version
@@ -137,7 +140,7 @@ jobs:
         run: |
           git config user.name "六合自动更新"
           git config user.email "actions@users.noreply.github.com"
-          git add lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data public/generated lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx app/IssueScroller.tsx app/formula-history/page.tsx
+          git add lib/fushi-history.ts scripts/board_sort_scores.py scripts/repair_history_integrity.py lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data public/generated lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx app/IssueScroller.tsx app/formula-history/page.tsx
           if ! git diff --cached --quiet; then
             git commit -m "自动更新新一期公式 [skip ci]"
           fi

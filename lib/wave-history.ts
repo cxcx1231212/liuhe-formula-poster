@@ -23,3 +23,9 @@ export function buildWavePosterItem(method:WaveMethod,draws:ZodiacDraw[],request
   const histories=[];for(let i=0;i<ordered.length-1;i++){const source=ordered[i],target=ordered[i+1];if(target.period>requestedIssue)continue;const answer=evaluate(source),actualNumber=Number(target.numbers[6].number),hit=answer.prediction===wave(actualNumber);histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches:[{name:method.name,calculation:answer.calculation,result:answer.prediction,targetPositions:hit?[7]:[]}],actualNumber:target.numbers[6].number,actualAnimal:target.numbers[6].animal,actualElement:target.numbers[6].element,hit,targetPositions:hit?[7]:[]});}
   const forecastSource=ordered.find(d=>d.period===requestedIssue-1)||ordered.at(-1)!;const forecast=evaluate(forecastSource);return {label:method.label,sourceKey:method.sourceKey,next:[forecast.prediction],recentStreak:histories.reduce((count,row)=>row.hit?count+1:0,0),recent30Hits:histories.slice(-30).filter(row=>row.hit).length,branches:[{name:method.name,next:forecast.prediction,calculation:forecast.calculation,sourcePositions:sourcePositions(method.baseName)}],history:histories.slice(-5),formulaId:method.rank};
 }
+// Display-only wave name. Invalid or missing numbers must not look like green-wave numbers.
+export function lotteryWaveColor(value: string | number): 'red' | 'blue' | 'green' | 'neutral' {
+  const number = Number(value);
+  if (!String(value).trim() || !Number.isInteger(number) || number < 1 || number > 49) return 'neutral';
+  return RED.has(number) ? 'red' : BLUE.has(number) ? 'blue' : 'green';
+}

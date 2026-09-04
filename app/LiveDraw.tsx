@@ -32,11 +32,13 @@ export default function LiveDraw({ initial, type }: { initial: LatestLottery; ty
             });
           }
         }
+      } catch {
+        // Keep the last successful draw and schedule when the connection fails.
       } finally {
         if (!stopped) timer = setTimeout(poll, numberCount.current < 7 ? 2000 : 10000);
       }
     };
-    timer = setTimeout(poll, 1500);
+    void poll();
     return () => { stopped = true; clearTimeout(timer); };
   }, [type]);
 
@@ -70,8 +72,12 @@ export default function LiveDraw({ initial, type }: { initial: LatestLottery; ty
     };
   }, [showPlayer, latest.videoUrlForH5, latest.videoUrl]);
 
-  const timeMatch = latest.title.match(/(\d{1,2})点(\d{2})分/);
-  const nextTime = timeMatch ? `${timeMatch[1].padStart(2, '0')}:${timeMatch[2]}` : '';
+  const scheduleSource = [latest.nextLotteryTime || '', latest.title || ''].join(' ');
+  const timeMatch = scheduleSource.match(/(\d{1,2})(?:点|[:：])(\d{1,2})(?:分)?/);
+  const nextTime = timeMatch ? timeMatch[1].padStart(2, '0') + ':' + timeMatch[2].padStart(2, '0') : '';
+  const dateMatch = scheduleSource.match(/\d{4}[-/]\d{1,2}[-/]\d{1,2}/);
+  const nextDate = dateMatch ? dateMatch[0].replaceAll('-', '/') : latest.nextLotteryTime || '';
+  const nextSchedule = nextDate ? nextDate + (nextTime ? ' · ' + nextTime : '') : '时间读取中';
   const slots = Array.from({ length: 7 }, (_, index) => latest.numberList[index]);
 
   return <section className="live-draw-wrap"><div className={`draw-strip ${updated ? 'live-updated' : ''}`}>
@@ -81,7 +87,7 @@ export default function LiveDraw({ initial, type }: { initial: LatestLottery; ty
         {index === 6 && <b>＋</b>}
         {item ? <div className={`draw-ball ${index === 6 ? 'special' : ''}`}><i className={ballColors[item.color]}>{item.number}</i><span>{item.shengXiao}</span>{index === 6 && <em>特码</em>}</div> : <div className={`draw-ball pending ${index === 6 ? 'special' : ''}`}><i>?</i><span>待开</span></div>}
       </span>)}
-    </div><div className="next-draw"><span>下期开奖时间</span><strong>{latest.nextLotteryTime.replaceAll('-', '/')}{nextTime && ` · ${nextTime}`}</strong></div></div>
+    </div><div className="next-draw"><span>下期开奖时间</span><strong>{latest.nextLotteryNumber && `第${latest.nextLotteryNumber}期 · `}{nextSchedule}</strong></div></div>
     <div className="draw-tools"><a href={`/history?type=${type}&year=${latest.year}`}>历史记录</a><a href="#picker">挑码助手</a><button type="button" className={showPlayer ? 'active' : ''} onClick={() => setShowPlayer(value => !value)}>{showPlayer ? '收起直播' : '开奖直播'}</button></div>
   </div>{showPlayer && <div className="live-player"><header><div><i></i><strong>开奖直播</strong><span>LIVE</span></div><button type="button" onClick={() => setShowPlayer(false)}>收起 ×</button></header><div className="live-screen">{latest.videoUrlForH5 || latest.videoUrl ? <video ref={videoRef} controls autoPlay muted playsInline/> : <p>当前暂无直播信号</p>}</div></div>}</section>;
 }

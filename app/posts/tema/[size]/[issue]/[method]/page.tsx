@@ -13,7 +13,7 @@ type BundleMethod={sourceKey:string;branches:BundleBranch[];formulaId?:string};
 type Calculated={name:string;calculation:string;result:string;sourcePositions:number[]};
 const labels:Record<string,string>={'3':'三码中特','8':'八码中特','10':'十码中特','18':'十八码中特'};
 
-function digits(value:number){return Math.floor(value/10)+(value%10)}
+function digits(value:number){return String(Math.abs(Math.trunc(value))).split('').reduce((sum,digit)=>sum+Number(digit),0)}
 function wrap(value:number){while(value>49)value-=12;while(value<1)value+=12;return value}
 function sourcePosition(label:string){return label==='特码'?6:Number(label.replace('平',''))-1}
 function baseFormula(name:string,draw:Draw):{value:number;text:string;positions:number[]}|null{

@@ -16,6 +16,7 @@ const localBindingConfig = {
   main: './worker/index.ts',
   compatibility_flags: ['nodejs_compat'],
   assets: { binding: 'ASSETS' },
+  services: [{ binding: 'LOTTERY_CHECKER', service: 'liuhe-formula-update-checker' }],
   d1_databases: d1
     ? [
         {

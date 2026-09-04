@@ -98,7 +98,7 @@ def settle(snapshot, draw):
             if b in ('pingte','pingte2','zodiac'):
                 pool = values(p,'predictionAnimal','predictionAnimals','animals','nextAnimal','next')
                 if pool:
-                    hit = special.get('shengXiao') in pool if b=='zodiac' else set(pool)<=all_animals
+                    hit = special.get('shengXiao') in pool if b=='zodiac' else (len(set(pool))==2 and set(pool)<=all_animals) if b=='pingte2' else set(pool)<=all_animals
             elif b in ('tema','fushi'):
                 animal_game = b=='fushi' and g in ('2x','3x')
                 pool = values(p, *('animals','predictionAnimals') if animal_game else ('numbers','predictionNumbers'))
@@ -248,7 +248,8 @@ def patch_pages():
     path = ROOT / 'app/formula-history/page.tsx'
     source = path.read_text(encoding='utf-8')
     a,b = source.index('const predictionText='),source.index('export default')
-    path.write_text(source[:a]+PREDICTION_TEXT+'\n'+source[b:],encoding='utf-8')
+    version = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()[:16]
+    path.write_text(source[:a]+PREDICTION_TEXT+f'\n// history-integrity-build:{version}\n\n'+source[b:],encoding='utf-8')
     # A fallback selected only by rank could attach a different formula's prediction.
     path = ROOT / 'lib/formula-history.ts'
     source = path.read_text(encoding='utf-8')

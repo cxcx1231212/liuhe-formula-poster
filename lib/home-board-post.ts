@@ -11,6 +11,7 @@ const wxS=['特五行连准公开','简单算法逐期验证','本期五行重�
 const jyS=['家野中特规律公开','生肖家野清楚展示','简单算法逐期验证','本期家野重点参考'];
 const pad=(v:number|string)=>String(v).padStart(3,'0');
 export function makeHomeBoardPost(type:string,board:string,category:string,issue:number,m:Record<string,unknown>,index:number):BoardPost{
+ index=typeof m.sourceIndex==='number'?m.sourceIndex:index;
  const q=`?type=${type}`,rank=String(m.rank??pad(index+1)),i=`${issue}期`;
  if(board==='pingte'){const two=category==='two';return {issue:i,href:`/posts/${two?'pingte2':'pingte'}/${issue}/${pad(index+1)}${q}`,title:`${postAuthor(type,two?'pingte2':'pingte',index)}【${two?'平特二肖':'平特一肖'}】${(two?twoTitles:oneTitles)[index%10]}`};}
  if(board==='tema'){const label:Record<string,string>={'3':'三码中特','8':'八码中特','10':'十码中特','18':'十八码中特'};return {issue:i,href:`/posts/tema/${category}/${issue}/${pad(index+1)}${q}`,title:`${postAuthor(type,`tema${category}` as never,index)}【${label[category]}】${common[index%common.length]}`};}

@@ -1,5 +1,6 @@
 """Keep original poster renderers aligned with the published lottery catalog."""
 import json
+import hashlib
 import re
 from pathlib import Path
 
@@ -62,6 +63,7 @@ def run():
     source = route.read_text(encoding='utf-8')
     source = source.replace('const manifest=pingteManifests.pingte[type];', 'const manifest=await pingteManifests.pingte[type];')
     source = source.replace('pingteManifests.wuxing[type].draws', '(await pingteManifests.wuxing[type]).draws')
+    source = source.replace('sourcePositions:positions}', 'sourcePositions:positions.map(position=>position+1)}')
     if 'const manifest=await pingteManifests.pingte[type];' not in source or '(await pingteManifests.wuxing[type]).draws' not in source:
         raise RuntimeError('Unexpected pingte reader')
     route.write_text(source, encoding='utf-8')
@@ -75,6 +77,20 @@ def run():
         for kind, period in re.findall(r'type-([158])-(\d+)-manifest\.json', path.read_text(encoding='utf-8')):
             if int(period) != issues[kind]:
                 raise RuntimeError(f'Stale hard-coded reference in {path}: type={kind} issue={period}')
+    # A changed page implementation must not reuse HTML cached by an older build.
+    digest = hashlib.sha256(json.dumps(catalog, sort_keys=True).encode())
+    for folder in ('app', 'lib'):
+        for path in sorted((ROOT / folder).rglob('*')):
+            if path.is_file() and path.suffix in ('.ts', '.tsx', '.css'):
+                digest.update(str(path.relative_to(ROOT)).replace('\\', '/').encode())
+                digest.update(path.read_bytes())
+    proxy = ROOT / 'worker/cache-proxy.js'
+    if proxy.exists():
+        text = proxy.read_text(encoding='utf-8')
+        text, count = re.subn(r"const CACHE_VERSION = '[^']*';", "const CACHE_VERSION = 'poster-" + digest.hexdigest()[:16] + "';", text)
+        if count != 1:
+            raise RuntimeError('Cannot version HTML cache safely')
+        proxy.write_text(text, encoding='utf-8')
 
 
 if __name__ == '__main__':

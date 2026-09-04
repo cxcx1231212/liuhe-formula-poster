@@ -65,6 +65,11 @@ def run():
     if 'const manifest=await pingteManifests.pingte[type];' not in source or '(await pingteManifests.wuxing[type]).draws' not in source:
         raise RuntimeError('Unexpected pingte reader')
     route.write_text(source, encoding='utf-8')
+    common = ROOT / 'lib/formula-manifests.ts'
+    if common.exists():
+        source = common.read_text(encoding='utf-8')
+        source = re.sub(r'type-([158])-\d+-manifest\.json', lambda match: f'type-{match[1]}-{issues[match[1]]:03d}-manifest.json', source)
+        common.write_text(source, encoding='utf-8')
     # Reject any remaining stale hard-coded generated references in page readers.
     for path in (ROOT / 'lib').glob('*manifests.ts'):
         for kind, period in re.findall(r'type-([158])-(\d+)-manifest\.json', path.read_text(encoding='utf-8')):

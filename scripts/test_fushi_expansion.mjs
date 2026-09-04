@@ -1,0 +1,36 @@
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {buildFushiPosterItem} from '../lib/fushi-history.ts';
+const cases=JSON.parse(readFileSync(new URL('../fushi-expansion-checks.json',import.meta.url),'utf8'));
+let checked=0;
+for(const row of cases){
+  const item=buildFushiPosterItem(row.method,[row.source],row.issue,'number',row.required,'test');
+  const pool=item.next.map(Number).sort((a,b)=>a-b);
+  assert.equal(new Set(pool).size,row.size);
+  assert.deepEqual(pool,[...row.expected].sort((a,b)=>a-b));
+  assert.equal(item.history.length,0);
+  assert(item.branches.every(b=>b.calculation&&b.sourcePositions.every(p=>p>=1&&p<=7)));
+  const oldMethod={...row.method};
+  delete oldMethod.expansionSize;
+  delete oldMethod.activationIssue;
+  const before={...row.source,period:row.issue-2};
+  const old=buildFushiPosterItem(oldMethod,[before],row.issue-1,'number',row.required,'test');
+  const unchanged=buildFushiPosterItem(row.method,[before],row.issue-1,'number',row.required,'test');
+  assert.deepEqual(unchanged,old,'Pre-activation output changed');
+  const animal=buildFushiPosterItem(row.method,[row.source],row.issue,'animal',row.required,'test');
+  const oldAnimal=buildFushiPosterItem(oldMethod,[row.source],row.issue,'animal',row.required,'test');
+  assert.deepEqual(animal,oldAnimal,'Animal game changed');
+  const selected=[...new Set(row.expected)].slice(0,row.required);
+  const rest=Array.from({length:49},(_,i)=>i+1).filter(n=>!row.expected.includes(n));
+  const ns=[...selected,...rest.slice(0,7-selected.length)];
+  const target={period:row.issue,numbers:ns.map(n=>({number:String(n),animal:'马',element:'金'}))};
+  const settled=buildFushiPosterItem(row.method,[before,row.source,target],row.issue,'number',row.required,'test');
+  assert.equal(settled.history.length,1);
+  assert.equal(settled.history[0].hit,true);
+  assert.equal(settled.history[0].branches.length,row.size);
+  [target.numbers[row.required-1],target.numbers[6]]=[target.numbers[6],target.numbers[row.required-1]];
+  const miss=buildFushiPosterItem(row.method,[row.source,target],row.issue,'number',row.required,'test');
+  assert.equal(miss.history[0].hit,false);
+  checked++;
+}
+console.log('PASS '+checked+' formulas: Python/TypeScript agreement, unique counts, activation boundary, original/animal preservation, settlement');

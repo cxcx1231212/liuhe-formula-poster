@@ -13,6 +13,8 @@ const predictionText=(value:unknown):string=>{
   return [...new Set(collect(value))].join('、')||'暂无预测数据';
 };
 
+// history-integrity-build:944678534f4a918c
+
 export default async function FormulaHistoryPage({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const query=await searchParams;const type=typeof query.type==='string'?query.type:'5';const path=typeof query.path==='string'?query.path:'';const history=await formulaHistory(type,path);
   if(!history)return <main className="not-found"><h1>该公式暂无历史记录</h1><p>早期资料尚未建立固定公式编号，后续每期开奖后会自动累积。</p><a href={`/?type=${type}`}>返回首页</a></main>;

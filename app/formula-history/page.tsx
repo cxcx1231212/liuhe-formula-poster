@@ -13,7 +13,7 @@ const predictionText=(value:unknown):string=>{
   return [...new Set(collect(value))].join('、')||'暂无预测数据';
 };
 
-// history-integrity-build:944678534f4a918c
+// history-integrity-build:1cdc4b614c4e2aef
 
 export default async function FormulaHistoryPage({searchParams}:{searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const query=await searchParams;const type=typeof query.type==='string'?query.type:'5';const path=typeof query.path==='string'?query.path:'';const history=await formulaHistory(type,path);

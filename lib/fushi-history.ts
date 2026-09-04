@@ -1,7 +1,7 @@
 type Cell={number:string;animal:string;element:string};
 export type FushiDraw={period:number;displayPeriod?:string;date?:string;numbers:Cell[]};
 type RawBranch={name:string;number?:number;animal?:string};
-export type FushiMethod={rank:string;sourceKey:string;branches:RawBranch[];recentStreak?:number;recent30Hits?:number};
+export type FushiMethod={expansionSize?:number;activationIssue?:number;expansionActive?:boolean;formulaId?:string;rank:string;sourceKey:string;branches:RawBranch[];recentStreak?:number;recent30Hits?:number};
 
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
 const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,digit)=>sum+Number(digit),0);
@@ -29,29 +29,48 @@ const parse=(name:string)=>{
   const match=name.match(/^(.*?)(加|减|乘|除)(\d+)(取整|余数)?$/);
   return {base:match?.[1]||name,operation:match?.[2]||'加',amount:Number(match?.[3]||0),suffix:match?.[4]||''};
 };
-const evaluate=(draw:FushiDraw,name:string)=>{
+const evaluate=(draw:FushiDraw,name:string,useExpandedWrap=false)=>{
   const definition=parse(name),baseDetailsValue=baseDetails(draw,definition.base),base=baseDetailsValue.value;
-  const raw=definition.operation==='加'?base+definition.amount:definition.operation==='减'?base-definition.amount:definition.operation==='乘'?base*definition.amount:definition.suffix==='余数'?base%definition.amount:Math.trunc(base/definition.amount);
-  const result=wrap(raw),animal=animals[(result-1)%12];
+  const raw=definition.operation==='加'?base+definition.amount:definition.operation==='减'?base-definition.amount:definition.operation==='乘'?base*definition.amount:definition.suffix==='余数'?(useExpandedWrap?((base%definition.amount)+definition.amount)%definition.amount:base%definition.amount):Math.trunc(base/definition.amount);
+  const result=useExpandedWrap?expandedWrap(raw):wrap(raw),animal=animals[(result-1)%12];
   const symbol=definition.operation==='加'?'+':definition.operation==='减'?'−':definition.operation==='乘'?'×':definition.suffix==='余数'?'÷余':'÷整';
   return {number:result,animal,calculation:`${baseDetailsValue.expression}${symbol}${definition.amount}=${formatNumber(result)}属${animal}`};
 };
 const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
+
+
+// fushi-8-10-v1: a fixed, prior-draw-only expansion; never applied retroactively.
+const expandedWrap=(value:number)=>{let n=Math.trunc(value);while(n>49)n-=12;while(n<1)n+=12;return n;};
+const selectBranches=(method:FushiMethod,source:FushiDraw,targetPeriod:number,kind:string)=>{
+  const active=kind==='number'&&method.expansionSize&&targetPeriod>=(method.activationIssue||Infinity);
+  const original=method.branches.map(branch=>({...evaluate(source,branch.name,!!active),name:branch.name}));
+  if(!active)return original;
+  if(source.numbers.length!==7)throw new Error('Incomplete expansion source');
+  const result:typeof original=[],seen=new Set<number>();
+  const add=(name:string)=>{const value={...evaluate(source,name,true),name};if(!seen.has(value.number)){seen.add(value.number);result.push(value);}};
+  for(const branch of method.branches)add(branch.name);
+  for(let amount=1;amount<=49&&result.length<method.expansionSize!;amount++){
+    for(let position=1;position<=7&&result.length<method.expansionSize!;position++)add(`${position===7?'特码':`平${position}码`}加${amount}`);
+  }
+  if(result.length!==method.expansionSize)throw new Error('Incorrect expanded pool size');
+  return result;
+};
 
 export function buildFushiPosterItem(method:FushiMethod,draws:FushiDraw[],requestedIssue:number,kind:'number'|'animal',required:number,label:string){
   const displayCalculation=(item:ReturnType<typeof evaluate>)=>kind==='number'?item.calculation.replace(/属[^属]+$/,''):item.calculation;
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){
-    const source=ordered[index],target=ordered[index+1];if(target.period>requestedIssue)continue;
-    const evaluated=method.branches.map(branch=>evaluate(source,branch.name));
+    const source=ordered[index],target=ordered[index+1];if(target.period>requestedIssue||target.period!==source.period+1||source.numbers.length!==7||target.numbers.length!==7)continue;
+    if(kind==='number'&&method.expansionSize&&requestedIssue>=(method.activationIssue||Infinity)&&target.period<method.activationIssue!)continue;
+    const evaluated=selectBranches(method,source,target.period,kind);
     const targetNumbers=target.numbers.slice(0,6);
     const uniquePredictions=new Set(evaluated.map(item=>kind==='number'?String(item.number):item.animal));
     const matched=[...uniquePredictions].filter(value=>targetNumbers.some(cell=>kind==='number'?Number(cell.number)===Number(value):cell.animal===value));
     const hit=matched.length>=required;
-    histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches:evaluated.map((item,branchIndex)=>({name:method.branches[branchIndex].name,calculation:displayCalculation(item),result:kind==='number'?String(item.number).padStart(2,'0'):item.animal,targetPositions:targetNumbers.map((cell,pos)=>((kind==='number'?Number(cell.number)===item.number:cell.animal===item.animal)?pos+1:0)).filter(Boolean)})),actualNumber:target.numbers[6].number,actualAnimal:target.numbers[6].animal,actualElement:target.numbers[6].element,hit,targetPositions:targetNumbers.map((cell,pos)=>(matched.some(value=>kind==='number'?Number(value)===Number(cell.number):value===cell.animal)?pos+1:0)).filter(Boolean)});
+    histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches:evaluated.map((item,branchIndex)=>({name:item.name,sourcePositions:Array.from(item.name.matchAll(/平([1-6])码|特码/g),m=>m[0]==='特码'?7:Number(m[1])),calculation:displayCalculation(item),result:kind==='number'?String(item.number).padStart(2,'0'):item.animal,targetPositions:targetNumbers.map((cell,pos)=>((kind==='number'?Number(cell.number)===item.number:cell.animal===item.animal)?pos+1:0)).filter(Boolean)})),actualNumber:target.numbers[6].number,actualAnimal:target.numbers[6].animal,actualElement:target.numbers[6].element,hit,targetPositions:targetNumbers.map((cell,pos)=>(matched.some(value=>kind==='number'?Number(value)===Number(cell.number):value===cell.animal)?pos+1:0)).filter(Boolean)});
   }
   const source=ordered.find(draw=>draw.period===requestedIssue-1)||ordered.at(-1)!;
-  const forecast=method.branches.map(branch=>evaluate(source,branch.name));
-  return {label,sourceKey:method.sourceKey,next:forecast.map(item=>kind==='number'?String(item.number).padStart(2,'0'):item.animal),recentStreak:method.recentStreak||0,recent30Hits:method.recent30Hits||0,branches:method.branches.map((branch,index)=>({name:branch.name,next:kind==='number'?String(forecast[index].number).padStart(2,'0'):forecast[index].animal,calculation:displayCalculation(forecast[index]),sourcePositions:sourcePositions(branch.name)})),history:histories.slice(-5),formulaId:`FUSHI-${method.rank}`};
+  const forecast=selectBranches(method,source,requestedIssue,kind);
+  return {label,sourceKey:method.sourceKey,next:forecast.map(item=>kind==='number'?String(item.number).padStart(2,'0'):item.animal),recentStreak:method.recentStreak||0,recent30Hits:method.recent30Hits||0,branches:forecast.map((branch,index)=>({name:branch.name,next:kind==='number'?String(forecast[index].number).padStart(2,'0'):forecast[index].animal,calculation:displayCalculation(forecast[index]),sourcePositions:kind==='number'&&method.expansionSize&&requestedIssue>=(method.activationIssue||Infinity)?Array.from(branch.name.matchAll(/平([1-6])码|特码/g),m=>m[0]==='特码'?7:Number(m[1])):sourcePositions(branch.name)})),history:histories.slice(-5),formulaId:method.formulaId||`FUSHI-${method.rank}`};
 }

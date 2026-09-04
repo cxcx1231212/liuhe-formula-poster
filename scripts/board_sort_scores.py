@@ -57,6 +57,9 @@ class Scorer:
         if base is not None: branch.update(baseName=base,operation=op,amount=amount)
         return tuple(calculate(branch,source) for source,_ in self.pairs)
     def score(self,board,group,item):
+        if board=='fushi' and group in ('22','33') and item.get('expansionActive'):
+            from fushi_expansion import score_expanded
+            return score_expanded(item,self.pairs,3 if group=='33' else 2)
         if board in ('pingte','pingte2','jiaye'):
             rows=[]
             by_period={int(r['targetPeriod']):r for r in item.get('history',[]) if isinstance(r,dict) and 'targetPeriod' in r}

@@ -55,6 +55,11 @@ def spec_value(spec, draw, board):
     return wrap49(value) if board == 'size' or raw_wrap else value
 
 def prediction_for(item, board='', group='', source=None):
+    if board=='fushi' and group in ('22','33') and item.get('expansionActive'):
+        from fushi_expansion import expanded
+        if source is None or int(source['period'])+1 < item['activationIssue']:
+            raise ValueError('Missing valid expansion source')
+        return {'numbers':[n for _,n in expanded(item,source,item['expansionSize'])]}
     result = {k:item[k] for k in KEYS if k in item and item[k] is not None}
     branches = item.get('branches') or []
     # Save only prediction values, never entire branch metadata as predictions.

@@ -77,7 +77,7 @@ export default async function TemaMethodPost({params,searchParams}:{params:Promi
   }
   const sourceEntry=fullHistory.find(entry=>entry.targetPeriod===requestedIssue);
   const verification=requestedIssue<latestIssue&&Boolean(sourceEntry);
-  const item={label,sourceKey:selected.sourceKey,next:currentBranches.map(branch=>branch.result),recentStreak:0,recent30Hits:0,formulaId:selected.formulaId,branches:currentBranches.map(branch=>({...branch,next:branch.result})),history:fullHistory.slice(-5),...(verification?{verification:{hit:sourceEntry.hit,actualNumber:sourceEntry.actualNumber,actualAnimal:sourceEntry.actualAnimal,actualElement:sourceEntry.actualElement}}:{})};
+  const item={label,sourceKey:selected.sourceKey,next:currentBranches.map(branch=>branch.result),recentStreak:fullHistory.reduce((count,row)=>row.hit?count+1:0,0),recent30Hits:fullHistory.slice(-30).filter(row=>row.hit).length,formulaId:selected.formulaId,branches:currentBranches.map(branch=>({...branch,next:branch.result})),history:fullHistory.slice(-5),...(verification?{verification:{hit:sourceEntry.hit,actualNumber:sourceEntry.actualNumber,actualAnimal:sourceEntry.actualAnimal,actualElement:sourceEntry.actualElement}}:{})};
   const cutoff=verification?requestedIssue:requestedIssue-1;
   const shownDraws=draws.filter(draw=>draw.period<=cutoff).slice(-6);
   const historyPeriods=item.history.map(entry=>entry.targetPeriod);

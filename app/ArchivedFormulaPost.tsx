@@ -47,7 +47,10 @@ export default async function ArchivedFormulaPost({type,path,backHref='/',backLa
   const older=position<history.entries.length-1?history.entries[position+1]:null;
   const predictions=Object.entries(item.prediction??{}).filter(([,value])=>value!==null&&value!==undefined&&value!=='');
   const scores=Object.entries(item.score??{}).filter(([,value])=>value!==null&&value!==undefined&&value!=='');
-  const algorithmParts=(item.signature||history.signature).split('|').filter(Boolean);
+  const signature=item.signature||history.signature;
+  const poolName=path.startsWith('/posts/fushi/22/')&&signature.includes('【8码扩展v1】')?'八码复式':path.startsWith('/posts/fushi/33/')&&signature.includes('【10码扩展v1】')?'十码复式':'';
+  const displayLabel=(item.label||history.label).replace(/【(?:8|10)码扩展v1】/g,'')+(poolName?`【${poolName}】`:'');
+  const algorithmParts=signature.replace(/【(?:8|10)码扩展v1】/g,'').split('|').filter(Boolean);
   const resultRows=predictions.filter(([key])=>key!=='branches');
   const branchRows=predictions.find(([key])=>key==='branches');
   const displayId=item.formulaId.replace(/-+/g,'-');
@@ -55,11 +58,11 @@ export default async function ArchivedFormulaPost({type,path,backHref='/',backLa
     <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="/">首页</a></nav></header>
     <article className="detail pingte-detail">
       <div className="detail-topbar"><a className="detail-back" href={backHref}><i>←</i><span><small>BACK TO INDEX</small><strong>{backLabel}</strong></span></a><nav className="detail-issue-links">{newer?.href?<a href={newer.href+'?type='+type}><small>下一期</small><strong>{newer.issue}期</strong></a>:<span className="disabled">当前最新</span>}{older?.href?<a href={older.href+'?type='+type}><small>上一期</small><strong>{older.issue}期</strong></a>:<span className="disabled">暂无上期</span>}</nav></div>
-      <header className="detail-title detail-title-rich"><div className="detail-title-copy"><p><span>{names[type]??names['5']}</span><b>历史公式</b><time>2026-{item.issue}期</time></p><h1>{item.label||history.label}</h1><small>历史档案 · 已按同一公式连续保存</small></div><em>{String(item.issue).padStart(3,'0')}</em></header>
+      <header className="detail-title detail-title-rich"><div className="detail-title-copy"><p><span>{names[type]??names['5']}</span><b>历史公式</b><time>2026-{item.issue}期</time></p><h1>{displayLabel}</h1><small>历史档案 · 已按同一公式连续保存</small></div><em>{String(item.issue).padStart(3,'0')}</em></header>
       <section className="method-card single-method" style={{overflow:'hidden'}}>
         <div style={{padding:'20px',background:'linear-gradient(135deg,#17130a,#090909)',borderBottom:'1px solid #614a14'}}>
           <p style={{margin:'0 0 8px',color:'#d9ae3f',fontSize:'13px',fontWeight:700}}>{names[type]??names['5']} · 第{item.issue}期</p>
-          <h1 style={{margin:0,color:'#fff',fontSize:'clamp(22px,5vw,34px)',lineHeight:1.3}}>{item.label||history.label}</h1>
+          <h1 style={{margin:0,color:'#fff',fontSize:'clamp(22px,5vw,34px)',lineHeight:1.3}}>{displayLabel}</h1>
         </div>
         <div style={{display:'grid',gap:'16px',padding:'20px'}}>
           <div><strong style={{display:'block',marginBottom:'14px',color:'#d9ae3f'}}>公式计算过程</strong><div style={{display:'grid',gap:'12px'}}>{algorithmParts.map((part,index)=><div key={index} style={{position:'relative',paddingLeft:'42px',minHeight:'34px',display:'flex',alignItems:'center'}}><span style={{position:'absolute',left:0,top:'2px',width:'28px',height:'28px',borderRadius:'50%',display:'grid',placeItems:'center',background:'#d9ae3f',color:'#111',fontWeight:800,zIndex:1}}>{index+1}</span>{index<algorithmParts.length-1?<i style={{position:'absolute',left:'13px',top:'28px',bottom:'-14px',width:'2px',background:'#765817'}}/>:null}<span style={{lineHeight:1.6}}>{part}</span></div>)}</div></div>
@@ -75,10 +78,3 @@ export default async function ArchivedFormulaPost({type,path,backHref='/',backLa
     </article>
   </main>;
 }
-
-
-
-
-
-
-

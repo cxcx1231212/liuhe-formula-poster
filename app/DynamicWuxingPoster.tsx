@@ -1,4 +1,5 @@
 import "./DynamicWuxingPoster.css";
+import {lotteryWaveColor} from "@/lib/wave-history";
 
 type Branch = {
   name: string;
@@ -55,6 +56,12 @@ const colors: Record<string, string> = {
   土: "#85542f",
   家肖: "#bd8127",
   野肖: "#278452",
+};
+
+const numberWaveColors = {red: "#c92a35", blue: "#1d5eb5", green: "#187842"};
+const predictionColor = (value: string) => {
+  const wave = /^\d{1,2}$/.test(value) ? lotteryWaveColor(value) : "neutral";
+  return wave === "neutral" ? colors[value] || "#9b772e" : numberWaveColors[wave];
 };
 
 const conciseCalculation = (text: string) =>
@@ -200,7 +207,7 @@ export default function DynamicWuxingPoster({
                     item.next.map((value) => (
                       <b
                         key={value}
-                        style={{ backgroundColor: colors[value] || "#9b772e" }}
+                        style={{ backgroundColor: predictionColor(value) }}
                       >
                         {value}
                       </b>
@@ -256,7 +263,7 @@ export default function DynamicWuxingPoster({
                       className={`${isSource ? "picked " : ""}${isTarget ? "target " : ""}`}
                       key={`${draw.period}-${index}`}
                     >
-                      <b>{value.number}</b>
+                      <b className="formula-number" data-wave={lotteryWaveColor(value.number)}>{value.number}</b>
                       <small>
                         {value.animal} · {value.element}
                       </small>
@@ -280,7 +287,7 @@ export default function DynamicWuxingPoster({
                   refY="4.5"
                   orient="auto"
                 >
-                  <path d="M0,0 L9,4.5 L0,9 Z" fill="#cf2f32" />
+                  <path d="M0,0 L9,4.5 L0,9 Z" fill="#1d5eb5" />
                 </marker>
                 <marker
                   id="prediction-arrow-head"
@@ -290,7 +297,7 @@ export default function DynamicWuxingPoster({
                   refY="3"
                   orient="auto"
                 >
-                  <path d="M0,0 L6,3 L0,6 Z" fill="#cf2f32" />
+                  <path d="M0,0 L6,3 L0,6 Z" fill="#1d5eb5" />
                 </marker>
               </defs>
               {!item.verification &&
@@ -420,7 +427,7 @@ export default function DynamicWuxingPoster({
                         width={genericMulti ? 730 : 425}
                         height={labelHeight}
                         rx={multi ? 11 : 18}
-                        fill="#c92529"
+                        fill="#1d5eb5"
                       />
                       {labelLines.map((line, lineIndex) => {
                         const availableLineWidth = genericMulti
@@ -501,7 +508,7 @@ export default function DynamicWuxingPoster({
                     {compactForecast && result && (
                       <strong
                         className="prediction-result"
-                        style={{ backgroundColor: colors[result] || "#9b772e" }}
+                        style={{ backgroundColor: predictionColor(result) }}
                       >
                         {result}
                       </strong>

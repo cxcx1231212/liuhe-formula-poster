@@ -44,7 +44,7 @@ jobs:
         run: python scripts/check_lottery_updates.py --github-output "$GITHUB_OUTPUT"
 
       - name: 安装 JSON 清单依赖
-        if: steps.check.outputs.changed == 'true'
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
         run: python -m pip install --disable-pip-version-check Pillow
 
       - name: 分彩种计算并立即保存进度
@@ -65,7 +65,7 @@ jobs:
               sleep 60
             done
             wait "${generator_pid}"
-            git add lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data public/generated lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx
+            git add lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data public/generated lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx app/IssueScroller.tsx app/formula-history/page.tsx
             if ! git diff --cached --quiet; then
               git commit -m "自动保存彩种 ${lottery_type} 更新进度 [skip ci]"
             fi
@@ -87,6 +87,7 @@ jobs:
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
         run: |
           pnpm install --frozen-lockfile
+          python -u scripts/repair_history_integrity.py
           python scripts/generate_home_board_data.py
           # 当前生肖清单只保留展示数据；完整逐期记录保存在 formula-history。
           python - <<'PY'
@@ -113,6 +114,9 @@ jobs:
           python scripts/prepare_content_manifests.py
           pnpm run build
           python scripts/publish_history_shards.py --prune-build
+          pnpm exec wrangler --version
+          pnpm exec wrangler deploy --dry-run --config dist/server/wrangler.json --name liuhe-formula-poster-backend
+          pnpm exec wrangler deploy --dry-run --config wrangler-cache.jsonc
 
       - name: 发布公式程序后端
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
@@ -133,7 +137,7 @@ jobs:
         run: |
           git config user.name "六合自动更新"
           git config user.email "actions@users.noreply.github.com"
-          git add lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data public/generated lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx
+          git add lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data public/generated lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx app/IssueScroller.tsx app/formula-history/page.tsx
           if ! git diff --cached --quiet; then
             git commit -m "自动更新新一期公式 [skip ci]"
           fi

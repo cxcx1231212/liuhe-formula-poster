@@ -1,3 +1,4 @@
+import { env } from 'cloudflare:workers';
 import { getLatestLottery, isLotteryType, type LatestLottery } from '@/lib/lottery';
 
 export async function GET(request: Request) {
@@ -5,7 +6,7 @@ export async function GET(request: Request) {
   const requestedType = url.searchParams.get('type') ?? '1';
   if (!isLotteryType(requestedType)) return Response.json({ error: '无效彩种' }, { status: 400 });
   try {
-    const response = await fetch('https://liuhe-formula-update-checker.xcx8088.workers.dev/latest?lotteryType=' + requestedType, {cache:'no-store', signal:AbortSignal.timeout(5000)});
+    const response = await env.LOTTERY_CHECKER.fetch('https://liuhe-formula-update-checker.xcx8088.workers.dev/latest?lotteryType=' + requestedType, {signal:AbortSignal.timeout(8000)});
     if (!response.ok) throw new Error('CF 开奖数据读取失败');
     const payload = await response.json() as {ok?:boolean;data?:LatestLottery};
     const incoming = payload.data;

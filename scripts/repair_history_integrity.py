@@ -65,12 +65,12 @@ def prediction_for(item, board='', group='', source=None):
     if not result.get('next'):
         values = [b['next'] for b in branches if b.get('next') is not None]
         if values: result['next'] = values
-    if source and board in ('danshuang','wave'):
+    if source and board in ('danshuang','wave') and all(k in item for k in ('baseName','operation','amount')):
         raw = base_value(item['baseName'],source)
         if item['operation'] not in ('add','subtract'): raise ValueError('Unsupported operation')
         n = wrap49(raw + (-1 if item['operation']=='subtract' else 1)*int(item['amount']))
         result = {'next': [wave(n) if board=='wave' else ('合' if '合数' in item.get('label','') else '') + ('单' if (digit(n) if '合数' in item.get('label','') else n)%2 else '双')]}
-    if source and board in ('tail','head','size'):
+    if source and board in ('tail','head','size') and item.get('spec'):
         n = spec_value(item['spec'],source,board)
         result = {'next':['大' if n>=25 else '小']} if board=='size' else {'values':[n%10 if board=='tail' else n//10]}
     return result or None
@@ -178,7 +178,7 @@ def raw_draw(row):
 
 def repair_snapshots(catalog):
     from archive_formula_history import signature_of, stable_id, iter_methods, snapshot
-    counts = {'restored':0,'unknown':0,'settlementChanged':0,'rejectedManifests':[]}
+    counts = {'restored':0,'unknown':0,'settlementChanged':0,'rejectedManifests':[],'unverifiedPredictions':[]}
     for entry in catalog:
         kind,issue = int(entry['lotteryType']),int(entry['nextPeriod'])
         # Use the same saved draw history as the deployed content pages.
@@ -212,7 +212,12 @@ def repair_snapshots(catalog):
             for row in payload.get('formulas',[]):
                 match = lookup.get(row['formulaId'])
                 if match and match[2] == row['signature']:
-                    prediction = prediction_for(match[3],match[0],match[1],draws.get(period-1))
+                    try:
+                        prediction = prediction_for(match[3],match[0],match[1],draws.get(period-1))
+                    except (KeyError,ValueError,TypeError) as error:
+                        counts['unverifiedPredictions'].append({'type':kind,'issue':period,'formulaId':row['formulaId'],'reason':str(error)})
+                        row['prediction'] = None
+                        prediction = None
                     if prediction:
                         if not row.get('prediction'): counts['restored'] += 1
                         row['prediction'] = prediction

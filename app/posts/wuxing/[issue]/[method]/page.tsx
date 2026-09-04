@@ -1,8 +1,10 @@
+import {hydrateWuxingHistory} from '@/lib/wuxing-history';
 import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
 import IssueScroller from '@/app/IssueScroller';
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
+
 
 export default async function WuxingPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const {issue,method}=await params;
@@ -11,7 +13,7 @@ export default async function WuxingPost({params,searchParams}:{params:Promise<{
   const requestedIssue=Number(issue);
   const currentIssue=Number(manifest.issue);
   const index=manifest.methods.findIndex((value:{rank:string})=>value.rank===method);
-  const currentItem=index>=0?manifest.methods[index]:undefined;
+  const currentItem=index>=0?await hydrateWuxingHistory(manifest,manifest.methods[index]):undefined;
   if(!currentItem)return <ArchivedFormulaPost type={type} path={`/posts/wuxing/${issue}/${method}`} backHref={`/?type=${type}#board-五行公式`} backLabel="返回五行板块"/>;
   const sourceEntry=currentItem.history?.find((entry:{targetPeriod:number})=>entry.targetPeriod===requestedIssue);
   const isDerivedHistory=requestedIssue<currentIssue&&Boolean(sourceEntry);

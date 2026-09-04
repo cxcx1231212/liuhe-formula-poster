@@ -41,6 +41,23 @@ async function livePrediction(type:string,issue:number,row:FormulaHistoryRow){
 }
 
 export async function formulaHistory(type:string,path:string){
+  // history-shards-v1: fetch only the selected formula's bounded history shard.
+  const safeType=['1','5','8'].includes(type)?type:'5';
+  const prefix='generated/formula-history/type-'+safeType+'-2026/';
+  const hash=async(value:string)=>Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(value)))).map(x=>x.toString(16).padStart(2,'0')).join('').slice(0,2);
+  const index=await loadJson(prefix+'paths/'+await hash(path)+'.json');
+  if(index){
+    const id=index[path];
+    if(!id)return null;
+    const shard=await loadJson(prefix+'formulas/'+await hash(id)+'.json');
+    const record=shard?.[id];
+    if(!record)throw new Error('Formula history shard is missing: '+id);
+    const current=record.entries.find((row:FormulaHistoryRow)=>row.href===path);
+    if(!current)return null;
+    const fallback=current.prediction?null:await livePrediction(safeType,current.issue,current);
+    return {...record,label:current.label||current.signature,signature:current.signature,entries:record.entries.map((row:FormulaHistoryRow)=>row.href===path&&!row.prediction?{...row,prediction:fallback}:row)};
+  }
+
   const archive=await loadArchive(type);
   if(!archive)return null;
   const current=[...archive.snapshots].reverse().flatMap(snapshot=>snapshot.formulas.map(row=>({snapshot,row}))).find(({row})=>row.href===path);

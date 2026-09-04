@@ -166,29 +166,29 @@ def snapshot(lottery_type: int, year: int, issue: int) -> dict[str, Any]:
 
 
 def archive(lottery_type: int, year: int, issue: int) -> Path:
-    destination = GENERATED / "formula-history" / f"type-{lottery_type}-{year}.json"
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    data = json.loads(destination.read_text(encoding="utf-8")) if destination.exists() else {
-        "lotteryType": lottery_type,
-        "year": year,
-        "snapshots": [],
-    }
+    legacy = GENERATED / "formula-history" / f"type-{lottery_type}-{year}.json"
+    destination = GENERATED / "formula-history" / f"type-{lottery_type}-{year}" / "snapshots"
+    destination.mkdir(parents=True, exist_ok=True)
+    # history-snapshots-v1: retain legacy backup; append only per-issue files.
+    if legacy.exists():
+        for row in json.loads(legacy.read_text(encoding="utf-8")).get("snapshots", []):
+            path = destination / f"{int(row['issue']):03d}.json"
+            if not path.exists():
+                path.write_text(json.dumps(row, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     current = snapshot(lottery_type, year, issue)
-    data["snapshots"] = [row for row in data.get("snapshots", []) if row.get("issue") != issue]
-    data["snapshots"].append(current)
-    data["snapshots"].sort(key=lambda row: row["issue"])
-    try:
-        from search_pingte_methods import fetch_year
-        draws = {int(row["period"]): row for row in fetch_year(lottery_type, year)}
-        for row in data["snapshots"]:
-            draw = draws.get(int(row.get("issue", 0)))
-            if draw:
-                settle(row, draw)
-    except Exception as error:
-        print(f"-- 历史结算暂缓：{error}")
-    destination.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
-    print(f"-- 轻量历史：{destination}（{current['formulaCount']} 条）")
-    return destination
+    current_path = destination / f"{issue:03d}.json"
+    current_path.write_text(json.dumps(current, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    from search_pingte_methods import fetch_year
+    draws = {int(row["period"]): row for row in fetch_year(lottery_type, year)}
+    for path in destination.glob("*.json"):
+        draw = draws.get(int(path.stem))
+        if draw:
+            row = json.loads(path.read_text(encoding="utf-8"))
+            settle(row, draw)
+            path.write_text(json.dumps(row, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"-- Per-issue history: {current_path} ({current['formulaCount']} formulas)")
+    return current_path
+
 
 
 if __name__ == "__main__":

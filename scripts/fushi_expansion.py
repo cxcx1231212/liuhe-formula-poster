@@ -93,6 +93,8 @@ def patch_sources():
                         'const evaluate=(draw:FushiDraw,name:string,useExpandedWrap=false)=>{')
     text = replace_once(text, 'const result=wrap(raw),animal=',
                         'const result=useExpandedWrap?expandedWrap(raw):wrap(raw),animal=')
+    text = replace_once(text, "definition.suffix==='余数'?base%definition.amount:",
+                        "definition.suffix==='余数'?(useExpandedWrap?((base%definition.amount)+definition.amount)%definition.amount:base%definition.amount):")
     text = replace_once(text, 'export function buildFushiPosterItem(', TS_SELECTION+'\nexport function buildFushiPosterItem(')
     text = replace_once(text, 'if(target.period>requestedIssue)continue;',
                         "if(target.period>requestedIssue||target.period!==source.period+1||source.numbers.length!==7||target.numbers.length!==7)continue;\n    if(kind==='number'&&method.expansionSize&&requestedIssue>=(method.activationIssue||Infinity)&&target.period<method.activationIssue!)continue;")

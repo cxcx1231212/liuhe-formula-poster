@@ -48,20 +48,10 @@ type Draw = {
   numbers: { number: string; animal: string; element: string }[];
 };
 
-const colors: Record<string, string> = {
-  金: "#b78934",
-  木: "#24814a",
-  水: "#247cae",
-  火: "#c73538",
-  土: "#85542f",
-  家肖: "#bd8127",
-  野肖: "#278452",
-};
-
 const numberWaveColors = {red: "#c92a35", blue: "#1d5eb5", green: "#187842"};
 const predictionColor = (value: string) => {
   const wave = /^\d{1,2}$/.test(value) ? lotteryWaveColor(value) : "neutral";
-  return wave === "neutral" ? colors[value] || "#9b772e" : numberWaveColors[wave];
+  return wave === "neutral" ? "#1d5eb5" : numberWaveColors[wave];
 };
 
 const conciseCalculation = (text: string) =>
@@ -358,10 +348,10 @@ export default function DynamicWuxingPoster({
                     ? "准"
                     : "错";
                 const statusColor = entry.duplicateAnimal
-                  ? "#a56600"
+                  ? "#ffe6a1"
                   : entry.hit
-                    ? "#158241"
-                    : "#c4262b";
+                    ? "#b9ffd2"
+                    : "#ffd4d8";
                 return (
                   <g key={`${entry.sourcePeriod}-${entry.targetPeriod}`}>
                     {isPingteMode ? (
@@ -466,20 +456,13 @@ export default function DynamicWuxingPoster({
                           </text>
                         );
                       })}
-                      <rect
-                        x={genericMulti ? 900 : 815}
-                        y={joinY - 14}
-                        width="29"
-                        height="28"
-                        rx="7"
-                        fill="#fff"
-                      />
                       <text
                         x={genericMulti ? 914.5 : 829.5}
                         y={joinY + 1}
+                        className="formula-status-text"
                         fill={statusColor}
                         fontFamily="PingFang SC, Microsoft YaHei, sans-serif"
-                        fontSize="15"
+                        fontSize="32"
                         fontWeight="900"
                         textAnchor="middle"
                         dominantBaseline="middle"

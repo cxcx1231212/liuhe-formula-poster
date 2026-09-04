@@ -10,11 +10,11 @@ const fushi1 = '/generated/fushi/type-1-096-manifest.json';const fushi5 = '/gene
 const ds1 = '/generated/danshuang/type-1-096-manifest.json';const ds5 = '/generated/danshuang/type-5-247-manifest.json';const ds8 = '/generated/danshuang/type-8-247-manifest.json';
 const wave1 = '/generated/wave/type-1-096-manifest.json';const wave5 = '/generated/wave/type-5-247-manifest.json';const wave8 = '/generated/wave/type-8-247-manifest.json';
 const wx1 = '/generated/wuxing/type-1-096-manifest.json';const wx5 = '/generated/wuxing/type-5-247-manifest.json';const wx8 = '/generated/wuxing/type-8-247-manifest.json';
-const jy1 = '/generated/jiaye/type-1-095-manifest.json';const jy5 = '/generated/jiaye/type-5-247-manifest.json';const jy8 = '/generated/jiaye/type-8-247-manifest.json';
+const jy1 = '/generated/jiaye/type-1-096-manifest.json';const jy5 = '/generated/jiaye/type-5-247-manifest.json';const jy8 = '/generated/jiaye/type-8-247-manifest.json';
 const kill1 = '/generated/kill/type-1-096-manifest.json';const kill5 = '/generated/kill/type-5-247-manifest.json';const kill8 = '/generated/kill/type-8-247-manifest.json';
-const size1 = '/generated/size/type-1-095-manifest.json';const size5 = '/generated/size/type-5-247-manifest.json';const size8 = '/generated/size/type-8-247-manifest.json';
-const tail1 = '/generated/tail/type-1-095-manifest.json';const tail5 = '/generated/tail/type-5-247-manifest.json';const tail8 = '/generated/tail/type-8-247-manifest.json';
-const head1 = '/generated/head/type-1-095-manifest.json';const head5 = '/generated/head/type-5-247-manifest.json';const head8 = '/generated/head/type-8-247-manifest.json';
+const size1 = '/generated/size/type-1-096-manifest.json';const size5 = '/generated/size/type-5-247-manifest.json';const size8 = '/generated/size/type-8-247-manifest.json';
+const tail1 = '/generated/tail/type-1-096-manifest.json';const tail5 = '/generated/tail/type-5-247-manifest.json';const tail8 = '/generated/tail/type-8-247-manifest.json';
+const head1 = '/generated/head/type-1-096-manifest.json';const head5 = '/generated/head/type-5-247-manifest.json';const head8 = '/generated/head/type-8-247-manifest.json';
 
 // Manifest bytes belong in static assets, not the Worker executable.
 async function loadManifest(path: string): Promise<any> {

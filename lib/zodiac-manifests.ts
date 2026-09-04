@@ -1,8 +1,9 @@
+import catalog from '../public/generated/lottery-catalog.json';
 import type {LotteryType} from './lottery';
 import {env} from 'cloudflare:workers';
 
 type AssetBinding={fetch(request:Request):Promise<Response>};
-const issues:Record<LotteryType,string>={1:'096',5:'246',8:'246'};
+const issues=Object.fromEntries(catalog.map(row=>[String(row.lotteryType),String(row.nextPeriod).padStart(3,'0')])) as Record<LotteryType,string>;
 
 export async function getZodiacManifest(type:LotteryType,size:string):Promise<any>{
   const assets=(env as unknown as {ASSETS?:AssetBinding}).ASSETS;

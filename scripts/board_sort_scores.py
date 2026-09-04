@@ -43,7 +43,7 @@ def summarize(rows):
     for hit in reversed(rows):
         if not hit: break
         streak+=1
-    return {'recentStreak':streak,'totalRate':sum(rows)/len(rows),'recent30Rate':sum(rows[-30:])/len(rows[-30:]),'scoredPeriods':len(rows)}
+    return {'recentStreak':streak,'streak':streak,'totalRate':sum(rows)/len(rows),'recent30Rate':sum(rows[-30:])/len(rows[-30:]),'recent30Hits':sum(rows[-30:]),'scoredPeriods':len(rows)}
 
 class Scorer:
     def __init__(self, draws):

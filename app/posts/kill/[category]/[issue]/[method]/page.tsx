@@ -16,7 +16,7 @@ export default async function KillPost({params,searchParams}:{params:Promise<{ca
   const fallback=<ArchivedFormulaPost type={type} path={`/posts/kill/${category}/${issue}/${method}`} backHref={`/?type=${type}#board-绝杀公式`} backLabel="返回绝杀板块"/>;
   if(!current||!Number.isInteger(requested)||requested>latest)return fallback;
   const assets=(env as unknown as {ASSETS:{fetch(request:Request):Promise<Response>}}).ASSETS;
-  const response=await assets.fetch(new Request(`https://assets.local/generated/kill-history/type-${type}-${latest}/${category}-${current.rank}.json`));
+  const response=await assets.fetch(new Request(`https://assets.local/generated/kill-history/type-${type}/${category}-${current.rank}.json`));
   if(!response.ok)throw new Error('Missing kill calculation history');
   const data=await response.json() as any;
   if(data.formulaId!==current.formulaId)throw new Error('Kill formula identity mismatch');

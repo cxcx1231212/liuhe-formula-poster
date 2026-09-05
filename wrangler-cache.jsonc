@@ -18,5 +18,21 @@
   "observability": {
     "enabled": true,
     "head_sampling_rate": 0.1
-  }
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "VIEW_COUNTER",
+        "class_name": "PostViewCounter"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "view-counts-v1",
+      "new_sqlite_classes": [
+        "PostViewCounter"
+      ]
+    }
+  ]
 }

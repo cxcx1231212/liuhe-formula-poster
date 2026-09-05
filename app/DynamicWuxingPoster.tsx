@@ -155,11 +155,12 @@ export default function DynamicWuxingPoster({
       aria-label={`${issue}期${item.label}动态公式图`}
     >
       <div className="dynamic-poster-watermark" aria-hidden="true">
-        GS888888.COM　GS888888.COM
-        <br />
-        GS888888.COM　GS888888.COM
-        <br />
-        GS888888.COM　GS888888.COM
+        {Array.from({ length: 12 }, (_, row) => (
+          <span key={row}>
+            GS888888.COM　GS888888.COM　GS888888.COM
+            <br />
+          </span>
+        ))}
       </div>
       <header>
         <h2>

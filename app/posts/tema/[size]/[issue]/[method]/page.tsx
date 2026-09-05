@@ -37,9 +37,9 @@ function baseFormula(name:string,draw:Draw):{value:number;text:string;positions:
 }
 function calculate(name:string,draw:Draw,fallback:number):Calculated{
   const spread=name.match(/^邻码【(.+)】偏移([+-]\d+)$/);
-  if(spread){const base=baseFormula(spread[1],draw);if(base){const offset=Number(spread[2]),result=wrap(base.value+offset),sign=offset>=0?'+':'−';return {name,calculation:`${base.text}${sign}${Math.abs(offset)}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:base.positions};}}
+  if(spread){const base=baseFormula(spread[1],draw);if(base){const offset=Number(spread[2]),result=wrap(base.value+offset),sign=offset>=0?'+':'−';return {name,calculation:`${base.text}${sign}${Math.abs(offset)}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:base.positions.map(position=>position+1)};}}
   const match=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)(加|减)(\d+)$/);
-  if(!match)return {name,calculation:name,result:String(wrap(fallback)).padStart(2,'0'),sourcePositions:[0]};
+  if(!match)return {name,calculation:name,result:String(wrap(fallback)).padStart(2,'0'),sourcePositions:[1]};
   const [,source,mode,operator,amountText]=match;
   const position=source==='特码码'?6:Number(source[1])-1;
   const sourceNumber=Number(draw.numbers[position].number);
@@ -47,7 +47,7 @@ function calculate(name:string,draw:Draw,fallback:number):Calculated{
   const amount=Number(amountText);
   const result=wrap(operator==='加'?base+amount:base-amount);
   const resultText=String(result).padStart(2,'0');
-  return {name,calculation:`${source}${mode==='固定'?'':mode}：${String(base).padStart(2,'0')}${operator==='加'?'+':'−'}${amount}=${resultText}`,result:resultText,sourcePositions:[position]};
+  return {name,calculation:`${source}${mode==='固定'?'':mode}：${String(base).padStart(2,'0')}${operator==='加'?'+':'−'}${amount}=${resultText}`,result:resultText,sourcePositions:[position+1]};
 }
 
 export default async function TemaMethodPost({params,searchParams}:{params:Promise<{size:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){

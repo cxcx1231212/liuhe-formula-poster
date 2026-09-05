@@ -143,3 +143,9 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5
 .site-recommendations h2{color:#1d5eb5;font-family:Georgia,"Songti SC",serif;font-size:18px;font-weight:600;letter-spacing:.03em}
 .site-recommendations a:before{display:none;content:none}
 @media(max-width:600px){.site-recommendations>header{min-height:38px;padding:7px 10px 7px 15px}.site-recommendations h2{font-size:16px}}
+
+
+/* Live banner ads supplied by the 123 site database. */
+.board-banner{display:block;margin:10px 12px 12px;overflow:hidden;border:1px solid #cfdef0;border-radius:8px;background:#edf5ff;line-height:0}
+.board-banner img{display:block;width:100%;height:auto;max-height:112px;object-fit:cover}
+@media(max-width:600px){.board-banner{margin:8px 7px 9px;border-radius:6px}.board-banner img{max-height:80px;object-fit:cover}}

@@ -1,6 +1,7 @@
 'use client';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import type {BoardPost} from './BoardPostList';
+import BoardBanner from './BoardBanner';
 import {makeHomeBoardPost} from '@/lib/home-board-post';
 import hkFirst from '@/public/generated/home-board/type-1-pingte-one.json';
 import macauFirst from '@/public/generated/home-board/type-5-pingte-one.json';
@@ -13,7 +14,7 @@ const manifests=new Map<string,{value:Manifest;expires:number}>();
 const CACHE_LIMIT=48,CACHE_TTL=5*60*1000;
 function cached(key:string){const item=manifests.get(key);if(!item)return null;if(item.expires<=Date.now()){manifests.delete(key);return null;}manifests.delete(key);manifests.set(key,item);return item.value;}
 function remember(key:string,value:Manifest){manifests.delete(key);manifests.set(key,{value,expires:Date.now()+CACHE_TTL});while(manifests.size>CACHE_LIMIT)manifests.delete(manifests.keys().next().value!);}
-export default function RemoteBoard({type,board,version,categories=[{key:'',label:''}]}:{type:string;board:string;version:number;categories?:Category[]}){
+export default function RemoteBoard({type,board,version,bannerIndex,categories=[{key:'',label:''}]}:{type:string;board:string;version:number;bannerIndex:number;categories?:Category[]}){
   const [category,setCategory]=useState(categories[0].key),[page,setPage]=useState(1),[visible,setVisible]=useState(false),[error,setError]=useState(false);
   const key=board==='pingte'?`pingte-${category==='two'?'two':'one'}`:`${board}-${category}`;
   const url=`/generated/home-board/type-${type}-${key}.json?v=${version}`;
@@ -36,6 +37,6 @@ export default function RemoteBoard({type,board,version,categories=[{key:'',labe
   return <div ref={root} className="remote-board">
     {categories.length>1&&<div className={`pingte-tabs ${board==='pingte'?'pingte-main-tabs':''} ${board==='tema'?'tema-tabs':''}`}>{categories.map(c=><button className={category===c.key?'active':''} onClick={()=>change(c.key)} key={c.key}>{c.label}</button>)}</div>}
     <div className="pingte-count">{data?`当前共 ${data.total} 条公式`:'正在读取公式…'}</div>
-    {error?<div className="pingte-empty"><strong>读取失败</strong><button onClick={()=>{setVisible(false);requestAnimationFrame(()=>setVisible(true))}}>重新加载</button></div>:data?<><div className="board-titles">{data.posts.map(post=><a href={post.href} key={post.href}><span>{post.issue}</span><h3>{post.title}</h3><i>›</i></a>)}</div>{data.pages>1&&<nav className="board-pagination" aria-label="帖子分页"><button disabled={page===1} onClick={()=>setPage(v=>v-1)}>上一页</button>{pageNumbers.map(v=><button className={page===v?'active':''} onClick={()=>setPage(v)} key={v}>{v}</button>)}<button disabled={page===data.pages} onClick={()=>setPage(v=>v+1)}>下一页</button></nav>}</>:<div className="board-list-loading" aria-hidden="true"/>}
+    {error?<div className="pingte-empty"><strong>读取失败</strong><button onClick={()=>{setVisible(false);requestAnimationFrame(()=>setVisible(true))}}>重新加载</button></div>:data?<><div className="board-titles">{data.posts.map(post=><a href={post.href} key={post.href}><span>{post.issue}</span><h3>{post.title}</h3><i>›</i></a>)}</div><BoardBanner index={bannerIndex}/>{data.pages>1&&<nav className="board-pagination" aria-label="帖子分页"><button disabled={page===1} onClick={()=>setPage(v=>v-1)}>上一页</button>{pageNumbers.map(v=><button className={page===v?'active':''} onClick={()=>setPage(v)} key={v}>{v}</button>)}<button disabled={page===data.pages} onClick={()=>setPage(v=>v+1)}>下一页</button></nav>}</>:<div className="board-list-loading" aria-hidden="true"/>}
   </div>;
 }

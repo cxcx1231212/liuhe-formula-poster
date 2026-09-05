@@ -17,7 +17,7 @@ export default function RecommendedSites(){
     return()=>controller.abort();
   },[]);
   return <section className="site-recommendations" aria-label="站点推荐">
-    <header><h2>站点推荐</h2><span>实时同步</span></header>
+    <header><h2>站点推荐</h2></header>
     <div>{sites.map(site=><a href={site.domain_url} target="_blank" rel="noopener noreferrer" key={site.id}><b>{site.name}</b></a>)}{loaded&&sites.length===0?<p>暂无推荐站点</p>:null}{!loaded?<p>正在读取推荐站点…</p>:null}</div>
   </section>;
 }

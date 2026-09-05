@@ -1,5 +1,5 @@
 'use client';
-import {Fragment,useState} from 'react';
+import {Fragment,useEffect,useState} from 'react';
 import type {LatestLottery,LotteryType} from '@/lib/lottery';
 import LiveDraw from './LiveDraw';
 import BoardBanner from './BoardBanner';
@@ -15,10 +15,30 @@ const boards=[
 {key:'kill',name:'绝杀公式',tagline:'排除思路 · 逐期记录',categories:[{key:'code',label:'杀码'},{key:'animal',label:'杀肖'},{key:'tail',label:'杀尾'},{key:'head',label:'杀头'},{key:'wave',label:'杀波'}]},
 {key:'size',name:'大小公式',tagline:'大小区间 · 快速对照'},{key:'tail',name:'尾数公式',tagline:'十组尾数 · 规律整理'},{key:'head',name:'头数公式',tagline:'号码分段 · 清晰归类'}] as const;
 export default function HomeClient({initialType,latestByType}:{initialType:LotteryType;latestByType:Record<LotteryType,LatestLottery>}){
- const [type,setType]=useState(initialType),latest=latestByType[type],version=Number(latest.period)+1;
+ const [type,setType]=useState(initialType),[query,setQuery]=useState(''),[matchCount,setMatchCount]=useState<number|null>(null),latest=latestByType[type],version=Number(latest.period)+1;
+ useEffect(()=>{
+  const root=document.getElementById('boards');
+  if(!root)return;
+  const apply=()=>{
+   const needle=query.trim().toLowerCase();
+   let matches=0;
+   root.querySelectorAll<HTMLElement>('.board-section').forEach(section=>{
+    const boardMatch=(section.querySelector('header')?.textContent||'').toLowerCase().includes(needle);
+    const links=[...section.querySelectorAll<HTMLElement>('.board-titles>a')];
+    links.forEach(link=>{const visible=!needle||boardMatch||(link.textContent||'').toLowerCase().includes(needle);link.hidden=!visible;if(needle&&visible)matches++;});
+    section.hidden=!!needle&&!boardMatch&&!links.some(link=>!link.hidden);
+   });
+   root.querySelectorAll<HTMLElement>('.board-banner').forEach(banner=>banner.hidden=!!needle);
+   setMatchCount(needle?matches:null);
+  };
+  apply();
+  const observer=new MutationObserver(apply);
+  observer.observe(root,{childList:true,subtree:true});
+  return()=>observer.disconnect();
+ },[query,type]);
  const change=(value:LotteryType)=>{if(value===type)return;setType(value);history.replaceState(null,'',`/?type=${value}`);window.scrollTo({top:0,behavior:'smooth'});};
  return <main>
-  <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="#boards">公式板块</a></nav></header>
+  <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><form className="formula-search" onSubmit={event=>{event.preventDefault();(event.currentTarget.elements.namedItem('formula-search') as HTMLInputElement)?.focus()}}><input name="formula-search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="搜索作者、期数、公式类型" aria-label="搜索公式"/><button type="submit" aria-label="打开搜索">⌕</button>{matchCount!==null&&<small>{matchCount}条</small>}</form><a href="#boards">公式板块</a></nav></header>
   <section className="draw-hero"><div className="lottery-switch"><div>{(['5','1','8'] as LotteryType[]).map(value=><a href={`/?type=${value}`} className={value===type?'active':''} onClick={event=>{event.preventDefault();change(value)}} key={value}>{lotteryNames[value]}</a>)}</div></div><LiveDraw key={type} initial={latest} type={type}/></section>
   <RecommendedSites/>
   <section className="board-sections" id="boards">{boards.map((board,index)=><Fragment key={`${type}-${board.key}`}><section className="board-section" id={`board-${board.name}`}><header><span>{String(index+1).padStart(2,'0')}</span><h2>{board.name}</h2><i>{board.tagline}</i></header><RemoteBoard type={type} board={board.key} version={version} categories={'categories' in board?[...board.categories]:undefined}/></section>{index<boards.length-1&&<BoardBanner index={index}/>}</Fragment>)}</section>

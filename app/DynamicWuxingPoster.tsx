@@ -88,12 +88,14 @@ export default function DynamicWuxingPoster({
   draws = [],
   mode = "wuxing",
   lotteryName = "澳门六合彩",
+  authorName,
 }: {
   issue: string;
   item: Method;
   draws?: Draw[];
   mode?: "wuxing" | "jiaye" | "pingte" | "pingte2" | "generic" | "zodiac" | "fushi" | "kill" | "size";
   lotteryName?: string;
+  authorName?: string;
 }) {
   const compactForecast = true;
   const isPingteMode = mode === "pingte" || mode === "pingte2" || mode === "fushi";
@@ -145,7 +147,7 @@ export default function DynamicWuxingPoster({
       </div>
       <header>
         <h2>
-          {lotteryName}第{issue}期 · <span className="poster-method-label">{item.sourceKey}{item.label}</span>
+          {authorName && <span className="poster-author">【{authorName}】</span>}{lotteryName}第{issue}期 · <span className="poster-method-label">{item.sourceKey}{item.label}</span>
         </h2>
       </header>
       <div className="wuxing-board-wrap">

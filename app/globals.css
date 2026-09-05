@@ -158,3 +158,8 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5
   .board-banner{margin:0;min-height:0;height:auto;background:transparent}
   .board-banner img{width:100%;height:auto;max-height:none;object-fit:contain}
 }
+
+
+/* Header formula search. */
+.formula-search{position:relative;display:flex;align-items:center}.formula-search input{width:250px;height:34px;padding:0 40px 0 12px;border:1px solid #b9d1ef;border-radius:18px;background:#fff;color:#253247;font-size:12px;outline:0;transition:.2s}.formula-search input:focus{border-color:#1d5eb5;box-shadow:0 0 0 3px #1d5eb51a}.formula-search button{position:absolute;right:4px;display:grid;width:28px;height:28px;place-items:center;border:0;border-radius:50%;background:#1d5eb5;color:#fff;font-size:19px;line-height:1;cursor:pointer}.formula-search small{position:absolute;right:36px;padding:2px 5px;border-radius:8px;background:#edf5ff;color:#1d5eb5;font-size:8px;white-space:nowrap}.board-section[hidden],.board-banner[hidden],.board-titles>a[hidden]{display:none!important}
+@media(max-width:600px){.site-header nav{align-items:center;gap:8px}.formula-search input{width:0;padding:0;border-color:transparent;opacity:0}.formula-search:focus-within input{width:min(58vw,220px);padding:0 38px 0 10px;border-color:#b9d1ef;opacity:1}.formula-search button{position:relative;right:auto;flex:0 0 30px}.formula-search:focus-within button{position:absolute;right:3px}.formula-search small{right:35px}.site-header nav>a{display:none}}

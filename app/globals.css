@@ -109,3 +109,7 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5
 /* Post metadata belongs in the header, where it never covers formula history. */
 .site-header nav .post-view-count{position:static;display:inline-flex;align-items:center;gap:3px;min-height:auto;padding:0;border:0;border-radius:0;background:transparent;color:#536b86;font-size:11px;font-weight:800;line-height:normal;box-shadow:none;white-space:nowrap}
 .site-header nav .post-view-count strong{color:#1d5eb5;font-size:12px;font-variant-numeric:tabular-nums}
+
+/* Content pages keep only the site name and their own view count. */
+.post-page .site-header nav a{display:none}
+.post-page .site-header nav{gap:0}

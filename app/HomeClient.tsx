@@ -21,7 +21,7 @@ export default function HomeClient({initialType,latestByType}:{initialType:Lotte
   <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="#boards">公式板块</a></nav></header>
   <section className="draw-hero"><div className="lottery-switch"><div>{(['5','1','8'] as LotteryType[]).map(value=><a href={`/?type=${value}`} className={value===type?'active':''} onClick={event=>{event.preventDefault();change(value)}} key={value}>{lotteryNames[value]}</a>)}</div></div><LiveDraw key={type} initial={latest} type={type}/></section>
   <RecommendedSites/>
-  <section className="board-sections" id="boards">{boards.map((board,index)=><section className="board-section" key={`${type}-${board.key}`} id={`board-${board.name}`}><header><span>{String(index+1).padStart(2,'0')}</span><h2>{board.name}</h2><i>{board.tagline}</i></header><RemoteBoard type={type} board={board.key} version={version} categories={'categories' in board?[...board.categories]:undefined}/><BoardBanner index={index}/></section>)}</section>
+  <section className="board-sections" id="boards">{boards.map((board,index)=><section className="board-section" key={`${type}-${board.key}`} id={`board-${board.name}`}><header><span>{String(index+1).padStart(2,'0')}</span><h2>{board.name}</h2><i>{board.tagline}</i></header><BoardBanner index={index}/><RemoteBoard type={type} board={board.key} version={version} categories={'categories' in board?[...board.categories]:undefined}/></section>)}</section>
   <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>
  </main>;
 }

@@ -110,40 +110,21 @@ export default function DynamicWuxingPoster({
   const displayBranches = genericMulti
     ? sortByAddition(item.branches)
     : item.branches;
-  const genericColumns = genericMulti
-    ? mode === "kill"
-      ? item.branches.length > 3 ? 2 : 1
-      : item.branches.length === 3
-      ? 3
-      : item.branches.length >= 4
-        ? 2
-        : 1
-    : 1;
-  const genericRows = Math.ceil(item.branches.length / genericColumns);
-  const historyColumns = genericMulti
-    ? item.branches.length === 3
-      ? 1
-      : mode === "fushi" && item.branches.length >= 18
-      ? 4
-      : item.branches.length >= 18
-      ? 4
-      : item.branches.length >= 10
-        ? 3
-        : genericColumns
-    : genericColumns;
-  const historyRows = Math.ceil(item.branches.length / historyColumns);
-  const forecastHeight = genericMulti
-    ? mode === "kill"
-      ? Math.max(150, genericRows * 34 + 58)
-      : item.branches.length === 3
-      ? 120
-      : Math.max(150, genericRows * 22 + 54)
-    : 150;
+  // Mobile-first result layout: the result count decides columns and height.
+  // 1-3 results stay in one column; larger sets use two readable columns.
+  const resultColumns = item.branches.length <= 3 ? 1 : 2;
+  const resultRows = Math.ceil(item.branches.length / resultColumns);
+  const genericColumns = resultColumns;
+  const genericRows = resultRows;
+  const historyColumns = resultColumns;
+  const historyRows = resultRows;
+  const forecastHeight = Math.max(
+    item.branches.length <= 3 ? 150 : 180,
+    resultRows * 34 + 64,
+  );
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
-  const historyLabelHeight = historyRows * 32 + 24;
-  const rowHeight = genericMulti
-    ? Math.max(180, historyLabelHeight + 140)
-    : Math.max(132, item.branches.length * 20 + 110);
+  const historyLabelHeight = Math.max(64, historyRows * 34 + 30);
+  const rowHeight = Math.max(180, historyLabelHeight + 140);
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>
     boardOffset +
@@ -302,7 +283,7 @@ export default function DynamicWuxingPoster({
                       d={genericMulti
                         ? `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} L ${columnX(position - 1)} ${boardOffset - 12}`
                         : `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position - 1)} 165, 430 138, 455 ${102 + branchIndex * 22}`}
-                      markerEnd="url(#prediction-arrow-head)"
+                      
                     />
                   ))}
               {validations.map((entry, index) => {
@@ -335,7 +316,7 @@ export default function DynamicWuxingPoster({
                   ? sortByAddition(entry.branches)
                   : entry.branches;
                 const labelLines = historyBranches.map((branch) =>
-                  (genericMulti ? compactMultiCalculation(branch.calculation) : conciseCalculation(branch.calculation))
+                  (conciseCalculation(branch.calculation))
                     .split(/[，,]/, 2)
                     .map((part) => part.trim())
                     .join(" "),
@@ -386,7 +367,7 @@ export default function DynamicWuxingPoster({
                             {entry.hit && branchTarget != null && (
                               <path
                                 d={`M 700 ${labelY} C 900 ${labelY}, ${branchTx} ${ty + 28}, ${branchTx} ${ty + 7}`}
-                                markerEnd="url(#wuxing-arrow)"
+                                
                               />
                             )}
                           </g>
@@ -403,7 +384,7 @@ export default function DynamicWuxingPoster({
                         {entry.hit && (
                           <path
                             d={`M ${joinX} ${joinY} C ${joinX + 28} ${joinY - 8}, ${tx} ${ty + 30}, ${tx} ${ty + 7}`}
-                            markerEnd="url(#wuxing-arrow)"
+                            
                           />
                         )}
                       </>
@@ -487,7 +468,7 @@ export default function DynamicWuxingPoster({
                 const result = branch.next || item.next[index];
                 return (
                   <div className="formula-pair" key={`${branch.name}-${index}`}>
-                    <span>{genericMulti ? compactMultiCalculation(branch.calculation || branch.name) : conciseCalculation(branch.calculation || branch.name)}</span>
+                    <span>{conciseCalculation(branch.calculation || branch.name)}</span>
                     {compactForecast && result && (
                       <strong
                         className="prediction-result"

@@ -143,7 +143,7 @@ export default function DynamicWuxingPoster({
   const historyLabelHeight = historyRows * 32 + 24;
   const rowHeight = genericMulti
     ? Math.max(180, historyLabelHeight + 140)
-    : 132;
+    : Math.max(132, item.branches.length * 20 + 110);
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>
     boardOffset +
@@ -330,7 +330,7 @@ export default function DynamicWuxingPoster({
                 const multi = entry.branches.length > 1;
                 const labelHeight = genericMulti
                   ? historyLabelHeight
-                  : multi ? 58 : 42;
+                  : multi ? Math.max(74, entry.branches.length * 30 + 18) : 42;
                 const labelTop = joinY - labelHeight / 2;
                 const historyBranches = genericMulti
                   ? sortByAddition(entry.branches)
@@ -411,9 +411,9 @@ export default function DynamicWuxingPoster({
                     )}
                     <g className="wuxing-native-label">
                       <rect
-                        x={genericMulti ? 220 : 432}
+                        x={220}
                         y={labelTop}
-                        width={genericMulti ? 730 : 425}
+                        width={730}
                         height={labelHeight}
                         rx={multi ? 11 : 18}
                         fill="#1d5eb5"
@@ -421,8 +421,8 @@ export default function DynamicWuxingPoster({
                       {labelLines.map((line, lineIndex) => {
                         const availableLineWidth = genericMulti
                           ? Math.floor(630 / historyColumns)
-                          : 340;
-                        const minimumFontSize = genericMulti ? 15 : 16;
+                          : 500;
+                        const minimumFontSize = genericMulti ? 15 : 18;
                         const fontSize = Math.max(
                           minimumFontSize,
                           Math.min(multi ? 22 : 21, Math.floor(availableLineWidth / Math.max(line.length, 1))),
@@ -432,15 +432,16 @@ export default function DynamicWuxingPoster({
                         const lineY = genericMulti
                           ? labelTop + 26 + lineRow * 32
                           : multi
-                            ? joinY + (lineIndex === 0 ? -13 : 13)
+                            ? labelTop + 22 + lineIndex * 30
                             : joinY + 1;
                         return (
                           <text
                             key={lineIndex}
                             x={genericMulti
                               ? 255 + availableLineWidth / 2 + lineColumn * availableLineWidth
-                              : 615}
+                              : 570}
                             y={lineY}
+                            transform={!genericMulti ? "translate(570 0) scale(1.8 1) translate(-570 0)" : undefined}
                             fill="#fff"
                             fontFamily="PingFang SC, Microsoft YaHei, sans-serif"
                             fontSize={fontSize}
@@ -456,9 +457,10 @@ export default function DynamicWuxingPoster({
                         );
                       })}
                       <text
-                        x={genericMulti ? 914.5 : 829.5}
+                        x={914.5}
                         y={joinY + 1}
                         className="formula-status-text"
+                        transform={!genericMulti ? "translate(914.5 0) scale(1.8 1) translate(-914.5 0)" : undefined}
                         fill={statusColor}
                         fontFamily="PingFang SC, Microsoft YaHei, sans-serif"
                         fontSize="32"

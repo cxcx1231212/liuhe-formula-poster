@@ -155,11 +155,11 @@ export default function DynamicWuxingPoster({
       aria-label={`${issue}期${item.label}动态公式图`}
     >
       <div className="dynamic-poster-watermark" aria-hidden="true">
-        六合公式库　六合公式库　六合公式库
+        GS888888.COM　GS888888.COM
         <br />
-        六合公式库　六合公式库　六合公式库
+        GS888888.COM　GS888888.COM
         <br />
-        六合公式库　六合公式库　六合公式库
+        GS888888.COM　GS888888.COM
       </div>
       <header>
         <h2>

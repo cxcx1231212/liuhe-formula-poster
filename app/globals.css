@@ -101,3 +101,7 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5
 .next-draw{height:auto;min-height:36px;flex-wrap:wrap;gap:3px 8px;padding:5px 4px;line-height:1.35}
 .next-draw strong{white-space:normal;text-align:center;overflow-wrap:anywhere}
 @media(max-width:600px){.next-draw{min-height:42px;display:grid;justify-items:center;align-content:center;gap:2px}}
+
+.post-view-count{position:fixed;left:max(12px,calc((100vw - 960px)/2 + 12px));bottom:20px;z-index:20;display:flex;align-items:center;gap:6px;min-height:38px;padding:7px 13px;border:1px solid #b9d1ef;border-radius:20px;background:#fff;color:#365779;font-size:14px;line-height:1;box-shadow:0 6px 18px #1d5eb51f}
+.post-view-count strong{color:#1d5eb5;font-size:16px;font-variant-numeric:tabular-nums}
+@media(max-width:600px){.post-view-count{left:10px;bottom:12px;min-height:36px;padding:6px 11px}}

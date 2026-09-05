@@ -138,12 +138,12 @@ export default function DynamicWuxingPoster({
       : item.branches.length === 3
       ? 120
       : Math.max(150, genericRows * 22 + 54)
-    : 120;
+    : 150;
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
   const historyLabelHeight = historyRows * 32 + 24;
   const rowHeight = genericMulti
     ? Math.max(180, historyLabelHeight + 140)
-    : item.branches.length > 1 ? 132 : 104;
+    : 132;
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>
     boardOffset +

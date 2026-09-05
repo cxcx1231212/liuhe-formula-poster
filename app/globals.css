@@ -134,3 +134,12 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5
 .site-recommendations a:hover{border-color:#94bce8;background:#e3f0ff;color:#1554a5}
 .site-recommendations a b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 @media(max-width:600px){.site-recommendations{margin:-14px auto 14px}.site-recommendations>header{min-height:36px;padding:6px 10px}.site-recommendations h2{font-size:14px}.site-recommendations>div{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:7px}.site-recommendations a{height:31px;padding:0 4px;font-size:10px}.site-recommendations a:before{width:4px;height:4px;margin-right:4px}}
+
+
+/* Match recommendation heading to the formula section design. */
+.site-recommendations{border:1px solid #cfdef0;box-shadow:none}
+.site-recommendations>header{position:relative;justify-content:flex-start;min-height:42px;padding:8px 14px 8px 18px;border-bottom:1px solid #cfdef0;background:#edf5ff}
+.site-recommendations>header:before{position:absolute;top:8px;bottom:8px;left:0;width:3px;background:#1d5eb5;content:""}
+.site-recommendations h2{color:#1d5eb5;font-family:Georgia,"Songti SC",serif;font-size:18px;font-weight:600;letter-spacing:.03em}
+.site-recommendations a:before{display:none;content:none}
+@media(max-width:600px){.site-recommendations>header{min-height:38px;padding:7px 10px 7px 15px}.site-recommendations h2{font-size:16px}}

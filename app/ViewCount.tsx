@@ -1,14 +1,17 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { usePathname } from 'next/navigation';
 
 export default function ViewCount() {
   const pathname = usePathname();
   const [count, setCount] = useState<number | null>(null);
+  const [host, setHost] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!pathname.startsWith('/posts/')) return;
+    setHost(document.querySelector<HTMLElement>('.site-header nav'));
     const storageKey = 'formula-viewed:' + pathname;
     let method = 'POST';
     try {
@@ -31,6 +34,6 @@ export default function ViewCount() {
     return () => controller.abort();
   }, [pathname]);
 
-  if (!pathname.startsWith('/posts/')) return null;
-  return <aside className="post-view-count" aria-live="polite">查看数 <strong>{count === null ? '—' : count.toLocaleString('zh-CN')}</strong></aside>;
+  if (!pathname.startsWith('/posts/') || !host) return null;
+  return createPortal(<aside className="post-view-count" aria-live="polite">查看 <strong>{count === null ? '—' : count.toLocaleString('zh-CN')}</strong></aside>, host);
 }

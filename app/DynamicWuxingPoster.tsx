@@ -122,7 +122,7 @@ export default function DynamicWuxingPoster({
   const genericRows = Math.ceil(item.branches.length / genericColumns);
   const historyColumns = genericMulti
     ? item.branches.length === 3
-      ? 3
+      ? 1
       : mode === "fushi" && item.branches.length >= 18
       ? 4
       : item.branches.length >= 18

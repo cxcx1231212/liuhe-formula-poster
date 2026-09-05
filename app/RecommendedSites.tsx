@@ -9,7 +9,7 @@ export default function RecommendedSites(){
   const [loaded,setLoaded]=useState(false);
   useEffect(()=>{
     const controller=new AbortController();
-    fetch('/api/recommended-sites',{signal:controller.signal})
+    fetch('/api/site-list',{signal:controller.signal})
       .then(response=>response.ok?response.json():Promise.reject(new Error(String(response.status))))
       .then((items:RecommendedSite[])=>setSites(items.filter(item=>item.name&&/^https?:\/\//.test(item.domain_url)).slice(0,12)))
       .catch(()=>{})

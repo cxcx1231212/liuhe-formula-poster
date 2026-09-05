@@ -300,9 +300,7 @@ export default function DynamicWuxingPoster({
                       className="prediction-arrow"
                       key={`prediction-${branchIndex}-${position}`}
                       d={genericMulti
-                        ? item.branches.length === 3
-                          ? `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position - 1)} 150, 345 112, 300 102`
-                          : `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position - 1)} 225, 345 205, 300 190`
+                        ? `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} L ${columnX(position - 1)} ${boardOffset - 12}`
                         : `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position - 1)} 165, 430 138, 455 ${102 + branchIndex * 22}`}
                       markerEnd="url(#prediction-arrow-head)"
                     />

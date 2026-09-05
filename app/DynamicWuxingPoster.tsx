@@ -164,8 +164,7 @@ export default function DynamicWuxingPoster({
       </div>
       <header>
         <h2>
-          {lotteryName}第{issue}期 · {item.sourceKey}
-          {item.label}
+          {lotteryName}第{issue}期 · <span className="poster-method-label">{item.sourceKey}{item.label}</span>
         </h2>
       </header>
       <div className="wuxing-board-wrap">
@@ -480,7 +479,7 @@ export default function DynamicWuxingPoster({
         {!item.verification && (
           <div
             className={`wuxing-formula-note${item.branches.length > 1 ? " multi" : ""}`}
-            style={genericMulti?{top:70}:undefined}
+            style={{height:forecastHeight}}
           >
             <b>公式算法</b>
             <div className="formula-pairs">

@@ -1,3 +1,27 @@
+import { DurableObject } from 'cloudflare:workers';
+
+export class PostViewCounter extends DurableObject {
+  constructor(ctx, env) {
+    super(ctx, env);
+    ctx.blockConcurrencyWhile(async () => {
+      this.ctx.storage.sql.exec('CREATE TABLE IF NOT EXISTS counter (id INTEGER PRIMARY KEY CHECK (id = 1), value INTEGER NOT NULL); INSERT OR IGNORE INTO counter (id, value) VALUES (1, 0);');
+    });
+  }
+
+  async read(increment) {
+    if (increment) this.ctx.storage.sql.exec('UPDATE counter SET value = value + 1 WHERE id = 1');
+    return this.ctx.storage.sql.exec('SELECT value FROM counter WHERE id = 1').one().value;
+  }
+}
+
+async function handleViewCount(request, env, url) {
+  if (request.method !== 'GET' && request.method !== 'POST') return new Response(null, { status: 405, headers: { allow: 'GET, POST' } });
+  const path = url.searchParams.get('path') || '';
+  if (!path.startsWith('/posts/') || path.length > 300 || /[\r\n]/.test(path)) return Response.json({ error: '无效帖子地址' }, { status: 400 });
+  const count = await env.VIEW_COUNTER.getByName(path).read(request.method === 'POST');
+  return Response.json({ count }, { headers: { 'cache-control': 'no-store' } });
+}
+
 const POST_PATH = /^\/posts\//;const CURRENT_TTL = 300;const INDEX_TTL = 300;const HISTORY_TTL = 604800;const CURRENT_KV_TTL = 3600;const INDEX_KV_TTL = 600;const HISTORY_KV_TTL = 60 * 60 * 24 * 90;
 const CACHE_VERSION = 'zodiac-history-v2';function isCacheableDocument(request, url) {  const isPage = url.pathname === '/' || POST_PATH.test(url.pathname);  return request.method === 'GET' && isPage &&    !request.headers.has('RSC') && !request.headers.has('Next-Router-Prefetch') &&    (request.headers.get('accept') || '').includes('text/html');}function cacheKey(url) {
   const versioned = new URL(url);
@@ -13,7 +37,7 @@ function legacyCacheKey(url) {
 
 function legacyGlobalKey(url) {
   return 'html:' + url.pathname + url.search;
-}function kindOf(headers) { return headers.get('x-formula-edge-cache-kind') || headers.get('x-formula-cache-kind') || 'current'; }function ttlFor(kind) { return kind === 'history' ? HISTORY_TTL : kind === 'index' ? INDEX_TTL : CURRENT_TTL; }function kvTtlFor(kind) { return kind === 'history' ? HISTORY_KV_TTL : kind === 'index' ? INDEX_KV_TTL : CURRENT_KV_TTL; }function makeResponse(body, sourceHeaders, edgeState, globalState, kind) {  const headers = new Headers(sourceHeaders);  headers.delete('set-cookie');  headers.delete('vary');  headers.set('cache-control', 'public, max-age=0, s-maxage=' + ttlFor(kind));  headers.set('x-formula-edge-cache', edgeState);  headers.set('x-formula-edge-cache-kind', kind);  headers.set('x-formula-global-cache', globalState);  return new Response(body, { status: 200, headers });}async function storeGlobal(env, url, response, kind) {  const html = await response.text();  await env.HTML_CACHE.put(globalKey(url), html, {    expirationTtl: kvTtlFor(kind),    metadata: { kind, contentType: response.headers.get('content-type') || 'text/html; charset=utf-8' },  });}export default {  async fetch(request, env, ctx) {    const url = new URL(request.url);    if (!isCacheableDocument(request, url)) return env.APP.fetch(request);    const localKey = cacheKey(url);
+}function kindOf(headers) { return headers.get('x-formula-edge-cache-kind') || headers.get('x-formula-cache-kind') || 'current'; }function ttlFor(kind) { return kind === 'history' ? HISTORY_TTL : kind === 'index' ? INDEX_TTL : CURRENT_TTL; }function kvTtlFor(kind) { return kind === 'history' ? HISTORY_KV_TTL : kind === 'index' ? INDEX_KV_TTL : CURRENT_KV_TTL; }function makeResponse(body, sourceHeaders, edgeState, globalState, kind) {  const headers = new Headers(sourceHeaders);  headers.delete('set-cookie');  headers.delete('vary');  headers.set('cache-control', 'public, max-age=0, s-maxage=' + ttlFor(kind));  headers.set('x-formula-edge-cache', edgeState);  headers.set('x-formula-edge-cache-kind', kind);  headers.set('x-formula-global-cache', globalState);  return new Response(body, { status: 200, headers });}async function storeGlobal(env, url, response, kind) {  const html = await response.text();  await env.HTML_CACHE.put(globalKey(url), html, {    expirationTtl: kvTtlFor(kind),    metadata: { kind, contentType: response.headers.get('content-type') || 'text/html; charset=utf-8' },  });}export default {  async fetch(request, env, ctx) {    const url = new URL(request.url);    if (url.pathname === '/api/view-count') return handleViewCount(request, env, url);    if (!isCacheableDocument(request, url)) return env.APP.fetch(request);    const localKey = cacheKey(url);
     ctx.waitUntil(Promise.all([
       caches.default.delete(legacyCacheKey(url)),
       env.HTML_CACHE.delete(legacyGlobalKey(url)),

@@ -1,7 +1,8 @@
 'use client';
-import {useState} from 'react';
+import {Fragment,useState} from 'react';
 import type {LatestLottery,LotteryType} from '@/lib/lottery';
 import LiveDraw from './LiveDraw';
+import BoardBanner from './BoardBanner';
 import RecommendedSites from './RecommendedSites';
 import RemoteBoard from './RemoteBoard';
 const lotteryNames:Record<LotteryType,string>={'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
@@ -20,7 +21,7 @@ export default function HomeClient({initialType,latestByType}:{initialType:Lotte
   <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="#boards">公式板块</a></nav></header>
   <section className="draw-hero"><div className="lottery-switch"><div>{(['5','1','8'] as LotteryType[]).map(value=><a href={`/?type=${value}`} className={value===type?'active':''} onClick={event=>{event.preventDefault();change(value)}} key={value}>{lotteryNames[value]}</a>)}</div></div><LiveDraw key={type} initial={latest} type={type}/></section>
   <RecommendedSites/>
-  <section className="board-sections" id="boards">{boards.map((board,index)=><section className="board-section" key={`${type}-${board.key}`} id={`board-${board.name}`}><header><span>{String(index+1).padStart(2,'0')}</span><h2>{board.name}</h2><i>{board.tagline}</i></header><RemoteBoard type={type} board={board.key} version={version} bannerIndex={index} categories={'categories' in board?[...board.categories]:undefined}/></section>)}</section>
+  <section className="board-sections" id="boards">{boards.map((board,index)=><Fragment key={`${type}-${board.key}`}><section className="board-section" id={`board-${board.name}`}><header><span>{String(index+1).padStart(2,'0')}</span><h2>{board.name}</h2><i>{board.tagline}</i></header><RemoteBoard type={type} board={board.key} version={version} categories={'categories' in board?[...board.categories]:undefined}/></section>{index<boards.length-1&&<BoardBanner index={index}/>}</Fragment>)}</section>
   <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>
  </main>;
 }

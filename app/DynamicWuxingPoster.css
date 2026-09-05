@@ -20,3 +20,40 @@
 .dynamic-poster>header h2 .poster-method-label{display:inline-block;white-space:nowrap}
 .dynamic-poster .wuxing-board-wrap .wuxing-formula-note{top:84px;left:calc(11.27% + 16px);right:20px;box-sizing:border-box;margin:0;border:0;border-left:1px solid #cfdef0;border-radius:0;background:#f5f9ff;box-shadow:none}
 @media(max-width:640px){.dynamic-poster>header h2 .poster-method-label{max-width:100%;white-space:nowrap}.dynamic-poster .wuxing-board-wrap .wuxing-formula-note{top:71px;left:calc(11.27% + 3px);right:5px;align-content:center;border-left:1px solid #cfdef0;border-radius:0;box-shadow:none}.dynamic-poster .prediction-arrow{display:none}}
+
+
+/* 2026 mobile-only formula result layouts: 1-3 one column, 4+ two columns. */
+@media(max-width:640px){
+  .dynamic-poster .wuxing-board-wrap .wuxing-formula-note{
+    top:71px!important;left:calc(11.27% + 3px)!important;right:5px!important;
+    display:flex!important;flex-direction:column;justify-content:center;
+    max-height:none!important;padding:8px 10px!important;overflow:visible!important;
+    border:0!important;border-left:1px solid #cfdef0!important;border-radius:0!important;
+    background:#f5f9ff!important;box-shadow:none!important;
+  }
+  .dynamic-poster .wuxing-formula-note .formula-pairs{
+    display:grid!important;grid-template-columns:1fr!important;
+    grid-auto-rows:minmax(28px,auto);gap:5px 10px!important;width:100%;align-content:center;
+  }
+  .dynamic-poster.generic-multi:not(.generic-three) .wuxing-formula-note .formula-pairs{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  .dynamic-poster .wuxing-formula-note .formula-pair{
+    display:flex!important;align-items:center;justify-content:center;gap:6px!important;
+    min-width:0;font-size:14px!important;line-height:1.25!important;white-space:nowrap;
+  }
+  .dynamic-poster.generic-multi:not(.generic-three) .wuxing-formula-note .formula-pair,
+  .dynamic-poster.generic-multi:not(.generic-three) .wuxing-formula-note .formula-pair>span{
+    font-size:12px!important;letter-spacing:-.25px;
+  }
+  .dynamic-poster .wuxing-formula-note .formula-pair>span{
+    display:block;min-width:0;overflow:visible!important;overflow-wrap:normal!important;
+    font-size:14px!important;line-height:1.25!important;white-space:nowrap;
+  }
+  .dynamic-poster .wuxing-formula-note .prediction-result{
+    min-width:27px;height:27px;padding:0 4px;border-radius:7px;font-size:14px!important;
+  }
+  .dynamic-poster .prediction-arrow{display:block!important;stroke:#1d5eb5!important;stroke-width:2!important;fill:none!important}
+  .dynamic-poster .wuxing-board-lines path{marker-end:none!important}
+  .dynamic-poster .wuxing-forecast-row>div{visibility:hidden}
+}

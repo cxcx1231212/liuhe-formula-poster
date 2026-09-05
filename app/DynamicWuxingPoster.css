@@ -12,3 +12,5 @@
 .formula-pair>span{min-width:0;overflow-wrap:anywhere}
 .formula-pair>.prediction-result{display:inline-grid;flex:0 0 auto;place-items:center;min-width:28px;height:28px;padding:0 5px;border-radius:7px;color:#fff;font-size:15px;line-height:1}
 @media(max-width:640px){.dynamic-poster>header h2{padding:14px 12px;font-size:22px;line-height:1.35;white-space:normal;word-break:break-word;overflow-wrap:anywhere}.dynamic-poster .wuxing-board-wrap .wuxing-formula-note{top:82px;max-height:none;padding:7px 8px}.dynamic-poster .wuxing-formula-note .formula-pairs{gap:4px;width:100%}.dynamic-poster .wuxing-formula-note .formula-pair{font-size:14px;line-height:1.35}.dynamic-poster .wuxing-formula-note .formula-pair>span{font-size:14px;line-height:1.35}.dynamic-poster .wuxing-formula-note .prediction-result{min-width:27px;height:27px;padding:0 4px;border-radius:7px;font-size:14px}.dynamic-poster .wuxing-board-row>strong{white-space:nowrap}.dynamic-poster .wuxing-board-row>strong small{display:block;max-width:100%;font-size:8px}}
+
+@media(max-width:640px){.dynamic-poster .wuxing-forecast-row>div{visibility:hidden}}

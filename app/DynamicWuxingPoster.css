@@ -14,3 +14,9 @@
 @media(max-width:640px){.dynamic-poster>header h2{padding:14px 12px;font-size:22px;line-height:1.35;white-space:normal;word-break:break-word;overflow-wrap:anywhere}.dynamic-poster .wuxing-board-wrap .wuxing-formula-note{top:82px;max-height:none;padding:7px 8px}.dynamic-poster .wuxing-formula-note .formula-pairs{gap:4px;width:100%}.dynamic-poster .wuxing-formula-note .formula-pair{font-size:14px;line-height:1.35}.dynamic-poster .wuxing-formula-note .formula-pair>span{font-size:14px;line-height:1.35}.dynamic-poster .wuxing-formula-note .prediction-result{min-width:27px;height:27px;padding:0 4px;border-radius:7px;font-size:14px}.dynamic-poster .wuxing-board-row>strong{white-space:nowrap}.dynamic-poster .wuxing-board-row>strong small{display:block;max-width:100%;font-size:8px}}
 
 @media(max-width:640px){.dynamic-poster .wuxing-forecast-row>div{visibility:hidden}}
+
+
+/* Formula panel occupies the prediction cell instead of floating over it. */
+.dynamic-poster>header h2 .poster-method-label{display:inline-block;white-space:nowrap}
+.dynamic-poster .wuxing-board-wrap .wuxing-formula-note{top:84px;left:calc(11.27% + 16px);right:20px;box-sizing:border-box;margin:0;border:0;border-left:1px solid #cfdef0;border-radius:0;background:#f5f9ff;box-shadow:none}
+@media(max-width:640px){.dynamic-poster>header h2 .poster-method-label{max-width:100%;white-space:nowrap}.dynamic-poster .wuxing-board-wrap .wuxing-formula-note{top:71px;left:calc(11.27% + 3px);right:5px;align-content:center;border-left:1px solid #cfdef0;border-radius:0;box-shadow:none}.dynamic-poster .prediction-arrow{display:none}}

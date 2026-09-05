@@ -113,3 +113,10 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5
 /* Content pages keep only the site name and their own view count. */
 .post-page .site-header nav a{display:none}
 .post-page .site-header nav{gap:0}
+
+/* Permanent site-domain branding and screenshot watermark. */
+.site-header .brand{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.05}
+.site-header .brand::after{content:"GS888888.COM";margin-top:4px;color:#536b86;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:.12em}
+.dynamic-poster{isolation:isolate}
+.dynamic-poster .dynamic-poster-watermark{z-index:5;inset:18% -12%;color:#1d5eb51f;pointer-events:none;user-select:none;letter-spacing:7px;font-family:Arial,"Microsoft YaHei",sans-serif;font-size:38px;font-weight:900;line-height:3.2;text-align:center}
+@media(max-width:600px){.site-header .brand::after{margin-top:3px;font-size:9px;letter-spacing:.09em}.dynamic-poster .dynamic-poster-watermark{inset:17% -32%;font-size:28px;line-height:3.6;letter-spacing:5px}}

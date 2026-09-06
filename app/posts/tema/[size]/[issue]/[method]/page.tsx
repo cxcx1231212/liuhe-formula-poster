@@ -5,6 +5,7 @@ import IssueScroller from '@/app/IssueScroller';
 import StaticFormulaPost from '@/app/StaticFormulaPost';
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
+import {postAuthor} from '@/lib/post-authors';
 
 type DrawNumber={number:string;animal:string;element:string};
 type Draw={period:number;displayPeriod?:string;date?:string;numbers:DrawNumber[]};
@@ -86,6 +87,6 @@ export default async function TemaMethodPost({params,searchParams}:{params:Promi
   const previous=methodIndex>0?String(methodIndex).padStart(3,'0'):null;
   const next=methodIndex<methods.length-1?String(methodIndex+2).padStart(3,'0'):null;
   return <StaticFormulaPost type={type} board="特码" hash="特码公式" note={`按上期开奖推算下期${label} · 仅供娱乐参考`} previous={previous?{href:`/posts/tema/${size}/${issue}/${previous}?type=${type}`,eyebrow:'上一个公式',label:`${label} 第${methodIndex}条`}:null} next={next?{href:`/posts/tema/${size}/${issue}/${next}?type=${type}`,eyebrow:'下一个公式',label:`${label} 第${methodIndex+2}条`}:null} topExtra={<IssueScroller issues={issueButtons} current={requestedIssue} basePath={`/posts/tema/${size}`} method={method} type={type}/>}>
-    <section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={shownDraws} lotteryName={LOTTERY_SHORT_NAMES[type]} mode="generic"/></section>
+    <section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={shownDraws} lotteryName={LOTTERY_SHORT_NAMES[type]} authorName={postAuthor(type,`tema${size}` as never,methodIndex)} mode="generic"/></section>
   </StaticFormulaPost>;
 }

@@ -8,13 +8,18 @@ import RecommendedSites from './RecommendedSites';
 import RemoteBoard from './RemoteBoard';
 const lotteryNames:Record<LotteryType,string>={'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
 const boards=[
-{key:'tema',name:'特码公式',tagline:'号码规律 · 每期整理',categories:[{key:'3',label:'三码中特'},{key:'8',label:'八码中特'},{key:'10',label:'十码中特'},{key:'18',label:'十八码中特'}]},
 {key:'zodiac',name:'生肖公式',tagline:'十二生肖 · 思路归档',categories:[{key:'1',label:'一肖中特'},{key:'3',label:'三肖中特'},{key:'6',label:'六肖中特'},{key:'9',label:'九肖中特'}]},
+{key:'tema',name:'特码公式',tagline:'号码规律 · 每期整理',categories:[{key:'3',label:'三码中特'},{key:'8',label:'八码中特'},{key:'10',label:'十码中特'},{key:'18',label:'十八码中特'}]},
 {key:'fushi',name:'复式公式',tagline:'多组组合 · 灵活筛选',categories:[{key:'22',label:'2中2'},{key:'33',label:'3中3'},{key:'2x',label:'二连肖'},{key:'3x',label:'三连肖'}]},
 {key:'pingte',name:'平特公式',tagline:'平码推演 · 特肖参考',categories:[{key:'one',label:'平特一肖'},{key:'two',label:'平特二肖'}]},
-{key:'danshuang',name:'单双公式',tagline:'单双走势 · 简明分析'},{key:'wave',name:'波色公式',tagline:'红蓝绿波 · 分类查找'},{key:'wuxing',name:'五行公式',tagline:'金木水火土 · 对照推演'},{key:'jiaye',name:'家野公式',tagline:'家野分类 · 一目了然'},
 {key:'kill',name:'绝杀公式',tagline:'排除思路 · 逐期记录',categories:[{key:'code',label:'杀码'},{key:'animal',label:'杀肖'},{key:'tail',label:'杀尾'},{key:'head',label:'杀头'},{key:'wave',label:'杀波'}]},
-{key:'size',name:'大小公式',tagline:'大小区间 · 快速对照'},{key:'tail',name:'尾数公式',tagline:'十组尾数 · 规律整理'},{key:'head',name:'头数公式',tagline:'号码分段 · 清晰归类'}] as const;
+{key:'danshuang',name:'单双公式',tagline:'单双走势 · 简明分析'},
+{key:'wave',name:'波色公式',tagline:'红蓝绿波 · 分类查找'},
+{key:'tail',name:'尾数公式',tagline:'十组尾数 · 规律整理'},
+{key:'wuxing',name:'五行公式',tagline:'金木水火土 · 对照推演'},
+{key:'size',name:'大小公式',tagline:'大小区间 · 快速对照'},
+{key:'jiaye',name:'家野公式',tagline:'家野分类 · 一目了然'},
+{key:'head',name:'头数公式',tagline:'号码分段 · 清晰归类'}] as const;
 type Manifest={issue:number;methods:Record<string,unknown>[]};
 type SearchResult=ReturnType<typeof makeHomeBoardPost>&{boardName:string;categoryName:string};
 const searchTargets:{board:string;boardName:string;category:string;categoryName:string;fileKey:string}[]=[];

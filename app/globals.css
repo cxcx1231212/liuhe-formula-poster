@@ -131,9 +131,48 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5
 .site-header .brand{display:inline-flex;flex-direction:column;align-items:flex-start;line-height:1.05}
 .site-header .brand::after{content:"GS888888.COM";margin-top:4px;color:#536b86;font-family:Arial,sans-serif;font-size:10px;font-weight:800;letter-spacing:.12em}
 .dynamic-poster{isolation:isolate}
+.dynamic-poster .dynamic-poster-watermark{z-index:5;inset:6% -24%;color:#1d5eb518;pointer-events:none;user-select:none;letter-spacing:6px;font-family:Arial,"Microsoft YaHei",sans-serif;font-size:32px;font-weight:900;line-height:2.4;text-align:center}
+@media(max-width:600px){.site-header .brand::after{margin-top:3px;font-size:9px;letter-spacing:.09em}.dynamic-poster .dynamic-poster-watermark{inset:4% -58%;font-size:22px;line-height:2.55;letter-spacing:4px}}
 
-/* Recommended sites: always four items per row and show every API item. */
-.site-recommendations>div{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:8px}
-.site-recommendations>div>a{min-width:0;text-align:center}
-.site-recommendations>div>a b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-@media(max-width:600px){.site-recommendations>div{gap:6px}.site-recommendations>div>a{padding-inline:3px}.site-recommendations>div>a b{font-size:10px}}
+.site-recommendations{width:min(1120px,calc(100% - 40px));margin:-12px auto 20px;overflow:hidden;border:1px solid #cfdef0;border-radius:9px;background:#fff}.site-recommendations>header{display:flex;align-items:center;justify-content:space-between;min-height:48px;padding:8px 16px;border-bottom:1px solid #cfdef0;background:#edf5ff}.site-recommendations h2{margin:0;color:#1d5eb5;font-size:18px}.site-recommendations>header span{color:#536b86;font-size:11px}.site-recommendations>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;padding:12px}.site-recommendations a{display:flex;align-items:center;justify-content:space-between;min-width:0;height:38px;padding:0 11px;border:1px solid #cfdef0;border-radius:7px;background:#fff;color:#365779;font-size:13px;font-weight:700}.site-recommendations a:hover{border-color:#1d5eb5;color:#1d5eb5}.site-recommendations a i{color:#1d5eb5;font-size:18px;font-style:normal}.site-recommendations p{grid-column:1/-1;margin:0;padding:8px;color:#536b86;font-size:12px;text-align:center}@media(max-width:600px){.site-recommendations{width:calc(100% - 20px);margin:-14px auto 16px}.site-recommendations>header{min-height:42px;padding:7px 11px}.site-recommendations h2{font-size:16px}.site-recommendations>div{grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;padding:8px}.site-recommendations a{height:34px;padding:0 8px;font-size:11px}}
+
+/* Compact recommendation navigation */
+.site-recommendations{margin:-12px auto 16px;border:0;border-radius:10px;box-shadow:0 3px 12px #1d5eb51a}
+.site-recommendations>header{min-height:40px;padding:7px 14px;border:0;background:linear-gradient(100deg,#1554a5,#2875cf)}
+.site-recommendations h2{color:#fff;font-size:16px;letter-spacing:.08em}
+.site-recommendations>header span{padding:3px 8px;border:1px solid #ffffff55;border-radius:99px;color:#fff;font-size:10px}
+.site-recommendations>div{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;padding:9px;background:#fff}
+.site-recommendations a{justify-content:center;height:34px;padding:0 6px;border:1px solid transparent;border-radius:6px;background:#edf5ff;color:#315777;font-size:12px;box-shadow:none}
+.site-recommendations a:before{width:5px;height:5px;margin-right:6px;border-radius:50%;background:#1d5eb5;content:""}
+.site-recommendations a:hover{border-color:#94bce8;background:#e3f0ff;color:#1554a5}
+.site-recommendations a b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@media(max-width:600px){.site-recommendations{margin:-14px auto 14px}.site-recommendations>header{min-height:36px;padding:6px 10px}.site-recommendations h2{font-size:14px}.site-recommendations>div{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;padding:7px}.site-recommendations a{height:31px;padding:0 4px;font-size:10px}.site-recommendations a:before{width:4px;height:4px;margin-right:4px}}
+
+/* Match recommendation heading to the formula section design. */
+.site-recommendations{border:1px solid #cfdef0;box-shadow:none}
+.site-recommendations>header{position:relative;justify-content:flex-start;min-height:42px;padding:8px 14px 8px 18px;border-bottom:1px solid #cfdef0;background:#edf5ff}
+.site-recommendations>header:before{position:absolute;top:8px;bottom:8px;left:0;width:3px;background:#1d5eb5;content:""}
+.site-recommendations h2{color:#1d5eb5;font-family:Georgia,"Songti SC",serif;font-size:18px;font-weight:600;letter-spacing:.03em}
+.site-recommendations a:before{display:none;content:none}
+@media(max-width:600px){.site-recommendations>header{min-height:38px;padding:7px 10px 7px 15px}.site-recommendations h2{font-size:16px}}
+
+/* Live banner ads supplied by the 123 site database. */
+.board-banner{display:block;margin:10px 12px 12px;overflow:hidden;border:1px solid #cfdef0;border-radius:8px;background:#edf5ff;line-height:0}
+.board-banner img{display:block;width:100%;height:auto;max-height:112px;object-fit:cover}
+@media(max-width:600px){.board-banner{margin:8px 7px 9px;border-radius:6px}.board-banner img{max-height:80px;object-fit:cover}}
+
+/* Desktop home follows the mobile single-column flow. */
+@media(min-width:901px){
+  .board-sections{grid-template-columns:minmax(0,1fr);gap:12px}
+  .board-section,.board-banner{grid-column:1/-1;width:100%;min-width:0}
+  .board-banner{margin:0;min-height:0;height:auto;background:transparent}
+  .board-banner img{width:100%;height:auto;max-height:none;object-fit:contain}
+}
+
+/* Header formula search. */
+.formula-search{position:relative;display:flex;align-items:center}.formula-search input{width:250px;height:34px;padding:0 40px 0 12px;border:1px solid #b9d1ef;border-radius:18px;background:#fff;color:#253247;font-size:12px;outline:0;transition:.2s}.formula-search input:focus{border-color:#1d5eb5;box-shadow:0 0 0 3px #1d5eb51a}.formula-search button{position:absolute;right:4px;display:grid;width:28px;height:28px;place-items:center;border:0;border-radius:50%;background:#1d5eb5;color:#fff;font-size:19px;line-height:1;cursor:pointer}.formula-search small{position:absolute;right:36px;padding:2px 5px;border-radius:8px;background:#edf5ff;color:#1d5eb5;font-size:8px;white-space:nowrap}.board-section[hidden],.board-banner[hidden],.board-titles>a[hidden]{display:none!important}
+@media(max-width:600px){.site-header nav{align-items:center;gap:8px}.formula-search input{width:0;padding:0;border-color:transparent;opacity:0}.formula-search:focus-within input{width:min(58vw,220px);padding:0 38px 0 10px;border-color:#b9d1ef;opacity:1}.formula-search button{position:relative;right:auto;flex:0 0 30px}.formula-search:focus-within button{position:absolute;right:3px}.formula-search small{right:35px}.site-header nav>a{display:none}}
+
+/* Recommended sites: exactly four items per row on every screen. */
+.site-recommendations>div{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+@media(max-width:600px){.site-recommendations>div{grid-template-columns:repeat(4,minmax(0,1fr))!important}.site-recommendations a{padding-inline:3px}.site-recommendations a b{font-size:10px}}

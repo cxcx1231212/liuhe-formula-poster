@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="zh-CN">
       <head>
-        <style>{`.formula-note{display:none!important}`}</style>
+        <style>{`.formula-note,.site-footer{display:none!important}`}</style>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

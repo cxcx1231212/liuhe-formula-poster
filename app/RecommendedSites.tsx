@@ -11,7 +11,7 @@ export default function RecommendedSites(){
     const controller=new AbortController();
     fetch('/api/site-list',{signal:controller.signal})
       .then(response=>response.ok?response.json():Promise.reject(new Error(String(response.status))))
-      .then((items:RecommendedSite[])=>setSites(items.filter(item=>item.name&&/^https?:\/\//.test(item.domain_url)).slice(0,12)))
+      .then((items:RecommendedSite[])=>setSites(items.filter(item=>item.name&&/^https?:\/\//.test(item.domain_url))))
       .catch(()=>{})
       .finally(()=>setLoaded(true));
     return()=>controller.abort();

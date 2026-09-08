@@ -61,7 +61,7 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
   const forecast=definitions.map(definition=>evaluate(definition,forecastSource));
   return {
     label:`${definitions.length}肖`,sourceKey:method.sourceKey||definitions[0]?.baseName||method.name||'生肖公式',
-    next:forecast.map(item=>item.animal),recentStreak:method.recentStreak||0,recent30Hits:Math.round((method.recent30Rate||0)*30),
+    next:forecast.map(item=>item.animal),recentStreak:histories.reduce((count,row)=>row.hit?count+1:0,0),recent30Hits:histories.slice(-30).filter(row=>row.hit).length,
     branches:definitions.map((definition,index)=>({name:definition.name,next:forecast[index].animal,calculation:forecast[index].calculation,sourcePositions:sourcePositions(definition.baseName||'')})),
     history:histories.slice(-5),formulaId:'',
   };

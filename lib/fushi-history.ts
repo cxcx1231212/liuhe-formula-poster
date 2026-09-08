@@ -29,12 +29,14 @@ const parse=(name:string)=>{
   const match=name.match(/^(.*?)(加|减|乘|除)(\d+)(取整|余数)?$/);
   return {base:match?.[1]||name,operation:match?.[2]||'加',amount:Number(match?.[3]||0),suffix:match?.[4]||''};
 };
-const evaluate=(draw:FushiDraw,name:string,useExpandedWrap=false)=>{
+const evaluate=(draw:FushiDraw,name:string,useExpandedWrap=false,kind:'number'|'animal'='number')=>{
   const definition=parse(name),baseDetailsValue=baseDetails(draw,definition.base),base=baseDetailsValue.value;
   const raw=definition.operation==='加'?base+definition.amount:definition.operation==='减'?base-definition.amount:definition.operation==='乘'?base*definition.amount:definition.suffix==='余数'?(useExpandedWrap?((base%definition.amount)+definition.amount)%definition.amount:base%definition.amount):Math.trunc(base/definition.amount);
-  const result=useExpandedWrap?expandedWrap(raw):wrap(raw),animal=animals[(result-1)%12];
+  const result=useExpandedWrap?expandedWrap(raw):wrap(raw),classificationNumber=Math.abs(Math.trunc(raw)),animal=animals[((classificationNumber-1)%12+12)%12];
   const symbol=definition.operation==='加'?'+':definition.operation==='减'?'−':definition.operation==='乘'?'×':definition.suffix==='余数'?'÷余':'÷整';
-  return {number:result,animal,calculation:`${baseDetailsValue.expression}${symbol}${definition.amount}=${formatNumber(result)}属${animal}`};
+  const mapped=kind==='number'&&result!==raw?` → 对应号码${formatNumber(result)}`:'';
+  const classified=kind==='animal'?(raw<0?` → 按${classificationNumber}判断 → ${classificationNumber}属${animal}`:` → ${classificationNumber}属${animal}`):'';
+  return {number:result,animal,calculation:`${baseDetailsValue.expression}${symbol}${definition.amount}=${formatNumber(raw)}${mapped}${classified}`};
 };
 const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
 
@@ -43,11 +45,11 @@ const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特
 const expandedWrap=(value:number)=>{let n=Math.trunc(value);while(n>49)n-=12;while(n<1)n+=12;return n;};
 const selectBranches=(method:FushiMethod,source:FushiDraw,targetPeriod:number,kind:string)=>{
   const active=kind==='number'&&method.expansionSize&&targetPeriod>=(method.activationIssue||Infinity);
-  const original=method.branches.map(branch=>({...evaluate(source,branch.name,!!active),name:branch.name}));
+  const original=method.branches.map(branch=>({...evaluate(source,branch.name,!!active,kind==='animal'?'animal':'number'),name:branch.name}));
   if(!active)return original;
   if(source.numbers.length!==7)throw new Error('Incomplete expansion source');
   const result:typeof original=[],seen=new Set<number>();
-  const add=(name:string)=>{const value={...evaluate(source,name,true),name};if(!seen.has(value.number)){seen.add(value.number);result.push(value);}};
+  const add=(name:string)=>{const value={...evaluate(source,name,true,'number'),name};if(!seen.has(value.number)){seen.add(value.number);result.push(value);}};
   for(const branch of method.branches)add(branch.name);
   for(let amount=1;amount<=49&&result.length<method.expansionSize!;amount++){
     for(let position=1;position<=7&&result.length<method.expansionSize!;position++)add(`${position===7?'特码':`平${position}码`}加${amount}`);
@@ -57,7 +59,7 @@ const selectBranches=(method:FushiMethod,source:FushiDraw,targetPeriod:number,ki
 };
 
 export function buildFushiPosterItem(method:FushiMethod,draws:FushiDraw[],requestedIssue:number,kind:'number'|'animal',required:number,label:string){
-  const displayCalculation=(item:ReturnType<typeof evaluate>)=>kind==='number'?item.calculation.replace(/属[^属]+$/,''):item.calculation;
+  const displayCalculation=(item:ReturnType<typeof evaluate>)=>item.calculation;
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

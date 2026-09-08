@@ -8,7 +8,7 @@ type Check={sourcePeriod:number;targetPeriod:number;resultNumber:number;resultAn
 const digits=(value:number)=>String(Math.abs(value)).split('').reduce((sum,char)=>sum+Number(char),0);
 const wrap=(value:number)=>{while(value>49)value-=12;while(value<1)value+=12;return value};
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
-const animalFor=(value:number)=>animals[(wrap(value)-1)%12];
+const animalFor=(value:number)=>{const number=Math.abs(Math.trunc(value));return animals[((number-1)%12+12)%12];};
 function targetPosition(draw:Draw|undefined,predictedNumber:number,predictedAnimal:string){
   const numbers=draw?.numbers||[];const exact=numbers.findIndex(value=>Number(value.number)===Number(predictedNumber));if(exact>=0)return [exact+1];
   const same=numbers.map((value,position)=>({value,position})).filter(({value})=>value.animal===predictedAnimal).sort((a,b)=>Math.abs(Number(a.value.number)-predictedNumber)-Math.abs(Number(b.value.number)-predictedNumber));
@@ -21,14 +21,14 @@ function sourcePositions(name:string){
 }
 function calculation(name:string,draw:Draw|undefined,result:number){
   if(!draw)return `${name}＝${String(result).padStart(2,'0')}`;const values=draw.numbers.map(row=>Number(row.number));let match=name.match(/平(\d)码固定(加|减)(\d+)/);
-  if(match){const value=values[Number(match[1])-1],amount=Number(match[3]);return `${String(value).padStart(2,'0')}${match[2]==='加'?'＋':'－'}${amount}＝${String(wrap(value+(match[2]==='加'?amount:-amount))).padStart(2,'0')}`}
-  match=name.match(/平(\d)码尾数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],tail=value%10,amount=Number(match[3]);return `${String(value).padStart(2,'0')}尾${tail}${match[2]==='加'?'＋':'－'}${amount}＝${String(wrap(tail+(match[2]==='加'?amount:-amount))).padStart(2,'0')}`}
-  match=name.match(/平(\d)(?:码)?合数＋平(\d)(?:码)?合数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return `${String(a).padStart(2,'0')}合${digits(a)}＋${String(b).padStart(2,'0')}合${digits(b)}＝${String(wrap(digits(a)+digits(b))).padStart(2,'0')}`}
-  match=name.match(/平(\d)(?:码)?尾数＋平(\d)(?:码)?尾数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return `${String(a).padStart(2,'0')}尾${a%10}＋${String(b).padStart(2,'0')}尾${b%10}＝${String(wrap(a%10+b%10)).padStart(2,'0')}`}
-  match=name.match(/七码总分加(\d+)/);if(match){const total=values.reduce((sum,value)=>sum+value,0),amount=Number(match[1]);return `七码总分${total}＋${amount}＝${String(wrap(total+amount)).padStart(2,'0')}`}
+  if(match){const value=values[Number(match[1])-1],amount=Number(match[3]),raw=value+(match[2]==='加'?amount:-amount);return `${String(value).padStart(2,'0')}${match[2]==='加'?'＋':'－'}${amount}＝${raw}`}
+  match=name.match(/平(\d)码尾数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],tail=value%10,amount=Number(match[3]),raw=tail+(match[2]==='加'?amount:-amount);return `${String(value).padStart(2,'0')}尾${tail}${match[2]==='加'?'＋':'－'}${amount}＝${raw}`}
+  match=name.match(/平(\d)(?:码)?合数＋平(\d)(?:码)?合数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return `${String(a).padStart(2,'0')}合${digits(a)}＋${String(b).padStart(2,'0')}合${digits(b)}＝${digits(a)+digits(b)}`}
+  match=name.match(/平(\d)(?:码)?尾数＋平(\d)(?:码)?尾数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return `${String(a).padStart(2,'0')}尾${a%10}＋${String(b).padStart(2,'0')}尾${b%10}＝${a%10+b%10}`}
+  match=name.match(/七码总分加(\d+)/);if(match){const total=values.reduce((sum,value)=>sum+value,0),amount=Number(match[1]);return `七码总分${total}＋${amount}＝${total+amount}`}
   return `${name}＝${String(result).padStart(2,'0')}`;
 }
-function calculatedNumber(name:string,draw:Draw|undefined,fallback:number){const match=calculation(name,draw,fallback).match(/＝(\d+)$/);return match?Number(match[1]):fallback}
+function calculatedNumber(name:string,draw:Draw|undefined,fallback:number){const match=calculation(name,draw,fallback).match(/＝(-?\d+)$/);return match?Number(match[1]):fallback}
 
 export default async function PingteMethodPost({params,searchParams}:{params:Promise<{issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){
   const {issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=await pingteManifests.pingte[type];const requestedIssue=Number(issue);const currentIssue=Number(manifest.issue);const index=Number(method)-1;const currentItem=manifest.methods[index];

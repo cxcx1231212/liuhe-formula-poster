@@ -9,7 +9,7 @@ import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 const sumDigits=(value:number)=>String(Math.abs(value)).split('').reduce((sum,char)=>sum+Number(char),0);
 const wrap=(value:number)=>{while(value>49)value-=12;while(value<1)value+=12;return value};
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
-const animalFor=(value:number)=>animals[(wrap(value)-1)%12];
+const animalFor=(value:number)=>{const number=Math.abs(Math.trunc(value));return animals[((number-1)%12+12)%12];};
 const positions=(name:string)=>{
   // 总分是整行聚合值，不把七个球误画成七条独立取号线。
   if(name.includes('七码总分'))return [];
@@ -24,17 +24,17 @@ function targetPosition(draw:any,predictedNumber:number,predictedAnimal:string){
 }
 function calculate(name:string,draw:any,result:number){
   const values=(draw?.numbers||[]).map((row:any)=>Number(row.number));let match=name.match(/平(\d)码固定(加|减)(\d+)/);
-  if(match){const value=values[Number(match[1])-1],amount=Number(match[3]);return String(value).padStart(2,'0')+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(value+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
-  match=name.match(/平(\d)码合数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],base=sumDigits(value),amount=Number(match[3]);return String(value).padStart(2,'0')+'合'+base+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(base+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
-  match=name.match(/平(\d)码尾数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],base=value%10,amount=Number(match[3]);return String(value).padStart(2,'0')+'尾'+base+(match[2]==='加'?'＋':'－')+amount+'＝'+String(wrap(base+(match[2]==='加'?amount:-amount))).padStart(2,'0')}
-  match=name.match(/平(\d)(?:码)?合数＋平(\d)(?:码)?合数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return String(a).padStart(2,'0')+'合'+sumDigits(a)+'＋'+String(b).padStart(2,'0')+'合'+sumDigits(b)+'＝'+String(wrap(sumDigits(a)+sumDigits(b))).padStart(2,'0')}
-  match=name.match(/平(\d)(?:码)?尾数＋平(\d)(?:码)?尾数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return String(a).padStart(2,'0')+'尾'+a%10+'＋'+String(b).padStart(2,'0')+'尾'+b%10+'＝'+String(wrap(a%10+b%10)).padStart(2,'0')}
-  match=name.match(/七码总分加(\d+)/);if(match){const total=values.reduce((sum:number,value:number)=>sum+value,0),amount=Number(match[1]);return '七码总分'+total+'＋'+amount+'＝'+String(wrap(total+amount)).padStart(2,'0')}
+  if(match){const value=values[Number(match[1])-1],amount=Number(match[3]),raw=value+(match[2]==='加'?amount:-amount);return String(value).padStart(2,'0')+(match[2]==='加'?'＋':'－')+amount+'＝'+raw}
+  match=name.match(/平(\d)码合数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],base=sumDigits(value),amount=Number(match[3]),raw=base+(match[2]==='加'?amount:-amount);return String(value).padStart(2,'0')+'合'+base+(match[2]==='加'?'＋':'－')+amount+'＝'+raw}
+  match=name.match(/平(\d)码尾数(加|减)(\d+)/);if(match){const value=values[Number(match[1])-1],base=value%10,amount=Number(match[3]),raw=base+(match[2]==='加'?amount:-amount);return String(value).padStart(2,'0')+'尾'+base+(match[2]==='加'?'＋':'－')+amount+'＝'+raw}
+  match=name.match(/平(\d)(?:码)?合数＋平(\d)(?:码)?合数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return String(a).padStart(2,'0')+'合'+sumDigits(a)+'＋'+String(b).padStart(2,'0')+'合'+sumDigits(b)+'＝'+(sumDigits(a)+sumDigits(b))}
+  match=name.match(/平(\d)(?:码)?尾数＋平(\d)(?:码)?尾数/);if(match){const a=values[Number(match[1])-1],b=values[Number(match[2])-1];return String(a).padStart(2,'0')+'尾'+a%10+'＋'+String(b).padStart(2,'0')+'尾'+b%10+'＝'+(a%10+b%10)}
+  match=name.match(/七码总分加(\d+)/);if(match){const total=values.reduce((sum:number,value:number)=>sum+value,0),amount=Number(match[1]);return '七码总分'+total+'＋'+amount+'＝'+(total+amount)}
   return name+'＝'+String(result).padStart(2,'0');
 }
 function calculatedNumber(name:string,draw:any,fallback:number){
   const equation=calculate(name,draw,fallback);
-  const matched=equation.match(/＝(\d+)$/);
+  const matched=equation.match(/＝(-?\d+)$/);
   return matched?Number(matched[1]):fallback;
 }
 

@@ -148,7 +148,6 @@ def repair_content(issues):
     source = zodiac_history.read_text(encoding='utf-8')
     source = source.replace('export type ZodiacMethod={name?:string;', 'export type ZodiacMethod={formulaId?:string;name?:string;')
     source = source.replace("history:histories.slice(-5),formulaId:'',", "history:histories.slice(-5),formulaId:method.formulaId||'',")
-    source = source.replace('const wrap=(value:number)=>((Math.trunc(value)-1)%49+49)%49+1;', 'const wrap=(value:number)=>{let number=Math.trunc(value);while(number>49)number-=12;while(number<1)number+=12;return number;};')
     source = source.replace("operation==='modulo'?base%amount:base", "operation==='modulo'?((base%amount)+amount)%amount:base")
     source = source.replace("const sourcePositions=(base:string)=>Array.from(base.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);", "const sourcePositions=(base:string,draw:ZodiacDraw)=>{const ns=values(draw);if(base==='最小平码'||base==='最大平码'){const n=base==='最小平码'?Math.min(...ns.slice(0,6)):Math.max(...ns.slice(0,6));return ns.slice(0,6).flatMap((v,i)=>v===n?[i+1]:[]);}if(base==='六个平码总分')return [1,2,3,4,5,6];if(base==='七码总分')return [1,2,3,4,5,6,7];return Array.from(base.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?7:Number(match[1]));};")
     source = source.replace('result:answer.animal};', "result:answer.animal,sourcePositions:sourcePositions(definition.baseName||'',source)};")

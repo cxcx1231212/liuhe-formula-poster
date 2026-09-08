@@ -4,8 +4,10 @@ export type ZodiacBranch={name:string;baseName?:string;operation?:string;amount?
 export type ZodiacMethod={name?:string;baseName?:string;operation?:string;amount?:number;nextNumber?:number;nextAnimal?:string;sourceKey?:string;branches?:ZodiacBranch[];recentStreak?:number;recent30Rate?:number};
 
 const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,digit)=>sum+Number(digit),0);
-const wrap=(value:number)=>((Math.trunc(value)-1)%49+49)%49+1;
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
+const classificationNumber=(value:number)=>Math.abs(Math.trunc(value));
+const animalFor=(value:number)=>{const number=classificationNumber(value);return animals[((number-1)%12+12)%12];};
+const formatResult=(value:number)=>value>=0&&value<10?String(value).padStart(2,'0'):String(value);
 const values=(draw:ZodiacDraw)=>draw.numbers.map(item=>Number(item.number));
 const pos=(name:string)=>name==='特码'?6:Number(name.match(/平([1-6])码/)?.[1]||1)-1;
 const cellValue=(draw:ZodiacDraw,label:string)=>values(draw)[pos(label)]||0;
@@ -43,9 +45,10 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
   const definitions:ZodiacBranch[]=(method.branches?.length?method.branches:[{name:method.name||'',baseName:method.baseName,operation:method.operation,amount:method.amount,number:method.nextNumber,animal:method.nextAnimal}]);
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const evaluate=(definition:ZodiacBranch,draw:ZodiacDraw)=>{
-    const base=baseValue(draw,definition.baseName||'');const raw=calculate(base,definition.operation||'',definition.amount||0);const result=wrap(raw);
-    const animal=animals[(result-1)%12];
-    return {result,animal,calculation:`${baseExpression(draw,definition.baseName||'')}${symbol(definition.operation||'')}${definition.amount}=${String(result).padStart(2,'0')}属${animal}`};
+    const base=baseValue(draw,definition.baseName||'');const raw=Math.trunc(calculate(base,definition.operation||'',definition.amount||0));
+    const result=classificationNumber(raw),animal=animalFor(raw);
+    const classification=raw<0?` → 按${result}判断 → ${result}属${animal}`:` → ${result}属${animal}`;
+    return {result,animal,calculation:`${baseExpression(draw,definition.baseName||'')}${symbol(definition.operation||'')}${definition.amount}=${formatResult(raw)}${classification}`};
   };
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

@@ -23,9 +23,11 @@ def kill_value(category, number):
 
 
 def kill_branch(name, draw, category):
-    match = re.fullmatch(r'(.+)(加|减)(\d+)', name)
+    match = re.fullmatch(r'(.+?)(交替加减|加|减)(\d+)', name)
     if not match: raise ValueError('Unsupported kill formula: ' + name)
     base, operator, amount = match.groups()
+    if operator == '交替加减':
+        operator = '加' if int(draw['period']) % 2 else '减'
     numbers = [int(row['number']) for row in draw['numbers']]
     if len(numbers) != 7: raise ValueError('Incomplete draw')
     if base in ('最小平码', '最大平码'):

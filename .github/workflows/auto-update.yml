@@ -56,7 +56,6 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           for lottery_type in ${{ steps.check.outputs.types }}; do
             echo "开始更新彩种 ${lottery_type}"
-            git pull --rebase origin main
             python -u scripts/lottery_cache_refresh.py --type "${lottery_type}" --year "$(date +%Y)"
             python -u scripts/update_all_lotteries.py --types "${lottery_type}" --year "$(date +%Y)" &
             generator_pid=$!

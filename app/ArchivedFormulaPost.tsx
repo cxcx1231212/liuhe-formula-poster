@@ -40,9 +40,9 @@ function valueText(value:unknown):string{
 
 export default async function ArchivedFormulaPost({type,path,backHref='/',backLabel='返回公式板块'}:{type:string;path:string;backHref?:string;backLabel?:string}){
   const history=await formulaHistory(type,path);
-  const item=history?.entries.find(entry=>entry.href===path)??null;
+  const item=history?.entries.find((entry:any)=>entry.href===path)??null;
   if(!item||!history)return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
-  const position=history.entries.findIndex(entry=>entry.href===path);
+  const position=history.entries.findIndex((entry:any)=>entry.href===path);
   const newer=position>0?history.entries[position-1]:null;
   const older=position<history.entries.length-1?history.entries[position+1]:null;
   const predictions=Object.entries(item.prediction??{}).filter(([,value])=>value!==null&&value!==undefined&&value!=='');
@@ -50,7 +50,7 @@ export default async function ArchivedFormulaPost({type,path,backHref='/',backLa
   const signature=item.signature||history.signature;
   const poolName=path.startsWith('/posts/fushi/22/')&&signature.includes('【8码扩展v1】')?'八码复式':path.startsWith('/posts/fushi/33/')&&signature.includes('【10码扩展v1】')?'十码复式':'';
   const displayLabel=(item.label||history.label).replace(/【(?:8|10)码扩展v1】/g,'')+(poolName?`【${poolName}】`:'');
-  const algorithmParts=signature.replace(/【(?:8|10)码扩展v1】/g,'').split('|').filter(Boolean);
+  const algorithmParts:string[]=signature.replace(/【(?:8|10)码扩展v1】/g,'').split('|').filter(Boolean);
   const resultRows=predictions.filter(([key])=>key!=='branches');
   const branchRows=predictions.find(([key])=>key==='branches');
   const displayId=item.formulaId.replace(/-+/g,'-');

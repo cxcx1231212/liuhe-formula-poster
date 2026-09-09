@@ -3,6 +3,7 @@ import type {ZodiacDraw} from './zodiac-history';
 export type DanshuangMethod={rank:string;label:string;sourceKey:string;name:string;baseName:string;operation:string;amount:number};
 
 const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,digit)=>sum+Number(digit),0);
+const wrap=(value:number)=>((Math.trunc(value)-1)%49+49)%49+1;
 const values=(draw:ZodiacDraw)=>draw.numbers.map(item=>Number(item.number));
 const position=(name:string)=>name==='特码'?6:Number(name.match(/平([1-6])码/)?.[1]||1)-1;
 const cellValue=(draw:ZodiacDraw,label:string)=>values(draw)[position(label)]||0;
@@ -31,11 +32,11 @@ const heshuParity=(number:number)=>digitSum(number)%2?'合单':'合双';
 export function buildDanshuangPosterItem(method:DanshuangMethod,draws:ZodiacDraw[],requestedIssue:number){
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const evaluate=(draw:ZodiacDraw)=>{
-    const base=baseValue(draw,method.baseName);const raw=Math.trunc(method.operation==='subtract'?base-method.amount:base+method.amount);
-    const prediction=method.label==='合数单双'?heshuParity(raw):parity(raw);
-    const symbol=method.operation==='subtract'?'−':'+';
-    const suffix=method.label==='合数单双'?` → 合数${digitSum(raw)}为${prediction}`:` → ${prediction}`;
-    return {prediction,calculation:`${baseExpression(draw,method.baseName)}${symbol}${method.amount}=${raw}${suffix}`};
+    const base=baseValue(draw,method.baseName);const direction=method.operation==='subtract'||(method.operation==='alternate_add_subtract'&&draw.period%2===0)?-1:1;const raw=base+direction*method.amount;const result=wrap(raw);
+    const prediction=method.label==='合数单双'?heshuParity(result):parity(result);
+    const symbol=direction<0?'−':'+';
+    const suffix=method.label==='合数单双'?`合数${digitSum(result)}为${prediction}`:`为${prediction}`;
+    return {prediction,calculation:`${baseExpression(draw,method.baseName)}${symbol}${method.amount}=${String(result).padStart(2,'0')}${suffix}`};
   };
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

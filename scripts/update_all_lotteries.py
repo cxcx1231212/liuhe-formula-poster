@@ -122,7 +122,7 @@ def update(lottery_type: int, year: int):
     if plain != padded:
         generated = ROOT / "public" / "generated"
         for path in generated.rglob(f"{plain}*"):
-            path.rename(path.with_name(path.name.replace(plain, padded, 1)))
+            path.replace(path.with_name(path.name.replace(plain, padded, 1)))
         for manifest in generated.rglob(f"{padded}-manifest.json"):
             text = manifest.read_text(encoding="utf-8").replace(plain, padded)
             manifest.write_text(text, encoding="utf-8")

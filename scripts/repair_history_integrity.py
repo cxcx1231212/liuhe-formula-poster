@@ -72,8 +72,9 @@ def prediction_for(item, board='', group='', source=None):
         if values: result['next'] = values
     if source and board in ('danshuang','wave') and all(k in item for k in ('baseName','operation','amount')):
         raw = base_value(item['baseName'],source)
-        if item['operation'] not in ('add','subtract'): raise ValueError('Unsupported operation')
-        n = wrap49(raw + (-1 if item['operation']=='subtract' else 1)*int(item['amount']))
+        if item['operation'] not in ('add','subtract','alternate_add_subtract'): raise ValueError('Unsupported operation')
+        subtract = item['operation']=='subtract' or (item['operation']=='alternate_add_subtract' and int(source['period'])%2==0)
+        n = wrap49(raw + (-1 if subtract else 1)*int(item['amount']))
         result = {'next': [wave(n) if board=='wave' else ('合' if '合数' in item.get('label','') else '') + ('单' if (digit(n) if '合数' in item.get('label','') else n)%2 else '双')]}
     if source and board in ('tail','head','size') and item.get('spec'):
         n = spec_value(item['spec'],source,board)

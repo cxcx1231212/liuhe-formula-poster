@@ -10,8 +10,8 @@ export default function RecommendedSites(){
   useEffect(()=>{
     const controller=new AbortController();
     fetch('/api/site-list',{signal:controller.signal})
-      .then(response=>response.ok?response.json():Promise.reject(new Error(String(response.status))))
-      .then((items:RecommendedSite[])=>setSites(items.filter(item=>item.name&&/^https?:\/\//.test(item.domain_url))))
+      .then(async response=>response.ok?await response.json() as RecommendedSite[]:Promise.reject(new Error(String(response.status))))
+      .then(items=>setSites(items.filter(item=>item.name&&/^https?:\/\//.test(item.domain_url))))
       .catch(()=>{})
       .finally(()=>setLoaded(true));
     return()=>controller.abort();

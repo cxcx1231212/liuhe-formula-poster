@@ -1,6 +1,8 @@
 import {env} from 'cloudflare:workers';
 
 export type FormulaHistoryRow={formulaId:string;board:string;group:string;signature:string;rank?:string;label?:string;image?:string|null;href?:string;prediction?:Record<string,unknown>|null;score?:Record<string,unknown>;status:string;actual?:{number:number;animal:string;date:string}};
+export type FormulaHistoryEntry=FormulaHistoryRow&{issue:number};
+export type FormulaHistoryView={lotteryType:number;year:number;formulaId:string;label:string;signature:string;entries:FormulaHistoryEntry[]};
 export type FormulaSnapshot={issue:number;formulaCount:number;formulas:FormulaHistoryRow[]};
 type FormulaArchive={lotteryType:number;year:number;snapshots:FormulaSnapshot[]};
 type AssetBinding={fetch(request:Request):Promise<Response>};
@@ -40,7 +42,7 @@ async function livePrediction(type:string,issue:number,row:FormulaHistoryRow){
   return method?predictionOf(method):null;
 }
 
-export async function formulaHistory(type:string,path:string){
+export async function formulaHistory(type:string,path:string):Promise<FormulaHistoryView|null>{
   // history-shards-v1: fetch only the selected formula's bounded history shard.
   const safeType=['1','5','8'].includes(type)?type:'5';
   const prefix='generated/formula-history/type-'+safeType+'-2026/';
@@ -55,7 +57,7 @@ export async function formulaHistory(type:string,path:string){
     const current=record.entries.find((row:FormulaHistoryRow)=>row.href===path);
     if(!current)return null;
     const fallback=current.prediction?null:await livePrediction(safeType,current.issue,current);
-    return {...record,label:current.label||current.signature,signature:current.signature,entries:record.entries.map((row:FormulaHistoryRow)=>row.href===path&&!row.prediction?{...row,prediction:fallback}:row)};
+    return {...record,label:current.label||current.signature,signature:current.signature,entries:record.entries.map((row:FormulaHistoryEntry)=>row.href===path&&!row.prediction?{...row,prediction:fallback}:row)} as FormulaHistoryView;
   }
 
   const archive=await loadArchive(type);

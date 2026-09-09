@@ -11,6 +11,7 @@ def is_renderable_name(name):
     patterns = [
         r"平\d合数＋平\d合数", r"平\d尾数＋平\d尾数",
         r"平\d码尾数(?:加|减)\d+", r"平\d码固定(?:加|减)\d+",
+        r"(?:平\d码|特码)(?:合数|尾数|固定)?交替加减\d+",
         r"七码总分加\d+",
     ]
     return any(re.fullmatch(pattern, name) for pattern in patterns)
@@ -38,6 +39,10 @@ def build_candidates():
             add("合数固定加减", f"{position_name}码合数减{amount}", lambda r, p=position, a=amount: digit_sum(numbers(r)[p]) - a)
             add("尾数固定加减", f"{position_name}码尾数加{amount}", lambda r, p=position, a=amount: tail(numbers(r)[p]) + a)
             add("尾数固定加减", f"{position_name}码尾数减{amount}", lambda r, p=position, a=amount: tail(numbers(r)[p]) - a)
+            direction = lambda r: 1 if int(r["period"]) % 2 else -1
+            add("单码交替加减", f"{position_name}码固定交替加减{amount}", lambda r, p=position, a=amount, d=direction: numbers(r)[p] + d(r) * a)
+            add("合数交替加减", f"{position_name}码合数交替加减{amount}", lambda r, p=position, a=amount, d=direction: digit_sum(numbers(r)[p]) + d(r) * a)
+            add("尾数交替加减", f"{position_name}码尾数交替加减{amount}", lambda r, p=position, a=amount, d=direction: tail(numbers(r)[p]) + d(r) * a)
         add("期数合数", f"{position_name}码加期数合数", lambda r, p=position: numbers(r)[p] + digit_sum(int(r["period"])))
         add("期数合数", f"{position_name}码减期数合数", lambda r, p=position: numbers(r)[p] - digit_sum(int(r["period"])))
 

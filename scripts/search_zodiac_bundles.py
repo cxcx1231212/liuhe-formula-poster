@@ -24,6 +24,7 @@ def make_series():
         groups = [
             (f"{base_name}固定加法", [(f"{base_name}加{i}", lambda r, b=calculate, n=i: b(r) + n, base_name, "add", i) for i in range(1, 19)]),
             (f"{base_name}固定减法", [(f"{base_name}减{i}", lambda r, b=calculate, n=i: b(r) - n, base_name, "subtract", i) for i in range(1, 19)]),
+            (f"{base_name}交替加减法", [(f"{base_name}交替加减{i}", lambda r, b=calculate, n=i: b(r) + (n if int(r["period"]) % 2 else -n), base_name, "alternate_add_subtract", i) for i in range(1, 19)]),
             (f"{base_name}乘法", [(f"{base_name}乘{i}", lambda r, b=calculate, n=i: b(r) * n, base_name, "multiply", i) for i in range(2, 13)]),
             (f"{base_name}除法取整", [(f"{base_name}除{i}取整", lambda r, b=calculate, n=i: int(b(r) / n), base_name, "divide_floor", i) for i in range(2, 13)]),
             (f"{base_name}除法余数", [(f"{base_name}除{i}余数", lambda r, b=calculate, n=i: b(r) % n, base_name, "modulo", i) for i in range(2, 13)]),
@@ -64,11 +65,13 @@ def score(methods):
     return streak(hits), sum(hits[-30:]), sum(hits)
 
 
-def make_bundle(seed, representatives, size):
+def make_bundle(seed, representatives, size, allow_duplicate_results=False):
     selected = [seed]
     while len(selected) < size:
         used = {item["nextAnimal"] for item in selected}
-        choices = [item for item in representatives if item["nextAnimal"] not in used]
+        choices = [item for item in representatives if item not in selected and (allow_duplicate_results or item["nextAnimal"] not in used)]
+        if not choices:
+            return None
         selected.append(max(choices, key=lambda item: score(selected + [item])))
     hits = combined_hits(selected)
     return {
@@ -102,14 +105,19 @@ def run(lottery_type=5, year=2026):
     for size in (3, 6, 9):
         bundles = []
         for source_key, methods in evaluated_series:
+            allow_duplicate_results = "交替加减法" in source_key
             representatives = []
             for zodiac in ANIMALS:
                 choices = [item for item in methods if item["nextAnimal"] == zodiac]
                 if choices:
                     representatives.append(max(choices, key=lambda item: (item["recentStreak"], item["recent30Rate"], item["totalRate"])))
-            if len(representatives) < size:
+            candidates = methods if allow_duplicate_results else representatives
+            if len(candidates) < size:
                 continue
-            choices = [make_bundle(seed, representatives, size) for seed in representatives]
+            choices = [make_bundle(seed, candidates, size, allow_duplicate_results) for seed in candidates]
+            choices = [item for item in choices if item]
+            if not choices:
+                continue
             bundle = max(choices, key=lambda item: (item["recentStreak"], item["recent30Rate"], item["totalRate"]))
             bundle["sourceKey"] = source_key
             bundles.append(bundle)

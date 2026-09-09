@@ -16,6 +16,12 @@ OUT = ROOT / "previews" / "fushi"
 def calculation_text(name, record, formulas):
     raw = formulas[name](record)
     result = wrap(raw)
+    if match := re.fullmatch(r"(.+?)交替加减(\d+)", name):
+        base, amount = match.groups()
+        expression, _ = base_expression(base.removesuffix("固定").replace("特码码", "特码"), record)
+        symbol = "＋" if int(record["period"]) % 2 else "－"
+        answer = f"{raw}" if 1 <= raw <= 49 else f"{raw}→{result:02d}"
+        return f"{expression}{symbol}{amount}＝{answer}"
     if match := re.fullmatch(r"(.+?)(加|减|乘)(\d+)", name):
         base, operation, amount = match.groups()
         expression, _ = base_expression(base, record)

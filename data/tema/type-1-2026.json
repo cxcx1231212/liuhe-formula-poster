@@ -3,7 +3,7 @@
   "year": 2026,
   "currentPeriod": 97,
   "nextPeriod": 98,
-  "publishedCount": 11,
+  "publishedCount": 12,
   "publishedMethods": [
     {
       "family": "单码固定加减",
@@ -587,14 +587,67 @@
           "hit": true
         }
       ]
+    },
+    {
+      "family": "单码交替加减",
+      "category": "总分综合",
+      "name": "平5码固定交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.010416666666666666,
+      "predictionNumber": 35,
+      "history": [
+        {
+          "sourcePeriod": 91,
+          "targetPeriod": 92,
+          "resultNumber": 41,
+          "targetNumber": 29,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 92,
+          "targetPeriod": 93,
+          "resultNumber": 33,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 93,
+          "targetPeriod": 94,
+          "resultNumber": 25,
+          "targetNumber": 35,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 94,
+          "targetPeriod": 95,
+          "resultNumber": 10,
+          "targetNumber": 42,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 95,
+          "targetPeriod": 96,
+          "resultNumber": 15,
+          "targetNumber": 28,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 96,
+          "targetPeriod": 97,
+          "resultNumber": 38,
+          "targetNumber": 38,
+          "hit": true
+        }
+      ]
     }
   ],
   "rawCombinationCounts": {
-    "1": 11,
-    "3": 4481158,
-    "8": 625447887632817040,
-    "10": 4566369954664914710600,
-    "18": 85572926112353702696791877984680764
+    "1": 12,
+    "3": 9697704,
+    "8": 6932102256539805888,
+    "10": 94183252777634234239368,
+    "18": 17633594119352273362333626911086192956
   },
   "lastVerifiedPeriod": 97,
   "lastVerifiedSpecialNumber": 38

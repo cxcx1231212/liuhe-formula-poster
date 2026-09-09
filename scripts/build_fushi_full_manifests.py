@@ -34,8 +34,8 @@ def compact_draw(record):
 
 
 def run(lottery_type):
-    pools = json.loads((ROOT / f"data/fushi/pools-type-{lottery_type}-2026.json").read_text())
-    lian = json.loads((ROOT / f"data/fushi/lianxiao-type-{lottery_type}-2026.json").read_text())
+    pools = json.loads((ROOT / f"data/fushi/pools-type-{lottery_type}-2026.json").read_text(encoding="utf-8"))
+    lian = json.loads((ROOT / f"data/fushi/lianxiao-type-{lottery_type}-2026.json").read_text(encoding="utf-8"))
     draws = [compact_draw(record) for record in fetch_year(lottery_type, 2026)]
     groups = {
         "22": {"label": "二中二", "kind": "number", "poolSize": 2, "required": 2,
@@ -50,7 +50,7 @@ def run(lottery_type):
     output = {"lotteryType": lottery_type, "year": 2026, "issue": pools["nextPeriod"], "groups": groups, "draws": draws}
     destination = ROOT / f"public/generated/fushi/type-{lottery_type}-{pools['nextPeriod']:03d}-manifest.json"
     destination.parent.mkdir(parents=True, exist_ok=True)
-    destination.write_text(json.dumps(output, ensure_ascii=False, separators=(",", ":")))
+    destination.write_text(json.dumps(output, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(destination, {key: len(group["methods"]) for key, group in groups.items()})
 
 

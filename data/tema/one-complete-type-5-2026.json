@@ -1,5 +1,34 @@
 {
   "totalFormulaCount": 9170,
-  "qualifiedCount": 0,
-  "qualifiedMethods": []
+  "qualifiedCount": 2,
+  "qualifiedMethods": [
+    {
+      "name": "平2码尾数＋平3码尾数加15",
+      "family": "加法",
+      "predictionNumber": 19,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平5码合数＋特码合数乘2",
+      "family": "乘法",
+      "predictionNumber": 20,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    }
+  ]
 }

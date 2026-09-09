@@ -125,14 +125,26 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm exec wrangler deploy --config dist/server/wrangler.json --name liuhe-formula-poster-backend
+        run: |
+          for attempt in 1 2 3; do
+            pnpm exec wrangler deploy --config dist/server/wrangler.json --name liuhe-formula-poster-backend && break
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            echo "后端发布连接失败，准备第 $((attempt + 1)) 次重试"
+            sleep $((attempt * 15))
+          done
 
       - name: 发布轻量缓存入口
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm exec wrangler deploy --config wrangler-cache.jsonc
+        run: |
+          for attempt in 1 2 3; do
+            pnpm exec wrangler deploy --config wrangler-cache.jsonc && break
+            if [ "$attempt" -eq 3 ]; then exit 1; fi
+            echo "缓存入口发布连接失败，准备第 $((attempt + 1)) 次重试"
+            sleep $((attempt * 15))
+          done
 
       - name: 发布成功后确认历史已保存
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true

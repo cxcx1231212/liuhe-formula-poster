@@ -79,6 +79,10 @@ const selectBranches=(method:FushiMethod,source:FushiDraw,targetPeriod:number,ki
 
 def replace_once(text, old, new):
     if new in text: return text
+    # This script also runs during every deployment. Source files may already
+    # contain a newer form of the same migration, so a retired anchor is a
+    # harmless no-op rather than a build failure.
+    if old not in text: return text
     if text.count(old) != 1: raise RuntimeError('Unexpected source anchor: ' + old[:100])
     return text.replace(old, new)
 

@@ -269,12 +269,12 @@ def run():
                 digest.update(str(path.relative_to(ROOT)).replace('\\', '/').encode())
                 contents = path.read_text(encoding='utf-8')
                 if folder == 'worker':
-                    contents = re.sub(r"const CACHE_VERSION = '[^']*';", "const CACHE_VERSION = '<build>';", contents)
+                    contents = re.sub(r"const\s+CACHE_VERSION\s*=\s*['\"][^'\"]*['\"]\s*;", "const CACHE_VERSION = '<build>';", contents)
                 digest.update(contents.encode('utf-8'))
     for proxy in (ROOT / 'worker/cache-proxy.js', ROOT / 'worker/index.ts'):
         if not proxy.exists(): continue
         text = proxy.read_text(encoding='utf-8')
-        text, count = re.subn(r"const CACHE_VERSION = '[^']*';", "const CACHE_VERSION = 'poster-" + digest.hexdigest()[:16] + "';", text)
+        text, count = re.subn(r"const\s+CACHE_VERSION\s*=\s*['\"][^'\"]*['\"]\s*;", "const CACHE_VERSION = 'poster-" + digest.hexdigest()[:16] + "';", text)
         if count != 1:
             raise RuntimeError('Cannot version HTML cache safely')
         proxy.write_text(text, encoding='utf-8')

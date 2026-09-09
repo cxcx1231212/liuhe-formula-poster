@@ -1,25 +1,53 @@
 {
   "totalFormulaCount": 9170,
-  "qualifiedCount": 2,
+  "qualifiedCount": 4,
   "qualifiedMethods": [
     {
-      "name": "平2码＋平5码加16",
-      "family": "加法",
-      "predictionNumber": 39,
-      "recentStreak": 3,
+      "name": "平1码尾数＋平2码尾数乘7",
+      "family": "乘法",
+      "predictionNumber": 28,
+      "recentStreak": 2,
       "hits": [
         false,
         false,
-        false,
         true,
+        false,
         true,
         true
       ]
     },
     {
-      "name": "平2码＋平3码加13",
-      "family": "加法",
-      "predictionNumber": 48,
+      "name": "平2码乘7",
+      "family": "乘法",
+      "predictionNumber": 41,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平1码＋平2码减6",
+      "family": "减法",
+      "predictionNumber": 46,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平5码合数＋特码合数乘2",
+      "family": "乘法",
+      "predictionNumber": 42,
       "recentStreak": 2,
       "hits": [
         false,

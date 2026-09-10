@@ -79,6 +79,11 @@ def build_complete_bundle(items, size):
 
 
 def series_key(name):
+    special = re.fullmatch(r"(平[1-6]|特码)码(固定|合数|尾数)(不对称交替加\d+减\d+|循环步长\d+)", name)
+    if special:
+        source, method, operation = special.groups()
+        source = source.replace("平", "平码") if source.startswith("平") else source
+        return f"{source}{method}{'不对称交替法' if operation.startswith('不对称') else '循环步长法'}"
     alternate = re.fullmatch(r"(平[1-6]|特码)码(固定|合数|尾数)(双期|三期)?交替加减\d+", name)
     if alternate:
         source, method, cycle = alternate.groups()

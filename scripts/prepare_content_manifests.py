@@ -23,7 +23,16 @@ def kill_value(category, number):
 
 
 def kill_branch(name, draw, category):
-    match = re.fullmatch(r'(.+?)(双期交替加减|三期交替加减|交替加减|加|减)(\d+)', name)
+    special = re.fullmatch(r'(.+?)不对称交替加(\d+)减(\d+)', name)
+    cycle = re.fullmatch(r'(.+?)循环步长(\d+)', name)
+    if special:
+        base, plus, minus = special.groups(); period=int(draw['period']); operator='加' if period%2 else '减'; amount=plus if period%2 else minus
+        match=(base,operator,amount)
+    elif cycle:
+        base, unit=cycle.groups(); match=(base,'加',str(((int(draw['period'])-1)%3+1)*int(unit)))
+    else:
+        match = None
+    match = match or re.fullmatch(r'(.+?)(双期交替加减|三期交替加减|交替加减|加|减)(\d+)', name)
     if not match: raise ValueError('Unsupported kill formula: ' + name)
     base, operator, amount = match.groups()
     period = int(draw['period'])

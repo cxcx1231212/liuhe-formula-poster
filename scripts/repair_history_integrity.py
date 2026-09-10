@@ -72,10 +72,12 @@ def prediction_for(item, board='', group='', source=None):
         if values: result['next'] = values
     if source and board in ('danshuang','wave') and all(k in item for k in ('baseName','operation','amount')):
         raw = base_value(item['baseName'],source)
-        if item['operation'] not in ('add','subtract','alternate_add_subtract','double_alternate_add_subtract','triple_alternate_add_subtract'): raise ValueError('Unsupported operation')
+        if item['operation'] not in ('add','subtract','alternate_add_subtract','double_alternate_add_subtract','triple_alternate_add_subtract','asymmetric_alternate','cyclic_step'): raise ValueError('Unsupported operation')
         period=int(source['period']);op=item['operation']
         subtract = op=='subtract' or (op=='alternate_add_subtract' and period%2==0) or (op=='double_alternate_add_subtract' and ((period-1)//2)%2==1) or (op=='triple_alternate_add_subtract' and ((period-1)//3)%2==1)
-        n = wrap49(raw + (-1 if subtract else 1)*int(item['amount']))
+        amount=int(item['amount'])
+        delta=(amount//100 if period%2 else -(amount%100)) if op=='asymmetric_alternate' else (((period-1)%3+1)*amount if op=='cyclic_step' else (-amount if subtract else amount))
+        n = wrap49(raw + delta)
         result = {'next': [wave(n) if board=='wave' else ('合' if '合数' in item.get('label','') else '') + ('单' if (digit(n) if '合数' in item.get('label','') else n)%2 else '双')]}
     if source and board in ('tail','head','size') and item.get('spec'):
         n = spec_value(item['spec'],source,board)

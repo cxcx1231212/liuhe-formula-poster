@@ -27,6 +27,8 @@ def make_series():
             (f"{base_name}交替加减法", [(f"{base_name}交替加减{i}", lambda r, b=calculate, n=i: b(r) + (n if int(r["period"]) % 2 else -n), base_name, "alternate_add_subtract", i) for i in range(1, 19)]),
             (f"{base_name}双期交替加减法", [(f"{base_name}双期交替加减{i}", lambda r, b=calculate, n=i: b(r) + (n if ((int(r["period"])-1)//2)%2 == 0 else -n), base_name, "double_alternate_add_subtract", i) for i in range(1, 19)]),
             (f"{base_name}三期交替加减法", [(f"{base_name}三期交替加减{i}", lambda r, b=calculate, n=i: b(r) + (n if ((int(r["period"])-1)//3)%2 == 0 else -n), base_name, "triple_alternate_add_subtract", i) for i in range(1, 19)]),
+            (f"{base_name}不对称交替法", [(f"{base_name}不对称交替加{i}减{i+1}", lambda r, b=calculate, n=i: b(r) + (n if int(r["period"]) % 2 else -(n+1)), base_name, "asymmetric_alternate", i * 100 + i + 1) for i in range(1, 7)]),
+            (f"{base_name}循环步长法", [(f"{base_name}循环步长{i}", lambda r, b=calculate, n=i: b(r) + ((int(r["period"])-1)%3+1)*n, base_name, "cyclic_step", i) for i in range(1, 7)]),
             (f"{base_name}乘法", [(f"{base_name}乘{i}", lambda r, b=calculate, n=i: b(r) * n, base_name, "multiply", i) for i in range(2, 13)]),
             (f"{base_name}除法取整", [(f"{base_name}除{i}取整", lambda r, b=calculate, n=i: int(b(r) / n), base_name, "divide_floor", i) for i in range(2, 13)]),
             (f"{base_name}除法余数", [(f"{base_name}除{i}余数", lambda r, b=calculate, n=i: b(r) % n, base_name, "modulo", i) for i in range(2, 13)]),
@@ -107,7 +109,7 @@ def run(lottery_type=5, year=2026):
     for size in (3, 6, 9):
         bundles = []
         for source_key, methods in evaluated_series:
-            allow_duplicate_results = "交替加减法" in source_key
+            allow_duplicate_results = any(label in source_key for label in ("交替加减法", "不对称交替法", "循环步长法"))
             representatives = []
             for zodiac in ANIMALS:
                 choices = [item for item in methods if item["nextAnimal"] == zodiac]

@@ -11,7 +11,9 @@ def is_renderable_name(name):
     patterns = [
         r"平\d合数＋平\d合数", r"平\d尾数＋平\d尾数",
         r"平\d码尾数(?:加|减)\d+", r"平\d码固定(?:加|减)\d+",
-        r"(?:平\d码|特码)(?:合数|尾数|固定)?(?:双期|三期)?交替加减\d+",
+        r"(?:平\d码|特码码)(?:合数|尾数|固定)?(?:双期|三期)?交替加减\d+",
+        r"(?:平\d码|特码码)(?:合数|尾数|固定)?不对称交替加\d+减\d+",
+        r"(?:平\d码|特码码)(?:合数|尾数|固定)?循环步长\d+",
         r"七码总分加\d+",
     ]
     return any(re.fullmatch(pattern, name) for pattern in patterns)
@@ -51,6 +53,12 @@ def build_candidates():
             add("单码三期交替加减", f"{position_name}码固定三期交替加减{amount}", lambda r, p=position, a=amount, d=triple_direction: numbers(r)[p] + d(r) * a)
             add("合数三期交替加减", f"{position_name}码合数三期交替加减{amount}", lambda r, p=position, a=amount, d=triple_direction: digit_sum(numbers(r)[p]) + d(r) * a)
             add("尾数三期交替加减", f"{position_name}码尾数三期交替加减{amount}", lambda r, p=position, a=amount, d=triple_direction: tail(numbers(r)[p]) + d(r) * a)
+            if amount <= 6:
+                asymmetric = lambda r, a=amount: a if int(r["period"]) % 2 else -(a + 1)
+                cycle = lambda r, a=amount: ((int(r["period"])-1)%3+1)*a
+                for label, value in (("固定", lambda r,p=position:numbers(r)[p]), ("合数", lambda r,p=position:digit_sum(numbers(r)[p])), ("尾数", lambda r,p=position:tail(numbers(r)[p]))):
+                    add(f"{label}不对称交替", f"{position_name}码{label}不对称交替加{amount}减{amount+1}", lambda r,v=value,o=asymmetric:v(r)+o(r))
+                    add(f"{label}循环步长", f"{position_name}码{label}循环步长{amount}", lambda r,v=value,o=cycle:v(r)+o(r))
         add("期数合数", f"{position_name}码加期数合数", lambda r, p=position: numbers(r)[p] + digit_sum(int(r["period"])))
         add("期数合数", f"{position_name}码减期数合数", lambda r, p=position: numbers(r)[p] - digit_sum(int(r["period"])))
 

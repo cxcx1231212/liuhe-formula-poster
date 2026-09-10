@@ -26,8 +26,9 @@ const baseValue=(draw:ZodiacDraw,base:string):number=>{
   return 0;
 };
 const alternatingDirection=(operation:string,period:number)=>operation==='alternate_add_subtract'?(period%2?1:-1):operation==='double_alternate_add_subtract'?((Math.floor((period-1)/2)%2===0)?1:-1):operation==='triple_alternate_add_subtract'?((Math.floor((period-1)/3)%2===0)?1:-1):0;
-const calculate=(base:number,operation:string,amount:number,period:number)=>operation==='add'?base+amount:operation==='subtract'?base-amount:alternatingDirection(operation,period)?base+alternatingDirection(operation,period)*amount:operation==='multiply'?base*amount:operation==='divide_floor'?Math.trunc(base/amount):operation==='modulo'?base%amount:base;
-const symbol=(operation:string,period:number)=>operation==='add'?'+':operation==='subtract'?'−':alternatingDirection(operation,period)?(alternatingDirection(operation,period)>0?'+':'−'):operation==='multiply'?'×':operation==='divide_floor'?'÷取整':'÷余数';
+const offset=(operation:string,amount:number,period:number)=>operation==='asymmetric_alternate'?(period%2?Math.floor(amount/100):-(amount%100)):operation==='cyclic_step'?((period-1)%3+1)*amount:alternatingDirection(operation,period)*amount;
+const calculate=(base:number,operation:string,amount:number,period:number)=>operation==='add'?base+amount:operation==='subtract'?base-amount:operation==='asymmetric_alternate'||operation==='cyclic_step'||alternatingDirection(operation,period)?base+offset(operation,amount,period):operation==='multiply'?base*amount:operation==='divide_floor'?Math.trunc(base/amount):operation==='modulo'?base%amount:base;
+const symbol=(operation:string,period:number)=>operation==='add'?'+':operation==='subtract'?'−':operation==='asymmetric_alternate'||operation==='cyclic_step'?(offset(operation,1,period)>=0?'+':'−'):alternatingDirection(operation,period)?(alternatingDirection(operation,period)>0?'+':'−'):operation==='multiply'?'×':operation==='divide_floor'?'÷取整':'÷余数';
 const sourcePositions=(base:string)=>Array.from(base.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
 const baseExpression=(draw:ZodiacDraw,base:string)=>{
   const pair=base.match(/^(平[1-6]码|特码)(合数|尾数)?([＋－])(平[1-6]码|特码)(合数|尾数)?$/);
@@ -46,7 +47,8 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
   const evaluate=(definition:ZodiacBranch,draw:ZodiacDraw)=>{
     const base=baseValue(draw,definition.baseName||'');const raw=calculate(base,definition.operation||'',definition.amount||0,draw.period);const result=wrap(raw);
     const animal=animals[(result-1)%12];
-    return {result,animal,calculation:`${baseExpression(draw,definition.baseName||'')}${symbol(definition.operation||'',draw.period)}${definition.amount}=${String(result).padStart(2,'0')}属${animal}`};
+    const operation=definition.operation||'',amount=definition.amount||0,shown=operation==='asymmetric_alternate'?Math.abs(offset(operation,amount,draw.period)):operation==='cyclic_step'?Math.abs(offset(operation,amount,draw.period)):amount;
+    return {result,animal,calculation:`${baseExpression(draw,definition.baseName||'')}${symbol(operation,draw.period)}${shown}=${String(result).padStart(2,'0')}属${animal}`};
   };
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

@@ -31,6 +31,14 @@ def calculate(branch, draw):
         base,cycle,amount=alternating.groups();n=extended_base(base,draw);period=int(draw['period'])
         plus=period%2==1 if not cycle else ((period-1)//(2 if cycle=='双期' else 3))%2==0
         return wrap(n+(int(amount) if plus else -int(amount)))
+    special=re.fullmatch(r'(.+?)(?:固定)?不对称交替加(\d+)减(\d+)',name)
+    if special:
+        base,plus,minus=special.groups();period=int(draw['period'])
+        return wrap(extended_base(base,draw)+(int(plus) if period%2 else -int(minus)))
+    cycle=re.fullmatch(r'(.+?)(?:固定)?循环步长(\d+)',name)
+    if cycle:
+        base,amount=cycle.groups();period=int(draw['period'])
+        return wrap(extended_base(base,draw)+((period-1)%3+1)*int(amount))
     if all(k in branch for k in ('baseName','operation','amount')):
         base,op,amount=branch['baseName'],branch['operation'],int(branch['amount'])
     else:
@@ -39,7 +47,7 @@ def calculate(branch, draw):
         base,action,amount,suffix=match.groups();amount=int(amount)
         op={'加':'add','减':'subtract','乘':'multiply','除':'modulo' if suffix=='余数' else 'divide_floor'}[action]
     n=extended_base(base,draw)
-    period=int(draw['period']);result={'add':lambda:n+amount,'subtract':lambda:n-amount,'alternate_add_subtract':lambda:n+(amount if period%2 else -amount),'double_alternate_add_subtract':lambda:n+(amount if ((period-1)//2)%2==0 else -amount),'triple_alternate_add_subtract':lambda:n+(amount if ((period-1)//3)%2==0 else -amount),'multiply':lambda:n*amount,'divide_floor':lambda:int(n/amount),'modulo':lambda:n%amount}[op]()
+    period=int(draw['period']);result={'add':lambda:n+amount,'subtract':lambda:n-amount,'alternate_add_subtract':lambda:n+(amount if period%2 else -amount),'double_alternate_add_subtract':lambda:n+(amount if ((period-1)//2)%2==0 else -amount),'triple_alternate_add_subtract':lambda:n+(amount if ((period-1)//3)%2==0 else -amount),'asymmetric_alternate':lambda:n+(amount//100 if period%2 else -(amount%100)),'cyclic_step':lambda:n+((period-1)%3+1)*amount,'multiply':lambda:n*amount,'divide_floor':lambda:int(n/amount),'modulo':lambda:n%amount}[op]()
     return wrap(result)
 
 def summarize(rows):

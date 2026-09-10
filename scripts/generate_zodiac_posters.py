@@ -97,6 +97,13 @@ def calculation_text(name, record, formulas):
         symbol = "＋" if plus else "－"
         answer = f"{raw}" if 1 <= raw <= 49 else f"{raw}→{result:02d}"
         return f"{expression}{symbol}{amount}＝{answer}＝{zodiac}"
+    if match := re.fullmatch(r"(.+?)不对称交替加(\d+)减(\d+)", name):
+        base, plus, minus = match.groups(); expression, _ = base_expression(base.removesuffix("固定"), record)
+        amount = plus if int(record["period"]) % 2 else minus; symbol = "＋" if int(record["period"]) % 2 else "－"
+        return f"{expression}{symbol}{amount}＝{result:02d}＝{zodiac}"
+    if match := re.fullmatch(r"(.+?)循环步长(\d+)", name):
+        base, amount = match.groups(); expression, _ = base_expression(base.removesuffix("固定"), record); step=((int(record["period"])-1)%3+1)*int(amount)
+        return f"{expression}＋{step}＝{result:02d}＝{zodiac}"
     if match := re.fullmatch(r"(.+?)(加|减|乘)(\d+)", name):
         base, operation, amount = match.groups()
         expression, _ = base_expression(base, record)

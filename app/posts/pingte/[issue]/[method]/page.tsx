@@ -20,7 +20,10 @@ function sourcePositions(name:string){
   return Array.from(new Set(Array.from(name.matchAll(/平([1-6])码|特码码/g),match=>match[0]==='特码码'?6:Number(match[1])-1)));
 }
 function calculation(name:string,draw:Draw|undefined,result:number){
-  if(!draw)return `${name}＝${String(result).padStart(2,'0')}`;const values=draw.numbers.map(row=>Number(row.number));let match=name.match(/^(平([1-6])码|特码码)(固定|合数|尾数)(双期|三期)?交替加减(\d+)$/);
+  if(!draw)return `${name}＝${String(result).padStart(2,'0')}`;const values=draw.numbers.map(row=>Number(row.number));let match=name.match(/^(平([1-6])码|特码码)(固定|合数|尾数)不对称交替加(\d+)减(\d+)$/);
+  if(match){const value=values[match[1]==='特码码'?6:Number(match[2])-1],mode=match[3],base=mode==='合数'?digits(value):mode==='尾数'?value%10:value,plus=Number(match[4]),minus=Number(match[5]),amount=draw.period%2?plus:minus,direction=draw.period%2?1:-1;return `${String(value).padStart(2,'0')}${mode==='合数'?`合${base}`:mode==='尾数'?`尾${base}`:''}${direction>0?'＋':'－'}${amount}＝${String(wrap(base+direction*amount)).padStart(2,'0')}`}
+  match=name.match(/^(平([1-6])码|特码码)(固定|合数|尾数)循环步长(\d+)$/);if(match){const value=values[match[1]==='特码码'?6:Number(match[2])-1],mode=match[3],base=mode==='合数'?digits(value):mode==='尾数'?value%10:value,step=((draw.period-1)%3+1)*Number(match[4]);return `${String(value).padStart(2,'0')}＋${step}＝${String(wrap(base+step)).padStart(2,'0')}`}
+  match=name.match(/^(平([1-6])码|特码码)(固定|合数|尾数)(双期|三期)?交替加减(\d+)$/);
   if(match){const value=values[match[1]==='特码码'?6:Number(match[2])-1],mode=match[3],cycle=match[4],base=mode==='合数'?digits(value):mode==='尾数'?value%10:value,amount=Number(match[5]),direction=cycle==='双期'?((Math.floor((draw.period-1)/2)%2===0)?1:-1):cycle==='三期'?((Math.floor((draw.period-1)/3)%2===0)?1:-1):(draw.period%2?1:-1);return `${String(value).padStart(2,'0')}${mode==='合数'?`合${base}`:mode==='尾数'?`尾${base}`:''}${direction>0?'＋':'－'}${amount}＝${String(wrap(base+direction*amount)).padStart(2,'0')}`}
   match=name.match(/平(\d)码固定(加|减)(\d+)/);
   if(match){const value=values[Number(match[1])-1],amount=Number(match[3]);return `${String(value).padStart(2,'0')}${match[2]==='加'?'＋':'－'}${amount}＝${String(wrap(value+(match[2]==='加'?amount:-amount))).padStart(2,'0')}`}

@@ -34,7 +34,7 @@ def kill_branch(name, draw, category):
         match = None
     match = match or re.fullmatch(r'(.+?)(双期交替加减|三期交替加减|交替加减|加|减)(\d+)', name)
     if not match: raise ValueError('Unsupported kill formula: ' + name)
-    base, operator, amount = match.groups()
+    base, operator, amount = match if isinstance(match, tuple) else match.groups()
     period = int(draw['period'])
     if operator == '交替加减': operator = '加' if period % 2 else '减'
     elif operator == '双期交替加减': operator = '加' if ((period-1)//2)%2 == 0 else '减'

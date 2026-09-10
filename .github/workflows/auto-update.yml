@@ -84,7 +84,9 @@ jobs:
 
       - name: 快速公式边界检查
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
-        run: node --experimental-strip-types scripts/test_fushi_expansion.mjs
+        run: |
+          node --experimental-strip-types scripts/test_fushi_expansion.mjs
+          python scripts/test_prepare_content_manifests.py
 
       - name: 构建网站
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true

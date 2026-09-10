@@ -37,4 +37,7 @@ const structuredSource={period:0,numbers:[1,2,3,4,5,6,7].map(number=>({number:St
 const structuredMethod={rank:'test',sourceKey:'structured',expansionSize:8,activationIssue:1,branches:[{name:'平1码加1',baseName:'平1码',operation:'add',amount:7}]};
 const structured=buildFushiPosterItem(structuredMethod,[structuredSource],1,'number',2,'test');
 assert.equal(structured.next[0],'08','Structured formula fields must override the display name');
+const fixedNameMethod={rank:'test',sourceKey:'fixed-name',expansionSize:8,activationIssue:1,branches:[{name:'平1码固定加7'}]};
+const fixedName=buildFushiPosterItem(fixedNameMethod,[structuredSource],1,'number',2,'test');
+assert.equal(fixedName.next[0],'08','固定加减 formula names must preserve their base number');
 console.log('PASS '+checked+' formulas: Python/TypeScript agreement, unique counts, activation boundary, original/animal preservation, settlement');

@@ -38,7 +38,7 @@ const parse=(input:string|RawBranch)=>{
   const alternating=name.match(/^(.*?)(双期|三期)?交替加减(\d+)$/);
   if(alternating)return {base:alternating[1].replace('特码码','特码').replace(/固定$/,''),operation:alternating[2]==='双期'?'双期交替':alternating[2]==='三期'?'三期交替':'交替',amount:Number(alternating[3]),secondary:0,suffix:''};
   const match=name.match(/^(.*?)(加|减|乘|除)(\d+)(取整|余数)?$/);
-  return {base:(match?.[1]||name).replace('特码码','特码'),operation:match?.[2]||'加',amount:Number(match?.[3]||0),secondary:0,suffix:match?.[4]||''};
+  return {base:(match?.[1]||name).replace('特码码','特码').replace(/固定$/,''),operation:match?.[2]||'加',amount:Number(match?.[3]||0),secondary:0,suffix:match?.[4]||''};
 };
 const evaluate=(draw:FushiDraw,input:string|RawBranch,useExpandedWrap=false)=>{
   const definition=parse(input),baseDetailsValue=baseDetails(draw,definition.base),base=baseDetailsValue.value;

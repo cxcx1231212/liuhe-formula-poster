@@ -1,6 +1,6 @@
 type Cell={number:string;animal:string;element:string};
 export type FushiDraw={period:number;displayPeriod?:string;date?:string;numbers:Cell[]};
-type RawBranch={name:string;number?:number;animal?:string};
+type RawBranch={name:string;baseName?:string;operation?:string;amount?:number;number?:number;animal?:string};
 export type FushiMethod={expansionSize?:number;activationIssue?:number;expansionActive?:boolean;formulaId?:string;rank:string;sourceKey:string;branches:RawBranch[];recentStreak?:number;recent30Hits?:number};
 
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
@@ -25,7 +25,12 @@ const baseDetails=(draw:FushiDraw,base:string):{value:number;expression:string}=
   if(single){const source=cellValue(draw,single[1]);const value=single[2]==='合数'?digitSum(source):single[2]==='尾数'?source%10:source;return {value,expression:formatNumber(value)};}
   return {value:0,expression:'00'};
 };
-const parse=(name:string)=>{
+const parse=(input:string|RawBranch)=>{
+  const name=typeof input==='string'?input:input.name;
+  if(typeof input!=='string'&&input.baseName&&input.operation&&typeof input.amount==='number'){
+    const operation={add:'加',subtract:'减',alternate_add_subtract:'交替',double_alternate_add_subtract:'双期交替',triple_alternate_add_subtract:'三期交替',asymmetric_alternate:'不对称',cyclic_step:'循环',multiply:'乘',divide_floor:'除',modulo:'除'}[input.operation]??input.operation;
+    return {base:input.baseName.replace('特码码','特码').replace(/固定$/,''),operation,amount:input.operation==='asymmetric_alternate'?Math.trunc(input.amount/100):input.amount,secondary:input.operation==='asymmetric_alternate'?input.amount%100:0,suffix:input.operation==='modulo'?'余数':input.operation==='divide_floor'?'取整':''};
+  }
   const asymmetric=name.match(/^(.*?)不对称交替加(\d+)减(\d+)$/);
   if(asymmetric)return {base:asymmetric[1].replace('特码码','特码').replace(/固定$/,''),operation:'不对称',amount:Number(asymmetric[2]),secondary:Number(asymmetric[3]),suffix:''};
   const cycle=name.match(/^(.*?)循环步长(\d+)$/);
@@ -35,8 +40,8 @@ const parse=(name:string)=>{
   const match=name.match(/^(.*?)(加|减|乘|除)(\d+)(取整|余数)?$/);
   return {base:(match?.[1]||name).replace('特码码','特码'),operation:match?.[2]||'加',amount:Number(match?.[3]||0),secondary:0,suffix:match?.[4]||''};
 };
-const evaluate=(draw:FushiDraw,name:string,useExpandedWrap=false)=>{
-  const definition=parse(name),baseDetailsValue=baseDetails(draw,definition.base),base=baseDetailsValue.value;
+const evaluate=(draw:FushiDraw,input:string|RawBranch,useExpandedWrap=false)=>{
+  const definition=parse(input),baseDetailsValue=baseDetails(draw,definition.base),base=baseDetailsValue.value;
   const direction=definition.operation==='交替'?(draw.period%2?1:-1):definition.operation==='双期交替'?((Math.floor((draw.period-1)/2)%2===0)?1:-1):definition.operation==='三期交替'?((Math.floor((draw.period-1)/3)%2===0)?1:-1):0;const delta=definition.operation==='不对称'?(draw.period%2?definition.amount:-definition.secondary):definition.operation==='循环'?((draw.period-1)%3+1)*definition.amount:direction*definition.amount;const raw=definition.operation==='加'?base+definition.amount:definition.operation==='减'?base-definition.amount:definition.operation==='不对称'||definition.operation==='循环'||direction?base+delta:definition.operation==='乘'?base*definition.amount:definition.suffix==='余数'?(useExpandedWrap?((base%definition.amount)+definition.amount)%definition.amount:base%definition.amount):Math.trunc(base/definition.amount);
   const result=useExpandedWrap?expandedWrap(raw):wrap(raw),animal=animals[(result-1)%12];
   const symbol=definition.operation==='加'?'+':definition.operation==='减'?'−':definition.operation==='不对称'||definition.operation==='循环'?(delta>=0?'+':'−'):direction?(direction>0?'+':'−'):definition.operation==='乘'?'×':definition.suffix==='余数'?'÷余':'÷整';
@@ -49,12 +54,12 @@ const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特
 const expandedWrap=(value:number)=>{let n=Math.trunc(value);while(n>49)n-=12;while(n<1)n+=12;return n;};
 const selectBranches=(method:FushiMethod,source:FushiDraw,targetPeriod:number,kind:string)=>{
   const active=kind==='number'&&method.expansionSize&&targetPeriod>=(method.activationIssue||Infinity);
-  const original=method.branches.map(branch=>({...evaluate(source,branch.name,!!active),name:branch.name}));
+  const original=method.branches.map(branch=>({...evaluate(source,branch,!!active),name:branch.name}));
   if(!active)return original;
   if(source.numbers.length!==7)throw new Error('Incomplete expansion source');
   const result:typeof original=[],seen=new Set<number>();
   const add=(name:string)=>{const value={...evaluate(source,name,true),name};if(!seen.has(value.number)){seen.add(value.number);result.push(value);}};
-  for(const branch of method.branches)add(branch.name);
+  for(const branch of original)if(!seen.has(branch.number)){seen.add(branch.number);result.push(branch);}
   for(let amount=1;amount<=49&&result.length<method.expansionSize!;amount++){
     for(let position=1;position<=7&&result.length<method.expansionSize!;position++)add(`${position===7?'特码':`平${position}码`}加${amount}`);
   }

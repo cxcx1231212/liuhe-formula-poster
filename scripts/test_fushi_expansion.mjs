@@ -33,4 +33,8 @@ for(const row of cases){
   assert.equal(miss.history[0].hit,false);
   checked++;
 }
+const structuredSource={period:0,numbers:[1,2,3,4,5,6,7].map(number=>({number:String(number),animal:'马',element:'金'}))};
+const structuredMethod={rank:'test',sourceKey:'structured',expansionSize:8,activationIssue:1,branches:[{name:'平1码加1',baseName:'平1码',operation:'add',amount:7}]};
+const structured=buildFushiPosterItem(structuredMethod,[structuredSource],1,'number',2,'test');
+assert.equal(structured.next[0],'08','Structured formula fields must override the display name');
 console.log('PASS '+checked+' formulas: Python/TypeScript agreement, unique counts, activation boundary, original/animal preservation, settlement');

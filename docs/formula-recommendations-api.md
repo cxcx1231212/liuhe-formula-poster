@@ -15,6 +15,6 @@
 - `recentStreak`：当前连续命中期数。
 - `recent30Hits`、`recent30Rate`：近30期表现。
 - `url`：本站公式详情页。
-- `imageUrl`：有静态图片时返回图片地址；动态公式返回 `null`，调用方可使用自己的占位图。
+- `imageUrl`、`thumbnailUrl`：当期公式内容缩略图地址，直接放入 `<img>` 即可；开奖和推荐更新后图片会自动更新。
 
 接口允许跨域 GET 请求，建议调用方每五分钟更新一次。

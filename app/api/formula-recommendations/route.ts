@@ -25,7 +25,13 @@ export async function GET(request:NextRequest){
   const origin=request.nextUrl.origin;
   const recommendations=(await Promise.all(selected.map(async (definition,index)=>{
     const item=await getHomeBoardRecommendation(lotteryType as '1'|'5'|'8',definition.board,definition.category);
-    return {slot:index+1,cardName:`规律${chinese[index]??index+1}`,...definition,...item,imageUrl:item.image?new URL(item.image,origin).toString():null,url:item.href?origin+item.href:null};
+    const cardName=`规律${chinese[index]??index+1}`;
+    const thumbnail=new URL('/api/formula-recommendations/thumbnail',origin);
+    thumbnail.searchParams.set('lotteryType',lotteryType);
+    thumbnail.searchParams.set('board',definition.board);
+    thumbnail.searchParams.set('category',definition.category);
+    thumbnail.searchParams.set('cardName',cardName);
+    return {slot:index+1,cardName,...definition,...item,imageUrl:thumbnail.toString(),thumbnailUrl:thumbnail.toString(),url:item.href?origin+item.href:null};
   }))).filter(item=>item.formula!==null);
   return NextResponse.json({ok:true,lotteryType,generatedAt:new Date().toISOString(),count:recommendations.length,recommendations},{headers:{...cors,'Cache-Control':'public, max-age=60, s-maxage=300'}});
 }

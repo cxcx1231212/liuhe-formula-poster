@@ -1,6 +1,6 @@
 {
-  "totalFormulaCount": 11528,
-  "qualifiedCount": 2,
+  "totalFormulaCount": 16244,
+  "qualifiedCount": 3,
   "qualifiedMethods": [
     {
       "name": "平1码合数加13",
@@ -19,6 +19,20 @@
     {
       "name": "平4码－平1码减1",
       "family": "减法",
+      "predictionNumber": 9,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平4码－平1码三期交替加减1",
+      "family": "三期交替加减",
       "predictionNumber": 9,
       "recentStreak": 2,
       "hits": [

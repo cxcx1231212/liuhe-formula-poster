@@ -3,7 +3,7 @@
   "year": 2026,
   "currentPeriod": 97,
   "nextPeriod": 98,
-  "publishedCount": 12,
+  "publishedCount": 14,
   "publishedMethods": [
     {
       "family": "单码固定加减",
@@ -640,14 +640,120 @@
           "hit": true
         }
       ]
+    },
+    {
+      "family": "单码双期交替加减",
+      "category": "总分综合",
+      "name": "平5码固定双期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.010416666666666666,
+      "predictionNumber": 35,
+      "history": [
+        {
+          "sourcePeriod": 91,
+          "targetPeriod": 92,
+          "resultNumber": 39,
+          "targetNumber": 29,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 92,
+          "targetPeriod": 93,
+          "resultNumber": 33,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 93,
+          "targetPeriod": 94,
+          "resultNumber": 25,
+          "targetNumber": 35,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 94,
+          "targetPeriod": 95,
+          "resultNumber": 24,
+          "targetNumber": 42,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 95,
+          "targetPeriod": 96,
+          "resultNumber": 1,
+          "targetNumber": 28,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 96,
+          "targetPeriod": 97,
+          "resultNumber": 38,
+          "targetNumber": 38,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码三期交替加减",
+      "category": "总分综合",
+      "name": "平5码固定三期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.010416666666666666,
+      "predictionNumber": 35,
+      "history": [
+        {
+          "sourcePeriod": 91,
+          "targetPeriod": 92,
+          "resultNumber": 41,
+          "targetNumber": 29,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 92,
+          "targetPeriod": 93,
+          "resultNumber": 47,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 93,
+          "targetPeriod": 94,
+          "resultNumber": 25,
+          "targetNumber": 35,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 94,
+          "targetPeriod": 95,
+          "resultNumber": 10,
+          "targetNumber": 42,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 95,
+          "targetPeriod": 96,
+          "resultNumber": 1,
+          "targetNumber": 28,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 96,
+          "targetPeriod": 97,
+          "resultNumber": 38,
+          "targetNumber": 38,
+          "hit": true
+        }
+      ]
     }
   ],
   "rawCombinationCounts": {
-    "1": 12,
-    "3": 9697704,
-    "8": 6932102256539805888,
-    "10": 94183252777634234239368,
-    "18": 17633594119352273362333626911086192956
+    "1": 14,
+    "3": 28190680,
+    "8": 177289167415377332560,
+    "10": 5493623763446920797378284,
+    "18": 21480991715382189759780373740391070396850
   },
   "lastVerifiedPeriod": 97,
   "lastVerifiedSpecialNumber": 38

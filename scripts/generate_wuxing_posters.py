@@ -55,6 +55,12 @@ def select(records):
 
     def items(line_count):
         for source_key, methods in groups:
+            # 交替公式完整保留在单行公式以及生肖、特码等各类组合中。
+            # 五行“两行中特”若再对每组做两两排列，会把同一批公式
+            # 重复扩张为数万条，并超过 Workers 静态资源 25 MiB 的
+            # 单文件限制；这里不重复生成交替公式的两行排列。
+            if line_count == 2 and "交替加减" in source_key:
+                continue
             candidates = ((method,) for method in methods) if line_count == 1 else combinations(methods, 2)
             for branches in candidates:
                 if line_count == 2 and branches[0]["next"] == branches[1]["next"]:

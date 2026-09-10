@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {existsSync,readFileSync} from 'node:fs';
 import {buildFushiPosterItem} from '../lib/fushi-history.ts';
-const cases=JSON.parse(readFileSync(new URL('../fushi-expansion-checks.json',import.meta.url),'utf8'));
+const checksUrl=new URL('../fushi-expansion-checks.json',import.meta.url);
+const cases=existsSync(checksUrl)?JSON.parse(readFileSync(checksUrl,'utf8')):[];
 let checked=0;
 for(const row of cases){
   const item=buildFushiPosterItem(row.method,[row.source],row.issue,'number',row.required,'test');
@@ -40,4 +41,7 @@ assert.equal(structured.next[0],'08','Structured formula fields must override th
 const fixedNameMethod={rank:'test',sourceKey:'fixed-name',expansionSize:8,activationIssue:1,branches:[{name:'平1码固定加7'}]};
 const fixedName=buildFushiPosterItem(fixedNameMethod,[structuredSource],1,'number',2,'test');
 assert.equal(fixedName.next[0],'08','固定加减 formula names must preserve their base number');
-console.log('PASS '+checked+' formulas: Python/TypeScript agreement, unique counts, activation boundary, original/animal preservation, settlement');
+const cyclicMethod={rank:'test',sourceKey:'cyclic-boundary',expansionSize:8,activationIssue:1,branches:[{name:'平3码－平6码循环步长3'}]};
+const cyclic=buildFushiPosterItem(cyclicMethod,[structuredSource],1,'number',2,'test');
+assert.equal(cyclic.next[0],'06','Cycle step at the activation boundary must match Python modulo semantics');
+console.log('PASS '+checked+' generated formulas + 3 boundary checks: Python/TypeScript agreement, unique counts, activation boundary, original/animal preservation, settlement');

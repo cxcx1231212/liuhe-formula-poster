@@ -82,13 +82,19 @@ jobs:
           node-version: "22"
           cache: pnpm
 
+      - name: 快速公式边界检查
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        run: node --experimental-strip-types scripts/test_fushi_expansion.mjs
+
       - name: 构建网站
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
         run: |
           pnpm install --frozen-lockfile
           # 生成目录不会提交到 Git；普通代码推送也必须先重建当前期清单，
           # 否则 lib/formula-manifests.ts 已指向新一期而构建环境中没有对应文件。
-          python -u scripts/update_all_lotteries.py --types 1 5 8 --year "$(date +%Y)"
+          # 公式搜索结果已由开奖更新步骤保存；普通代码推送也直接复用这些结果。
+          # 这里只生成部署需要的当前期清单，避免每次发布重复搜索全部公式。
+          python -u scripts/update_all_lotteries.py --types 1 5 8 --year "$(date +%Y)" --manifests-only
           python -u scripts/fushi_expansion.py
           node --experimental-strip-types scripts/test_fushi_expansion.mjs
           python -u scripts/repair_history_integrity.py

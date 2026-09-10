@@ -83,12 +83,19 @@ def run_generator(filename: str, lottery_type: int, year: int):
         if temp_path is not None:
             temp_path.unlink(missing_ok=True)
 
-def update(lottery_type: int, year: int):
+def update(lottery_type: int, year: int, manifests_only: bool = False):
     print(f"\n===== 更新 {LOTTERIES[lottery_type]}（{lottery_type}） =====")
-    results = {}
-    for module_name in SEARCH_MODULES:
-        print(f"-- 数据分析：{module_name}")
-        results[module_name] = run_search(module_name, lottery_type, year)
+    if manifests_only:
+        print("-- 复用已保存的公式数据，仅重建发布清单")
+        results = {
+            "search_pingte_all_patterns": json.loads((ROOT / f"data/pingte/all-patterns-type-{lottery_type}-{year}.json").read_text(encoding="utf-8")),
+            "search_pingte_two_animals": json.loads((ROOT / f"data/pingte/two-animals-type-{lottery_type}-{year}.json").read_text(encoding="utf-8")),
+        }
+    else:
+        results = {}
+        for module_name in SEARCH_MODULES:
+            print(f"-- 数据分析：{module_name}")
+            results[module_name] = run_search(module_name, lottery_type, year)
 
     # Reuse the search results directly; the website renders these formulas from JSON.
     next_period = results["search_pingte_two_animals"]["nextPeriod"]
@@ -148,13 +155,14 @@ def main():
     parser = argparse.ArgumentParser(description="更新三个彩种的公式数据和图片")
     parser.add_argument("--types", nargs="+", type=int, default=[1, 5, 8])
     parser.add_argument("--year", type=int, default=2026)
+    parser.add_argument("--manifests-only", action="store_true", help="复用已保存的公式结果，仅生成部署所需清单")
     args = parser.parse_args()
     invalid = [value for value in args.types if value not in LOTTERIES]
     if invalid:
         raise SystemExit(f"不支持的彩种：{invalid}")
     destination = ROOT / "public" / "generated" / "lottery-catalog.json"
     existing = json.loads(destination.read_text(encoding="utf-8")) if destination.exists() else []
-    updated = [update(value, args.year) for value in args.types]
+    updated = [update(value, args.year, args.manifests_only) for value in args.types]
     refresh_manifest_imports(updated)
     by_type = {item["lotteryType"]: item for item in [*existing, *updated]}
     catalog = [by_type[value] for value in sorted(by_type)]

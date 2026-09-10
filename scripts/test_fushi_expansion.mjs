@@ -7,7 +7,7 @@ for(const row of cases){
   const item=buildFushiPosterItem(row.method,[row.source],row.issue,'number',row.required,'test');
   const pool=item.next.map(Number).sort((a,b)=>a-b);
   assert.equal(new Set(pool).size,row.size);
-  assert.deepEqual(pool,[...row.expected].sort((a,b)=>a-b));
+  assert.deepEqual(pool,[...row.expected].sort((a,b)=>a-b),JSON.stringify({rank:row.method.rank,sourceKey:row.method.sourceKey,branches:row.method.branches,source:row.source,expected:row.expected}));
   assert.equal(item.history.length,0);
   assert(item.branches.every(b=>b.calculation&&b.sourcePositions.every(p=>p>=1&&p<=7)));
   const oldMethod={...row.method};

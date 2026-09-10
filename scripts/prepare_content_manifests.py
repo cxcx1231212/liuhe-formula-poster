@@ -23,11 +23,13 @@ def kill_value(category, number):
 
 
 def kill_branch(name, draw, category):
-    match = re.fullmatch(r'(.+?)(交替加减|加|减)(\d+)', name)
+    match = re.fullmatch(r'(.+?)(双期交替加减|三期交替加减|交替加减|加|减)(\d+)', name)
     if not match: raise ValueError('Unsupported kill formula: ' + name)
     base, operator, amount = match.groups()
-    if operator == '交替加减':
-        operator = '加' if int(draw['period']) % 2 else '减'
+    period = int(draw['period'])
+    if operator == '交替加减': operator = '加' if period % 2 else '减'
+    elif operator == '双期交替加减': operator = '加' if ((period-1)//2)%2 == 0 else '减'
+    elif operator == '三期交替加减': operator = '加' if ((period-1)//3)%2 == 0 else '减'
     numbers = [int(row['number']) for row in draw['numbers']]
     if len(numbers) != 7: raise ValueError('Incomplete draw')
     if base in ('最小平码', '最大平码'):

@@ -39,8 +39,8 @@ function baseFormula(name:string,draw:Draw):{value:number;text:string;positions:
 function calculate(name:string,draw:Draw,fallback:number):Calculated{
   const spread=name.match(/^邻码【(.+)】偏移([+-]\d+)$/);
   if(spread){const base=baseFormula(spread[1],draw);if(base){const offset=Number(spread[2]),result=wrap(base.value+offset),sign=offset>=0?'+':'−';return {name,calculation:`${base.text}${sign}${Math.abs(offset)}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:base.positions.map(position=>position+1)};}}
-  const alternating=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)?交替加减(\d+)$/);
-  if(alternating){const [,source,mode='',amountText]=alternating,position=source==='特码码'?6:Number(source[1])-1,sourceNumber=Number(draw.numbers[position].number),base=mode==='合数'?digits(sourceNumber):mode==='尾数'?sourceNumber%10:sourceNumber,amount=Number(amountText),direction=draw.period%2?1:-1,result=wrap(base+direction*amount),resultText=String(result).padStart(2,'0');return {name,calculation:`${source}${mode==='固定'?'':mode}：${String(base).padStart(2,'0')}${direction>0?'+':'−'}${amount}=${resultText}`,result:resultText,sourcePositions:[position+1]};}
+  const alternating=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)?(双期|三期)?交替加减(\d+)$/);
+  if(alternating){const [,source,mode='',cycle='',amountText]=alternating,position=source==='特码码'?6:Number(source[1])-1,sourceNumber=Number(draw.numbers[position].number),base=mode==='合数'?digits(sourceNumber):mode==='尾数'?sourceNumber%10:sourceNumber,amount=Number(amountText),direction=cycle==='双期'?((Math.floor((draw.period-1)/2)%2===0)?1:-1):cycle==='三期'?((Math.floor((draw.period-1)/3)%2===0)?1:-1):(draw.period%2?1:-1),result=wrap(base+direction*amount),resultText=String(result).padStart(2,'0');return {name,calculation:`${source}${mode==='固定'?'':mode}：${String(base).padStart(2,'0')}${direction>0?'+':'−'}${amount}=${resultText}`,result:resultText,sourcePositions:[position+1]};}
   const match=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)(加|减)(\d+)$/);
   if(!match)return {name,calculation:name,result:String(wrap(fallback)).padStart(2,'0'),sourcePositions:[1]};
   const [,source,mode,operator,amountText]=match;

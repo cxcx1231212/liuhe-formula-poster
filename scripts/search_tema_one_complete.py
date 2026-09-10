@@ -34,6 +34,8 @@ def candidates():
             result.append({"name":f"{base_name}加{amount}","family":"加法","calculate":lambda r,b=base,a=amount:b(r)+a})
             result.append({"name":f"{base_name}减{amount}","family":"减法","calculate":lambda r,b=base,a=amount:b(r)-a})
             result.append({"name":f"{base_name}交替加减{amount}","family":"交替加减","calculate":lambda r,b=base,a=amount:b(r)+(a if int(r["period"])%2 else -a)})
+            result.append({"name":f"{base_name}双期交替加减{amount}","family":"双期交替加减","calculate":lambda r,b=base,a=amount:b(r)+(a if ((int(r["period"])-1)//2)%2==0 else -a)})
+            result.append({"name":f"{base_name}三期交替加减{amount}","family":"三期交替加减","calculate":lambda r,b=base,a=amount:b(r)+(a if ((int(r["period"])-1)//3)%2==0 else -a)})
         for amount in range(2,13):
             result.append({"name":f"{base_name}乘{amount}","family":"乘法","calculate":lambda r,b=base,a=amount:b(r)*a})
             result.append({"name":f"{base_name}除{amount}取整","family":"除法取整","calculate":lambda r,b=base,a=amount:int(b(r)/a)})

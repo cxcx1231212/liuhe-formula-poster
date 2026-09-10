@@ -26,10 +26,11 @@ def calculate(branch, draw):
     name=branch['name']
     neighbor=re.fullmatch(r'邻码【(.+)】偏移([+-]\d+)',name)
     if neighbor: return wrap(extended_base(neighbor[1],draw)+int(neighbor[2]))
-    alternating=re.fullmatch(r'(.+?)(?:固定)?交替加减(\d+)',name)
+    alternating=re.fullmatch(r'(.+?)(?:固定)?(双期|三期)?交替加减(\d+)',name)
     if alternating:
-        base,amount=alternating.groups();n=extended_base(base,draw)
-        return wrap(n+(int(amount) if int(draw['period'])%2 else -int(amount)))
+        base,cycle,amount=alternating.groups();n=extended_base(base,draw);period=int(draw['period'])
+        plus=period%2==1 if not cycle else ((period-1)//(2 if cycle=='双期' else 3))%2==0
+        return wrap(n+(int(amount) if plus else -int(amount)))
     if all(k in branch for k in ('baseName','operation','amount')):
         base,op,amount=branch['baseName'],branch['operation'],int(branch['amount'])
     else:
@@ -38,7 +39,7 @@ def calculate(branch, draw):
         base,action,amount,suffix=match.groups();amount=int(amount)
         op={'加':'add','减':'subtract','乘':'multiply','除':'modulo' if suffix=='余数' else 'divide_floor'}[action]
     n=extended_base(base,draw)
-    result={'add':lambda:n+amount,'subtract':lambda:n-amount,'alternate_add_subtract':lambda:n+(amount if int(draw['period'])%2 else -amount),'multiply':lambda:n*amount,'divide_floor':lambda:int(n/amount),'modulo':lambda:n%amount}[op]()
+    period=int(draw['period']);result={'add':lambda:n+amount,'subtract':lambda:n-amount,'alternate_add_subtract':lambda:n+(amount if period%2 else -amount),'double_alternate_add_subtract':lambda:n+(amount if ((period-1)//2)%2==0 else -amount),'triple_alternate_add_subtract':lambda:n+(amount if ((period-1)//3)%2==0 else -amount),'multiply':lambda:n*amount,'divide_floor':lambda:int(n/amount),'modulo':lambda:n%amount}[op]()
     return wrap(result)
 
 def summarize(rows):

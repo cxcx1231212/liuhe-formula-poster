@@ -11,7 +11,7 @@ def is_renderable_name(name):
     patterns = [
         r"平\d合数＋平\d合数", r"平\d尾数＋平\d尾数",
         r"平\d码尾数(?:加|减)\d+", r"平\d码固定(?:加|减)\d+",
-        r"(?:平\d码|特码)(?:合数|尾数|固定)?交替加减\d+",
+        r"(?:平\d码|特码)(?:合数|尾数|固定)?(?:双期|三期)?交替加减\d+",
         r"七码总分加\d+",
     ]
     return any(re.fullmatch(pattern, name) for pattern in patterns)
@@ -40,9 +40,17 @@ def build_candidates():
             add("尾数固定加减", f"{position_name}码尾数加{amount}", lambda r, p=position, a=amount: tail(numbers(r)[p]) + a)
             add("尾数固定加减", f"{position_name}码尾数减{amount}", lambda r, p=position, a=amount: tail(numbers(r)[p]) - a)
             direction = lambda r: 1 if int(r["period"]) % 2 else -1
+            double_direction = lambda r: 1 if ((int(r["period"])-1)//2)%2 == 0 else -1
+            triple_direction = lambda r: 1 if ((int(r["period"])-1)//3)%2 == 0 else -1
             add("单码交替加减", f"{position_name}码固定交替加减{amount}", lambda r, p=position, a=amount, d=direction: numbers(r)[p] + d(r) * a)
             add("合数交替加减", f"{position_name}码合数交替加减{amount}", lambda r, p=position, a=amount, d=direction: digit_sum(numbers(r)[p]) + d(r) * a)
             add("尾数交替加减", f"{position_name}码尾数交替加减{amount}", lambda r, p=position, a=amount, d=direction: tail(numbers(r)[p]) + d(r) * a)
+            add("单码双期交替加减", f"{position_name}码固定双期交替加减{amount}", lambda r, p=position, a=amount, d=double_direction: numbers(r)[p] + d(r) * a)
+            add("合数双期交替加减", f"{position_name}码合数双期交替加减{amount}", lambda r, p=position, a=amount, d=double_direction: digit_sum(numbers(r)[p]) + d(r) * a)
+            add("尾数双期交替加减", f"{position_name}码尾数双期交替加减{amount}", lambda r, p=position, a=amount, d=double_direction: tail(numbers(r)[p]) + d(r) * a)
+            add("单码三期交替加减", f"{position_name}码固定三期交替加减{amount}", lambda r, p=position, a=amount, d=triple_direction: numbers(r)[p] + d(r) * a)
+            add("合数三期交替加减", f"{position_name}码合数三期交替加减{amount}", lambda r, p=position, a=amount, d=triple_direction: digit_sum(numbers(r)[p]) + d(r) * a)
+            add("尾数三期交替加减", f"{position_name}码尾数三期交替加减{amount}", lambda r, p=position, a=amount, d=triple_direction: tail(numbers(r)[p]) + d(r) * a)
         add("期数合数", f"{position_name}码加期数合数", lambda r, p=position: numbers(r)[p] + digit_sum(int(r["period"])))
         add("期数合数", f"{position_name}码减期数合数", lambda r, p=position: numbers(r)[p] - digit_sum(int(r["period"])))
 

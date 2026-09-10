@@ -89,10 +89,12 @@ def calculation_text(name, record, formulas):
     raw = formulas[name](record)
     result = wrap(raw)
     zodiac = animal(raw)
-    if match := re.fullmatch(r"(.+?)交替加减(\d+)", name):
-        base, amount = match.groups()
+    if match := re.fullmatch(r"(.+?)(双期|三期)?交替加减(\d+)", name):
+        base, cycle, amount = match.groups()
         expression, _ = base_expression(base.removesuffix("固定"), record)
-        symbol = "＋" if int(record["period"]) % 2 else "－"
+        period = int(record["period"])
+        plus = period % 2 == 1 if not cycle else ((period - 1) // (2 if cycle == "双期" else 3)) % 2 == 0
+        symbol = "＋" if plus else "－"
         answer = f"{raw}" if 1 <= raw <= 49 else f"{raw}→{result:02d}"
         return f"{expression}{symbol}{amount}＝{answer}＝{zodiac}"
     if match := re.fullmatch(r"(.+?)(加|减|乘)(\d+)", name):

@@ -26,16 +26,16 @@ const baseDetails=(draw:FushiDraw,base:string):{value:number;expression:string}=
   return {value:0,expression:'00'};
 };
 const parse=(name:string)=>{
-  const alternating=name.match(/^(.*?)交替加减(\d+)$/);
-  if(alternating)return {base:alternating[1].replace('特码码','特码').replace(/固定$/,''),operation:'交替',amount:Number(alternating[2]),suffix:''};
+  const alternating=name.match(/^(.*?)(双期|三期)?交替加减(\d+)$/);
+  if(alternating)return {base:alternating[1].replace('特码码','特码').replace(/固定$/,''),operation:alternating[2]==='双期'?'双期交替':alternating[2]==='三期'?'三期交替':'交替',amount:Number(alternating[3]),suffix:''};
   const match=name.match(/^(.*?)(加|减|乘|除)(\d+)(取整|余数)?$/);
   return {base:(match?.[1]||name).replace('特码码','特码'),operation:match?.[2]||'加',amount:Number(match?.[3]||0),suffix:match?.[4]||''};
 };
 const evaluate=(draw:FushiDraw,name:string,useExpandedWrap=false)=>{
   const definition=parse(name),baseDetailsValue=baseDetails(draw,definition.base),base=baseDetailsValue.value;
-  const raw=definition.operation==='加'?base+definition.amount:definition.operation==='减'?base-definition.amount:definition.operation==='交替'?base+(draw.period%2?definition.amount:-definition.amount):definition.operation==='乘'?base*definition.amount:definition.suffix==='余数'?(useExpandedWrap?((base%definition.amount)+definition.amount)%definition.amount:base%definition.amount):Math.trunc(base/definition.amount);
+  const direction=definition.operation==='交替'?(draw.period%2?1:-1):definition.operation==='双期交替'?((Math.floor((draw.period-1)/2)%2===0)?1:-1):definition.operation==='三期交替'?((Math.floor((draw.period-1)/3)%2===0)?1:-1):0;const raw=definition.operation==='加'?base+definition.amount:definition.operation==='减'?base-definition.amount:direction?base+direction*definition.amount:definition.operation==='乘'?base*definition.amount:definition.suffix==='余数'?(useExpandedWrap?((base%definition.amount)+definition.amount)%definition.amount:base%definition.amount):Math.trunc(base/definition.amount);
   const result=useExpandedWrap?expandedWrap(raw):wrap(raw),animal=animals[(result-1)%12];
-  const symbol=definition.operation==='加'?'+':definition.operation==='减'?'−':definition.operation==='交替'?(draw.period%2?'+':'−'):definition.operation==='乘'?'×':definition.suffix==='余数'?'÷余':'÷整';
+  const symbol=definition.operation==='加'?'+':definition.operation==='减'?'−':direction?(direction>0?'+':'−'):definition.operation==='乘'?'×':definition.suffix==='余数'?'÷余':'÷整';
   return {number:result,animal,calculation:`${baseDetailsValue.expression}${symbol}${definition.amount}=${formatNumber(result)}属${animal}`};
 };
 const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);

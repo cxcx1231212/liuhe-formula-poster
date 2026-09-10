@@ -25,8 +25,9 @@ const baseValue=(draw:ZodiacDraw,base:string):number=>{
   if(single){const value=cellValue(draw,single[1]);return single[2]==='合数'?digitSum(value):single[2]==='尾数'?value%10:value;}
   return 0;
 };
-const calculate=(base:number,operation:string,amount:number,period:number)=>operation==='add'?base+amount:operation==='subtract'?base-amount:operation==='alternate_add_subtract'?base+(period%2?amount:-amount):operation==='multiply'?base*amount:operation==='divide_floor'?Math.trunc(base/amount):operation==='modulo'?base%amount:base;
-const symbol=(operation:string,period:number)=>operation==='add'?'+':operation==='subtract'?'−':operation==='alternate_add_subtract'?(period%2?'+':'−'):operation==='multiply'?'×':operation==='divide_floor'?'÷取整':'÷余数';
+const alternatingDirection=(operation:string,period:number)=>operation==='alternate_add_subtract'?(period%2?1:-1):operation==='double_alternate_add_subtract'?((Math.floor((period-1)/2)%2===0)?1:-1):operation==='triple_alternate_add_subtract'?((Math.floor((period-1)/3)%2===0)?1:-1):0;
+const calculate=(base:number,operation:string,amount:number,period:number)=>operation==='add'?base+amount:operation==='subtract'?base-amount:alternatingDirection(operation,period)?base+alternatingDirection(operation,period)*amount:operation==='multiply'?base*amount:operation==='divide_floor'?Math.trunc(base/amount):operation==='modulo'?base%amount:base;
+const symbol=(operation:string,period:number)=>operation==='add'?'+':operation==='subtract'?'−':alternatingDirection(operation,period)?(alternatingDirection(operation,period)>0?'+':'−'):operation==='multiply'?'×':operation==='divide_floor'?'÷取整':'÷余数';
 const sourcePositions=(base:string)=>Array.from(base.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
 const baseExpression=(draw:ZodiacDraw,base:string)=>{
   const pair=base.match(/^(平[1-6]码|特码)(合数|尾数)?([＋－])(平[1-6]码|特码)(合数|尾数)?$/);

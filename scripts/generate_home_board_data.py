@@ -53,7 +53,10 @@ def build(lottery_type):
             split.write_text(json.dumps({'issue':issue,'group':data.get('groups',{}).get(category,{}),'draws':data.get('draws') or fallback_draws},ensure_ascii=False,separators=(',',':')),encoding='utf-8')
         # Stable tie break keeps original formula identities; missing scores never become zero.
         scored.sort(key=lambda row:(-row[2]['recentStreak'],-row[2]['totalRate'],row[0]))
-        boards[key]={'issue':issue,'sortVersion':'verified-streak-total-v1','methods':[compact(m,i) for i,m,_ in scored]}
+        compacted=[compact(m,i) for i,m,_ in scored]
+        if compacted and scored[0][1].get('history'):
+            compacted[0]['recentHistory']=scored[0][1]['history'][-5:]
+        boards[key]={'issue':issue,'sortVersion':'verified-streak-total-v1','draws':fallback_draws[-5:],'methods':compacted}
         audit.append({'type':lottery_type,'board':key,'issue':issue,'count':len(methods),'scored':len(scored),'top':[{'sourceIndex':i,'rank':m.get('rank',str(i+1).zfill(3)),'name':m.get('name',m.get('sourceKey','')),**score} for i,m,score in scored[:3]]})
         audit[-1]['statisticsHash']=hashlib.sha256(json.dumps([(i,s) for i,_,s in scored],sort_keys=True,separators=(',',':')).encode()).hexdigest()
         print('Verified sort',lottery_type,key,len(scored),flush=True)

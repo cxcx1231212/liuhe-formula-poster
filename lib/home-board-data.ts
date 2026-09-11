@@ -67,8 +67,8 @@ export async function getHomeBoardPage(type:LotteryType,board:HomeBoardKey,categ
 export async function getHomeBoardRecommendation(type:LotteryType,board:HomeBoardKey,category:string){
   const manifest:any=await source(type,board,category),issue=Number(manifest.issue);
   const method=sorted(groupItems(manifest,board,category))[0];
-  if(!method)return {issue,formula:null,rank:null,href:null,title:null,image:null,recentStreak:0,recent30Hits:0,recent30Rate:0,totalRate:0,prediction:null};
+  if(!method)return {issue,formula:null,rank:null,href:null,title:null,image:null,recentStreak:0,recent30Hits:0,recent30Rate:0,totalRate:0,prediction:null,draws:[],recentHistory:[]};
   const post=makePost(type,board,category,issue,method,0);
   const prediction=method.next??method.predictionAnimals??method.predictionNumbers??method.predictionAnimal??method.predictionNumber??method.values??method.animals??method.numbers??method.prediction??null;
-  return {issue,formula:method.name??method.sourceKey??method.label??null,rank:method.rank??pad(1),title:post.title,href:post.href,image:method.image??null,recentStreak:n(method.recentStreak??method.streak),recent30Hits:n(method.recent30Hits),recent30Rate:n(method.recent30Rate),totalRate:n(method.totalRate),prediction};
+  return {issue,formula:method.name??method.sourceKey??method.label??null,rank:method.rank??pad(1),title:post.title,href:post.href,image:method.image??null,recentStreak:n(method.recentStreak??method.streak),recent30Hits:n(method.recent30Hits),recent30Rate:n(method.recent30Rate),totalRate:n(method.totalRate),prediction,draws:(manifest.draws??[]).slice(-5),recentHistory:method.recentHistory??[]};
 }

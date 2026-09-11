@@ -30,8 +30,14 @@ def compact(method,index):
 
 def build(lottery_type):
     boards={};audit=[]
-    fallback_draws=json.loads(latest('wuxing',lottery_type).read_text(encoding='utf-8')).get('draws',[])
-    scorers={};loaded={}
+    source_paths={latest(folder,lottery_type) for _,folder,_ in SOURCES}
+    loaded={path:json.loads(path.read_text(encoding='utf-8')) for path in source_paths}
+    draw_sets=[data.get('draws',[]) for data in loaded.values() if data.get('draws')]
+    if not draw_sets: raise RuntimeError(f'missing draw history for type {lottery_type}')
+    fallback_draws=max(draw_sets,key=lambda rows:max((int(row['period']) for row in rows),default=0))
+    latest_draw=max(int(row['period']) for row in fallback_draws)
+    print('Latest scoring draw',lottery_type,latest_draw,flush=True)
+    scorers={}
     for key,folder,category in SOURCES:
         path=latest(folder,lottery_type)
         if path not in loaded: loaded[path]=json.loads(path.read_text(encoding='utf-8'))

@@ -68,7 +68,12 @@ jobs:
             if ! git diff --cached --quiet; then
               git commit -m "自动保存彩种 ${lottery_type} 更新进度 [skip ci]"
             fi
-            git push
+            for push_attempt in 1 2 3; do
+              git pull --rebase origin main && git push && break
+              if [ "$push_attempt" -eq 3 ]; then exit 1; fi
+              echo "远程分支已更新，准备第 $((push_attempt + 1)) 次同步保存"
+              sleep $((push_attempt * 5))
+            done
           done
 
       - uses: pnpm/action-setup@v4
@@ -166,7 +171,12 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "自动更新新一期公式 [skip ci]"
           fi
-          git push
+          for push_attempt in 1 2 3; do
+            git pull --rebase origin main && git push && break
+            if [ "$push_attempt" -eq 3 ]; then exit 1; fi
+            echo "远程分支已更新，准备第 $((push_attempt + 1)) 次同步保存"
+            sleep $((push_attempt * 5))
+          done
 
 
       - name: 预热首页和历史帖子

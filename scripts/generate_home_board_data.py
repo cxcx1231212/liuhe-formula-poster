@@ -34,7 +34,10 @@ def build(lottery_type):
     loaded={path:json.loads(path.read_text(encoding='utf-8')) for path in source_paths}
     draw_sets=[data.get('draws',[]) for data in loaded.values() if data.get('draws')]
     if not draw_sets: raise RuntimeError(f'missing draw history for type {lottery_type}')
-    fallback_draws=max(draw_sets,key=lambda rows:max((int(row['period']) for row in rows),default=0))
+    # Several current manifests can end at the same issue. Prefer the complete
+    # history instead of a compact five-row poster payload, otherwise scoring
+    # categories such as wuxing may miss number-to-element mappings.
+    fallback_draws=max(draw_sets,key=lambda rows:(max((int(row['period']) for row in rows),default=0),len(rows)))
     latest_draw=max(int(row['period']) for row in fallback_draws)
     print('Latest scoring draw',lottery_type,latest_draw,flush=True)
     scorers={}

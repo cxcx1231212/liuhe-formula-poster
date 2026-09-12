@@ -13,6 +13,7 @@ const definitions:Definition[]=[
   {board:'size',category:'',typeName:'特码大小'},{board:'tail',category:'',typeName:'尾数'},{board:'head',category:'',typeName:'头数'},
 ];
 const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type'};
+const publicOrigin=(process.env.PUBLIC_SITE_ORIGIN??'https://txgs888.q3665.com').replace(/\/$/,'');
 const chinese=['一','二','三','四','五','六','七','八','九','十','十一','十二','十三','十四','十五','十六','十七','十八','十九','二十','二十一','二十二','二十三','二十四','二十五','二十六'];
 
 export async function OPTIONS(){return new Response(null,{status:204,headers:cors});}
@@ -22,16 +23,15 @@ export async function GET(request:NextRequest){
   const requested=request.nextUrl.searchParams.get('formulaType')?.trim();
   const selected=requested?definitions.filter(item=>item.typeName===requested||`${item.board}:${item.category}`===requested):definitions;
   if(!selected.length)return NextResponse.json({ok:false,error:'未找到该公式类型'},{status:404,headers:cors});
-  const origin=request.nextUrl.origin;
   const recommendations=(await Promise.all(selected.map(async (definition,index)=>{
     const item=await getHomeBoardRecommendation(lotteryType as '1'|'5'|'8',definition.board,definition.category);
     const cardName=`规律${chinese[index]??index+1}`;
-    const thumbnail=new URL('/api/formula-recommendations/thumbnail',origin);
+    const thumbnail=new URL('/api/formula-recommendations/thumbnail',publicOrigin);
     thumbnail.searchParams.set('lotteryType',lotteryType);
     thumbnail.searchParams.set('board',definition.board);
     thumbnail.searchParams.set('category',definition.category);
     thumbnail.searchParams.set('cardName',cardName);
-    return {slot:index+1,cardName,...definition,...item,imageUrl:thumbnail.toString(),thumbnailUrl:thumbnail.toString(),url:item.href?origin+item.href:null};
+    return {slot:index+1,cardName,...definition,...item,imageUrl:thumbnail.toString(),thumbnailUrl:thumbnail.toString(),url:item.href?publicOrigin+item.href:null};
   }))).filter(item=>item.formula!==null);
   return NextResponse.json({ok:true,lotteryType,generatedAt:new Date().toISOString(),count:recommendations.length,recommendations},{headers:{...cors,'Cache-Control':'public, max-age=60, s-maxage=300'}});
 }

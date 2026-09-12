@@ -222,7 +222,7 @@ def run():
         raise RuntimeError('Incomplete lottery catalog')
     repair_content(issues)
     # Check every current board and every zodiac size before touching readers.
-    folders = ('pingte-all', 'pingte-two', 'tema-bundles', 'zodiac', 'fushi', 'danshuang', 'wave', 'wuxing', 'jiaye', 'kill', 'size', 'tail', 'head', 'advanced')
+    folders = ('pingte-all', 'pingte-two', 'tema-bundles', 'zodiac', 'fushi', 'danshuang', 'wave', 'wuxing', 'jiaye', 'kill', 'size', 'tail', 'head')
     for kind, issue in issues.items():
         for folder in folders:
             path = ROOT / f'public/generated/{folder}/type-{kind}-{issue:03d}-manifest.json'

@@ -1,7 +1,7 @@
 import {NextRequest} from 'next/server';
 import {getHomeBoardRecommendation,type HomeBoardKey} from '@/lib/home-board-data';
 
-const boards=new Set<HomeBoardKey>(['pingte','tema','zodiac','fushi','danshuang','wave','wuxing','jiaye','kill','size','tail','head','advanced']);
+const boards=new Set<HomeBoardKey>(['pingte','tema','zodiac','fushi','danshuang','wave','wuxing','jiaye','kill','size','tail','head']);
 const esc=(value:unknown)=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[char]!));
 const reds=new Set([1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46]);
 const blues=new Set([3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48]);

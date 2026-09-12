@@ -70,12 +70,14 @@ class Scorer:
         if base is not None: branch.update(baseName=base,operation=op,amount=amount)
         return tuple(calculate(branch,source) for source,_ in self.pairs)
     def score(self,board,group,item):
-        if board=='fushi' and group in ('22','33') and item.get('expansionActive'):
-            from fushi_expansion import score_expanded
-            return score_expanded(item,self.pairs,3 if group=='33' else 2)
-        if board=='advanced':
-            by_period={int(row['targetPeriod']):bool(row['hit']) for row in item.get('history',[]) if 'targetPeriod' in row and isinstance(row.get('hit'),bool)}
-            return summarize([by_period[int(target['period'])] for _,target in self.pairs if int(target['period']) in by_period])
+        if board=='tema' and item.get('algorithmFamily') and item.get('advancedSpecs'):
+            from generate_advanced_formulas import value
+            rows=[]
+            for source,target in self.pairs:
+                previous=self.draws.get(int(source['period'])-1)
+                predictions={value(spec,source,previous) for spec in item['advancedSpecs']}
+                rows.append(int(target['numbers'][6]['number']) in predictions)
+            return summarize(rows)
         if board=='fushi' and group in ('22','33') and item.get('expansionActive'):
             from fushi_expansion import score_expanded
             return score_expanded(item,self.pairs,3 if group=='33' else 2)

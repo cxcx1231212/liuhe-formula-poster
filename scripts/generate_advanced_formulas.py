@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "public" / "generated" / "advanced"
 LABELS = {
     "digit": "合数公式", "span": "跨度公式", "neighbor": "邻数公式",
     "mirror": "镜像公式", "multi": "多码合成", "cross": "跨期交叉",
@@ -78,10 +77,30 @@ def run(lottery_type, year):
         for rank, method in enumerate(methods, 1): method["rank"] = str(rank).zfill(3)
         groups[category] = {"label":LABELS[category],"methods":methods}
         print(f"{LABELS[category]}: {len(methods)} formulas; best streak {methods[0]['recentStreak']}", flush=True)
-    OUT.mkdir(parents=True, exist_ok=True)
-    path = OUT / f"type-{lottery_type}-{issue:03d}-manifest.json"
-    path.write_text(json.dumps({"issue":issue,"groups":groups,"draws":draws},ensure_ascii=False,separators=(",",":")),encoding="utf-8")
-    print(path, flush=True)
+    # These are calculation families, not website categories. Convert every
+    # family into number bundles and append them to the existing Tema groups.
+    path = ROOT / "public" / "generated" / "tema-bundles" / f"type-{lottery_type}-{issue:03d}-manifest.json"
+    manifest=json.loads(path.read_text(encoding="utf-8"))
+    bundle_offsets={"3":(-1,0,1),"8":(-3,-2,-1,0,1,2,3,4),"10":tuple(range(-4,6)),"18":tuple(range(-8,10))}
+    previous=draws[-2] if len(draws)>1 else None;current=draws[-1]
+    for group_key,offsets in bundle_offsets.items():
+        destination=manifest["groups"][group_key]["methods"]
+        destination[:]=[method for method in destination if not method.get("algorithmFamily")]
+        for family,payload in groups.items():
+            for source in payload["methods"]:
+                specs=[];branches=[]
+                for delta in offsets:
+                    spec={**source["spec"],"offset":source["spec"]["offset"]+delta}
+                    number=value(spec,current,previous);specs.append(spec)
+                    branches.append({"name":f"{source['name']} 分支{delta:+d}","number":number,"advancedSpec":spec})
+                hits=[]
+                for draw_index in range(1,len(draws)-1):
+                    predicted={value(spec,draws[draw_index],draws[draw_index-1]) for spec in specs}
+                    hits.append({"hit":int(draws[draw_index+1]["numbers"][6]["number"]) in predicted})
+                destination.append({"sourceKey":f"{LABELS[family]}｜{source['name']}","name":source["name"],"label":LABELS[family],"algorithmFamily":family,"advancedSpecs":specs,"numbers":[row["number"] for row in branches],"branches":branches,**summarize(hits)})
+        print(f"已融入 {group_key}码中特：{len(destination)} 条",flush=True)
+    path.write_text(json.dumps(manifest,ensure_ascii=False,separators=(",",":")),encoding="utf-8")
+    print(path,flush=True)
 
 if __name__ == "__main__":
     parser=argparse.ArgumentParser();parser.add_argument("--type",type=int,required=True);parser.add_argument("--year",type=int,default=2026);args=parser.parse_args()

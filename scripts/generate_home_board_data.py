@@ -14,6 +14,7 @@ SOURCES = [
     ('danshuang:','danshuang',None),('wave:','wave',None),('wuxing:','wuxing',None),('jiaye:','jiaye',None),
     *((f'kill:{c}','kill',c) for c in ('code','animal','tail','head','wave')),
     ('size:','size',None),('tail:','tail',None),('head:','head',None),
+    *((f'advanced:{c}','advanced',c) for c in ('digit','span','neighbor','mirror','multi','cross')),
 ]
 
 def latest(folder,lottery_type):

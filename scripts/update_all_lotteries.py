@@ -122,6 +122,9 @@ def update(lottery_type: int, year: int, manifests_only: bool = False):
     build_danshuang_manifest(lottery_type, year)
     from build_wave_full_manifests import run as build_wave_manifest
     build_wave_manifest(lottery_type, year)
+    # Advanced families are independent and inexpensive; only their own pool is rebuilt.
+    from generate_advanced_formulas import run as generate_advanced
+    generate_advanced(lottery_type, year)
     from search_pingte_methods import fetch_year
     next_period = int(fetch_year(lottery_type, year)[-1]["period"]) + 1
     plain = f"type-{lottery_type}-{next_period}"

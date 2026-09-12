@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-FOLDERS = dict(pingte='pingte-all', pingte2='pingte-two', tema='tema-bundles', zodiac='zodiac', fushi='fushi', danshuang='danshuang', wave='wave', wuxing='wuxing', jiaye='jiaye', kill='kill', size='size', tail='tail', head='head')
+FOLDERS = dict(pingte='pingte-all', pingte2='pingte-two', tema='tema-bundles', zodiac='zodiac', fushi='fushi', danshuang='danshuang', wave='wave', wuxing='wuxing', jiaye='jiaye', kill='kill', size='size', tail='tail', head='head', advanced='advanced')
 KEYS = ('predictionAnimal','predictionNumber','predictionAnimals','predictionNumbers','numbers','nextAnimal','animals','next','values','outputs','output','prediction','result')
 RED = {1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46}
 BLUE = {3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48}
@@ -115,7 +115,7 @@ def settle(snapshot, draw):
                     pool = set(pool) if animal_game else set(map(int,pool))
                     required = 3 if g in ('33','3x') else 2
                     hit = n in pool if b=='tema' else len(pool & (regular_animals if animal_game else set(ns[:6])))>=required
-            elif b in ('danshuang','wave','wuxing','jiaye','size','tail','head','kill'):
+            elif b in ('danshuang','wave','wuxing','jiaye','size','tail','head','kill','advanced'):
                 pool = values(p,'values','next','result','output')
                 if pool:
                     pool = set(map(str,pool))
@@ -126,6 +126,7 @@ def settle(snapshot, draw):
                     elif b=='wuxing': actual = special.get('wuXing')
                     elif b=='jiaye': actual = '家肖' if special.get('shengXiao') in {'牛','马','羊','鸡','狗','猪'} else '野肖'
                     elif b=='size': actual = '大' if n>=25 else '小'
+                    elif b=='advanced': actual = str(n)
                     elif b=='tail': actual = str(n%10)
                     elif b=='head': actual = str(n//10)
                     else: actual = str(n) if g=='code' else special.get('shengXiao') if g=='animal' else str(n%10) if g=='tail' else str(n//10) if g=='head' else wave(n)

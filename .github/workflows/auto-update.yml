@@ -92,6 +92,7 @@ jobs:
         run: |
           node --experimental-strip-types scripts/test_fushi_expansion.mjs
           python scripts/test_prepare_content_manifests.py
+          python scripts/test_advanced_formulas.py
 
       - name: 构建网站
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true

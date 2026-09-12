@@ -11,6 +11,7 @@ const definitions:Definition[]=[
   {board:'danshuang',category:'',typeName:'特码单双'},{board:'wave',category:'',typeName:'特码波色'},{board:'wuxing',category:'',typeName:'特码五行'},{board:'jiaye',category:'',typeName:'家野中特'},
   ...groups('kill',{code:'杀码',animal:'杀肖',tail:'杀尾',head:'杀头',wave:'杀波'}),
   {board:'size',category:'',typeName:'特码大小'},{board:'tail',category:'',typeName:'尾数'},{board:'head',category:'',typeName:'头数'},
+  ...groups('advanced',{digit:'合数公式',span:'跨度公式',neighbor:'邻数公式',mirror:'镜像公式',multi:'多码合成',cross:'跨期交叉'}),
 ];
 const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET, OPTIONS','Access-Control-Allow-Headers':'Content-Type'};
 const publicOrigin=(process.env.PUBLIC_SITE_ORIGIN??'https://txgs888.q3665.com').replace(/\/$/,'');

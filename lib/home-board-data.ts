@@ -2,7 +2,7 @@
 import {postAuthor} from '@/lib/post-authors';
 import {env} from 'cloudflare:workers';
 
-export type HomeBoardKey='pingte'|'tema'|'zodiac'|'fushi'|'danshuang'|'wave'|'wuxing'|'jiaye'|'kill'|'size'|'tail'|'head';
+export type HomeBoardKey='pingte'|'tema'|'zodiac'|'fushi'|'danshuang'|'wave'|'wuxing'|'jiaye'|'kill'|'size'|'tail'|'head'|'advanced';
 type LotteryType='1'|'5'|'8';
 type Post={href:string;issue:string;title:string};
 type AssetBinding={fetch(request:Request):Promise<Response>};
@@ -13,6 +13,7 @@ const manifestInfo:any={
   wave:{dir:'wave',issues:{1:'096',5:'246',8:'246'}},wuxing:{dir:'wuxing',issues:{1:'096',5:'246',8:'246'}},
   jiaye:{dir:'jiaye',issues:{1:'095',5:'246',8:'246'}},kill:{dir:'kill',issues:{1:'096',5:'246',8:'246'}},
   size:{dir:'size',issues:{1:'095',5:'246',8:'246'}},tail:{dir:'tail',issues:{1:'095',5:'246',8:'246'}},head:{dir:'head',issues:{1:'095',5:'246',8:'246'}},
+  advanced:{dir:'advanced',issues:{1:'099',5:'254',8:'254'}},
 };
 const oneTitles=['历史轨迹完整公开','平码尾数实战参考','连续命中规律分享','下期特肖重点参考','平码推演清晰易懂','合数公式逐期验证','精选公式稳定追踪','独家思路免费公开','七码总分规律解析','本期规律参考分享'];
 const twoTitles=['双肖同时开轨迹公开','两条公式同步验证','平码特码全部计入','双支公式清楚易懂','历史同期开出参考','两肖组合重点分享','逐期双线轨迹整理','精选双肖免费公开','双肖规律手机大字图','本期两肖参考分享'];
@@ -53,6 +54,7 @@ function makePost(type:LotteryType,board:HomeBoardKey,category:string,issue:numb
   if(board==='jiaye')return {issue:i,href:`/posts/jiaye/${issue}/${rank}${q}`,title:`${postAuthor(type,'jiaye',index)}【家野中特】${jyS[index%jyS.length]}`};
   if(board==='kill'){const label:any={code:'杀码',animal:'杀肖',tail:'杀尾',head:'杀头',wave:'杀波'};return {issue:i,href:`/posts/kill/${category}/${issue}/${rank}${q}`,title:`${postAuthor(type,`kill${category}` as any,index)}【${label[category]}】本期规律参考分享`};}
   if(board==='size')return {issue:i,href:`/posts/size/${issue}/${rank}${q}`,title:`${postAuthor(type,'size',index)}【特码大小】${m.name||'公式参考'}`};
+  if(board==='advanced')return {issue:i,href:`/posts/advanced/${category}/${issue}/${rank}${q}`,title:`【${m.label||'新算法'}】${m.name||'历史回测公式'}`};
   return {issue:i,href:`/posts/${board}/${issue}/${rank}${q}`,title:`${postAuthor(type,board,index)}【${m.label}】每期公式完整公开`};
 }
 
@@ -72,4 +74,10 @@ export async function getHomeBoardRecommendation(type:LotteryType,board:HomeBoar
   const post=makePost(type,board,category,issue,method,sourceIndex);
   const prediction=method.next??method.predictionAnimals??method.predictionNumbers??method.predictionAnimal??method.predictionNumber??method.values??method.animals??method.numbers??method.prediction??null;
   return {issue,formula:method.name??method.sourceKey??method.label??null,rank:method.rank??pad(1),title:post.title,href:post.href,image:method.image??null,recentStreak:n(method.recentStreak??method.streak),recent30Hits:n(method.recent30Hits),recent30Rate:n(method.recent30Rate),totalRate:n(method.totalRate),prediction,draws:(manifest.draws??[]).slice(-5),recentHistory:method.recentHistory??[]};
+}
+
+export async function getHomeBoardMethod(type:LotteryType,board:HomeBoardKey,category:string,rank:string){
+  const manifest:any=await source(type,board,category),methods=sorted(groupItems(manifest,board,category));
+  const index=methods.findIndex(method=>String(method.rank).padStart(3,'0')===String(rank).padStart(3,'0'));
+  return {issue:Number(manifest.issue),method:index<0?null:methods[index],index,total:methods.length,draws:manifest.draws??[]};
 }

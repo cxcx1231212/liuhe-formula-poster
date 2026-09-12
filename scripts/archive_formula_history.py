@@ -58,7 +58,7 @@ def iter_methods(payload: dict[str, Any]) -> Iterable[tuple[str, int, dict[str, 
 
 
 def post_href(board: str, group: str, issue: int, rank: str) -> str:
-    if board in {"tema", "zodiac", "fushi", "kill"}:
+    if board in {"tema", "zodiac", "fushi", "kill", "advanced"}:
         return f"/posts/{board}/{group}/{issue}/{rank}"
     return f"/posts/{board}/{issue}/{rank}"
 
@@ -78,6 +78,7 @@ def snapshot(lottery_type: int, year: int, issue: int) -> dict[str, Any]:
         ("size", GENERATED / "size" / f"type-{lottery_type}-{issue:03d}-manifest.json"),
         ("tail", GENERATED / "tail" / f"type-{lottery_type}-{issue:03d}-manifest.json"),
         ("head", GENERATED / "head" / f"type-{lottery_type}-{issue:03d}-manifest.json"),
+        ("advanced", GENERATED / "advanced" / f"type-{lottery_type}-{issue:03d}-manifest.json"),
     ]
     from search_pingte_methods import fetch_year
     source_draw = next((draw_record(x) for x in fetch_year(lottery_type, year) if int(x["period"]) == issue-1), None)

@@ -25,7 +25,7 @@ def latest(folder,lottery_type):
     return max(found)[1]
 
 def compact(method,index):
-    fields=('rank','label','name','sourceKey','image','next','prediction','predictionNumber','predictionAnimal','predictionNumbers','predictionAnimals','values','numbers','animals','recentStreak','recent30Hits','recent30Rate','totalRate','scoredPeriods')
+    fields=('rank','label','name','sourceKey','image','next','prediction','predictionNumber','predictionAnimal','predictionNumbers','predictionAnimals','values','numbers','animals','algorithmFamily','advancedSpecs','recentStreak','recent30Hits','recent30Rate','totalRate','scoredPeriods')
     return {**{key:method[key] for key in fields if key in method},'sourceIndex':index}
 
 def build(lottery_type):

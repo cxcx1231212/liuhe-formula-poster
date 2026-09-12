@@ -6,6 +6,7 @@ type Branch = {
   next: string;
   calculation?: string;
   sourcePositions?: number[];
+  sourceRefs?: { position: number; periodOffset: number }[];
 };
 type Validation = {
   sourcePeriod: number;
@@ -15,6 +16,7 @@ type Validation = {
     calculation: string;
     result: string;
     sourcePositions?: number[];
+    sourceRefs?: { position: number; periodOffset: number }[];
     targetPositions?: number[];
   }[];
   actualNumber: string;
@@ -203,18 +205,30 @@ export default function DynamicWuxingPoster({
                   const label = index === 6 ? "特码" : `平${index + 1}码`;
                   const isPredictionSource =
                     !item.verification &&
-                    drawIndex === 0 &&
-                    (sourcePositions.has(label) ||
+                    ((item.branches.some((branch) =>
+                      branch.sourceRefs?.some(
+                        (ref) =>
+                          orderedDraws[0] &&
+                          draw.period === orderedDraws[0].period + ref.periodOffset &&
+                          ref.position === index + 1,
+                      ),
+                    )) ||
+                    (drawIndex === 0 && (sourcePositions.has(label) ||
                       item.branches.some((branch) =>
                         branch.sourcePositions?.includes(index + 1),
-                      ));
+                      ))));
                   const isSource =
                     isPredictionSource ||
                     validations.some(
                       (entry) =>
-                        entry.sourcePeriod === draw.period &&
                         entry.branches.some((branch) =>
-                          branch.sourcePositions?.includes(index + 1),
+                          branch.sourceRefs?.some(
+                            (ref) =>
+                              draw.period === entry.sourcePeriod + ref.periodOffset &&
+                              ref.position === index + 1,
+                          ) ||
+                          (entry.sourcePeriod === draw.period &&
+                            branch.sourcePositions?.includes(index + 1)),
                         ),
                     ) ||
                     (sourcePositions.has(label) &&
@@ -275,16 +289,19 @@ export default function DynamicWuxingPoster({
               </defs>
               {!item.verification &&
                 orderedDraws[0] &&
-                (genericMulti
-                  ? [...new Set(item.branches.flatMap(branch=>branch.sourcePositions||[]))].map(position=>({position,branchIndex:0}))
-                  : item.branches.flatMap((branch, branchIndex)=>(branch.sourcePositions||[]).map(position=>({position,branchIndex}))))
-                  .map(({position,branchIndex}) => (
+                item.branches
+                  .flatMap((branch, branchIndex) =>
+                    (branch.sourceRefs || (branch.sourcePositions || []).map(position => ({position, periodOffset: 0})))
+                      .map(ref => ({...ref, branchIndex: genericMulti ? 0 : branchIndex})),
+                  )
+                  .filter((ref, index, refs) => refs.findIndex(candidate => candidate.position === ref.position && candidate.periodOffset === ref.periodOffset && candidate.branchIndex === ref.branchIndex) === index)
+                  .map(({position,periodOffset,branchIndex}) => (
                     <path
                       className="prediction-arrow"
-                      key={`prediction-${branchIndex}-${position}`}
+                      key={`prediction-${branchIndex}-${position}-${periodOffset}`}
                       d={genericMulti
-                        ? `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} L ${columnX(position - 1)} ${boardOffset - 12}`
-                        : `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period) - 18} C ${columnX(position - 1)} 165, 430 138, 455 ${102 + branchIndex * 22}`}
+                        ? `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period + periodOffset) - 18} L ${columnX(position - 1)} ${boardOffset - 12}`
+                        : `M ${columnX(position - 1)} ${rowY(orderedDraws[0].period + periodOffset) - 18} C ${columnX(position - 1)} 165, 430 138, 455 ${102 + branchIndex * 22}`}
                       
                     />
                   ))}
@@ -377,10 +394,10 @@ export default function DynamicWuxingPoster({
                       })
                     ) : (
                       <>
-                        {positions.map((position) => (
+                        {(entry.branches[0]?.sourceRefs || item.branches[0]?.sourceRefs || positions.map(position => ({position, periodOffset: 0}))).map((ref) => (
                           <path
-                            key={position}
-                            d={`M ${columnX(position - 1)} ${sy - 18} C ${columnX(position - 1)} ${joinY + 18}, ${joinX - 28} ${joinY + 12}, ${joinX} ${joinY}`}
+                            key={`${ref.position}-${ref.periodOffset}`}
+                            d={`M ${columnX(ref.position - 1)} ${rowY(entry.sourcePeriod + ref.periodOffset) - 18} C ${columnX(ref.position - 1)} ${joinY + 18}, ${joinX - 28} ${joinY + 12}, ${joinX} ${joinY}`}
                           />
                         ))}
                         {entry.hit && (

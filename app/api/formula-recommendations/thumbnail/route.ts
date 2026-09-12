@@ -8,6 +8,15 @@ const blues=new Set([3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48]);
 const color=(value:unknown)=>reds.has(Number(value))?'#e13b43':blues.has(Number(value))?'#3d91d2':'#43aa55';
 const prediction=(value:unknown)=>Array.isArray(value)?value.join('、'):value&&typeof value==='object'?Object.values(value as Record<string,unknown>).flat().join('、'):String(value??'待更新');
 const sourcePositions=(formula:string)=>Array.from(formula.matchAll(/平([1-6])码|第([1-7])码|特码/g),match=>Number(match[1]??match[2]??7));
+type SourceRef={position:number;rowOffset:number};
+const sourceRefs=(item:any):SourceRef[]=>{
+  const spec=Array.isArray(item.advancedSpecs)?item.advancedSpecs[0]:null;
+  if(!spec)return sourcePositions(item.formula).map(position=>({position,rowOffset:0}));
+  const refs=[{position:Number(spec.a)+1,rowOffset:0}];
+  if(['span','multi'].includes(spec.kind)&&spec.b!=null)refs.push({position:Number(spec.b)+1,rowOffset:0});
+  if(spec.kind==='cross'&&spec.b!=null)refs.push({position:Number(spec.b)+1,rowOffset:-1});
+  return refs;
+};
 const operation=(formula:string)=>{const match=formula.match(/(?:交替)?(加|减)(\d+)/);return match?`${match[1]}${match[2]}`:'公式推算';};
 
 export async function GET(request:NextRequest){
@@ -18,14 +27,18 @@ export async function GET(request:NextRequest){
   const item=await getHomeBoardRecommendation(lotteryType as '1'|'5'|'8',board,category);
   if(!item.formula)return new Response('Recommendation not found',{status:404});
   const draws=(item.draws as any[]).slice(-4);
-  const positions=sourcePositions(item.formula);
+  const refs=sourceRefs(item),positions=refs.filter(ref=>ref.rowOffset===0).map(ref=>ref.position);
   const xs=[108,188,268,348,428,508,608];
   const ball=(number:unknown,animal:unknown,x:number,y:number,active=false)=>`<g opacity="${active?1:.38}"><circle cx="${x}" cy="${y}" r="21" fill="#fff" stroke="${active?'#bd0710':color(number)}" stroke-width="${active?4:3}"/><text x="${x}" y="${y+7}" text-anchor="middle" class="num">${esc(String(number).padStart(2,'0'))}</text><text x="${x}" y="${y+42}" text-anchor="middle" class="animal">${esc(animal)}</text></g>`;
   const rows=draws.map((draw,rowIndex)=>{
-    const y=170+rowIndex*88,nums=draw.numbers??[],selected=positions.length?positions:[1];
+    const y=170+rowIndex*88,nums=draw.numbers??[];
+    const selectedForRow=refs.filter(ref=>{const targetRow=rowIndex-ref.rowOffset;return targetRow>=0&&targetRow<draws.length;}).map(ref=>ref.position);
+    const selected=selectedForRow.length?[...new Set(selectedForRow)]:(positions.length?positions:[1]);
     const balls=nums.map((entry:any,index:number)=>ball(entry.number,entry.animal,xs[index],y,selected.includes(index+1))).join('');
-    const start=xs[selected[0]-1]??xs[0],end=xs[6],labelX=Math.min(start+136,526);
-    return `<g><rect x="0" y="${y-44}" width="750" height="88" fill="${rowIndex%2?'#f8fbff':'#edf5ff'}"/><line x1="0" y1="${y+44}" x2="750" y2="${y+44}" stroke="#c9def5"/><text x="39" y="${y-4}" text-anchor="middle" class="period">${esc(String(draw.period).padStart(3,'0'))}期</text><text x="39" y="${y+20}" text-anchor="middle" class="date">${esc(String(draw.date??'').replace(/年|月/g,'-').replace('日',''))}</text>${balls}<path d="M${start+22} ${y-3} L${end-24} ${y-3}" stroke="#d71920" stroke-width="2.5" marker-end="url(#arrow)"/><rect x="${labelX-56}" y="${y-27}" width="112" height="31" rx="15" fill="#d71920"/><text x="${labelX}" y="${y-6}" text-anchor="middle" class="op">${esc(operation(item.formula))}</text></g>`;
+    const end=xs[6],activeRefs=refs.filter(ref=>rowIndex+ref.rowOffset>=0);
+    const paths=activeRefs.map((ref,refIndex)=>{const sourceY=y+ref.rowOffset*88,start=xs[ref.position-1]??xs[0];return `<path d="M${start+22} ${sourceY-3} L${end-24} ${y-3-refIndex*4}" stroke="#d71920" stroke-width="2.5" marker-end="url(#arrow)"/>`;}).join('');
+    const labelStart=xs[activeRefs[0]?.position-1]??xs[0],labelX=Math.min(labelStart+136,526);
+    return `<g><rect x="0" y="${y-44}" width="750" height="88" fill="${rowIndex%2?'#f8fbff':'#edf5ff'}"/><line x1="0" y1="${y+44}" x2="750" y2="${y+44}" stroke="#c9def5"/><text x="39" y="${y-4}" text-anchor="middle" class="period">${esc(String(draw.period).padStart(3,'0'))}期</text><text x="39" y="${y+20}" text-anchor="middle" class="date">${esc(String(draw.date??'').replace(/年|月/g,'-').replace('日',''))}</text>${balls}${paths}<rect x="${labelX-56}" y="${y-27}" width="112" height="31" rx="15" fill="#d71920"/><text x="${labelX}" y="${y-6}" text-anchor="middle" class="op">${esc(operation(item.formula))}</text></g>`;
   }).join('');
   const next=prediction(item.prediction);
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="750" height="520" viewBox="0 0 750 520"><style>.head{font:700 18px Arial,'Microsoft YaHei',sans-serif;fill:#163f70}.period{font:700 18px Arial,'Microsoft YaHei',sans-serif;fill:#1d5eb5}.date{font:12px Arial,'Microsoft YaHei',sans-serif;fill:#536b86}.num{font:700 18px Arial,sans-serif;fill:#222}.animal{font:17px Arial,'Microsoft YaHei',sans-serif;fill:#536b86}.op{font:700 18px Arial,'Microsoft YaHei',sans-serif;fill:#fff}.mark{font:700 34px Arial,sans-serif;fill:#1d5eb5;opacity:.075;letter-spacing:5px}</style><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#d71920"/></marker></defs><rect width="750" height="520" fill="#fff"/><rect width="750" height="43" fill="#edf5ff"/><g class="head" text-anchor="middle"><text x="39" y="29">期号</text><text x="108" y="29">平1码</text><text x="188" y="29">平2码</text><text x="268" y="29">平3码</text><text x="348" y="29">平4码</text><text x="428" y="29">平5码</text><text x="508" y="29">平6码</text><text x="608" y="29">特码</text></g><line x1="0" y1="43" x2="750" y2="43" stroke="#9fc4ef"/><rect x="0" y="44" width="750" height="82" fill="#f8fbff" stroke="#9fc4ef"/><text x="39" y="76" text-anchor="middle" class="period">${esc(String(item.issue).padStart(3,'0'))}期</text><text x="39" y="99" text-anchor="middle" class="date">下期预测</text><text x="370" y="91" text-anchor="middle" style="font:700 25px Arial,'Microsoft YaHei',sans-serif;fill:#d71920">${esc(next)}</text>${rows}<g text-anchor="middle" transform="rotate(-28 375 280)"><text x="180" y="175" class="mark">GS88888.COM</text><text x="500" y="260" class="mark">GS88888.COM</text><text x="210" y="365" class="mark">GS88888.COM</text><text x="535" y="450" class="mark">GS88888.COM</text></g></svg>`;

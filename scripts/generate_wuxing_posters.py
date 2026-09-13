@@ -96,7 +96,7 @@ def manifest_method(rank, item, records, history_records, formula_year):
             history_branches.append({"name": branch["name"], "calculation": f"{expression}＝{result_number}（{result_element}）", "result": result_element})
         actual = target["numberList"][6]
         history.append({"sourcePeriod": int(source["period"]), "targetPeriod": int(target["period"]), "branches": history_branches, "actualNumber": str(actual["number"]).zfill(2), "actualAnimal": actual.get("shengXiao", ""), "actualElement": actual.get("wuXing", ""), "hit": actual.get("wuXing", "") in predictions})
-    return {"rank": rank, "label": item["label"], "lineCount": item["lineCount"], "sourceKey": item["sourceKey"], "next": item["next"], "recentStreak": item["recentStreak"], "recent30Hits": item["recent30Hits"], "image": None, "branches": branches, "history": history}
+    return {"rank": rank, "label": item["label"], "lineCount": item["lineCount"], "sourceKey": item["sourceKey"], "next": item["next"], "recentStreak": item["recentStreak"], "recent30Hits": item["recent30Hits"], "branches": branches, "history": history}
 
 
 def write_manifest(path, header, method_groups, build_method):
@@ -159,7 +159,7 @@ def compact_history(singles, records, history_records, formula_year):
         for _, _, hits in selected:
             mask |= hits
         method = {key: item[key] for key in ("label", "lineCount", "sourceKey", "next", "recentStreak", "recent30Hits")}
-        method.update(rank=rank, image=None, branches=[entry[1] for entry in selected], historyRefs=[entry[0] for entry in selected], totalRate=mask.bit_count() / max(1, len(history_records) - 1))
+        method.update(rank=rank, branches=[entry[1] for entry in selected], historyRefs=[entry[0] for entry in selected], totalRate=mask.bit_count() / max(1, len(history_records) - 1))
         # Match archive_formula_history.signature_of and stable_id exactly.
         signature = "|".join([method["sourceKey"], method["label"], str(method["lineCount"]), *sorted(branch["name"] for branch in method["branches"])])
         method["formulaId"] = "WUXING--" + hashlib.sha1(f"wuxing-|{signature}".encode("utf-8")).hexdigest()[:10]

@@ -128,7 +128,8 @@ export default function DynamicWuxingPoster({
   );
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
   const historyLabelHeight = Math.max(64, historyRows * 34 + 30);
-  const rowHeight = Math.max(180, historyLabelHeight + 140);
+  const hasDetailedCalculation = validations.some((entry) => entry.branches.some((branch) => branch.calculation.includes("去掉小数部分")));
+  const rowHeight = Math.max(180, historyLabelHeight + 140, hasDetailedCalculation ? 310 : 0);
   const columnX = (position: number) => 112 + (position + 0.5) * 126;
   const rowY = (period: number) =>
     boardOffset +
@@ -327,19 +328,27 @@ export default function DynamicWuxingPoster({
                 const joinX = tx - 56;
                 const joinY = (sy + ty) / 2;
                 const multi = entry.branches.length > 1;
-                const labelHeight = genericMulti
-                  ? historyLabelHeight
-                  : multi ? Math.max(74, entry.branches.length * 30 + 18) : 42;
-                const labelTop = joinY - labelHeight / 2;
                 const historyBranches = genericMulti
                   ? sortByAddition(entry.branches)
                   : entry.branches;
-                const labelLines = historyBranches.map((branch) =>
-                  (conciseCalculation(branch.calculation))
-                    .split(/[，,]/, 2)
-                    .map((part) => part.trim())
-                    .join(" "),
-                );
+                const labelLines = historyBranches.flatMap((branch) => {
+                  const text = conciseCalculation(branch.calculation).replace(/\s+/g, "");
+                  const steps = text.split("；").filter(Boolean);
+                  if (steps.length > 1) return steps.flatMap((step) => {
+                    const marker = step.indexOf("，");
+                    return marker > 0 ? [step.slice(0, marker), step.slice(marker + 1)] : [step];
+                  });
+                  const zodiacMarker = text.indexOf("按12肖循环");
+                  if (zodiacMarker > 0) return [text.slice(0, zodiacMarker), text.slice(zodiacMarker)];
+                  const numberMarker = text.indexOf("（超出1～49");
+                  if (numberMarker > 0) return [text.slice(0, numberMarker), text.slice(numberMarker)];
+                  return [text];
+                });
+                const stacked = labelLines.length > 1;
+                const labelHeight = genericMulti
+                  ? Math.max(historyLabelHeight, Math.ceil(labelLines.length / historyColumns) * 32 + 30)
+                  : stacked ? Math.max(74, labelLines.length * 30 + 18) : 42;
+                const labelTop = joinY - labelHeight / 2;
                 const statusText = entry.duplicateAnimal
                   ? "重"
                   : entry.hit
@@ -414,7 +423,7 @@ export default function DynamicWuxingPoster({
                         y={labelTop}
                         width={730}
                         height={labelHeight}
-                        rx={multi ? 11 : 18}
+                        rx={stacked ? 11 : 18}
                         fill="#1d5eb5"
                       />
                       {labelLines.map((line, lineIndex) => {
@@ -430,9 +439,10 @@ export default function DynamicWuxingPoster({
                         const lineRow = genericMulti ? Math.floor(lineIndex / historyColumns) : lineIndex;
                         const lineY = genericMulti
                           ? labelTop + 26 + lineRow * 32
-                          : multi
+                          : stacked
                             ? labelTop + 22 + lineIndex * 30
                             : joinY + 1;
+                        const stretch = !genericMulti && line.length * fontSize * 1.8 <= availableLineWidth;
                         return (
                           <text
                             key={lineIndex}
@@ -440,14 +450,14 @@ export default function DynamicWuxingPoster({
                               ? 255 + availableLineWidth / 2 + lineColumn * availableLineWidth
                               : 570}
                             y={lineY}
-                            transform={!genericMulti ? "translate(570 0) scale(1.8 1) translate(-570 0)" : undefined}
+                            transform={stretch ? "translate(570 0) scale(1.8 1) translate(-570 0)" : undefined}
                             fill="#fff"
                             fontFamily="PingFang SC, Microsoft YaHei, sans-serif"
                             fontSize={fontSize}
                             fontWeight="900"
                             textAnchor="middle"
                             dominantBaseline="middle"
-                            {...(genericMulti && line.length * fontSize > availableLineWidth
+                            {...(line.length * fontSize > availableLineWidth
                               ? { textLength: availableLineWidth, lengthAdjust: "spacingAndGlyphs" as const }
                               : {})}
                           >

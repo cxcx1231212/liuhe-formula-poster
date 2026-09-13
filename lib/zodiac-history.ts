@@ -7,6 +7,13 @@ const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,dig
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
 const zodiacNumber=(value:number)=>((Math.trunc(value)-1)%12+12)%12+1;
 const animalFor=(value:number)=>animals[zodiacNumber(value)-1];
+const decimalText=(value:number)=>Number.isInteger(value)?String(value):String(Number(value.toFixed(6)));
+const zodiacResultText=(raw:number,animal:string)=>{
+  const zodiac=zodiacNumber(raw);
+  if(raw>=1&&raw<=49)return `${String(raw).padStart(2,'0')}属${animal}`;
+  const delta=zodiac-Math.trunc(raw),step=delta>=0?`＋${delta}`:`－${Math.abs(delta)}`;
+  return `${raw}${step}＝${String(zodiac).padStart(2,'0')}（按12肖循环），${String(zodiac).padStart(2,'0')}属${animal}`;
+};
 const values=(draw:ZodiacDraw)=>draw.numbers.map(item=>Number(item.number));
 const pos=(name:string)=>name==='特码'?6:Number(name.match(/平([1-6])码/)?.[1]||1)-1;
 const cellValue=(draw:ZodiacDraw,label:string)=>values(draw)[pos(label)]||0;
@@ -51,8 +58,11 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
     const operation=definition.operation||'',amount=definition.amount||0,shown=operation==='asymmetric_alternate'?Math.abs(offset(operation,amount,draw.period)):operation==='cyclic_step'?Math.abs(offset(operation,amount,draw.period)):amount;
     const baseText=baseExpression(draw,definition.baseName||'');
     const grouped=/[＋－]/.test(definition.baseName||'')&&operation?`(${baseText})`:baseText;
-    const classification=raw<1||raw>49?`${raw}按12肖循环＝${zodiac}，${String(zodiac).padStart(2,'0')}属${animal}`:`${String(raw).padStart(2,'0')}属${animal}`;
-    return {result,animal,calculation:`${grouped}${symbol(operation,draw.period)}${shown}＝${classification}`};
+    const classification=zodiacResultText(raw,animal);
+    const calculation=operation==='divide_floor'
+      ? `${baseText}＝${base}；${base}÷${amount}＝${decimalText(base/amount)}；去掉小数部分＝${raw}${raw<1||raw>49?`；${classification}`:`，${classification}`}`
+      : `${grouped}${symbol(operation,draw.period)}${shown}＝${classification}`;
+    return {result,animal,calculation};
   };
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

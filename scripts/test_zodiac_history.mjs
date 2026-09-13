@@ -7,15 +7,20 @@ const draw=(period,p2,p6)=>({period,numbers:[1,p2,3,4,5,p6,7].map(number=>({numb
 
 const negative=buildZodiacPosterItem(method,[draw(252,41,48)],253);
 assert.equal(negative.next[0],'龙');
-assert.match(negative.branches[0].calculation,/\(41－48\)−14＝-21按12肖循环＝3，03属龙/);
+assert.match(negative.branches[0].calculation,/\(41－48\)−14＝-21＋24＝03（按12肖循环），03属龙/);
 
 const zero=buildZodiacPosterItem(method,[draw(253,35,49)],254);
 assert.equal(zero.next[0],'羊');
-assert.match(zero.branches[0].calculation,/\(35－49\)\+14＝0按12肖循环＝12，12属羊/);
+assert.match(zero.branches[0].calculation,/\(35－49\)\+14＝0＋12＝12（按12肖循环），12属羊/);
 
 const tails={name:'平1码尾数＋特码尾数除9余数',baseName:'平1码尾数＋特码尾数',operation:'modulo',amount:9};
 const tail=buildZodiacPosterItem(tails,[{period:256,numbers:[40,15,9,37,7,3,1].map(number=>({number:String(number),animal:'',element:''}))}],257);
 assert.match(tail.branches[0].calculation,/\(40尾0＋01尾1\)÷余数9＝01属马/);
+
+const divided={name:'平1码－特码除5取整',baseName:'平1码－特码',operation:'divide_floor',amount:5};
+const division=buildZodiacPosterItem(divided,[{period:256,numbers:[1,15,9,37,7,3,40].map(number=>({number:String(number),animal:'',element:''}))}],257);
+assert.equal(division.next[0],'虎');
+assert.equal(division.branches[0].calculation,'01－40＝-39；-39÷5＝-7.8；去掉小数部分＝-7；-7＋12＝05（按12肖循环），05属虎');
 
 const fushiMethod={rank:'001',sourceKey:'边界测试',branches:[{name:'平1码减35'}]};
 const fushiDraw={period:1,numbers:[35,2,3,4,5,6,7].map(number=>({number:String(number),animal:'',element:''}))};

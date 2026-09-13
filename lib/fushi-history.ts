@@ -9,6 +9,7 @@ const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,dig
 const values=(draw:FushiDraw)=>draw.numbers.map(item=>Number(item.number));
 const cellValue=(draw:FushiDraw,label:string)=>values(draw)[label==='特码'?6:Number(label.match(/平([1-6])码/)?.[1]||1)-1]||0;
 const formatNumber=(value:number)=>value>=0&&value<10?String(value).padStart(2,'0'):String(value);
+const decimalText=(value:number)=>Number.isInteger(value)?String(value):String(Number(value.toFixed(6)));
 const zodiacNumber=(value:number)=>((Math.trunc(value)-1)%12+12)%12+1;
 const zodiacCycleText=(raw:number)=>{
   const zodiac=zodiacNumber(raw);if(raw===zodiac)return `${formatNumber(raw)}属${animals[zodiac-1]}`;
@@ -51,7 +52,11 @@ const evaluate=(draw:FushiDraw,input:string|RawBranch)=>{
   const direction=definition.operation==='交替'?(draw.period%2?1:-1):definition.operation==='双期交替'?((Math.floor((draw.period-1)/2)%2===0)?1:-1):definition.operation==='三期交替'?((Math.floor((draw.period-1)/3)%2===0)?1:-1):0;const cycleStep=(((draw.period-1)%3+3)%3)+1;const delta=definition.operation==='不对称'?(draw.period%2?definition.amount:-definition.secondary):definition.operation==='循环'?cycleStep*definition.amount:direction*definition.amount;const result=definition.operation==='加'?base+definition.amount:definition.operation==='减'?base-definition.amount:definition.operation==='不对称'||definition.operation==='循环'||direction?base+delta:definition.operation==='乘'?base*definition.amount:definition.suffix==='余数'?base%definition.amount:Math.trunc(base/definition.amount);
   const animal=animals[((Math.trunc(result)-1)%12+12)%12];
   const symbol=definition.operation==='加'?'+':definition.operation==='减'?'−':definition.operation==='不对称'||definition.operation==='循环'?(delta>=0?'+':'−'):direction?(direction>0?'+':'−'):definition.operation==='乘'?'×':definition.suffix==='余数'?'÷余':'÷整';
-  const shown=definition.operation==='不对称'||definition.operation==='循环'?Math.abs(delta):definition.amount;return {number:result,animal,calculation:`${baseDetailsValue.expression}${symbol}${shown}=${formatNumber(result)}属${animal}`};
+  const shown=definition.operation==='不对称'||definition.operation==='循环'?Math.abs(delta):definition.amount;
+  const calculation=definition.operation==='除'&&definition.suffix==='取整'
+    ? `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}=${decimalText(base/definition.amount)}；去掉小数部分=${formatNumber(result)}属${animal}`
+    : `${baseDetailsValue.expression}${symbol}${shown}=${formatNumber(result)}属${animal}`;
+  return {number:result,animal,calculation};
 };
 const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
 

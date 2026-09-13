@@ -1,5 +1,3 @@
-import {CYCLE49_NOTE,cycle49,cycle49Text} from './number-cycle.js';
-
 type NumberCell={number:string;animal:string;element:string};
 export type ZodiacDraw={period:number;displayPeriod?:string;date?:string;numbers:NumberCell[]};
 export type ZodiacBranch={name:string;baseName?:string;operation?:string;amount?:number;number?:number;animal?:string};
@@ -7,7 +5,8 @@ export type ZodiacMethod={name?:string;baseName?:string;operation?:string;amount
 
 const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,digit)=>sum+Number(digit),0);
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
-const animalFor=(value:number)=>animals[(cycle49(value)-1)%12];
+const zodiacNumber=(value:number)=>((Math.trunc(value)-1)%12+12)%12+1;
+const animalFor=(value:number)=>animals[zodiacNumber(value)-1];
 const values=(draw:ZodiacDraw)=>draw.numbers.map(item=>Number(item.number));
 const pos=(name:string)=>name==='特码'?6:Number(name.match(/平([1-6])码/)?.[1]||1)-1;
 const cellValue=(draw:ZodiacDraw,label:string)=>values(draw)[pos(label)]||0;
@@ -48,12 +47,12 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const evaluate=(definition:ZodiacBranch,draw:ZodiacDraw)=>{
     const base=baseValue(draw,definition.baseName||'');const raw=calculate(base,definition.operation||'',definition.amount||0,draw.period);const result=raw;
-    const number=cycle49(raw),animal=animalFor(raw);
+    const zodiac=zodiacNumber(raw),animal=animalFor(raw);
     const operation=definition.operation||'',amount=definition.amount||0,shown=operation==='asymmetric_alternate'?Math.abs(offset(operation,amount,draw.period)):operation==='cyclic_step'?Math.abs(offset(operation,amount,draw.period)):amount;
     const baseText=baseExpression(draw,definition.baseName||'');
     const grouped=/[＋－]/.test(definition.baseName||'')&&operation?`(${baseText})`:baseText;
-    const cycleNote=number!==raw?CYCLE49_NOTE:'';
-    return {result,animal,calculation:`${grouped}${symbol(operation,draw.period)}${shown}＝${cycle49Text(raw)}，${String(number).padStart(2,'0')}属${animal}${cycleNote}`};
+    const classification=raw<1||raw>49?`${raw}按12肖循环＝${zodiac}，${String(zodiac).padStart(2,'0')}属${animal}`:`${String(raw).padStart(2,'0')}属${animal}`;
+    return {result,animal,calculation:`${grouped}${symbol(operation,draw.period)}${shown}＝${classification}`};
   };
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

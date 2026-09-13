@@ -1,15 +1,29 @@
-const prefixes=['好运','民间','老街','金牌','旺财','真心','稳当','实在','热心','顺风','鸿运','福气','开心','如意','吉祥','平安','富贵','贴心','诚心','大众','老牌','新锐','南山','北海','东城','西门','春风','秋实','夏雨','冬雪','青松','红梅','金秋','满仓','丰收','百顺','万福','长乐','清风','明月','高山','流水','阳光','朴实','厚道','邻家','乡里','一心','同心','常胜'];
-const roles=['老哥','高手','神算','师傅','大叔','大姐','老师','先生','达人','行家','能手','老手','掌柜','老板','朋友','乡亲','邻居','大哥','小哥','大伯','大妈','阿姨','叔叔','姑娘','小妹','阿公','阿婆','表哥','表姐','堂哥','堂姐','班长','队长','村长','店长','馆主','楼主','群主','站长','主任','顾问','参谋','管家','助手','向导','明白','稳手','好手','帮手','熟手'];
+const regions=[
+ '广东','广州','深圳','珠海','佛山','东莞','中山','惠州','江门','肇庆','汕头','湛江','茂名','梅州','韶关','清远','潮州','揭阳','云浮','阳江','河源','顺德','南海','番禺','花都','增城','从化','龙岗','宝安','惠阳',
+ '福建','福州','厦门','泉州','漳州','莆田','三明','南平','龙岩','宁德','晋江','石狮','福清','长乐','闽侯','连江','罗源','平潭','安溪','永春',
+ '广西','南宁','桂林','柳州','梧州','北海','防城','钦州','贵港','玉林','百色','贺州','河池','来宾','崇左','横州','宾阳','武鸣','灵山','浦北',
+ '湖南','长沙','株洲','湘潭','衡阳','邵阳','岳阳','常德','张家','益阳','郴州','永州','怀化','娄底','浏阳','宁乡','醴陵','湘乡','韶山','耒阳',
+ '江西','南昌','景德','萍乡','九江','新余','鹰潭','赣州','吉安','宜春','抚州','上饶','瑞金','丰城','樟树','高安','井冈','乐平','贵溪','南康',
+ '海南','海口','三亚','三沙','儋州','琼海','文昌','万宁','东方','五指','定安','屯昌','澄迈','临高','白沙','昌江','乐东','陵水','保亭','琼中',
+];
+const surnames=Array.from('赵钱孙李周吴郑王冯陈褚卫蒋沈韩杨朱秦尤许何吕施张孔曹严华金魏陶姜戚谢邹喻柏水窦章云苏潘葛奚范彭郎鲁韦昌');
+const nameMarksA=Array.from('安诚德福广和健乐明宁平庆荣善顺泰祥兴义永裕正忠康清朗稳实真淳朴勤信仁礼智勇温雅谦宽厚远卓恒达盛瑞锦鸿');
 
 const scopes=['pingte','pingte2','tema1','tema3','tema8','tema10','tema18','zodiac1','zodiac3','zodiac6','zodiac9','fushi22','fushi33','fushi2x','fushi3x','danshuang','wave','wuxing','jiaye','killcode','killanimal','killtail','killhead','killwave','size','tail','head'] as const;
 type AuthorScope=(typeof scopes)[number];
-const scopeStart:Record<AuthorScope,number>={'pingte':0,'pingte2':20,'tema1':100,'tema3':120,'tema8':170,'tema10':220,'tema18':270,'zodiac1':300,'zodiac3':310,'zodiac6':330,'zodiac9':360,'fushi22':400,'fushi33':410,'fushi2x':420,'fushi3x':440,'danshuang':460,'wave':490,'wuxing':520,'jiaye':550,'killcode':570,'killanimal':590,'killtail':610,'killhead':630,'killwave':650,'size':670,'tail':685,'head':700};
 const lotterySlot:Record<string,number>={'1':0,'5':1,'8':2};
+const scopeCapacity:Record<AuthorScope,number>={pingte:200,pingte2:200,tema1:250,tema3:250,tema8:250,tema10:250,tema18:250,zodiac1:10000,zodiac3:1000,zodiac6:1000,zodiac9:500,fushi22:1000,fushi33:1000,fushi2x:1000,fushi3x:1000,danshuang:10000,wave:5000,wuxing:22000,jiaye:200,killcode:250,killanimal:250,killtail:250,killhead:250,killwave:250,size:200,tail:200,head:200};
+const scopeStart=Object.fromEntries(scopes.map((scope,index)=>[scope,scopes.slice(0,index).reduce((sum,item)=>sum+scopeCapacity[item],0)])) as Record<AuthorScope,number>;
+const LOTTERY_CAPACITY=scopes.reduce((sum,scope)=>sum+scopeCapacity[scope],0);
 
 /** 每个彩种、板块和公式编号都对应一个全站唯一且长期固定的中文笔名。 */
 export function postAuthor(type:string,scope:AuthorScope,index:number){
-  const serial=(lotterySlot[type]??1)*800+scopeStart[scope]+Math.max(0,index);
-  const prefixIndex=serial%prefixes.length;
-  const roleIndex=(Math.floor(serial/prefixes.length)+prefixIndex)%roles.length;
-  return `${prefixes[prefixIndex]}${roles[roleIndex]}`;
+  const safeIndex=Math.max(0,Math.trunc(index));
+  if(safeIndex>=scopeCapacity[scope])throw new RangeError(`Author capacity exceeded for ${scope}: ${safeIndex}`);
+  const serial=(lotterySlot[type]??1)*LOTTERY_CAPACITY+scopeStart[scope]+safeIndex;
+  let value=serial;
+  const region=regions[value%regions.length];value=Math.floor(value/regions.length);
+  const surname=surnames[value%surnames.length];value=Math.floor(value/surnames.length);
+  const given=nameMarksA[value%nameMarksA.length];
+  return `${region}${surname}${given}`;
 }

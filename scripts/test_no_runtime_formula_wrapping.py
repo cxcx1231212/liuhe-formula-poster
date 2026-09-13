@@ -20,6 +20,11 @@ for path in FILES:
     assert "expandedWrap" not in source, f"expanded wrapping returned: {path}"
 print("PASS raw formula result policy", len(FILES), "runtime modules")
 
+tail_head = (ROOT / "app" / "TailHeadFormulaPost.tsx").read_text(encoding="utf-8")
+assert "cycle49Text(prediction.number)" in tail_head
+assert "为${result}${kind==='tail'?'尾':'头'}" in tail_head
+print("PASS tail/head pages show explicit 1-49 cycling before classification")
+
 # Formula source and repair scripts must not contain numeric range-normalizing
 # loops or modulo-49 rewrites either, or a later scheduled update can restore
 # wrapped data even when the live page code is correct.

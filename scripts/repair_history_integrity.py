@@ -18,7 +18,7 @@ def wave(n):
     n = cycle49(n)
     return '红波' if n in RED else '蓝波' if n in BLUE else '绿波'
 def digit(n): return sum(map(int, str(abs(int(n)))))
-def wrap49(n): return int(n)
+def wrap49(n): return cycle49(n)
 
 def base_value(name, draw):
     ns = [int(x['number']) for x in draw['numbers']]

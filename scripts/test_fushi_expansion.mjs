@@ -20,8 +20,8 @@ for(const row of cases){
   const animal=buildFushiPosterItem(row.method,[row.source],row.issue,'animal',row.required,'test');
   const oldAnimal=buildFushiPosterItem(oldMethod,[row.source],row.issue,'animal',row.required,'test');
   assert.deepEqual(animal,oldAnimal,'Animal game changed');
-  const selected=[...new Set(row.expected)].slice(0,row.required);
-  const rest=Array.from({length:49},(_,i)=>i+1).filter(n=>!row.expected.includes(n));
+  const selected=[...new Set(pool)].filter(n=>n>=1&&n<=49).slice(0,row.required);
+  const rest=Array.from({length:49},(_,i)=>i+1).filter(n=>!pool.includes(n));
   const ns=[...selected,...rest.slice(0,7-selected.length)];
   const target={period:row.issue,numbers:ns.map(n=>({number:String(n),animal:'马',element:'金'}))};
   const settled=buildFushiPosterItem(row.method,[before,row.source,target],row.issue,'number',row.required,'test');

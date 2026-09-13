@@ -4,7 +4,6 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 FILES = [
-    ROOT / "lib" / "zodiac-history.ts",
     ROOT / "lib" / "fushi-history.ts",
     ROOT / "lib" / "danshuang-history.ts",
     ROOT / "lib" / "wave-history.ts",
@@ -19,6 +18,11 @@ for path in FILES:
     assert not re.search(r"\bwrap(?:49)?\s*\(", source), f"formula wrapping returned: {path}"
     assert "expandedWrap" not in source, f"expanded wrapping returned: {path}"
 print("PASS raw formula result policy", len(FILES), "runtime modules")
+
+zodiac_source = (ROOT / "lib" / "zodiac-history.ts").read_text(encoding="utf-8")
+assert "cycle49(raw)" in zodiac_source and "cycle49Text(raw)" in zodiac_source
+assert "CYCLE49_NOTE" in zodiac_source
+print("PASS explicit 1-49 cycling on zodiac pages")
 
 # Formula source and repair scripts must not contain numeric range-normalizing
 # loops or modulo-49 rewrites either, or a later scheduled update can restore

@@ -92,6 +92,7 @@ jobs:
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
         run: |
           node --experimental-strip-types scripts/test_fushi_expansion.mjs
+          node --experimental-strip-types scripts/test_zodiac_history.mjs
           python scripts/test_prepare_content_manifests.py
           python scripts/test_advanced_formulas.py
           python scripts/test_no_runtime_formula_wrapping.py

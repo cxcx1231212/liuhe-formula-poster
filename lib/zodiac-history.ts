@@ -1,3 +1,5 @@
+import {CYCLE49_NOTE,cycle49,cycle49Text} from './number-cycle.js';
+
 type NumberCell={number:string;animal:string;element:string};
 export type ZodiacDraw={period:number;displayPeriod?:string;date?:string;numbers:NumberCell[]};
 export type ZodiacBranch={name:string;baseName?:string;operation?:string;amount?:number;number?:number;animal?:string};
@@ -5,9 +7,7 @@ export type ZodiacMethod={name?:string;baseName?:string;operation?:string;amount
 
 const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,digit)=>sum+Number(digit),0);
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
-// Formula results stay raw. Zodiac is a separate 12-step classification and
-// must never rewrite a negative or greater-than-49 calculation result.
-const animalFor=(value:number)=>animals[((Math.trunc(value)-1)%12+12)%12];
+const animalFor=(value:number)=>animals[(cycle49(value)-1)%12];
 const values=(draw:ZodiacDraw)=>draw.numbers.map(item=>Number(item.number));
 const pos=(name:string)=>name==='特码'?6:Number(name.match(/平([1-6])码/)?.[1]||1)-1;
 const cellValue=(draw:ZodiacDraw,label:string)=>values(draw)[pos(label)]||0;
@@ -35,11 +35,11 @@ const sourcePositions=(base:string)=>Array.from(base.matchAll(/平([1-6])码|特
 const baseExpression=(draw:ZodiacDraw,base:string)=>{
   const pair=base.match(/^(平[1-6]码|特码)(合数|尾数)?([＋－])(平[1-6]码|特码)(合数|尾数)?$/);
   if(pair){
-    const display=(label:string,kind?:string)=>{const value=cellValue(draw,label);return kind==='合数'?digitSum(value):kind==='尾数'?value%10:value;};
-    return `${String(display(pair[1],pair[2])).padStart(2,'0')}${pair[3]}${String(display(pair[4],pair[5])).padStart(2,'0')}`;
+    const display=(label:string,kind?:string)=>{const value=cellValue(draw,label);return kind==='合数'?`${String(value).padStart(2,'0')}合${digitSum(value)}`:kind==='尾数'?`${String(value).padStart(2,'0')}尾${value%10}`:String(value).padStart(2,'0');};
+    return `${display(pair[1],pair[2])}${pair[3]}${display(pair[4],pair[5])}`;
   }
   const single=base.match(/^(平[1-6]码|特码)(合数|尾数)?$/);
-  if(single){const value=cellValue(draw,single[1]);const shown=single[2]==='合数'?digitSum(value):single[2]==='尾数'?value%10:value;return String(shown).padStart(2,'0');}
+  if(single){const value=cellValue(draw,single[1]);return single[2]==='合数'?`${String(value).padStart(2,'0')}合${digitSum(value)}`:single[2]==='尾数'?`${String(value).padStart(2,'0')}尾${value%10}`:String(value).padStart(2,'0');}
   return String(baseValue(draw,base));
 };
 
@@ -48,9 +48,12 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const evaluate=(definition:ZodiacBranch,draw:ZodiacDraw)=>{
     const base=baseValue(draw,definition.baseName||'');const raw=calculate(base,definition.operation||'',definition.amount||0,draw.period);const result=raw;
-    const animal=animalFor(raw);
+    const number=cycle49(raw),animal=animalFor(raw);
     const operation=definition.operation||'',amount=definition.amount||0,shown=operation==='asymmetric_alternate'?Math.abs(offset(operation,amount,draw.period)):operation==='cyclic_step'?Math.abs(offset(operation,amount,draw.period)):amount;
-    return {result,animal,calculation:`${baseExpression(draw,definition.baseName||'')}${symbol(operation,draw.period)}${shown}=${String(result).padStart(2,'0')}属${animal}`};
+    const baseText=baseExpression(draw,definition.baseName||'');
+    const grouped=/[＋－]/.test(definition.baseName||'')&&operation?`(${baseText})`:baseText;
+    const cycleNote=number!==raw?CYCLE49_NOTE:'';
+    return {result,animal,calculation:`${grouped}${symbol(operation,draw.period)}${shown}＝${cycle49Text(raw)}，${String(number).padStart(2,'0')}属${animal}${cycleNote}`};
   };
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

@@ -17,7 +17,9 @@ export function makeHomeBoardPost(type:string,board:string,category:string,issue
  const key=board==='pingte'?`pingte:${category==='two'?'two':'one'}`:`${board}:${category}`;
  const label=labels[key]||firstText(m.label)||'公式';
  const authorBoard=board==='pingte'?(category==='two'?'pingte2':'pingte'):board==='tema'?`tema${category}`:board==='zodiac'?`zodiac${category}`:board==='fushi'?`fushi${category}`:board==='kill'?`kill${category}`:board;
- const title=`${postAuthor(type,authorBoard as never,index)}【${label}】本期规律参考分享`;
+ const streak=Number(m.recentStreak??m.streak??0);
+ const streakText=Number.isFinite(streak)&&streak>0?`连准${Math.trunc(streak)}期`:'近期验证中';
+ const title=`${postAuthor(type,authorBoard as never,index)}【${label}】${streakText}`;
  if(board==='pingte')return {issue:i,href:`/posts/${category==='two'?'pingte2':'pingte'}/${issue}/${pad(index+1)}${q}`,title};
  if(board==='tema'||board==='zodiac')return {issue:i,href:`/posts/${board}/${category}/${issue}/${pad(index+1)}${q}`,title};
  if(board==='fushi'||board==='kill')return {issue:i,href:`/posts/${board}/${category}/${issue}/${rank}${q}`,title};

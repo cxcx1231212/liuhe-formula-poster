@@ -59,8 +59,11 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
     const baseText=baseExpression(draw,definition.baseName||'');
     const grouped=/[＋－]/.test(definition.baseName||'')&&operation?`(${baseText})`:baseText;
     const classification=zodiacResultText(raw,animal);
+    const quotient=amount?base/amount:0;
     const calculation=operation==='divide_floor'
-      ? `${baseText}＝${base}；${base}÷${amount}＝${decimalText(base/amount)}；去掉小数部分＝${raw}${raw<1||raw>49?`；${classification}`:`，${classification}`}`
+      ? Number.isInteger(quotient)
+        ? `${baseText}＝${base}；${base}÷${amount}＝${raw}${raw<1||raw>49?`；${classification}`:`，${classification}`}`
+        : `${baseText}＝${base}；${base}÷${amount}＝${decimalText(quotient)}；去掉小数部分＝${raw}${raw<1||raw>49?`；${classification}`:`，${classification}`}`
       : `${grouped}${symbol(operation,draw.period)}${shown}＝${classification}`;
     return {result,animal,calculation};
   };

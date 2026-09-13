@@ -21,6 +21,9 @@ const divided={name:'平1码－特码除5取整',baseName:'平1码－特码',ope
 const division=buildZodiacPosterItem(divided,[{period:256,numbers:[1,15,9,37,7,3,40].map(number=>({number:String(number),animal:'',element:''}))}],257);
 assert.equal(division.next[0],'虎');
 assert.equal(division.branches[0].calculation,'01－40＝-39；-39÷5＝-7.8；去掉小数部分＝-7；-7＋12＝05（按12肖循环），05属虎');
+const exactDivision=buildZodiacPosterItem(divided,[{period:256,numbers:[5,15,9,37,7,3,40].map(number=>({number:String(number),animal:'',element:''}))}],257);
+assert.doesNotMatch(exactDivision.branches[0].calculation,/去掉小数部分/);
+assert.match(exactDivision.branches[0].calculation,/05－40＝-35；-35÷5＝-7；-7＋12＝05/);
 
 const fushiMethod={rank:'001',sourceKey:'边界测试',branches:[{name:'平1码减35'}]};
 const fushiDraw={period:1,numbers:[35,2,3,4,5,6,7].map(number=>({number:String(number),animal:'',element:''}))};

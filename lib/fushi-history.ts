@@ -53,8 +53,11 @@ const evaluate=(draw:FushiDraw,input:string|RawBranch)=>{
   const animal=animals[((Math.trunc(result)-1)%12+12)%12];
   const symbol=definition.operation==='加'?'+':definition.operation==='减'?'−':definition.operation==='不对称'||definition.operation==='循环'?(delta>=0?'+':'−'):direction?(direction>0?'+':'−'):definition.operation==='乘'?'×':definition.suffix==='余数'?'÷余':'÷整';
   const shown=definition.operation==='不对称'||definition.operation==='循环'?Math.abs(delta):definition.amount;
+  const quotient=definition.amount?base/definition.amount:0;
   const calculation=definition.operation==='除'&&definition.suffix==='取整'
-    ? `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}=${decimalText(base/definition.amount)}；去掉小数部分=${formatNumber(result)}属${animal}`
+    ? Number.isInteger(quotient)
+      ? `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}=${formatNumber(result)}属${animal}`
+      : `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}=${decimalText(quotient)}；去掉小数部分=${formatNumber(result)}属${animal}`
     : `${baseDetailsValue.expression}${symbol}${shown}=${formatNumber(result)}属${animal}`;
   return {number:result,animal,calculation};
 };

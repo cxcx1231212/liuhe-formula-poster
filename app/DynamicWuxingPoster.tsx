@@ -327,7 +327,6 @@ export default function DynamicWuxingPoster({
                 const tx = columnX(targetPosition);
                 const joinX = tx - 56;
                 const joinY = (sy + ty) / 2;
-                const multi = entry.branches.length > 1;
                 const historyBranches = genericMulti
                   ? sortByAddition(entry.branches)
                   : entry.branches;
@@ -430,11 +429,10 @@ export default function DynamicWuxingPoster({
                         const availableLineWidth = genericMulti
                           ? Math.floor(630 / historyColumns)
                           : 500;
-                        const minimumFontSize = genericMulti ? 15 : 18;
-                        const fontSize = Math.max(
-                          minimumFontSize,
-                          Math.min(multi ? 22 : 21, Math.floor(availableLineWidth / Math.max(line.length, 1))),
-                        );
+                        // Keep every calculation line at the same visual size.
+                        // Long lines are fitted with textLength below instead of
+                        // shrinking one line more than its neighbours.
+                        const fontSize = genericMulti ? 15 : 18;
                         const lineColumn = genericMulti ? lineIndex % historyColumns : 0;
                         const lineRow = genericMulti ? Math.floor(lineIndex / historyColumns) : lineIndex;
                         const lineY = genericMulti

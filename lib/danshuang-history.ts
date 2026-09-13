@@ -1,4 +1,5 @@
 import type {ZodiacDraw} from './zodiac-history';
+import {CYCLE49_NOTE,cycle49,cycle49Text} from './number-cycle.js';
 
 export type DanshuangMethod={rank:string;label:string;sourceKey:string;name:string;baseName:string;operation:string;amount:number};
 
@@ -32,10 +33,11 @@ export function buildDanshuangPosterItem(method:DanshuangMethod,draws:ZodiacDraw
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const evaluate=(draw:ZodiacDraw)=>{
     const period=draw.period;const alternating=method.operation==='alternate_add_subtract'?(period%2?1:-1):method.operation==='double_alternate_add_subtract'?((Math.floor((period-1)/2)%2===0)?1:-1):method.operation==='triple_alternate_add_subtract'?((Math.floor((period-1)/3)%2===0)?1:-1):0;const base=baseValue(draw,method.baseName);const delta=method.operation==='asymmetric_alternate'?(period%2?Math.floor(method.amount/100):-(method.amount%100)):method.operation==='cyclic_step'?((period-1)%3+1)*method.amount:(method.operation==='subtract'?-method.amount:(alternating||1)*method.amount);const direction=delta<0?-1:1;const result=base+delta;
-    const prediction=method.label==='合数单双'?heshuParity(result):parity(result);
+    const number=cycle49(result),prediction=method.label==='合数单双'?heshuParity(number):parity(number);
     const symbol=direction<0?'−':'+';
-    const suffix=method.label==='合数单双'?`合数${digitSum(result)}为${prediction}`:`为${prediction}`;
-    return {prediction,calculation:`${baseExpression(draw,method.baseName)}${symbol}${Math.abs(delta)}=${String(result).padStart(2,'0')}${suffix}`};
+    const suffix=method.label==='合数单双'?`合数${digitSum(number)}为${prediction}`:`为${prediction}`;
+    const shown=number===result?String(number).padStart(2,'0'):`${cycle49Text(result)}${CYCLE49_NOTE}`;
+    return {prediction,calculation:`${baseExpression(draw,method.baseName)}${symbol}${Math.abs(delta)}＝${shown}，${String(number).padStart(2,'0')}${suffix}`};
   };
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

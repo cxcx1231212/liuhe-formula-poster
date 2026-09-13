@@ -1,7 +1,7 @@
 import json
 
 from search_fushi_bundles import streak
-from search_pingte_methods import ANIMALS, ROOT, fetch_year, wrap
+from search_pingte_methods import ANIMALS, ROOT, fetch_year
 from search_zodiac_bundles import make_series
 
 
@@ -9,7 +9,7 @@ SPECS = {"2": {"poolSize": 2, "required": 2}, "3": {"poolSize": 3, "required": 3
 
 
 def animal(value):
-    return ANIMALS[(wrap(value) - 1) % 12]
+    return ANIMALS[(int(value) - 1) % 12]
 
 
 def evaluate(name, calculate, records):

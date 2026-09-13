@@ -5,10 +5,12 @@ import ArchivedFormulaPost from '@/app/ArchivedFormulaPost';
 import DynamicWuxingPoster from '@/app/DynamicWuxingPoster';
 import IssueScroller from '@/app/IssueScroller';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
+import {CYCLE49_NOTE,cycle49,cycle49Text} from '@/lib/number-cycle';
 
 const sumDigits=(value:number)=>String(Math.abs(value)).split('').reduce((sum,char)=>sum+Number(char),0);
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
-const animalFor=(value:number)=>{const number=Math.abs(Math.trunc(value));return animals[((number-1)%12+12)%12];};
+const animalFor=(value:number)=>animals[(cycle49(value)-1)%12];
+const explainResult=(text:string,raw:number)=>cycle49(raw)===raw?text:`${text.replace(/＝-?\d+$/,`＝${cycle49Text(raw)}`)}${CYCLE49_NOTE}`;
 const positions=(name:string)=>{
   // 总分是整行聚合值，不把七个球误画成七条独立取号线。
   if(name.includes('七码总分'))return [];
@@ -61,27 +63,27 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
     const transformedHistory=selectedHistory.map((entry:any)=>{
       const targetDraw:any=drawMap.get(entry.targetPeriod);
       const sourceDraw=drawMap.get(Number(entry.sourcePeriod));
-      const leftNumber=calculatedNumber(post.leftName,sourceDraw,entry.numbers[0]);
-      const rightNumber=calculatedNumber(post.rightName,sourceDraw,entry.numbers[1]);
-      const leftAnimal=animalFor(leftNumber),rightAnimal=animalFor(rightNumber);
+      const leftRaw=calculatedNumber(post.leftName,sourceDraw,entry.numbers[0]),rightRaw=calculatedNumber(post.rightName,sourceDraw,entry.numbers[1]);
+      const leftNumber=cycle49(leftRaw),rightNumber=cycle49(rightRaw);
+      const leftAnimal=animalFor(leftRaw),rightAnimal=animalFor(rightRaw);
       const leftTargets=targetPosition(targetDraw,leftNumber,leftAnimal),rightTargets=targetPosition(targetDraw,rightNumber,rightAnimal);
       const targetPositions=[...leftTargets,...rightTargets];
       const duplicateAnimal=leftAnimal===rightAnimal;
       const hit=!duplicateAnimal&&leftTargets.length>0&&rightTargets.length>0;
       return {...entry,hit,duplicateAnimal,targetPositions,animals:[leftAnimal,rightAnimal],numbers:[leftNumber,rightNumber],branches:[
-        {name:post.leftName,calculation:calculate(post.leftName,sourceDraw,leftNumber)+'属'+leftAnimal,result:leftAnimal,targetPositions:leftTargets},
-        {name:post.rightName,calculation:calculate(post.rightName,sourceDraw,rightNumber)+'属'+rightAnimal,result:rightAnimal,targetPositions:rightTargets}
+        {name:post.leftName,calculation:explainResult(calculate(post.leftName,sourceDraw,leftRaw),leftRaw)+'属'+leftAnimal,result:leftAnimal,targetPositions:leftTargets},
+        {name:post.rightName,calculation:explainResult(calculate(post.rightName,sourceDraw,rightRaw),rightRaw)+'属'+rightAnimal,result:rightAnimal,targetPositions:rightTargets}
       ],actualNumber:targetPositions.map((position:number)=>targetDraw.numbers[position-1].number).join('、'),actualAnimal:targetPositions.map((position:number)=>targetDraw.numbers[position-1].animal).join('、'),actualElement:''};
     });
     const sourcePeriod=historyEntry?Number(issue)-1:Number(current.issue)-1;
     const predictionSource=drawMap.get(sourcePeriod);
     const storedPredictionNumbers=historyEntry?historyEntry.numbers:post.predictionNumbers;
-    const predictionNumbers=[calculatedNumber(post.leftName,predictionSource,storedPredictionNumbers[0]),calculatedNumber(post.rightName,predictionSource,storedPredictionNumbers[1])];
-    const predictionAnimals=predictionNumbers.map(animalFor);
+    const predictionRaws=[calculatedNumber(post.leftName,predictionSource,storedPredictionNumbers[0]),calculatedNumber(post.rightName,predictionSource,storedPredictionNumbers[1])];
+    const predictionNumbers=predictionRaws.map(cycle49),predictionAnimals=predictionRaws.map(animalFor);
     const verifiedEntry=historyEntry?transformedHistory.find((entry:any)=>entry.targetPeriod===Number(issue)):null;
     const item={label:'平特二肖',sourceKey:post.leftName+'＋'+post.rightName,next:predictionAnimals,duplicatePrediction:predictionAnimals[0]===predictionAnimals[1],recentStreak:post.recentStreak,recent30Hits:Math.round((post.recent30Rate||0)*30),formulaId:post.formulaId,branches:[
-      {name:post.leftName,next:predictionAnimals[0],calculation:'取号一：'+calculate(post.leftName,drawMap.get(sourcePeriod),predictionNumbers[0])+'属'+predictionAnimals[0],sourcePositions:positions(post.leftName)},
-      {name:post.rightName,next:predictionAnimals[1],calculation:'取号二：'+calculate(post.rightName,drawMap.get(sourcePeriod),predictionNumbers[1])+'属'+predictionAnimals[1],sourcePositions:positions(post.rightName)}
+      {name:post.leftName,next:predictionAnimals[0],calculation:'取号一：'+explainResult(calculate(post.leftName,drawMap.get(sourcePeriod),predictionRaws[0]),predictionRaws[0])+'属'+predictionAnimals[0],sourcePositions:positions(post.leftName)},
+      {name:post.rightName,next:predictionAnimals[1],calculation:'取号二：'+explainResult(calculate(post.rightName,drawMap.get(sourcePeriod),predictionRaws[1]),predictionRaws[1])+'属'+predictionAnimals[1],sourcePositions:positions(post.rightName)}
     ],history:transformedHistory,...(historyEntry?{verification:{hit:verifiedEntry?.hit??false,actualNumber:'',actualAnimal:'',actualElement:''}}:{})};
     const shownDraws=allDraws.filter((draw:any)=>draw.period<=(historyEntry?Number(issue):Number(current.issue)-1)).slice(-6);
     const periods=selectedHistory.map((entry:any)=>entry.targetPeriod);

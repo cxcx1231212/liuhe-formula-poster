@@ -63,3 +63,13 @@ metrics = scorer.score("wuxing", "", {"branches": [{
 }]})
 assert metrics["recentStreak"] == 1
 print("PASS raw number 50 is classified as NaYin earth without wrapping")
+
+from search_zodiac_bundles import animal as zodiac_animal
+from search_lianxiao_pools import animal as lianxiao_animal
+from generate_kill_posters import prop as kill_prop
+for classifier in (zodiac_animal, lianxiao_animal):
+    assert [classifier(value) for value in (-21, 0, 50)] == ["龙", "羊", "蛇"]
+assert [kill_prop("肖", value) for value in (-21, 0, 50)] == ["龙", "羊", "蛇"]
+assert [kill_prop("头", value) for value in (55, 66, 77, 88, 99)] == [0, 1, 2, 3, 0]
+assert [cycle49(value) for value in (55, 66, 77, 88, 99)] == [6, 17, 28, 39, 1]
+print("PASS zodiac uses 12-animal cycle; number/head categories use 1-49 cycle")

@@ -1,6 +1,6 @@
 import json
 
-from search_pingte_methods import ANIMALS, ROOT, fetch_year, wrap
+from search_pingte_methods import ANIMALS, ROOT, fetch_year
 from search_tema_one_complete import bases
 
 
@@ -14,8 +14,7 @@ def streak(values):
 
 
 def animal(value):
-    number = wrap(value)
-    return ANIMALS[(number - 1) % 12]
+    return ANIMALS[(int(value) - 1) % 12]
 
 
 def make_series():

@@ -10,8 +10,9 @@ ROOT = Path(__file__).resolve().parents[1]
 # Repairs are applied before cache versioning, so old HTML cannot mask a fix.
 def kill_value(category, number):
     number = int(number)
-    if category == 'code': return str(number)
     if category == 'animal': return '马蛇龙兔虎牛鼠猪狗鸡猴羊'[(number - 1) % 12]
+    number = cycle49(number)
+    if category == 'code': return str(number)
     if category == 'tail': return str(number % 10)
     if category == 'head': return str(number // 10)
     if category == 'wave':
@@ -58,8 +59,12 @@ def kill_branch(name, draw, category):
             expression += sign + str(other).zfill(2)
     value += int(amount) if operator == '加' else -int(amount)
     result = kill_value(category, value)
-    shown = cycle_note(value) if category == 'wave' else str(value)
-    note = CYCLE49_NOTE if category == 'wave' and cycle49(value) != value else ''
+    if category == 'animal':
+        zodiac = (value - 1) % 12 + 1; delta = zodiac - value
+        shown = str(value) if zodiac == value else f"{value}{'＋' if delta >= 0 else '－'}{abs(delta)}＝{zodiac:02d}（按12肖循环）"
+        note = ''
+    else:
+        shown = cycle_note(value); note = CYCLE49_NOTE if cycle49(value) != value else ''
     return {'name': name, 'next': result, 'result': result,
             'calculation': expression + ('＋' if operator == '加' else '－') + amount + '＝' + shown + '→杀' + result + note,
             'sourcePositions': positions}

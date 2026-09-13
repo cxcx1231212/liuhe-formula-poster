@@ -9,6 +9,12 @@ const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,dig
 const values=(draw:FushiDraw)=>draw.numbers.map(item=>Number(item.number));
 const cellValue=(draw:FushiDraw,label:string)=>values(draw)[label==='特码'?6:Number(label.match(/平([1-6])码/)?.[1]||1)-1]||0;
 const formatNumber=(value:number)=>value>=0&&value<10?String(value).padStart(2,'0'):String(value);
+const zodiacNumber=(value:number)=>((Math.trunc(value)-1)%12+12)%12+1;
+const zodiacCycleText=(raw:number)=>{
+  const zodiac=zodiacNumber(raw);if(raw===zodiac)return `${formatNumber(raw)}属${animals[zodiac-1]}`;
+  const delta=zodiac-Math.trunc(raw),step=delta>=0?`＋${delta}`:`－${Math.abs(delta)}`;
+  return `${raw}${step}＝${String(zodiac).padStart(2,'0')}（按12肖循环），${String(zodiac).padStart(2,'0')}属${animals[zodiac-1]}`;
+};
 const baseDetails=(draw:FushiDraw,base:string):{value:number;expression:string}=>{
   if(base==='最小平码'){const value=Math.min(...values(draw).slice(0,6));return {value,expression:formatNumber(value)};}
   if(base==='最大平码'){const value=Math.max(...values(draw).slice(0,6));return {value,expression:formatNumber(value)};}
@@ -53,11 +59,11 @@ const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特
 // fushi-8-10-v1: a fixed, prior-draw-only expansion; never applied retroactively.
 const selectBranches=(method:FushiMethod,source:FushiDraw,targetPeriod:number,kind:string)=>{
   const active=kind==='number'&&method.expansionSize&&targetPeriod>=(method.activationIssue||Infinity);
-  const original=method.branches.map(branch=>{const raw=evaluate(source,branch),number=kind==='number'?cycle49(raw.number):raw.number;return {...raw,number,calculation:kind==='number'&&number!==raw.number?`${raw.calculation.replace(new RegExp(`${raw.number}(?=属)`),cycle49Text(raw.number)).replace(/属[^属]+$/,'')}${CYCLE49_NOTE}`:raw.calculation,name:branch.name};});
+  const original=method.branches.map(branch=>{const raw=evaluate(source,branch),number=kind==='number'?cycle49(raw.number):raw.number;return {...raw,number,calculation:kind==='number'&&number!==raw.number?`${raw.calculation.replace(/=-?\d+(?=属)/,`=${cycle49Text(raw.number)}`).replace(/属[^属]+$/,'')}${CYCLE49_NOTE}`:kind==='animal'?(raw.number<1||raw.number>49?raw.calculation.replace(/=-?\d+属[^属]+$/,`=${zodiacCycleText(raw.number)}`):raw.calculation):raw.calculation,name:branch.name};});
   if(!active)return original;
   if(source.numbers.length!==7)throw new Error('Incomplete expansion source');
   const result:typeof original=[],seen=new Set<number>();
-  const add=(name:string)=>{const raw=evaluate(source,name),number=cycle49(raw.number),value={...raw,number,calculation:number!==raw.number?`${raw.calculation.replace(new RegExp(`${raw.number}(?=属)`),cycle49Text(raw.number)).replace(/属[^属]+$/,'')}${CYCLE49_NOTE}`:raw.calculation,name};if(!seen.has(value.number)){seen.add(value.number);result.push(value);}};
+  const add=(name:string)=>{const raw=evaluate(source,name),number=cycle49(raw.number),value={...raw,number,calculation:number!==raw.number?`${raw.calculation.replace(/=-?\d+(?=属)/,`=${cycle49Text(raw.number)}`).replace(/属[^属]+$/,'')}${CYCLE49_NOTE}`:raw.calculation,name};if(!seen.has(value.number)){seen.add(value.number);result.push(value);}};
   for(const branch of original)if(!seen.has(branch.number)){seen.add(branch.number);result.push(branch);}
   for(let amount=1;amount<=49&&result.length<method.expansionSize!;amount++){
     for(let position=1;position<=7&&result.length<method.expansionSize!;position++)add(`${position===7?'特码':`平${position}码`}加${amount}`);

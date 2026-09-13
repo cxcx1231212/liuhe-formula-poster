@@ -1,9 +1,9 @@
-import argparse, json, math, re
+import argparse, json, re
 from PIL import Image,ImageDraw
 from generate_fushi_samples import calculation_text,mark_sources,record_row
 from generate_pingte_all_pattern_images import center,font
 from generate_zodiac_posters import XS
-from search_pingte_methods import ROOT,fetch_year,wrap,ANIMALS
+from search_pingte_methods import ROOT,fetch_year,ANIMALS
 from search_zodiac_bundles import make_series
 from number_cycle import CYCLE49_NOTE,cycle49,cycle_note
 W=1080; RED={1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46};BLUE={3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48}
@@ -15,10 +15,12 @@ def draw_data(record):
          'numbers':[{'number':str(value['number']).zfill(2),'animal':value.get('shengXiao',''),'element':value.get('wuXing','')} for value in record['numberList']]}
 def wave(n):return '红波' if n in RED else '蓝波' if n in BLUE else '绿波'
 def prop(k,v):
- n=cycle49(v) if k=='wave' else wrap(v);return n if k=='码' else ANIMALS[(n-1)%12] if k=='肖' else n%10 if k=='尾' else n//10 if k=='头' else wave(n)
+ n=int(v) if k=='肖' else cycle49(v);return n if k=='码' else ANIMALS[(n-1)%12] if k=='肖' else n%10 if k=='尾' else n//10 if k=='头' else wave(n)
 def result_text(k,raw,result,expression):
  expression=re.sub(r'→-?\d+$','',expression)
- return f'{re.sub(rf"{re.escape(str(raw))}$",cycle_note(raw),expression)}→杀{result}{CYCLE49_NOTE}' if k=='wave' and raw!=cycle49(raw) else f'{expression}→杀{result}'
+ if k=='肖' and (raw<1 or raw>49):
+  z=(int(raw)-1)%12+1;delta=z-int(raw);step=('＋'+str(delta)) if delta>=0 else ('－'+str(-delta));return f'{expression}；{raw}{step}＝{z:02d}（按12肖循环）→杀{result}'
+ return f'{re.sub(rf"{re.escape(str(raw))}$",cycle_note(raw),expression)}→杀{result}{CYCLE49_NOTE}' if k!='肖' and raw!=cycle49(raw) else f'{expression}→杀{result}'
 def streak(h):
  s=0
  for x in reversed(h):

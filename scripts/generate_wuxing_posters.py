@@ -83,7 +83,7 @@ def manifest_method(rank, item, records, history_records, formula_year):
         result_number = branch["calculate"](records[-1])
         expression = calculation_text(branch["name"], records[-1], {branch["name"]: branch["calculate"]})
         source_positions = [6 if label == "特码" else int(label[1]) - 1 for label in re.findall(r"平[1-6]码|特码", branch["name"])]
-        branches.append({"name": branch["name"], "next": branch["next"], "calculation": f"{expression}＝{result_number}（{branch['next']}）", "sourcePositions": source_positions})
+        branches.append({"name": branch["name"], "next": branch["next"], "calculation": f"{expression}＝{result_number}（按{formula_year}年六十甲子纳音属{branch['next']}）", "sourcePositions": source_positions})
     history = []
     for source, target in zip(history_records[:-1], history_records[1:]):
         history_branches = []
@@ -93,7 +93,7 @@ def manifest_method(rank, item, records, history_records, formula_year):
             result_element = element_for_formula_number(result_number, formula_year)
             predictions.append(result_element)
             expression = calculation_text(branch["name"], source, {branch["name"]: branch["calculate"]})
-            history_branches.append({"name": branch["name"], "calculation": f"{expression}＝{result_number}（{result_element}）", "result": result_element})
+            history_branches.append({"name": branch["name"], "calculation": f"{expression}＝{result_number}（按{formula_year}年六十甲子纳音属{result_element}）", "result": result_element})
         actual = target["numberList"][6]
         history.append({"sourcePeriod": int(source["period"]), "targetPeriod": int(target["period"]), "branches": history_branches, "actualNumber": str(actual["number"]).zfill(2), "actualAnimal": actual.get("shengXiao", ""), "actualElement": actual.get("wuXing", ""), "hit": actual.get("wuXing", "") in predictions})
     return {"rank": rank, "label": item["label"], "lineCount": item["lineCount"], "sourceKey": item["sourceKey"], "next": item["next"], "recentStreak": item["recentStreak"], "recent30Hits": item["recent30Hits"], "branches": branches, "history": history}

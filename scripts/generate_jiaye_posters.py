@@ -84,6 +84,11 @@ def expression(record, spec, raw_value, animal):
         elif spec["op"] == "b_minus_a": text = f"{b:02d}-{a:02d}={shown}"
         elif spec["op"] == "digit_sum": text = f"{a:02d}合{digit_sum(a)}+{b:02d}合{digit_sum(b)}={shown}"
         else: text = f"{a:02d}尾{a % 10}+{b:02d}尾{b % 10}={shown}"
+    zodiac = (int(raw_value) - 1) % 12 + 1
+    if raw_value < 1 or raw_value > 49:
+        delta = zodiac - int(raw_value)
+        step = f"＋{delta}" if delta >= 0 else f"－{-delta}"
+        return f"{text}；{raw_value}{step}＝{zodiac:02d}（按12肖循环），{zodiac:02d}属{animal}"
     return f"{text}属{animal}"
 
 

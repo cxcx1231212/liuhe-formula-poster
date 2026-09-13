@@ -56,8 +56,11 @@ def oversized_assets(root, ignore_source_history=False):
         relative = path.relative_to(root)
         # These are archive inputs. publish_history_shards.py --prune-build
         # removes their build copies before Wrangler sees the deployment.
-        if ignore_source_history and "formula-history" in relative.parts and "snapshots" in relative.parts:
-            continue
+        if ignore_source_history and relative.parts and relative.parts[0] == "formula-history":
+            is_snapshot = "snapshots" in relative.parts
+            is_legacy_archive = len(relative.parts) == 2 and re.fullmatch(r"type-[158]-\d{4}\.json", relative.name)
+            if is_snapshot or is_legacy_archive:
+                continue
         result.append(path)
     return result
 

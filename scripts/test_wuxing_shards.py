@@ -23,8 +23,13 @@ with tempfile.TemporaryDirectory() as folder:
     source_snapshot = history_root / "formula-history" / "type-5-2026" / "snapshots" / "001.json"
     source_snapshot.parent.mkdir(parents=True)
     source_snapshot.write_bytes(b"x" * 32)
+    legacy_archive = history_root / "formula-history" / "type-5-2026.json"
+    legacy_archive.write_bytes(b"x" * 32)
+    deployable_shard = history_root / "formula-history" / "type-5-2026" / "formulas" / "ab.json"
+    deployable_shard.parent.mkdir(parents=True)
+    deployable_shard.write_bytes(b"x" * 32)
     import shard_wuxing_manifests
     shard_wuxing_manifests.MAX_ASSET_BYTES = 16
-    assert oversized_assets(history_root, ignore_source_history=True) == []
-    assert oversized_assets(history_root, ignore_source_history=False) == [source_snapshot]
+    assert oversized_assets(history_root, ignore_source_history=True) == [deployable_shard]
+    assert set(oversized_assets(history_root, ignore_source_history=False)) == {source_snapshot, legacy_archive, deployable_shard}
 print("PASS Wuxing manifest sharding")

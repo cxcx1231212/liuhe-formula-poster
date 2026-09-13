@@ -94,6 +94,7 @@ jobs:
           python scripts/test_prepare_content_manifests.py
           python scripts/test_advanced_formulas.py
           python scripts/test_no_runtime_formula_wrapping.py
+          python scripts/test_wuxing_shards.py
 
       - name: 构建网站
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
@@ -132,6 +133,8 @@ jobs:
           python scripts/publish_history_shards.py
           python scripts/prepare_content_manifests.py
           node --experimental-strip-types scripts/test_fushi_expansion.mjs
+          # Split large collections, then enforce the limit across every formula asset.
+          python scripts/shard_wuxing_manifests.py
           pnpm run build
           python scripts/publish_history_shards.py --prune-build
           pnpm exec wrangler --version

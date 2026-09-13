@@ -23,6 +23,15 @@ async function loadManifest(path: string): Promise<any> {
   if (!response.ok) throw new Error('Formula asset unavailable: ' + path + ' (' + response.status + ')');
   return response.json();
 }
+export async function loadWuxingMethod(manifest:any,rank:string):Promise<any|undefined>{
+  if(Array.isArray(manifest.methods)&&manifest.methods.length)return manifest.methods.find((item:any)=>item.rank===rank);
+  const match=rank.match(/^(\D*)(\d+)$/);if(!match)return undefined;
+  const prefix=match[1],number=Number(match[2]);
+  const shard=(manifest.methodShards??[]).find((item:any)=>item.prefix===prefix&&number>=item.first&&number<=item.last);
+  if(!shard)return undefined;
+  const payload=await loadManifest(shard.path);
+  return payload.methods?.find((item:any)=>item.rank===rank);
+}
 const map = (one: string, five: string, eight: string) => ({
   get 1() { return loadManifest(one); },
   get 5() { return loadManifest(five); },

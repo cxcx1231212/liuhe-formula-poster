@@ -119,7 +119,7 @@ class Scorer:
             animals={ANIMALS[(x-1)%12] for x in ns}
             if board=='tema': hit=n in ns
             elif board=='zodiac': hit=special['animal'] in animals
-            elif board=='wuxing': hit=special['element'] in {elements[x] for x in ns}
+            elif board=='wuxing': hit=special['element'] in {elements[x] for x in ns if x in elements}
             elif board=='fushi':
                 required=3 if group in ('33','3x') else 2
                 hit=len(animals & {b['animal'] for b in balls[:6]})>=required if group.endswith('x') else len(ns & {int(b['number']) for b in balls[:6]})>=required

@@ -7,4 +7,9 @@ def cycle49(value):
 
 def cycle_note(raw):
     result = cycle49(raw)
-    return str(raw) if result == int(raw) else f"{raw}→回绕{result:02d}"
+    raw = int(raw)
+    if result == raw:
+        return str(raw)
+    adjustment = result - raw
+    symbol = "＋" if adjustment > 0 else "－"
+    return f"{raw}{symbol}{abs(adjustment)}＝{result:02d}"

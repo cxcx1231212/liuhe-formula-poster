@@ -49,7 +49,7 @@ def panel(draw, y, item, source, target=None):
     draw.rounded_rectangle((305,y,1005,y+84),radius=14,fill="#fffaf0",outline="#c59b43",width=3)
     draw.rounded_rectangle((325,y+12,865,y+72),radius=10,fill=color)
     expression=re.sub(r"→-?\d+$", "", calculation_text(item["name"],source,{item["name"]:item["calculate"]}))
-    if raw != cycle49(raw): expression=f"{expression}→回绕{cycle49(raw):02d}"
+    if raw != cycle49(raw): expression=re.sub(rf"{re.escape(str(raw))}$", cycle_note(raw), expression)
     center(draw,(595,y+42),expression,font(23,True),"white")
     draw.rounded_rectangle((885,y+12,985,y+72),radius=10,fill=color)
     center(draw,(935,y+42),result,font(25,True),"white")

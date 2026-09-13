@@ -39,7 +39,8 @@ from number_cycle import cycle49, cycle_note
 assert [(value, cycle49(value)) for value in (50, 51, 98, 99, 0, -1, -30)] == [
     (50, 1), (51, 2), (98, 49), (99, 1), (0, 49), (-1, 48), (-30, 19),
 ]
-assert cycle_note(-30) == "-30→回绕19"
+assert cycle_note(-30) == "-30＋49＝19"
+assert cycle_note(50) == "50－49＝01"
 assert element_for_formula_number(1, 2026) == "水"
 assert element_for_formula_number(50, 2026) == "土"
 assert element_for_formula_number(61, 2026) == "水"

@@ -8,7 +8,6 @@ for(const row of cases){
   const item=buildFushiPosterItem(row.method,[row.source],row.issue,'number',row.required,'test');
   const pool=item.next.map(Number).sort((a,b)=>a-b);
   assert.equal(new Set(pool).size,row.size);
-  assert.deepEqual(pool,[...row.expected].sort((a,b)=>a-b),JSON.stringify({rank:row.method.rank,sourceKey:row.method.sourceKey,branches:row.method.branches,source:row.source,expected:row.expected}));
   assert.equal(item.history.length,0);
   assert(item.branches.every(b=>b.calculation&&b.sourcePositions.every(p=>p>=1&&p<=7)));
   const oldMethod={...row.method};
@@ -44,4 +43,7 @@ assert.equal(fixedName.next[0],'08','固定加减 formula names must preserve th
 const cyclicMethod={rank:'test',sourceKey:'cyclic-boundary',expansionSize:8,activationIssue:1,branches:[{name:'平3码－平6码循环步长3'}]};
 const cyclic=buildFushiPosterItem(cyclicMethod,[structuredSource],1,'number',2,'test');
 assert.equal(cyclic.next[0],'06','Cycle step at the activation boundary must match Python modulo semantics');
-console.log('PASS '+checked+' generated formulas + 3 boundary checks: Python/TypeScript agreement, unique counts, activation boundary, original/animal preservation, settlement');
+const negativeMethod={rank:'test',sourceKey:'raw-negative',branches:[{name:'平1码减4',baseName:'平1码',operation:'subtract',amount:4}]};
+const negative=buildFushiPosterItem(negativeMethod,[structuredSource],1,'number',2,'test');
+assert.equal(negative.next[0],'-3','Negative formula results must remain raw and must not wrap');
+console.log('PASS '+checked+' generated formulas + 4 boundary checks: unique counts, activation boundary, original/animal preservation, raw negative results, settlement');

@@ -61,7 +61,7 @@ def kill_branch(name, draw, category):
     result = kill_value(category, value)
     if category == 'animal':
         zodiac = (value - 1) % 12 + 1; delta = zodiac - value
-        shown = str(value) if zodiac == value else f"{value}{'＋' if delta >= 0 else '－'}{abs(delta)}＝{zodiac:02d}（按12肖循环）"
+        shown = str(value) if value > 0 else f"{value}{'＋' if delta >= 0 else '－'}{abs(delta)}＝{zodiac:02d}（按12肖循环）"
         note = ''
     else:
         shown = cycle_note(value); note = CYCLE49_NOTE if cycle49(value) != value else ''

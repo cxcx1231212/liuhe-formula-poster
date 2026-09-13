@@ -341,7 +341,11 @@ export default function DynamicWuxingPoster({
                     return marker > 0 ? [step.slice(0, marker), step.slice(marker + 1)] : [step];
                   });
                   const zodiacMarker = text.indexOf("按12肖循环");
-                  if (zodiacMarker > 0) return [text.slice(0, zodiacMarker), text.slice(zodiacMarker)];
+                  if (zodiacMarker > 0) {
+                    const explanationStart = text.lastIndexOf("（", zodiacMarker);
+                    const splitAt = explanationStart >= 0 ? explanationStart : zodiacMarker;
+                    return [text.slice(0, splitAt), text.slice(splitAt)];
+                  }
                   const numberMarker = text.indexOf("（超出1～49");
                   if (numberMarker > 0) return [text.slice(0, numberMarker), text.slice(numberMarker)];
                   return [text];

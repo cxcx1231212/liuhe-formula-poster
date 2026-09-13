@@ -13,6 +13,7 @@ const decimalText=(value:number)=>Number.isInteger(value)?String(value):String(N
 const zodiacNumber=(value:number)=>((Math.trunc(value)-1)%12+12)%12+1;
 const zodiacCycleText=(raw:number)=>{
   const zodiac=zodiacNumber(raw);if(raw===zodiac)return `${formatNumber(raw)}属${animals[zodiac-1]}`;
+  if(raw>49)return `${raw}属${animals[zodiac-1]}`;
   const delta=zodiac-Math.trunc(raw),step=delta>=0?`＋${delta}`:`－${Math.abs(delta)}`;
   return `${raw}${step}＝${String(zodiac).padStart(2,'0')}（按12肖循环），${String(zodiac).padStart(2,'0')}属${animals[zodiac-1]}`;
 };
@@ -69,7 +70,7 @@ const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特
 // fushi-8-10-v1: a fixed, prior-draw-only expansion; never applied retroactively.
 const selectBranches=(method:FushiMethod,source:FushiDraw,targetPeriod:number,kind:string)=>{
   const active=kind==='number'&&method.expansionSize&&targetPeriod>=(method.activationIssue||Infinity);
-  const original=method.branches.map(branch=>{const raw=evaluate(source,branch),number=kind==='number'?cycle49(raw.number):raw.number;return {...raw,number,calculation:kind==='number'&&number!==raw.number?`${raw.calculation.replace(/=-?\d+(?=属)/,`=${cycle49Text(raw.number)}`).replace(/属[^属]+$/,'')}${CYCLE49_NOTE}`:kind==='animal'?(raw.number<1||raw.number>49?raw.calculation.replace(/=-?\d+属[^属]+$/,`=${zodiacCycleText(raw.number)}`):raw.calculation):raw.calculation,name:branch.name};});
+  const original=method.branches.map(branch=>{const raw=evaluate(source,branch),number=kind==='number'?cycle49(raw.number):raw.number;return {...raw,number,calculation:kind==='number'&&number!==raw.number?`${raw.calculation.replace(/=-?\d+(?=属)/,`=${cycle49Text(raw.number)}`).replace(/属[^属]+$/,'')}${CYCLE49_NOTE}`:kind==='animal'&&raw.number<1?raw.calculation.replace(/=-?\d+属[^属]+$/,`=${zodiacCycleText(raw.number)}`):raw.calculation,name:branch.name};});
   if(!active)return original;
   if(source.numbers.length!==7)throw new Error('Incomplete expansion source');
   const result:typeof original=[],seen=new Set<number>();

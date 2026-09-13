@@ -10,7 +10,8 @@ const animalFor=(value:number)=>animals[zodiacNumber(value)-1];
 const decimalText=(value:number)=>Number.isInteger(value)?String(value):String(Number(value.toFixed(6)));
 const zodiacResultText=(raw:number,animal:string)=>{
   const zodiac=zodiacNumber(raw);
-  if(raw>=1&&raw<=49)return `${String(raw).padStart(2,'0')}属${animal}`;
+  if(raw>49)return `${raw}属${animal}`;
+  if(raw>=1)return `${String(raw).padStart(2,'0')}属${animal}`;
   const delta=zodiac-Math.trunc(raw),step=delta>=0?`＋${delta}`:`－${Math.abs(delta)}`;
   return `${raw}${step}＝${String(zodiac).padStart(2,'0')}（按12肖循环），${String(zodiac).padStart(2,'0')}属${animal}`;
 };
@@ -62,8 +63,8 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
     const quotient=amount?base/amount:0;
     const calculation=operation==='divide_floor'
       ? Number.isInteger(quotient)
-        ? `${baseText}＝${base}；${base}÷${amount}＝${raw}${raw<1||raw>49?`；${classification}`:`，${classification}`}`
-        : `${baseText}＝${base}；${base}÷${amount}＝${decimalText(quotient)}；去掉小数部分＝${raw}${raw<1||raw>49?`；${classification}`:`，${classification}`}`
+        ? `${baseText}＝${base}；${base}÷${amount}＝${raw}${raw<1?`；${classification}`:`，${classification}`}`
+        : `${baseText}＝${base}；${base}÷${amount}＝${decimalText(quotient)}；去掉小数部分＝${raw}${raw<1?`；${classification}`:`，${classification}`}`
       : operation==='modulo'
         ? `${baseText}＝${base}；${base}÷${amount}，余数＝${classification}`
       : `${grouped}${symbol(operation,draw.period)}${shown}＝${classification}`;

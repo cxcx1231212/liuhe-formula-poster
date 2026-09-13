@@ -23,13 +23,16 @@ assert.equal(division.next[0],'虎');
 assert.equal(division.branches[0].calculation,'01－40＝-39；-39÷5＝-7.8；去掉小数部分＝-7；-7＋12＝05（按12肖循环），05属虎');
 const exactDivision=buildZodiacPosterItem(divided,[{period:256,numbers:[5,15,9,37,7,3,40].map(number=>({number:String(number),animal:'',element:''}))}],257);
 assert.doesNotMatch(exactDivision.branches[0].calculation,/去掉小数部分/);
-assert.match(exactDivision.branches[0].calculation,/05－40＝-35；-35÷5＝-7；-7＋12＝05/);
+assert.match(exactDivision.branches[0].calculation,/05－40＝-35；-35÷5＝-7；-7＋12＝05（按12肖循环）/);
 
 const fushiMethod={rank:'001',sourceKey:'边界测试',branches:[{name:'平1码减35'}]};
 const fushiDraw={period:1,numbers:[35,2,3,4,5,6,7].map(number=>({number:String(number),animal:'',element:''}))};
 const animalFushi=buildFushiPosterItem(fushiMethod,[fushiDraw],2,'animal',2,'二肖复式');
 assert.equal(animalFushi.next[0],'羊');
 assert.match(animalFushi.branches[0].calculation,/35−35=0＋12＝12（按12肖循环），12属羊/);
+const overFushi=buildFushiPosterItem({rank:'002',sourceKey:'超过49',branches:[{name:'平1码加15'}]},[{...fushiDraw,numbers:[49,2,3,4,5,6,7].map(number=>({number:String(number),animal:'',element:''}))}],2,'animal',2,'二肖复式');
+assert.equal(overFushi.next[0],'兔');
+assert.equal(overFushi.branches[0].calculation,'49+15=64属兔');
 const numberFushi=buildFushiPosterItem(fushiMethod,[fushiDraw],2,'number',2,'二中二');
 assert.equal(numberFushi.next[0],'49');
 assert.match(numberFushi.branches[0].calculation,/35−35=0＋49＝49（超出1～49，每次加\/减49）/);

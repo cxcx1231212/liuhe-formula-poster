@@ -18,7 +18,7 @@ def prop(k,v):
  n=int(v) if k=='肖' else cycle49(v);return n if k=='码' else ANIMALS[(n-1)%12] if k=='肖' else n%10 if k=='尾' else n//10 if k=='头' else wave(n)
 def result_text(k,raw,result,expression):
  expression=re.sub(r'→-?\d+$','',expression)
- if k=='肖' and (raw<1 or raw>49):
+ if k=='肖' and raw<1:
   z=(int(raw)-1)%12+1;delta=z-int(raw);step=('＋'+str(delta)) if delta>=0 else ('－'+str(-delta));return f'{expression}；{raw}{step}＝{z:02d}（按12肖循环）→杀{result}'
  return f'{re.sub(rf"{re.escape(str(raw))}$",cycle_note(raw),expression)}→杀{result}{CYCLE49_NOTE}' if k!='肖' and raw!=cycle49(raw) else f'{expression}→杀{result}'
 def streak(h):

@@ -6,6 +6,7 @@ from board_sort_scores import Scorer
 
 ROOT = Path(__file__).resolve().parents[1]
 GENERATED = ROOT / 'public' / 'generated'
+AUTHOR_MAP_PATH = ROOT / 'data' / 'formula-author-map.json'
 SOURCES = [
     ('pingte:one','pingte-all',None),('pingte:two','pingte-two',None),
     *((f'tema:{c}','tema-bundles',c) for c in ('3','8','10','18')),
@@ -25,8 +26,36 @@ def latest(folder,lottery_type):
     return max(found)[1]
 
 def compact(method,index):
-    fields=('rank','label','name','sourceKey','image','next','prediction','predictionNumber','predictionAnimal','predictionNumbers','predictionAnimals','values','numbers','animals','algorithmFamily','advancedSpecs','recentStreak','recent30Hits','recent30Rate','totalRate','scoredPeriods')
+    fields=('rank','label','name','sourceKey','authorIndex','image','next','prediction','predictionNumber','predictionAnimal','predictionNumbers','predictionAnimals','values','numbers','animals','algorithmFamily','advancedSpecs','recentStreak','recent30Hits','recent30Rate','totalRate','scoredPeriods')
     return {**{key:method[key] for key in fields if key in method},'sourceIndex':index}
+
+def author_identity(method):
+    formula_id=method.get('formulaId')
+    if formula_id: return f'id:{formula_id}'
+    stable={key:method.get(key) for key in ('name','sourceKey','rank','label','branchNames','branches','advancedSpecs') if method.get(key) is not None}
+    if 'branches' in stable:
+        stable['branches']=[branch.get('name',branch) if isinstance(branch,dict) else branch for branch in stable['branches']]
+    payload=json.dumps(stable,ensure_ascii=False,sort_keys=True,separators=(',',':'))
+    return 'sig:'+hashlib.sha1(payload.encode('utf-8')).hexdigest()
+
+def load_author_map():
+    if not AUTHOR_MAP_PATH.exists(): return {'version':1,'boards':{}}
+    data=json.loads(AUTHOR_MAP_PATH.read_text(encoding='utf-8'))
+    return data if isinstance(data.get('boards'),dict) else {'version':1,'boards':{}}
+
+def assign_authors(author_map,lottery_type,key,methods):
+    board_key=f'{lottery_type}:{key}'
+    registry=author_map['boards'].setdefault(board_key,{})
+    used=[slot for name,board in author_map['boards'].items() if name.startswith(f'{lottery_type}:') for slot in board.values()]
+    next_index=max(used,default=-1)+1
+    seen={}
+    for method in methods:
+        base=author_identity(method);occurrence=seen.get(base,0);seen[base]=occurrence+1
+        identity=base if occurrence==0 else f'{base}#{occurrence+1}'
+        if identity not in registry:
+            if next_index>=100000: raise RuntimeError(f'Author slots exhausted for lottery type {lottery_type}')
+            registry[identity]=next_index;next_index+=1
+        method['authorIndex']=registry[identity]
 
 def build(lottery_type):
     boards={};audit=[]
@@ -41,6 +70,7 @@ def build(lottery_type):
     latest_draw=max(int(row['period']) for row in fallback_draws)
     print('Latest scoring draw',lottery_type,latest_draw,flush=True)
     scorers={}
+    author_map=load_author_map()
     for key,folder,category in SOURCES:
         path=latest(folder,lottery_type)
         if path not in loaded: loaded[path]=json.loads(path.read_text(encoding='utf-8'))
@@ -49,6 +79,7 @@ def build(lottery_type):
         if issue not in scorers: scorers[issue]=Scorer([d for d in fallback_draws if int(d['period'])<issue])
         scorer=scorers[issue]
         methods=data.get('groups',{}).get(category,{}).get('methods',[]) if category else data.get('methods',[])
+        assign_authors(author_map,lottery_type,key,methods)
         board=key.split(':')[0]
         if key=='pingte:two': board='pingte2'
         scored=[]
@@ -77,6 +108,8 @@ def build(lottery_type):
         output=output_dir/f"type-{lottery_type}-{key.replace(':','-')}.json"
         output.write_text(json.dumps(payload,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     for scorer in scorers.values(): scorer.numeric.cache_clear()
+    AUTHOR_MAP_PATH.parent.mkdir(parents=True,exist_ok=True)
+    AUTHOR_MAP_PATH.write_text(json.dumps(author_map,ensure_ascii=False,separators=(',',':')),encoding='utf-8')
     return audit
 
 if __name__=='__main__':

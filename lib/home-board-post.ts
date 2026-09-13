@@ -1,4 +1,4 @@
-import {postAuthor} from '@/lib/post-authors';
+import {postAuthor,postAuthorBySlot} from '@/lib/post-authors';
 import type {BoardPost} from '@/app/BoardPostList';
 const pad=(v:number|string)=>String(v).padStart(3,'0');
 const labels:Record<string,string>={
@@ -12,6 +12,7 @@ const labels:Record<string,string>={
 };
 function firstText(value:unknown){return typeof value==='string'&&value.trim()?value.trim():'';}
 export function makeHomeBoardPost(type:string,board:string,category:string,issue:number,m:Record<string,unknown>,index:number):BoardPost{
+ const authorIndex=typeof m.authorIndex==='number'?m.authorIndex:null;
  index=typeof m.sourceIndex==='number'?m.sourceIndex:index;
  const q=`?type=${type}`,rank=String(m.rank??pad(index+1)),i=`${issue}期`;
  const key=board==='pingte'?`pingte:${category==='two'?'two':'one'}`:`${board}:${category}`;
@@ -19,7 +20,8 @@ export function makeHomeBoardPost(type:string,board:string,category:string,issue
  const authorBoard=board==='pingte'?(category==='two'?'pingte2':'pingte'):board==='tema'?`tema${category}`:board==='zodiac'?`zodiac${category}`:board==='fushi'?`fushi${category}`:board==='kill'?`kill${category}`:board;
  const streak=Number(m.recentStreak??m.streak??0);
  const streakText=Number.isFinite(streak)&&streak>0?`连准${Math.trunc(streak)}期`:'近期验证中';
- const title=`${postAuthor(type,authorBoard as never,index)}【${label}】${streakText}`;
+ const author=authorIndex===null?postAuthor(type,authorBoard as never,index):postAuthorBySlot(type,authorIndex);
+ const title=`${author}【${label}】${streakText}`;
  if(board==='pingte')return {issue:i,href:`/posts/${category==='two'?'pingte2':'pingte'}/${issue}/${pad(index+1)}${q}`,title};
  if(board==='tema'||board==='zodiac')return {issue:i,href:`/posts/${board}/${category}/${issue}/${pad(index+1)}${q}`,title};
  if(board==='fushi'||board==='kill')return {issue:i,href:`/posts/${board}/${category}/${issue}/${rank}${q}`,title};

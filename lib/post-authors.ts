@@ -23,6 +23,19 @@ const lotterySlot:Record<string,number>={'1':0,'5':1,'8':2};
 const scopeCapacity:Record<AuthorScope,number>={pingte:300,pingte2:300,tema1:600,tema3:600,tema8:600,tema10:600,tema18:600,zodiac1:11000,zodiac3:1000,zodiac6:800,zodiac9:600,fushi22:1000,fushi33:1000,fushi2x:1000,fushi3x:1000,danshuang:11000,wave:5500,wuxing:23000,jiaye:300,killcode:300,killanimal:300,killtail:300,killhead:300,killwave:300,size:300,tail:300,head:300};
 const scopeStart=Object.fromEntries(scopes.map((scope,index)=>[scope,scopes.slice(0,index).reduce((sum,item)=>sum+scopeCapacity[item],0)])) as Record<AuthorScope,number>;
 const LOTTERY_CAPACITY=scopes.reduce((sum,scope)=>sum+scopeCapacity[scope],0);
+const AUTHOR_SLOTS_PER_LOTTERY=100000;
+
+function authorFromSerial(serial:number){
+  let value=(serial*7919)%(regions.length*nicknames.length);
+  const region=regions[value%regions.length];value=Math.floor(value/regions.length);
+  const nickname=nicknames[value%nicknames.length];
+  return `${region}${nickname}`;
+}
+
+/** New generated manifests use a permanent append-only slot independent of ranking. */
+export function postAuthorBySlot(type:string,slot:number){
+  return authorFromSerial((lotterySlot[type]??1)*AUTHOR_SLOTS_PER_LOTTERY+Math.max(0,Math.trunc(slot)));
+}
 
 /** 每个彩种、板块和公式编号都对应一个全站唯一且长期固定的中文笔名。 */
 export function postAuthor(type:string,scope:AuthorScope,index:number){
@@ -30,8 +43,5 @@ export function postAuthor(type:string,scope:AuthorScope,index:number){
   const serial=(lotterySlot[type]??1)*LOTTERY_CAPACITY+scopeStart[scope]+safeIndex;
   // A reversible permutation keeps every pen name unique while preventing
   // neighbouring formulas from looking like the same person in different cities.
-  let value=(serial*7919)%(regions.length*nicknames.length);
-  const region=regions[value%regions.length];value=Math.floor(value/regions.length);
-  const nickname=nicknames[value%nicknames.length];
-  return `${region}${nickname}`;
+  return authorFromSerial(serial);
 }

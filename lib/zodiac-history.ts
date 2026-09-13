@@ -1,7 +1,7 @@
 type NumberCell={number:string;animal:string;element:string};
 export type ZodiacDraw={period:number;displayPeriod?:string;date?:string;numbers:NumberCell[]};
 export type ZodiacBranch={name:string;baseName?:string;operation?:string;amount?:number;number?:number;animal?:string};
-export type ZodiacMethod={name?:string;baseName?:string;operation?:string;amount?:number;nextNumber?:number;nextAnimal?:string;sourceKey?:string;branches?:ZodiacBranch[];recentStreak?:number;recent30Rate?:number};
+export type ZodiacMethod={name?:string;baseName?:string;operation?:string;amount?:number;nextNumber?:number;nextAnimal?:string;sourceKey?:string;branches?:ZodiacBranch[];recentStreak?:number;recent30Rate?:number;authorIndex?:number};
 
 const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,digit)=>sum+Number(digit),0);
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];

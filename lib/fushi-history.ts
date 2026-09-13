@@ -58,6 +58,8 @@ const evaluate=(draw:FushiDraw,input:string|RawBranch)=>{
     ? Number.isInteger(quotient)
       ? `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}=${formatNumber(result)}属${animal}`
       : `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}=${decimalText(quotient)}；去掉小数部分=${formatNumber(result)}属${animal}`
+    : definition.operation==='除'&&definition.suffix==='余数'
+      ? `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}，余数=${formatNumber(result)}属${animal}`
     : `${baseDetailsValue.expression}${symbol}${shown}=${formatNumber(result)}属${animal}`;
   return {number:result,animal,calculation};
 };

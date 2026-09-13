@@ -64,6 +64,8 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
       ? Number.isInteger(quotient)
         ? `${baseText}＝${base}；${base}÷${amount}＝${raw}${raw<1||raw>49?`；${classification}`:`，${classification}`}`
         : `${baseText}＝${base}；${base}÷${amount}＝${decimalText(quotient)}；去掉小数部分＝${raw}${raw<1||raw>49?`；${classification}`:`，${classification}`}`
+      : operation==='modulo'
+        ? `${baseText}＝${base}；${base}÷${amount}，余数＝${classification}`
       : `${grouped}${symbol(operation,draw.period)}${shown}＝${classification}`;
     return {result,animal,calculation};
   };

@@ -15,7 +15,7 @@ assert.match(zero.branches[0].calculation,/\(35－49\)\+14＝0＋12＝12（按12
 
 const tails={name:'平1码尾数＋特码尾数除9余数',baseName:'平1码尾数＋特码尾数',operation:'modulo',amount:9};
 const tail=buildZodiacPosterItem(tails,[{period:256,numbers:[40,15,9,37,7,3,1].map(number=>({number:String(number),animal:'',element:''}))}],257);
-assert.match(tail.branches[0].calculation,/\(40尾0＋01尾1\)÷余数9＝01属马/);
+assert.equal(tail.branches[0].calculation,'40尾0＋01尾1＝1；1÷9，余数＝01属马');
 
 const divided={name:'平1码－特码除5取整',baseName:'平1码－特码',operation:'divide_floor',amount:5};
 const division=buildZodiacPosterItem(divided,[{period:256,numbers:[1,15,9,37,7,3,40].map(number=>({number:String(number),animal:'',element:''}))}],257);

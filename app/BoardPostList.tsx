@@ -20,7 +20,7 @@ export default function BoardPostList({posts,listKey='default'}:{posts:BoardPost
   },[page,pages]);
   if(!posts.length)return null;
   return <>
-    <div className="board-titles">{visible.map(post=><a href={post.href} key={post.href}><span>{post.issue}</span><h3>{post.title}</h3>{post.badge&&<b>{post.badge}</b>}<i>›</i></a>)}</div>
+    <div className="board-titles">{visible.map(post=><a href={post.href} target="_blank" rel="noopener noreferrer" key={post.href}><span>{post.issue}</span><h3>{post.title}</h3>{post.badge&&<b>{post.badge}</b>}<i>›</i></a>)}</div>
     {pages>1&&<nav className="board-pagination" aria-label="帖子分页">
       <button disabled={page===1} onClick={()=>setPage(value=>Math.max(1,value-1))}>上一页</button>
       {pageNumbers.map(value=><button className={page===value?'active':''} aria-current={page===value?'page':undefined} onClick={()=>setPage(value)} key={value}>{value}</button>)}

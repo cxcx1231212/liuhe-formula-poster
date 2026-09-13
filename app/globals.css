@@ -176,3 +176,7 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5
 /* Recommended sites: exactly four items per row on every screen. */
 .site-recommendations>div{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 @media(max-width:600px){.site-recommendations>div{grid-template-columns:repeat(4,minmax(0,1fr))!important}.site-recommendations a{padding-inline:3px}.site-recommendations a b{font-size:10px}}
+
+/* Persistent site mark over the live video. */
+.live-screen{position:relative}.live-video-logo{position:absolute;z-index:2;top:12px;right:12px;display:flex;align-items:center;gap:7px;padding:6px 9px;border:1px solid rgba(255,255,255,.5);border-radius:8px;background:rgba(12,74,145,.78);box-shadow:0 2px 10px rgba(0,0,0,.18);color:#fff;pointer-events:none;backdrop-filter:blur(3px)}.live-video-logo img{width:25px;height:25px}.live-video-logo span{display:grid;text-align:left;line-height:1.05}.live-video-logo strong{font-size:11px;letter-spacing:.04em}.live-video-logo small{margin-top:3px;color:#bfe2ff;font:700 7px Arial,sans-serif;letter-spacing:.12em}
+@media(max-width:600px){.live-video-logo{top:8px;right:8px;padding:5px 7px}.live-video-logo img{width:21px;height:21px}.live-video-logo strong{font-size:9px}}

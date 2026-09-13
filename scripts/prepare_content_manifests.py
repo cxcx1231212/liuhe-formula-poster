@@ -3,6 +3,7 @@ import json
 import hashlib
 import re
 from pathlib import Path
+from number_cycle import CYCLE49_NOTE, cycle49, cycle_note
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -14,9 +15,10 @@ def kill_value(category, number):
     if category == 'tail': return str(number % 10)
     if category == 'head': return str(number // 10)
     if category == 'wave':
+        number = cycle49(number)
         red = {1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46}
         blue = {3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48}
-        return '无波色' if number < 1 or number > 49 else '红波' if number in red else '蓝波' if number in blue else '绿波'
+        return '红波' if number in red else '蓝波' if number in blue else '绿波'
     raise ValueError('Unknown kill category: ' + category)
 
 
@@ -56,8 +58,10 @@ def kill_branch(name, draw, category):
             expression += sign + str(other).zfill(2)
     value += int(amount) if operator == '加' else -int(amount)
     result = kill_value(category, value)
+    shown = cycle_note(value) if category == 'wave' else str(value)
+    note = CYCLE49_NOTE if category == 'wave' and cycle49(value) != value else ''
     return {'name': name, 'next': result, 'result': result,
-            'calculation': expression + ('＋' if operator == '加' else '－') + amount + '＝' + str(value) + '→杀' + result,
+            'calculation': expression + ('＋' if operator == '加' else '－') + amount + '＝' + shown + '→杀' + result + note,
             'sourcePositions': positions}
 
 

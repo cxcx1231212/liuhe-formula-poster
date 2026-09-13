@@ -180,3 +180,7 @@ a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid #1d5
 /* Persistent site mark over the live video. */
 .live-screen{position:relative}.live-video-logo{position:absolute;z-index:2;top:10px;right:25px;width:200px;height:auto;border:1px solid rgba(255,255,255,.55);border-radius:7px;box-shadow:0 2px 10px rgba(0,0,0,.22);pointer-events:none}
 @media(max-width:600px){.live-video-logo{top:2px;right:4px;width:100px;border-radius:5px}}
+
+/* Search results expose the exact formula behind repeated author names. */
+.board-titles.search-result-list>a:has(>b){grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"meta arrow" "title arrow" "formula arrow";align-items:center;gap:3px 12px;padding-block:10px}.search-result-list>a>small{grid-area:meta;color:#536b86;font-size:10px}.board-titles.search-result-list>a>span{grid-area:title;padding:0;border:0;background:transparent;color:#1d5eb5;font-size:14px;font-weight:800;text-align:left;white-space:normal}.search-result-list>a>em{grid-area:formula;color:#334e6f;font-size:11px;font-style:normal;line-height:1.4}.search-result-list>a>b{grid-area:arrow;padding:0;border:0}
+@media(max-width:600px){.search-result-list>a{padding-block:9px}.search-result-list>a>small{font-size:9px}.search-result-list>a>span{font-size:12px}.search-result-list>a>em{font-size:10px}}

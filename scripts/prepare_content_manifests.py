@@ -125,8 +125,12 @@ def repair_content(issues):
             for item in group['methods']:
                 names = [branch['name'] for branch in item['branches']]
                 branches = [kill_branch(name, draws[-1], category) for name in names]
-                if set(b['result'] for b in branches) != set(map(str, item['values'])):
-                    raise RuntimeError(f'Kill prediction mismatch: {kind}/{category}/{item["rank"]}')
+                rebuilt_values = sorted({str(branch['result']) for branch in branches})
+                if set(rebuilt_values) != set(map(str, item['values'])):
+                    print(f'Repaired kill prediction: {kind}/{category}/{item["rank"]} '
+                          f'{item["values"]} -> {rebuilt_values}', flush=True)
+                    item['values'] = rebuilt_values
+                    item['next'] = rebuilt_values
                 history = []
                 for source, target in zip(draws, draws[1:]):
                     if int(target['period']) != int(source['period']) + 1: continue

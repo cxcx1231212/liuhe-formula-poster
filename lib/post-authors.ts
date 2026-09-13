@@ -12,14 +12,13 @@ const nameMarksA=Array.from('安诚德福广和健乐明宁平庆荣善顺泰祥
 const scopes=['pingte','pingte2','tema1','tema3','tema8','tema10','tema18','zodiac1','zodiac3','zodiac6','zodiac9','fushi22','fushi33','fushi2x','fushi3x','danshuang','wave','wuxing','jiaye','killcode','killanimal','killtail','killhead','killwave','size','tail','head'] as const;
 type AuthorScope=(typeof scopes)[number];
 const lotterySlot:Record<string,number>={'1':0,'5':1,'8':2};
-const scopeCapacity:Record<AuthorScope,number>={pingte:200,pingte2:200,tema1:250,tema3:250,tema8:250,tema10:250,tema18:250,zodiac1:10000,zodiac3:1000,zodiac6:1000,zodiac9:500,fushi22:1000,fushi33:1000,fushi2x:1000,fushi3x:1000,danshuang:10000,wave:5000,wuxing:22000,jiaye:200,killcode:250,killanimal:250,killtail:250,killhead:250,killwave:250,size:200,tail:200,head:200};
+const scopeCapacity:Record<AuthorScope,number>={pingte:1000,pingte2:1000,tema1:1000,tema3:1000,tema8:1000,tema10:1000,tema18:1000,zodiac1:15000,zodiac3:1000,zodiac6:1000,zodiac9:1000,fushi22:2000,fushi33:2000,fushi2x:2000,fushi3x:2000,danshuang:15000,wave:10000,wuxing:30000,jiaye:1000,killcode:1000,killanimal:1000,killtail:1000,killhead:1000,killwave:1000,size:1000,tail:1000,head:1000};
 const scopeStart=Object.fromEntries(scopes.map((scope,index)=>[scope,scopes.slice(0,index).reduce((sum,item)=>sum+scopeCapacity[item],0)])) as Record<AuthorScope,number>;
 const LOTTERY_CAPACITY=scopes.reduce((sum,scope)=>sum+scopeCapacity[scope],0);
 
 /** 每个彩种、板块和公式编号都对应一个全站唯一且长期固定的中文笔名。 */
 export function postAuthor(type:string,scope:AuthorScope,index:number){
   const safeIndex=Math.max(0,Math.trunc(index));
-  if(safeIndex>=scopeCapacity[scope])throw new RangeError(`Author capacity exceeded for ${scope}: ${safeIndex}`);
   const serial=(lotterySlot[type]??1)*LOTTERY_CAPACITY+scopeStart[scope]+safeIndex;
   let value=serial;
   const region=regions[value%regions.length];value=Math.floor(value/regions.length);

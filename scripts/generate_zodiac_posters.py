@@ -87,7 +87,7 @@ def base_expression(base_name, record):
 
 def calculation_text(name, record, formulas):
     raw = formulas[name](record)
-    result = wrap(raw)
+    result = raw
     zodiac = animal(raw)
     if match := re.fullmatch(r"(.+?)(双期|三期)?交替加减(\d+)", name):
         base, cycle, amount = match.groups()
@@ -95,28 +95,28 @@ def calculation_text(name, record, formulas):
         period = int(record["period"])
         plus = period % 2 == 1 if not cycle else ((period - 1) // (2 if cycle == "双期" else 3)) % 2 == 0
         symbol = "＋" if plus else "－"
-        answer = f"{raw}" if 1 <= raw <= 49 else f"{raw}→{result:02d}"
+        answer = f"{raw}"
         return f"{expression}{symbol}{amount}＝{answer}＝{zodiac}"
     if match := re.fullmatch(r"(.+?)不对称交替加(\d+)减(\d+)", name):
         base, plus, minus = match.groups(); expression, _ = base_expression(base.removesuffix("固定"), record)
         amount = plus if int(record["period"]) % 2 else minus; symbol = "＋" if int(record["period"]) % 2 else "－"
-        return f"{expression}{symbol}{amount}＝{result:02d}＝{zodiac}"
+        return f"{expression}{symbol}{amount}＝{result}＝{zodiac}"
     if match := re.fullmatch(r"(.+?)循环步长(\d+)", name):
         base, amount = match.groups(); expression, _ = base_expression(base.removesuffix("固定"), record); step=((int(record["period"])-1)%3+1)*int(amount)
-        return f"{expression}＋{step}＝{result:02d}＝{zodiac}"
+        return f"{expression}＋{step}＝{result}＝{zodiac}"
     if match := re.fullmatch(r"(.+?)(加|减|乘)(\d+)", name):
         base, operation, amount = match.groups()
         expression, _ = base_expression(base, record)
         symbol = {"加": "＋", "减": "－", "乘": "×"}[operation]
-        answer = f"{raw}" if 1 <= raw <= 49 else f"{raw}→{result:02d}"
+        answer = f"{raw}"
         return f"{expression}{symbol}{amount}＝{answer}＝{zodiac}"
     if match := re.fullmatch(r"(.+?)除(\d+)(取整|余数)", name):
         base, amount, mode = match.groups()
         expression, _ = base_expression(base, record)
         operation = f"÷{amount}取整" if mode == "取整" else f"÷{amount}余"
-        answer = f"{raw}" if 1 <= raw <= 49 else f"{raw}→{result:02d}"
+        answer = f"{raw}"
         return f"({expression}){operation}＝{answer}＝{zodiac}"
-    return f"{name}＝{result:02d}＝{zodiac}"
+    return f"{name}＝{result}＝{zodiac}"
 
 
 def formula_box(draw, y, branches, source, formulas, target_animal=None):

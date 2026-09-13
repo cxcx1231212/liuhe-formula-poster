@@ -44,7 +44,9 @@ def evaluate(name, calculate, base_name, operation, amount, records):
         actual = target["numberList"][6]["shengXiao"]
         predictions.append(predicted)
         hits.append(predicted == actual)
-    next_value = wrap(calculate(records[-1]))
+    # Preserve the formula's raw numeric result. Zodiac classification may use
+    # its 12-step cycle, but must not rewrite that result into the 1-49 range.
+    next_value = calculate(records[-1])
     return {
         "name": name,
         "baseName": base_name,

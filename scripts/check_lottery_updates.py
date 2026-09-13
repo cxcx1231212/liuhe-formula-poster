@@ -3,12 +3,14 @@
 
 import argparse
 import json
+import re
 from pathlib import Path
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "public" / "generated" / "lottery-catalog.json"
+MANIFEST_POINTERS = ROOT / "lib" / "formula-manifests.ts"
 CF_API = "https://liuhe-formula-update-checker.xcx8088.workers.dev/latest"
 
 
@@ -25,13 +27,27 @@ def latest_period(lottery_type: int) -> int:
     return int(payload["period"])
 
 
+def generated_periods(catalog_path=CATALOG, pointers_path=MANIFEST_POINTERS):
+    """Use every committed progress marker so a deploy failure cannot trigger a recount."""
+    generated = {}
+    if catalog_path.exists():
+        for row in json.loads(catalog_path.read_text(encoding="utf-8")):
+            lottery_type = int(row["lotteryType"])
+            generated[lottery_type] = max(generated.get(lottery_type, 0), int(row["nextPeriod"]))
+    if pointers_path.exists():
+        source = pointers_path.read_text(encoding="utf-8")
+        for lottery_type, issue in re.findall(r"type-([158])-(\d+)-manifest\.json", source):
+            lottery_type, issue = int(lottery_type), int(issue)
+            generated[lottery_type] = max(generated.get(lottery_type, 0), issue)
+    return generated
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--types", nargs="+", type=int, default=[1, 5, 8])
     parser.add_argument("--github-output")
     args = parser.parse_args()
-    catalog = json.loads(CATALOG.read_text(encoding="utf-8"))
-    generated = {int(row["lotteryType"]): int(row["nextPeriod"]) for row in catalog}
+    generated = generated_periods()
     stale = []
     for lottery_type in args.types:
         opened = latest_period(lottery_type)

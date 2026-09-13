@@ -137,6 +137,8 @@ jobs:
           python scripts/shard_wuxing_manifests.py
           pnpm run build
           python scripts/publish_history_shards.py --prune-build
+          # Validate exactly what Wrangler will upload, after source archives are removed.
+          python scripts/shard_wuxing_manifests.py --check-root dist/client
           pnpm exec wrangler --version
           pnpm exec wrangler deploy --dry-run --config dist/server/wrangler.json --name liuhe-formula-poster-backend
           pnpm exec wrangler deploy --dry-run --config wrangler-cache.jsonc

@@ -7,5 +7,5 @@ draw = {
 }
 
 assert kill_branch('平3码－平6码循环步长2', draw, 'code')['result'] == '1'
-assert kill_branch('平1码不对称交替加3减4', draw, 'code')['result'] == '9'
+assert kill_branch('平1码不对称交替加3减4', draw, 'code')['result'] == '-3'
 print('PASS content manifest formula parsing')

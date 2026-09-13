@@ -45,5 +45,6 @@ const cyclic=buildFushiPosterItem(cyclicMethod,[structuredSource],1,'number',2,'
 assert.equal(cyclic.next[0],'06','Cycle step at the activation boundary must match Python modulo semantics');
 const negativeMethod={rank:'test',sourceKey:'raw-negative',branches:[{name:'平1码减4',baseName:'平1码',operation:'subtract',amount:4}]};
 const negative=buildFushiPosterItem(negativeMethod,[structuredSource],1,'number',2,'test');
-assert.equal(negative.next[0],'-3','Negative formula results must remain raw and must not wrap');
-console.log('PASS '+checked+' generated formulas + 4 boundary checks: unique counts, activation boundary, original/animal preservation, raw negative results, settlement');
+assert.equal(negative.next[0],'46','Negative number formulas must cycle into the 1-49 range');
+assert.match(negative.branches[0].calculation,/-3＋49＝46.*超出1～49/,'Cycle arithmetic and explanation must be visible');
+console.log('PASS '+checked+' generated formulas + 4 boundary checks: unique counts, activation boundary, animal preservation, explicit number cycling, settlement');

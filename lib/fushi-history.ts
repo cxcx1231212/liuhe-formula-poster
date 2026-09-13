@@ -1,4 +1,4 @@
-import {CYCLE49_NOTE,cycle49,cycle49Text} from './number-cycle';
+import {CYCLE49_NOTE,cycle49,cycle49Text} from './number-cycle.js';
 type Cell={number:string;animal:string;element:string};
 export type FushiDraw={period:number;displayPeriod?:string;date?:string;numbers:Cell[]};
 type RawBranch={name:string;baseName?:string;operation?:string;amount?:number;number?:number;animal?:string};

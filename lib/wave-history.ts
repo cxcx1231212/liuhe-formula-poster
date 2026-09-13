@@ -1,5 +1,5 @@
 import type {ZodiacDraw} from './zodiac-history';
-import {CYCLE49_NOTE,cycle49,cycle49Text} from './number-cycle';
+import {CYCLE49_NOTE,cycle49,cycle49Text} from './number-cycle.js';
 
 export type WaveMethod={rank:string;label:string;sourceKey:string;name:string;baseName:string;operation:string;amount:number};
 const RED=new Set([1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46]);

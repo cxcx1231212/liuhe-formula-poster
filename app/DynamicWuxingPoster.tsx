@@ -62,6 +62,9 @@ const conciseCalculation = (text: string) =>
     .replace(/(\d+)岁属/g, "$1属")
     .replace(/[，,、]\s*属/g, "属");
 
+const readableForecastCalculation = (text: string) =>
+  conciseCalculation(text).replaceAll("；", "\n");
+
 const compactMultiCalculation = (text: string) =>
   conciseCalculation(text)
     .replace(/^(?:平[1-6]码|特码码?)(?:合数|尾数)?[：:]\s*/, "")
@@ -495,7 +498,7 @@ export default function DynamicWuxingPoster({
                 const result = branch.next || item.next[index];
                 return (
                   <div className="formula-pair" key={`${branch.name}-${index}`}>
-                    <span>{conciseCalculation(branch.calculation || branch.name)}</span>
+                    <span>{readableForecastCalculation(branch.calculation || branch.name)}</span>
                     {compactForecast && result && (
                       <strong
                         className="prediction-result"

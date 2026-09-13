@@ -58,3 +58,10 @@
   .dynamic-poster .wuxing-board-lines path{marker-end:none!important}
   .dynamic-poster .wuxing-forecast-row>div{visibility:hidden}
 }
+
+/* Detailed prediction calculations wrap inside their own cell. */
+.dynamic-poster .wuxing-formula-note .formula-pair>span{max-width:100%;white-space:pre-line;text-align:center;overflow-wrap:anywhere}
+@media(max-width:640px){
+  .dynamic-poster .wuxing-formula-note .formula-pair{width:100%;white-space:normal!important}
+  .dynamic-poster .wuxing-formula-note .formula-pair>span{flex:1 1 auto;max-width:calc(100% - 38px);white-space:pre-line!important;overflow-wrap:anywhere!important;word-break:break-word;line-height:1.35!important}
+}

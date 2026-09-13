@@ -34,15 +34,19 @@ for path in [ROOT / "scripts" / name for name in (
 print("PASS raw formula result policy", 9, "generation modules")
 
 from board_sort_scores import Scorer
+from nayin import element_for_formula_number
+assert element_for_formula_number(1, 2026) == "水"
+assert element_for_formula_number(50, 2026) == "土"
+assert element_for_formula_number(61, 2026) == "水"
 def draw(period, first, special, element):
     numbers = [first, 2, 3, 4, 5, 6, special]
     return {"period": period, "numbers": [
         {"number": str(number), "animal": "马", "element": element}
         for number in numbers
     ]}
-scorer = Scorer([draw(1, 49, 7, "金"), draw(2, 1, 8, "木")])
+scorer = Scorer([draw(1, 49, 7, "金"), draw(2, 1, 8, "土")])
 metrics = scorer.score("wuxing", "", {"branches": [{
     "name": "平1码加1", "baseName": "平1码", "operation": "add", "amount": 1,
 }]})
-assert metrics["recentStreak"] == 0
-print("PASS out-of-range classification remains unclassified")
+assert metrics["recentStreak"] == 1
+print("PASS raw number 50 is classified as NaYin earth without wrapping")

@@ -2,6 +2,7 @@
 import re
 from functools import lru_cache
 from repair_history_integrity import base_value, prediction_for, digit, wave
+from nayin import element_for_formula_number
 
 ANIMALS = '马蛇龙兔虎牛鼠猪狗鸡猴羊'
 def wrap(n):
@@ -112,14 +113,16 @@ class Scorer:
             return summarize(rows)
         branches=item.get('branches') or [item]
         predictions=[self.numeric(b['name'],b.get('baseName'),b.get('operation'),b.get('amount')) for b in branches]
-        elements=self.elements
         rows=[]
-        for i,(_,target) in enumerate(self.pairs):
+        for i,(source,target) in enumerate(self.pairs):
             ns={p[i] for p in predictions};balls=target['numbers'];special=balls[6];n=int(special['number'])
             animals={ANIMALS[(x-1)%12] for x in ns}
             if board=='tema': hit=n in ns
             elif board=='zodiac': hit=special['animal'] in animals
-            elif board=='wuxing': hit=special['element'] in {elements[x] for x in ns if x in elements}
+            elif board=='wuxing':
+                date_match=re.match(r'(\d{4})',str(target.get('date','')))
+                formula_year=int(target.get('year') or (date_match.group(1) if date_match else 2026))
+                hit=special['element'] in {element_for_formula_number(x,formula_year) for x in ns}
             elif board=='fushi':
                 required=3 if group in ('33','3x') else 2
                 hit=len(animals & {b['animal'] for b in balls[:6]})>=required if group.endswith('x') else len(ns & {int(b['number']) for b in balls[:6]})>=required

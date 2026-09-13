@@ -10,19 +10,20 @@ import time
 from itertools import combinations
 
 from generate_fushi_samples import calculation_text
+from nayin import element_for_formula_number
 from search_pingte_methods import ROOT, fetch_year, wrap
 from search_zodiac_bundles import make_series
 
 
-def evaluated(records, element):
+def evaluated(records, formula_year):
     groups = []
     for source_key, definitions in make_series():
         methods = []
         for name, calculate, *_ in definitions:
             if any(word in name for word in ("除", "合数", "尾数", "总分", "乘")) or not ("加" in name or "减" in name or "循环步长" in name):
                 continue
-            predictions = [element(calculate(record)) for record in records[:-1]]
-            methods.append({"name": name, "calculate": calculate, "predictions": predictions, "next": element(calculate(records[-1]))})
+            predictions = [element_for_formula_number(calculate(record), formula_year) for record in records[:-1]]
+            methods.append({"name": name, "calculate": calculate, "predictions": predictions, "next": element_for_formula_number(calculate(records[-1]), formula_year)})
         # Preserve the existing candidate set and ordering; no accuracy filter.
         unique_methods = {}
         for method in methods:
@@ -42,9 +43,8 @@ def progress(message):
     print(f"[wuxing] {message}{memory}", flush=True)
 
 
-def select(records):
-    mapping = {int(item["number"]): item["wuXing"] for record in records for item in record["numberList"]}
-    groups = evaluated(records, lambda value: mapping.get(value, "无五行"))
+def select(records, formula_year):
+    groups = evaluated(records, formula_year)
     targets = [record["numberList"][6]["wuXing"] for record in records[1:]]
     # One bit per draw: pair hits are the union of the two branch hit masks.
     for _, methods in groups:
@@ -77,7 +77,7 @@ def select(records):
     return items(1), items(2)
 
 
-def manifest_method(rank, item, records, history_records, element_map):
+def manifest_method(rank, item, records, history_records, formula_year):
     branches = []
     for branch in item["branches"]:
         result_number = branch["calculate"](records[-1])
@@ -90,7 +90,7 @@ def manifest_method(rank, item, records, history_records, element_map):
         predictions = []
         for branch in item["branches"]:
             result_number = branch["calculate"](source)
-            result_element = element_map.get(result_number, "无五行")
+            result_element = element_for_formula_number(result_number, formula_year)
             predictions.append(result_element)
             expression = calculation_text(branch["name"], source, {branch["name"]: branch["calculate"]})
             history_branches.append({"name": branch["name"], "calculation": f"{expression}＝{result_number}（{result_element}）", "result": result_element})
@@ -135,7 +135,7 @@ def write_manifest(path, header, method_groups, build_method):
     return counts
 
 
-def compact_history(singles, records, history_records, element_map):
+def compact_history(singles, records, history_records, formula_year):
     """Store each branch's exact history once, not once per combination."""
     shared, bases, chunk = [], {}, []
     def flush():
@@ -143,7 +143,7 @@ def compact_history(singles, records, history_records, element_map):
             shared.append(base64.b64encode(gzip.compress(json.dumps(chunk, ensure_ascii=False, separators=(",", ":")).encode("utf-8"), mtime=0)).decode("ascii"))
             chunk.clear()
     for index, item in enumerate(singles):
-        original = manifest_method("", item, records, history_records, element_map)
+        original = manifest_method("", item, records, history_records, formula_year)
         rows = original["history"]
         packed = [[row["branches"][0]["calculation"], row["branches"][0]["result"]] for row in rows]
         reference = [len(shared), len(chunk)]
@@ -181,11 +181,10 @@ def main():
     issue = int(records[-1]["period"]) + 1
     output_dir = ROOT / "public" / "generated" / "wuxing"
     output_dir.mkdir(parents=True, exist_ok=True)
-    singles, pairs = select(records)
+    singles, pairs = select(records, args.year)
     singles = list(singles)
-    element_map = {int(value["number"]): value["wuXing"] for record in records for value in record["numberList"]}
     draws = [{"period": int(record["period"]), "displayPeriod": record.get("displayPeriod"), "date": record.get("lotteryTime") or record.get("openTime") or record.get("date") or "", "numbers": [{"number": str(value["number"]).zfill(2), "animal": value.get("shengXiao", ""), "element": value.get("wuXing", "")} for value in record["numberList"]]} for record in history_records]
-    shared, build = compact_history(singles, records, history_records, element_map)
+    shared, build = compact_history(singles, records, history_records, args.year)
     header = {"lotteryType": args.type, "year": args.year, "issue": issue, "draws": draws, "historyFormat": "branch-gzip-v1", "branchHistory": shared}
     path = output_dir / f"type-{args.type}-{issue:03d}-manifest.json"
     write_manifest(path, header, (("s", singles), ("d", pairs)), build)

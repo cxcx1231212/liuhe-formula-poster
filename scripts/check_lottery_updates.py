@@ -11,6 +11,7 @@ from urllib.request import Request, urlopen
 ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "public" / "generated" / "lottery-catalog.json"
 MANIFEST_POINTERS = ROOT / "lib" / "formula-manifests.ts"
+SAVED_RESULTS = ROOT / "data" / "pingte"
 CF_API = "https://liuhe-formula-update-checker.xcx8088.workers.dev/latest"
 
 
@@ -27,7 +28,7 @@ def latest_period(lottery_type: int) -> int:
     return int(payload["period"])
 
 
-def generated_periods(catalog_path=CATALOG, pointers_path=MANIFEST_POINTERS):
+def generated_periods(catalog_path=CATALOG, pointers_path=MANIFEST_POINTERS, results_path=SAVED_RESULTS):
     """Use every committed progress marker so a deploy failure cannot trigger a recount."""
     generated = {}
     if catalog_path.exists():
@@ -38,6 +39,17 @@ def generated_periods(catalog_path=CATALOG, pointers_path=MANIFEST_POINTERS):
         source = pointers_path.read_text(encoding="utf-8")
         for lottery_type, issue in re.findall(r"type-([158])-(\d+)-manifest\.json", source):
             lottery_type, issue = int(lottery_type), int(issue)
+            generated[lottery_type] = max(generated.get(lottery_type, 0), issue)
+    # Search output is committed immediately after each lottery finishes. It is
+    # the most reliable marker when a later build/deploy step fails.
+    if results_path.exists():
+        for path in results_path.glob("two-animals-type-*-*.json"):
+            match = re.fullmatch(r"two-animals-type-([158])-(\d{4})\.json", path.name)
+            if not match:
+                continue
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            lottery_type = int(match.group(1))
+            issue = int(payload.get("nextPeriod", 0))
             generated[lottery_type] = max(generated.get(lottery_type, 0), issue)
     return generated
 

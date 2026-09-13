@@ -6,7 +6,7 @@ import StaticFormulaPost from '@/app/StaticFormulaPost';
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 import {postAuthor} from '@/lib/post-authors';
-import {cycle49,cycle49Text} from '@/lib/number-cycle';
+import {CYCLE49_NOTE,cycle49,cycle49Text} from '@/lib/number-cycle';
 
 type DrawNumber={number:string;animal:string;element:string};
 type Draw={period:number;displayPeriod?:string;date?:string;numbers:DrawNumber[]};
@@ -75,7 +75,7 @@ function calculateRaw(name:string,draw:Draw,fallback:number,advancedSpec?:Advanc
 }
 function calculate(name:string,draw:Draw,fallback:number,advancedSpec?:AdvancedSpec,previous?:Draw):Calculated{
   const raw=calculateRaw(name,draw,fallback,advancedSpec,previous),rawNumber=Number(raw.result),result=cycle49(rawNumber);
-  return result===rawNumber?raw:{...raw,result:String(result).padStart(2,'0'),calculation:raw.calculation.replace(/=(-?\d+)$/,(_,value)=>`=${cycle49Text(Number(value))}`)};
+  return result===rawNumber?raw:{...raw,result:String(result).padStart(2,'0'),calculation:`${raw.calculation.replace(/=(-?\d+)$/,(_,value)=>`=${cycle49Text(Number(value))}`)}${CYCLE49_NOTE}`};
 }
 
 export default async function TemaMethodPost({params,searchParams}:{params:Promise<{size:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){

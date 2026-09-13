@@ -5,3 +5,4 @@ export const cycle49Text=(raw:number)=>{
   while(value>49){value-=49;text+=`－49＝${value<=49?String(value).padStart(2,'0'):value}`;}
   return text;
 };
+export const CYCLE49_NOTE='（超出1～49，每次加/减49）';

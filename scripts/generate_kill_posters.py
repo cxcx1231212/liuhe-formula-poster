@@ -5,7 +5,7 @@ from generate_pingte_all_pattern_images import center,font
 from generate_zodiac_posters import XS
 from search_pingte_methods import ROOT,fetch_year,wrap,ANIMALS
 from search_zodiac_bundles import make_series
-from number_cycle import cycle49,cycle_note
+from number_cycle import CYCLE49_NOTE,cycle49,cycle_note
 W=1080; RED={1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46};BLUE={3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48}
 CFG={'code':('杀六码','码',6,85),'animal':('杀三肖','肖',3,24),'tail':('杀一尾','尾',1,50),'head':('杀一头','头',1,22),'wave':('杀一波','波',1,12)}
 def source_positions(name):
@@ -18,7 +18,7 @@ def prop(k,v):
  n=cycle49(v) if k=='wave' else wrap(v);return n if k=='码' else ANIMALS[(n-1)%12] if k=='肖' else n%10 if k=='尾' else n//10 if k=='头' else wave(n)
 def result_text(k,raw,result,expression):
  expression=re.sub(r'→-?\d+$','',expression)
- return f'{re.sub(rf"{re.escape(str(raw))}$",cycle_note(raw),expression)}→杀{result}' if k=='wave' and raw!=cycle49(raw) else f'{expression}→杀{result}'
+ return f'{re.sub(rf"{re.escape(str(raw))}$",cycle_note(raw),expression)}→杀{result}{CYCLE49_NOTE}' if k=='wave' and raw!=cycle49(raw) else f'{expression}→杀{result}'
 def streak(h):
  s=0
  for x in reversed(h):

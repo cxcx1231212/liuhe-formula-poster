@@ -7,7 +7,7 @@ from generate_pingte_all_pattern_images import center, font
 from generate_zodiac_posters import XS
 from search_pingte_methods import ROOT, fetch_year, wrap
 from search_zodiac_bundles import make_series
-from number_cycle import cycle49, cycle_note
+from number_cycle import CYCLE49_NOTE, cycle49, cycle_note
 
 W = 1080
 RED = {1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46}
@@ -49,7 +49,7 @@ def panel(draw, y, item, source, target=None):
     draw.rounded_rectangle((305,y,1005,y+84),radius=14,fill="#fffaf0",outline="#c59b43",width=3)
     draw.rounded_rectangle((325,y+12,865,y+72),radius=10,fill=color)
     expression=re.sub(r"→-?\d+$", "", calculation_text(item["name"],source,{item["name"]:item["calculate"]}))
-    if raw != cycle49(raw): expression=re.sub(rf"{re.escape(str(raw))}$", cycle_note(raw), expression)
+    if raw != cycle49(raw): expression=re.sub(rf"{re.escape(str(raw))}$", cycle_note(raw), expression)+CYCLE49_NOTE
     center(draw,(595,y+42),expression,font(23,True),"white")
     draw.rounded_rectangle((885,y+12,985,y+72),radius=10,fill=color)
     center(draw,(935,y+42),result,font(25,True),"white")

@@ -1,0 +1,1097 @@
+{
+  "lotteryType": 8,
+  "year": 2026,
+  "recordCount": 256,
+  "currentPeriod": 256,
+  "nextPeriod": 257,
+  "minimumStreak": 3,
+  "candidateCount": 10,
+  "methods": [
+    {
+      "position": 1,
+      "positionName": "平1码",
+      "mode": "固定",
+      "parameter": 6,
+      "formulaName": "平1码生肖固定加法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 12,
+      "sourceAnimal": "羊",
+      "nextAdd": 6,
+      "predictionNumber": 18,
+      "predictionAnimal": "牛",
+      "recentStreak": 7,
+      "recent30Rate": 0.7333,
+      "totalRate": 0.5569,
+      "history": [
+        {
+          "sourcePeriod": 249,
+          "targetPeriod": 250,
+          "sourcePosition": 1,
+          "sourceNumber": 48,
+          "sourceAnimal": "羊",
+          "add": 6,
+          "resultNumber": 54,
+          "resultAnimal": "牛",
+          "hit": true,
+          "targetPositions": [
+            1
+          ],
+          "targetNumbers": [
+            "18"
+          ]
+        },
+        {
+          "sourcePeriod": 250,
+          "targetPeriod": 251,
+          "sourcePosition": 1,
+          "sourceNumber": 18,
+          "sourceAnimal": "牛",
+          "add": 6,
+          "resultNumber": 24,
+          "resultAnimal": "羊",
+          "hit": true,
+          "targetPositions": [
+            2
+          ],
+          "targetNumbers": [
+            "36"
+          ]
+        },
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 1,
+          "sourceNumber": 25,
+          "sourceAnimal": "马",
+          "add": 6,
+          "resultNumber": 31,
+          "resultAnimal": "鼠",
+          "hit": true,
+          "targetPositions": [
+            3
+          ],
+          "targetNumbers": [
+            "07"
+          ]
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 1,
+          "sourceNumber": 34,
+          "sourceAnimal": "鸡",
+          "add": 6,
+          "resultNumber": 40,
+          "resultAnimal": "兔",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "40"
+          ]
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 1,
+          "sourceNumber": 5,
+          "sourceAnimal": "虎",
+          "add": 6,
+          "resultNumber": 11,
+          "resultAnimal": "猴",
+          "hit": true,
+          "targetPositions": [
+            7
+          ],
+          "targetNumbers": [
+            "47"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 1,
+          "sourceNumber": 44,
+          "sourceAnimal": "猪",
+          "add": 6,
+          "resultNumber": 50,
+          "resultAnimal": "蛇",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "14"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 1,
+          "sourceNumber": 45,
+          "sourceAnimal": "狗",
+          "add": 6,
+          "resultNumber": 51,
+          "resultAnimal": "龙",
+          "hit": true,
+          "targetPositions": [
+            2
+          ],
+          "targetNumbers": [
+            "27"
+          ]
+        }
+      ]
+    },
+    {
+      "position": 7,
+      "positionName": "特码",
+      "mode": "固定",
+      "parameter": 3,
+      "formulaName": "特码生肖固定加法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 37,
+      "sourceAnimal": "马",
+      "nextAdd": 3,
+      "predictionNumber": 40,
+      "predictionAnimal": "兔",
+      "recentStreak": 7,
+      "recent30Rate": 0.5333,
+      "totalRate": 0.5451,
+      "history": [
+        {
+          "sourcePeriod": 249,
+          "targetPeriod": 250,
+          "sourcePosition": 7,
+          "sourceNumber": 17,
+          "sourceAnimal": "虎",
+          "add": 3,
+          "resultNumber": 20,
+          "resultAnimal": "猪",
+          "hit": true,
+          "targetPositions": [
+            3
+          ],
+          "targetNumbers": [
+            "20"
+          ]
+        },
+        {
+          "sourcePeriod": 250,
+          "targetPeriod": 251,
+          "sourcePosition": 7,
+          "sourceNumber": 25,
+          "sourceAnimal": "马",
+          "add": 3,
+          "resultNumber": 28,
+          "resultAnimal": "兔",
+          "hit": true,
+          "targetPositions": [
+            3
+          ],
+          "targetNumbers": [
+            "16"
+          ]
+        },
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 7,
+          "sourceNumber": 22,
+          "sourceAnimal": "鸡",
+          "add": 3,
+          "resultNumber": 25,
+          "resultAnimal": "马",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "13"
+          ]
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 7,
+          "sourceNumber": 20,
+          "sourceAnimal": "猪",
+          "add": 3,
+          "resultNumber": 23,
+          "resultAnimal": "猴",
+          "hit": true,
+          "targetPositions": [
+            6
+          ],
+          "targetNumbers": [
+            "35"
+          ]
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 7,
+          "sourceNumber": 8,
+          "sourceAnimal": "猪",
+          "add": 3,
+          "resultNumber": 11,
+          "resultAnimal": "猴",
+          "hit": true,
+          "targetPositions": [
+            7
+          ],
+          "targetNumbers": [
+            "47"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 7,
+          "sourceNumber": 47,
+          "sourceAnimal": "猴",
+          "add": 3,
+          "resultNumber": 50,
+          "resultAnimal": "蛇",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "14"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 7,
+          "sourceNumber": 48,
+          "sourceAnimal": "羊",
+          "add": 3,
+          "resultNumber": 51,
+          "resultAnimal": "龙",
+          "hit": true,
+          "targetPositions": [
+            2
+          ],
+          "targetNumbers": [
+            "27"
+          ]
+        }
+      ]
+    },
+    {
+      "position": 3,
+      "positionName": "平3码",
+      "mode": "固定减",
+      "parameter": 2,
+      "formulaName": "平3码生肖固定减法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 5,
+      "sourceAnimal": "虎",
+      "nextAdd": -2,
+      "predictionNumber": 3,
+      "predictionAnimal": "龙",
+      "recentStreak": 5,
+      "recent30Rate": 0.6333,
+      "totalRate": 0.5176,
+      "history": [
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 3,
+          "sourceNumber": 16,
+          "sourceAnimal": "兔",
+          "add": -2,
+          "resultNumber": 14,
+          "resultAnimal": "蛇",
+          "hit": true,
+          "targetPositions": [
+            2
+          ],
+          "targetNumbers": [
+            "14"
+          ]
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 3,
+          "sourceNumber": 7,
+          "sourceAnimal": "鼠",
+          "add": -2,
+          "resultNumber": 5,
+          "resultAnimal": "虎",
+          "hit": true,
+          "targetPositions": [
+            1
+          ],
+          "targetNumbers": [
+            "05"
+          ]
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 3,
+          "sourceNumber": 24,
+          "sourceAnimal": "羊",
+          "add": -2,
+          "resultNumber": 22,
+          "resultAnimal": "鸡",
+          "hit": true,
+          "targetPositions": [
+            6
+          ],
+          "targetNumbers": [
+            "22"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 3,
+          "sourceNumber": 2,
+          "sourceAnimal": "蛇",
+          "add": -2,
+          "resultNumber": 0,
+          "resultAnimal": "羊",
+          "hit": true,
+          "targetPositions": [
+            6,
+            7
+          ],
+          "targetNumbers": [
+            "24",
+            "48"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 3,
+          "sourceNumber": 29,
+          "sourceAnimal": "虎",
+          "add": -2,
+          "resultNumber": 27,
+          "resultAnimal": "龙",
+          "hit": true,
+          "targetPositions": [
+            2
+          ],
+          "targetNumbers": [
+            "27"
+          ]
+        }
+      ]
+    },
+    {
+      "position": 2,
+      "positionName": "平2码",
+      "mode": "固定",
+      "parameter": 2,
+      "formulaName": "平2码生肖固定加法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 27,
+      "sourceAnimal": "龙",
+      "nextAdd": 2,
+      "predictionNumber": 29,
+      "predictionAnimal": "虎",
+      "recentStreak": 5,
+      "recent30Rate": 0.5,
+      "totalRate": 0.5216,
+      "history": [
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 2,
+          "sourceNumber": 36,
+          "sourceAnimal": "羊",
+          "add": 2,
+          "resultNumber": 38,
+          "resultAnimal": "蛇",
+          "hit": true,
+          "targetPositions": [
+            2
+          ],
+          "targetNumbers": [
+            "14"
+          ]
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 2,
+          "sourceNumber": 14,
+          "sourceAnimal": "蛇",
+          "add": 2,
+          "resultNumber": 16,
+          "resultAnimal": "兔",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "40"
+          ]
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 2,
+          "sourceNumber": 32,
+          "sourceAnimal": "猪",
+          "add": 2,
+          "resultNumber": 34,
+          "resultAnimal": "鸡",
+          "hit": true,
+          "targetPositions": [
+            6
+          ],
+          "targetNumbers": [
+            "22"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 2,
+          "sourceNumber": 48,
+          "sourceAnimal": "羊",
+          "add": 2,
+          "resultNumber": 50,
+          "resultAnimal": "蛇",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "14"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 2,
+          "sourceNumber": 3,
+          "sourceAnimal": "龙",
+          "add": 2,
+          "resultNumber": 5,
+          "resultAnimal": "虎",
+          "hit": true,
+          "targetPositions": [
+            3
+          ],
+          "targetNumbers": [
+            "05"
+          ]
+        }
+      ]
+    },
+    {
+      "position": 6,
+      "positionName": "平6码",
+      "mode": "固定",
+      "parameter": 5,
+      "formulaName": "平6码生肖固定加法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 43,
+      "sourceAnimal": "鼠",
+      "nextAdd": 5,
+      "predictionNumber": 48,
+      "predictionAnimal": "羊",
+      "recentStreak": 4,
+      "recent30Rate": 0.6,
+      "totalRate": 0.5059,
+      "history": [
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 6,
+          "sourceNumber": 7,
+          "sourceAnimal": "鼠",
+          "add": 5,
+          "resultNumber": 12,
+          "resultAnimal": "羊",
+          "hit": false,
+          "targetPositions": [],
+          "targetNumbers": []
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 6,
+          "sourceNumber": 47,
+          "sourceAnimal": "猴",
+          "add": 5,
+          "resultNumber": 52,
+          "resultAnimal": "兔",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "40"
+          ]
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 6,
+          "sourceNumber": 35,
+          "sourceAnimal": "猴",
+          "add": 5,
+          "resultNumber": 40,
+          "resultAnimal": "兔",
+          "hit": true,
+          "targetPositions": [
+            4
+          ],
+          "targetNumbers": [
+            "28"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 6,
+          "sourceNumber": 22,
+          "sourceAnimal": "鸡",
+          "add": 5,
+          "resultNumber": 27,
+          "resultAnimal": "龙",
+          "hit": true,
+          "targetPositions": [
+            2
+          ],
+          "targetNumbers": [
+            "03"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 6,
+          "sourceNumber": 24,
+          "sourceAnimal": "羊",
+          "add": 5,
+          "resultNumber": 29,
+          "resultAnimal": "虎",
+          "hit": true,
+          "targetPositions": [
+            3
+          ],
+          "targetNumbers": [
+            "05"
+          ]
+        }
+      ]
+    },
+    {
+      "position": 5,
+      "positionName": "平5码",
+      "mode": "固定减",
+      "parameter": 2,
+      "formulaName": "平5码生肖固定减法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 48,
+      "sourceAnimal": "羊",
+      "nextAdd": -2,
+      "predictionNumber": 46,
+      "predictionAnimal": "鸡",
+      "recentStreak": 4,
+      "recent30Rate": 0.3333,
+      "totalRate": 0.4941,
+      "history": [
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 5,
+          "sourceNumber": 38,
+          "sourceAnimal": "蛇",
+          "add": -2,
+          "resultNumber": 36,
+          "resultAnimal": "羊",
+          "hit": false,
+          "targetPositions": [],
+          "targetNumbers": []
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 5,
+          "sourceNumber": 13,
+          "sourceAnimal": "马",
+          "add": -2,
+          "resultNumber": 11,
+          "resultAnimal": "猴",
+          "hit": true,
+          "targetPositions": [
+            6
+          ],
+          "targetNumbers": [
+            "35"
+          ]
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 5,
+          "sourceNumber": 40,
+          "sourceAnimal": "兔",
+          "add": -2,
+          "resultNumber": 38,
+          "resultAnimal": "蛇",
+          "hit": true,
+          "targetPositions": [
+            3
+          ],
+          "targetNumbers": [
+            "02"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 5,
+          "sourceNumber": 19,
+          "sourceAnimal": "鼠",
+          "add": -2,
+          "resultNumber": 17,
+          "resultAnimal": "虎",
+          "hit": true,
+          "targetPositions": [
+            3
+          ],
+          "targetNumbers": [
+            "29"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 5,
+          "sourceNumber": 14,
+          "sourceAnimal": "蛇",
+          "add": -2,
+          "resultNumber": 12,
+          "resultAnimal": "羊",
+          "hit": true,
+          "targetPositions": [
+            1,
+            5
+          ],
+          "targetNumbers": [
+            "12",
+            "48"
+          ]
+        }
+      ]
+    },
+    {
+      "position": 3,
+      "positionName": "平3码",
+      "mode": "固定减",
+      "parameter": 5,
+      "formulaName": "平3码生肖固定减法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 5,
+      "sourceAnimal": "虎",
+      "nextAdd": -5,
+      "predictionNumber": 0,
+      "predictionAnimal": "羊",
+      "recentStreak": 3,
+      "recent30Rate": 0.5333,
+      "totalRate": 0.5843,
+      "history": [
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 3,
+          "sourceNumber": 16,
+          "sourceAnimal": "兔",
+          "add": -5,
+          "resultNumber": 11,
+          "resultAnimal": "猴",
+          "hit": true,
+          "targetPositions": [
+            6
+          ],
+          "targetNumbers": [
+            "47"
+          ]
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 3,
+          "sourceNumber": 7,
+          "sourceAnimal": "鼠",
+          "add": -5,
+          "resultNumber": 2,
+          "resultAnimal": "蛇",
+          "hit": false,
+          "targetPositions": [],
+          "targetNumbers": []
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 3,
+          "sourceNumber": 24,
+          "sourceAnimal": "羊",
+          "add": -5,
+          "resultNumber": 19,
+          "resultAnimal": "鼠",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "19"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 3,
+          "sourceNumber": 2,
+          "sourceAnimal": "蛇",
+          "add": -5,
+          "resultNumber": -3,
+          "resultAnimal": "狗",
+          "hit": true,
+          "targetPositions": [
+            1
+          ],
+          "targetNumbers": [
+            "45"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 3,
+          "sourceNumber": 29,
+          "sourceAnimal": "虎",
+          "add": -5,
+          "resultNumber": 24,
+          "resultAnimal": "羊",
+          "hit": true,
+          "targetPositions": [
+            1,
+            5
+          ],
+          "targetNumbers": [
+            "12",
+            "48"
+          ]
+        }
+      ]
+    },
+    {
+      "position": 3,
+      "positionName": "平3码",
+      "mode": "固定减",
+      "parameter": 0,
+      "formulaName": "平3码生肖固定减法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 5,
+      "sourceAnimal": "虎",
+      "nextAdd": 0,
+      "predictionNumber": 5,
+      "predictionAnimal": "虎",
+      "recentStreak": 3,
+      "recent30Rate": 0.5333,
+      "totalRate": 0.5451,
+      "history": [
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 3,
+          "sourceNumber": 16,
+          "sourceAnimal": "兔",
+          "add": 0,
+          "resultNumber": 16,
+          "resultAnimal": "兔",
+          "hit": false,
+          "targetPositions": [],
+          "targetNumbers": []
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 3,
+          "sourceNumber": 7,
+          "sourceAnimal": "鼠",
+          "add": 0,
+          "resultNumber": 7,
+          "resultAnimal": "鼠",
+          "hit": false,
+          "targetPositions": [],
+          "targetNumbers": []
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 3,
+          "sourceNumber": 24,
+          "sourceAnimal": "羊",
+          "add": 0,
+          "resultNumber": 24,
+          "resultAnimal": "羊",
+          "hit": true,
+          "targetPositions": [
+            2
+          ],
+          "targetNumbers": [
+            "48"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 3,
+          "sourceNumber": 2,
+          "sourceAnimal": "蛇",
+          "add": 0,
+          "resultNumber": 2,
+          "resultAnimal": "蛇",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "14"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 3,
+          "sourceNumber": 29,
+          "sourceAnimal": "虎",
+          "add": 0,
+          "resultNumber": 29,
+          "resultAnimal": "虎",
+          "hit": true,
+          "targetPositions": [
+            3
+          ],
+          "targetNumbers": [
+            "05"
+          ]
+        }
+      ]
+    },
+    {
+      "position": 2,
+      "positionName": "平2码",
+      "mode": "固定减",
+      "parameter": 0,
+      "formulaName": "平2码生肖固定减法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 27,
+      "sourceAnimal": "龙",
+      "nextAdd": 0,
+      "predictionNumber": 27,
+      "predictionAnimal": "龙",
+      "recentStreak": 3,
+      "recent30Rate": 0.5333,
+      "totalRate": 0.4902,
+      "history": [
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 2,
+          "sourceNumber": 36,
+          "sourceAnimal": "羊",
+          "add": 0,
+          "resultNumber": 36,
+          "resultAnimal": "羊",
+          "hit": false,
+          "targetPositions": [],
+          "targetNumbers": []
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 2,
+          "sourceNumber": 14,
+          "sourceAnimal": "蛇",
+          "add": 0,
+          "resultNumber": 14,
+          "resultAnimal": "蛇",
+          "hit": false,
+          "targetPositions": [],
+          "targetNumbers": []
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 2,
+          "sourceNumber": 32,
+          "sourceAnimal": "猪",
+          "add": 0,
+          "resultNumber": 32,
+          "resultAnimal": "猪",
+          "hit": true,
+          "targetPositions": [
+            1
+          ],
+          "targetNumbers": [
+            "44"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 2,
+          "sourceNumber": 48,
+          "sourceAnimal": "羊",
+          "add": 0,
+          "resultNumber": 48,
+          "resultAnimal": "羊",
+          "hit": true,
+          "targetPositions": [
+            6,
+            7
+          ],
+          "targetNumbers": [
+            "24",
+            "48"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 2,
+          "sourceNumber": 3,
+          "sourceAnimal": "龙",
+          "add": 0,
+          "resultNumber": 3,
+          "resultAnimal": "龙",
+          "hit": true,
+          "targetPositions": [
+            2
+          ],
+          "targetNumbers": [
+            "27"
+          ]
+        }
+      ]
+    },
+    {
+      "position": 4,
+      "positionName": "平4码",
+      "mode": "固定减",
+      "parameter": 2,
+      "formulaName": "平4码生肖固定减法",
+      "currentPeriod": 256,
+      "nextPeriod": 257,
+      "sourceNumber": 25,
+      "sourceAnimal": "马",
+      "nextAdd": -2,
+      "predictionNumber": 23,
+      "predictionAnimal": "猴",
+      "recentStreak": 3,
+      "recent30Rate": 0.4667,
+      "totalRate": 0.4706,
+      "history": [
+        {
+          "sourcePeriod": 251,
+          "targetPeriod": 252,
+          "sourcePosition": 4,
+          "sourceNumber": 46,
+          "sourceAnimal": "鸡",
+          "add": -2,
+          "resultNumber": 44,
+          "resultAnimal": "猪",
+          "hit": true,
+          "targetPositions": [
+            4,
+            7
+          ],
+          "targetNumbers": [
+            "32",
+            "20"
+          ]
+        },
+        {
+          "sourcePeriod": 252,
+          "targetPeriod": 253,
+          "sourcePosition": 4,
+          "sourceNumber": 32,
+          "sourceAnimal": "猪",
+          "add": -2,
+          "resultNumber": 30,
+          "resultAnimal": "牛",
+          "hit": false,
+          "targetPositions": [],
+          "targetNumbers": []
+        },
+        {
+          "sourcePeriod": 253,
+          "targetPeriod": 254,
+          "sourcePosition": 4,
+          "sourceNumber": 13,
+          "sourceAnimal": "马",
+          "add": -2,
+          "resultNumber": 11,
+          "resultAnimal": "猴",
+          "hit": true,
+          "targetPositions": [
+            7
+          ],
+          "targetNumbers": [
+            "47"
+          ]
+        },
+        {
+          "sourcePeriod": 254,
+          "targetPeriod": 255,
+          "sourcePosition": 4,
+          "sourceNumber": 28,
+          "sourceAnimal": "兔",
+          "add": -2,
+          "resultNumber": 26,
+          "resultAnimal": "蛇",
+          "hit": true,
+          "targetPositions": [
+            5
+          ],
+          "targetNumbers": [
+            "14"
+          ]
+        },
+        {
+          "sourcePeriod": 255,
+          "targetPeriod": 256,
+          "sourcePosition": 4,
+          "sourceNumber": 31,
+          "sourceAnimal": "鼠",
+          "add": -2,
+          "resultNumber": 29,
+          "resultAnimal": "虎",
+          "hit": true,
+          "targetPositions": [
+            3
+          ],
+          "targetNumbers": [
+            "05"
+          ]
+        }
+      ]
+    }
+  ]
+}

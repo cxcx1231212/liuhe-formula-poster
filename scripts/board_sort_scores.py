@@ -79,7 +79,12 @@ class Scorer:
             rows=[]
             for source,target in self.pairs:
                 previous=self.draws.get(int(source['period'])-1)
-                predictions={cycle49(value(spec,source,previous)) for spec in item['advancedSpecs']}
+                raw_predictions=[value(spec,source,previous) for spec in item['advancedSpecs']]
+                # Cross-period formulas need two source draws. The earliest
+                # pair may not have that older draw, so it is not scoreable.
+                if any(prediction is None for prediction in raw_predictions):
+                    continue
+                predictions={cycle49(prediction) for prediction in raw_predictions}
                 rows.append(int(target['numbers'][6]['number']) in predictions)
             return summarize(rows)
         if board=='fushi' and group in ('22','33') and item.get('expansionActive'):

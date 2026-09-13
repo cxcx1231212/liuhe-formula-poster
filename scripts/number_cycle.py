@@ -6,10 +6,12 @@ def cycle49(value):
 
 
 def cycle_note(raw):
-    result = cycle49(raw)
-    raw = int(raw)
-    if result == raw:
-        return str(raw)
-    adjustment = result - raw
-    symbol = "＋" if adjustment > 0 else "－"
-    return f"{raw}{symbol}{abs(adjustment)}＝{result:02d}"
+    value = int(raw)
+    text = str(value)
+    while value < 1:
+        value += 49
+        text += f"＋49＝{value:02d}" if 1 <= value <= 49 else f"＋49＝{value}"
+    while value > 49:
+        value -= 49
+        text += f"－49＝{value:02d}" if 1 <= value <= 49 else f"－49＝{value}"
+    return text

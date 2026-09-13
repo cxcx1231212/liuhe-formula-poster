@@ -44,7 +44,7 @@ def progress(message):
 
 def select(records):
     mapping = {int(item["number"]): item["wuXing"] for record in records for item in record["numberList"]}
-    groups = evaluated(records, lambda value: mapping[wrap(value)])
+    groups = evaluated(records, lambda value: mapping.get(value, "无五行"))
     targets = [record["numberList"][6]["wuXing"] for record in records[1:]]
     # One bit per draw: pair hits are the union of the two branch hit masks.
     for _, methods in groups:
@@ -80,7 +80,7 @@ def select(records):
 def manifest_method(rank, item, records, history_records, element_map):
     branches = []
     for branch in item["branches"]:
-        result_number = wrap(branch["calculate"](records[-1]))
+        result_number = branch["calculate"](records[-1])
         expression = calculation_text(branch["name"], records[-1], {branch["name"]: branch["calculate"]})
         source_positions = [6 if label == "特码" else int(label[1]) - 1 for label in re.findall(r"平[1-6]码|特码", branch["name"])]
         branches.append({"name": branch["name"], "next": branch["next"], "calculation": f"{expression}＝{result_number}（{branch['next']}）", "sourcePositions": source_positions})
@@ -89,8 +89,8 @@ def manifest_method(rank, item, records, history_records, element_map):
         history_branches = []
         predictions = []
         for branch in item["branches"]:
-            result_number = wrap(branch["calculate"](source))
-            result_element = element_map[result_number]
+            result_number = branch["calculate"](source)
+            result_element = element_map.get(result_number, "无五行")
             predictions.append(result_element)
             expression = calculation_text(branch["name"], source, {branch["name"]: branch["calculate"]})
             history_branches.append({"name": branch["name"], "calculation": f"{expression}＝{result_number}（{result_element}）", "result": result_element})

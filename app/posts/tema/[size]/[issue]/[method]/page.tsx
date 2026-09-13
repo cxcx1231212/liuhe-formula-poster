@@ -17,7 +17,6 @@ type Calculated={name:string;calculation:string;result:string;sourcePositions:nu
 const labels:Record<string,string>={'3':'三码中特','8':'八码中特','10':'十码中特','18':'十八码中特'};
 
 function digits(value:number){return String(Math.abs(Math.trunc(value))).split('').reduce((sum,digit)=>sum+Number(digit),0)}
-function wrap(value:number){while(value>49)value-=12;while(value<1)value+=12;return value}
 function sourcePosition(label:string){return label==='特码'?6:Number(label.replace('平',''))-1}
 function baseFormula(name:string,draw:Draw):{value:number;text:string;positions:number[]}|null{
   const values=draw.numbers.map(item=>Number(item.number));
@@ -50,26 +49,26 @@ function calculateAdvanced(name:string,spec:AdvancedSpec,draw:Draw,previous?:Dra
   else if(spec.kind==='multi'&&b!=null){base=a+b;expression=`${String(a).padStart(2,'0')}+${String(b).padStart(2,'0')}=${base}`;sourceRefs.push({position:spec.b!+1,periodOffset:0});}
   else if(spec.kind==='cross'&&spec.b!=null&&prior){base=a+prior[spec.b];expression=`本期${String(a).padStart(2,'0')}+上期${String(prior[spec.b]).padStart(2,'0')}=${base}`;sourceRefs.push({position:spec.b+1,periodOffset:-1});}
   else return null;
-  const result=wrap(base+spec.offset),sign=spec.offset>=0?'+':'−';
+  const result=base+spec.offset,sign=spec.offset>=0?'+':'−';
   return {name,calculation:`${expression}${sign}${Math.abs(spec.offset)}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:sourceRefs.filter(ref=>ref.periodOffset===0).map(ref=>ref.position),sourceRefs};
 }
 function calculate(name:string,draw:Draw,fallback:number,advancedSpec?:AdvancedSpec,previous?:Draw):Calculated{
   const advanced=advancedSpec?calculateAdvanced(name,advancedSpec,draw,previous):null;
   if(advanced)return advanced;
   const spread=name.match(/^邻码【(.+)】偏移([+-]\d+)$/);
-  if(spread){const base=baseFormula(spread[1],draw);if(base){const offset=Number(spread[2]),result=wrap(base.value+offset),sign=offset>=0?'+':'−';return {name,calculation:`${base.text}${sign}${Math.abs(offset)}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:base.positions.map(position=>position+1)};}}
-  const special=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)?不对称交替加(\d+)减(\d+)$/);if(special){const [,source,mode='',plus,minus]=special,position=source==='特码码'?6:Number(source[1])-1,raw=Number(draw.numbers[position].number),base=mode==='合数'?digits(raw):mode==='尾数'?raw%10:raw,amount=draw.period%2?Number(plus):Number(minus),direction=draw.period%2?1:-1,result=wrap(base+direction*amount);return {name,calculation:`${base}${direction>0?'+':'−'}${amount}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:[position+1]};}
-  const cycle=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)?循环步长(\d+)$/);if(cycle){const [,source,mode='',amount]=cycle,position=source==='特码码'?6:Number(source[1])-1,raw=Number(draw.numbers[position].number),base=mode==='合数'?digits(raw):mode==='尾数'?raw%10:raw,step=((draw.period-1)%3+1)*Number(amount),result=wrap(base+step);return {name,calculation:`${base}+${step}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:[position+1]};}
+  if(spread){const base=baseFormula(spread[1],draw);if(base){const offset=Number(spread[2]),result=base.value+offset,sign=offset>=0?'+':'−';return {name,calculation:`${base.text}${sign}${Math.abs(offset)}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:base.positions.map(position=>position+1)};}}
+  const special=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)?不对称交替加(\d+)减(\d+)$/);if(special){const [,source,mode='',plus,minus]=special,position=source==='特码码'?6:Number(source[1])-1,raw=Number(draw.numbers[position].number),base=mode==='合数'?digits(raw):mode==='尾数'?raw%10:raw,amount=draw.period%2?Number(plus):Number(minus),direction=draw.period%2?1:-1,result=base+direction*amount;return {name,calculation:`${base}${direction>0?'+':'−'}${amount}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:[position+1]};}
+  const cycle=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)?循环步长(\d+)$/);if(cycle){const [,source,mode='',amount]=cycle,position=source==='特码码'?6:Number(source[1])-1,raw=Number(draw.numbers[position].number),base=mode==='合数'?digits(raw):mode==='尾数'?raw%10:raw,step=((draw.period-1)%3+1)*Number(amount),result=base+step;return {name,calculation:`${base}+${step}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:[position+1]};}
   const alternating=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)?(双期|三期)?交替加减(\d+)$/);
-  if(alternating){const [,source,mode='',cycle='',amountText]=alternating,position=source==='特码码'?6:Number(source[1])-1,sourceNumber=Number(draw.numbers[position].number),base=mode==='合数'?digits(sourceNumber):mode==='尾数'?sourceNumber%10:sourceNumber,amount=Number(amountText),direction=cycle==='双期'?((Math.floor((draw.period-1)/2)%2===0)?1:-1):cycle==='三期'?((Math.floor((draw.period-1)/3)%2===0)?1:-1):(draw.period%2?1:-1),result=wrap(base+direction*amount),resultText=String(result).padStart(2,'0');return {name,calculation:`${source}${mode==='固定'?'':mode}：${String(base).padStart(2,'0')}${direction>0?'+':'−'}${amount}=${resultText}`,result:resultText,sourcePositions:[position+1]};}
+  if(alternating){const [,source,mode='',cycle='',amountText]=alternating,position=source==='特码码'?6:Number(source[1])-1,sourceNumber=Number(draw.numbers[position].number),base=mode==='合数'?digits(sourceNumber):mode==='尾数'?sourceNumber%10:sourceNumber,amount=Number(amountText),direction=cycle==='双期'?((Math.floor((draw.period-1)/2)%2===0)?1:-1):cycle==='三期'?((Math.floor((draw.period-1)/3)%2===0)?1:-1):(draw.period%2?1:-1),result=base+direction*amount,resultText=String(result).padStart(2,'0');return {name,calculation:`${source}${mode==='固定'?'':mode}：${String(base).padStart(2,'0')}${direction>0?'+':'−'}${amount}=${resultText}`,result:resultText,sourcePositions:[position+1]};}
   const match=name.match(/^(平[1-6]码|特码码)(合数|尾数|固定)(加|减)(\d+)$/);
-  if(!match)return {name,calculation:name,result:String(wrap(fallback)).padStart(2,'0'),sourcePositions:[1]};
+  if(!match)return {name,calculation:name,result:String(fallback).padStart(2,'0'),sourcePositions:[1]};
   const [,source,mode,operator,amountText]=match;
   const position=source==='特码码'?6:Number(source[1])-1;
   const sourceNumber=Number(draw.numbers[position].number);
   const base=mode==='合数'?digits(sourceNumber):mode==='尾数'?sourceNumber%10:sourceNumber;
   const amount=Number(amountText);
-  const result=wrap(operator==='加'?base+amount:base-amount);
+  const result=operator==='加'?base+amount:base-amount;
   const resultText=String(result).padStart(2,'0');
   return {name,calculation:`${source}${mode==='固定'?'':mode}：${String(base).padStart(2,'0')}${operator==='加'?'+':'−'}${amount}=${resultText}`,result:resultText,sourcePositions:[position+1]};
 }

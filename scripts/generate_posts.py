@@ -28,16 +28,12 @@ def dsum(n):
     return sum(int(x) for x in str(abs(n)))
 
 def wrap(n):
-    while n > 49: n -= 12
-    while n < 1: n += 12
     return n
 
 def formulas(issue, balls, special, previous):
     nxt = issue + 1
     total = sum(balls) + special
-    reduced = total
-    while reduced > 49: reduced -= 49
-    issue_pos = (nxt - 1) % 49 + 1
+    issue_pos = nxt
     t_age = (special - 1) % 12 + 1
     raw = [
         ("①", "期数合数＋11", f"{'＋'.join(str(nxt))}＋11", dsum(nxt) + 11),
@@ -47,7 +43,7 @@ def formulas(issue, balls, special, previous):
         ("⑥", "两期T码合数", f"{dsum(special)}＋{dsum(previous)}", dsum(special) + dsum(previous)),
         ("⑦", "T码＋上期T合数", f"{special:02d}＋{dsum(previous)}", special + dsum(previous)),
         ("⑧", "七码总分个位", f"{total}取个位", total % 10 or 10),
-        ("⑨", "七码总分生肖", f"{total}减49循环", reduced),
+        ("⑨", "七码总分生肖", f"七码总分{total}", total),
         ("⑩", "本期T码＋2", f"{special:02d}＋2", special + 2),
     ]
     return [(a, b, f"{c}＝{wrap(v):02d}", wrap(v), animal(v)) for a, b, c, v in raw]

@@ -26,10 +26,6 @@ def digit_sum(number):
     return sum(int(x) for x in str(abs(number)))
 
 def wrap(number):
-    while number > 49:
-        number -= 12
-    while number < 1:
-        number += 12
     return number
 
 balls, special, previous = [35, 44, 23, 4, 7, 21], 17, 12

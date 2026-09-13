@@ -10,8 +10,6 @@ VERSION = 'fushi-8-10-annual-v1'
 
 
 def wrap(value):
-    while value > 49: value -= 12
-    while value < 1: value += 12
     return value
 
 
@@ -58,15 +56,14 @@ def score_expanded(method, pairs, required):
 
 
 TS_SELECTION = r'''
-// fushi-8-10-v1: a fixed, prior-draw-only expansion; never applied retroactively.
-const expandedWrap=(value:number)=>{let n=Math.trunc(value);while(n>49)n-=12;while(n<1)n+=12;return n;};
+// fushi-8-10-v1: raw prior-draw results; never applied retroactively.
 const selectBranches=(method:FushiMethod,source:FushiDraw,targetPeriod:number,kind:string)=>{
   const active=kind==='number'&&method.expansionSize&&targetPeriod>=(method.activationIssue||Infinity);
-  const original=method.branches.map(branch=>({...evaluate(source,branch.name,!!active),name:branch.name}));
+  const original=method.branches.map(branch=>({...evaluate(source,branch.name),name:branch.name}));
   if(!active)return original;
   if(source.numbers.length!==7)throw new Error('Incomplete expansion source');
   const result:typeof original=[],seen=new Set<number>();
-  const add=(name:string)=>{const value={...evaluate(source,name,true),name};if(!seen.has(value.number)){seen.add(value.number);result.push(value);}};
+  const add=(name:string)=>{const value={...evaluate(source,name),name};if(!seen.has(value.number)){seen.add(value.number);result.push(value);}};
   for(const branch of method.branches)add(branch.name);
   for(let amount=1;amount<=49&&result.length<method.expansionSize!;amount++){
     for(let position=1;position<=7&&result.length<method.expansionSize!;position++)add(`${position===7?'特码':`平${position}码`}加${amount}`);
@@ -93,13 +90,7 @@ def patch_sources():
     text = path.read_text(encoding='utf-8')
     text = replace_once(text, 'export type FushiMethod={rank:string;',
                         'export type FushiMethod={expansionSize?:number;activationIssue?:number;expansionActive?:boolean;formulaId?:string;rank:string;')
-    text = replace_once(text, 'const evaluate=(draw:FushiDraw,name:string)=>{',
-                        'const evaluate=(draw:FushiDraw,name:string,useExpandedWrap=false)=>{')
-    text = replace_once(text, 'const result=wrap(raw),animal=',
-                        'const result=useExpandedWrap?expandedWrap(raw):wrap(raw),animal=')
-    text = replace_once(text, "definition.suffix==='余数'?base%definition.amount:",
-                        "definition.suffix==='余数'?(useExpandedWrap?((base%definition.amount)+definition.amount)%definition.amount:base%definition.amount):")
-    if 'const expandedWrap=' not in text:
+    if 'const selectBranches=' not in text:
         text = replace_once(text, 'export function buildFushiPosterItem(', TS_SELECTION+'\nexport function buildFushiPosterItem(')
     text = replace_once(text, 'if(target.period>requestedIssue)continue;',
                         "if(target.period>requestedIssue||target.period!==source.period+1||source.numbers.length!==7||target.numbers.length!==7)continue;\n    if(kind==='number'&&method.expansionSize&&requestedIssue>=(method.activationIssue||Infinity)&&target.period<method.activationIssue!)continue;")

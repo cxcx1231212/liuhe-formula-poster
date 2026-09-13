@@ -7,7 +7,6 @@ import IssueScroller from '@/app/IssueScroller';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 
 const sumDigits=(value:number)=>String(Math.abs(value)).split('').reduce((sum,char)=>sum+Number(char),0);
-const wrap=(value:number)=>{while(value>49)value-=12;while(value<1)value+=12;return value};
 const animals=['马','蛇','龙','兔','虎','牛','鼠','猪','狗','鸡','猴','羊'];
 const animalFor=(value:number)=>{const number=Math.abs(Math.trunc(value));return animals[((number-1)%12+12)%12];};
 const positions=(name:string)=>{

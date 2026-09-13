@@ -22,8 +22,6 @@ def animal(number):
     return ANIMALS[(number - 1) % 12]
 
 def wrap(number):
-    while number > 49:
-        number -= 12
     return number
 
 records = [

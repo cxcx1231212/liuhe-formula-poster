@@ -9,22 +9,21 @@ type Draw={period:number;date?:string;numbers:{number:string;animal:string;eleme
 type Spec={kind:'single';pos:number;feature:'raw'|'digit'|'tail'}|{kind:'global';op:'min'|'max'|'regular_sum'|'all_sum'|'period_digit_sum'}|{kind:'pair';a:number;b:number;op:'sum'|'a_minus_b'|'b_minus_a'|'digit_sum'|'tail_sum'};
 const labels=['平1码','平2码','平3码','平4码','平5码','平6码','特码'];
 const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,digit)=>sum+Number(digit),0);
-const wrap=(value:number)=>((Math.trunc(value)-1)%49+49)%49+1;
 const num=(draw:Draw,index:number)=>Number(draw.numbers[index]?.number||0);
 
 function evaluate(spec:Spec,draw:Draw){
   if(spec.kind==='single'){
     const raw=num(draw,spec.pos);const value=spec.feature==='digit'?digitSum(raw):spec.feature==='tail'?raw%10:raw;const suffix=spec.feature==='digit'?'合数':spec.feature==='tail'?'尾数':'';
-    return {number:spec.feature==='raw'?wrap(value):value,calculation:`${labels[spec.pos]}${suffix}：${String(raw).padStart(2,'0')}${suffix?`＝${value}`:''}`,sourcePositions:[spec.pos+1]};
+    return {number:value,calculation:`${labels[spec.pos]}${suffix}：${String(raw).padStart(2,'0')}${suffix?`＝${value}`:''}`,sourcePositions:[spec.pos+1]};
   }
   if(spec.kind==='global'){
     if(spec.op==='min'||spec.op==='max'){
       const values=draw.numbers.slice(0,6).map(value=>Number(value.number));const value=spec.op==='min'?Math.min(...values):Math.max(...values);
-      return {number:wrap(value),calculation:`六码${spec.op==='min'?'最小':'最大'}：${String(value).padStart(2,'0')}`,sourcePositions:[values.indexOf(value)+1]};
+      return {number:value,calculation:`六码${spec.op==='min'?'最小':'最大'}：${String(value).padStart(2,'0')}`,sourcePositions:[values.indexOf(value)+1]};
     }
     if(spec.op==='period_digit_sum'){const value=digitSum(draw.period);return {number:value,calculation:`期数合数：${draw.period}合${value}`,sourcePositions:[] as number[]};}
     const count=spec.op==='regular_sum'?6:7;const values=draw.numbers.slice(0,count).map(value=>Number(value.number));const value=values.reduce((sum,current)=>sum+current,0);
-    return {number:wrap(value),calculation:`${count===6?'六码':'七码'}总分：${values.join('＋')}＝${value}→${wrap(value)}`,sourcePositions:values.map((_,index)=>index+1)};
+    return {number:value,calculation:`${count===6?'六码':'七码'}总分：${values.join('＋')}＝${value}`,sourcePositions:values.map((_,index)=>index+1)};
   }
   const left=num(draw,spec.a),right=num(draw,spec.b);let value=0;let expression='';
   if(spec.op==='sum'){value=left+right;expression=`${left}＋${right}＝${value}`;}
@@ -32,8 +31,7 @@ function evaluate(spec:Spec,draw:Draw){
   if(spec.op==='b_minus_a'){value=right-left;expression=`${right}－${left}＝${value}`;}
   if(spec.op==='digit_sum'){value=digitSum(left)+digitSum(right);expression=`${left}合${digitSum(left)}＋${right}合${digitSum(right)}＝${value}`;}
   if(spec.op==='tail_sum'){value=left%10+right%10;expression=`${left}尾${left%10}＋${right}尾${right%10}＝${value}`;}
-  const shouldWrap=spec.op==='sum'||spec.op==='a_minus_b'||spec.op==='b_minus_a';const number=shouldWrap?wrap(value):value;
-  return {number,calculation:`${expression}${number!==value?`→${number}`:''}`,sourcePositions:[spec.a+1,spec.b+1]};
+  return {number:value,calculation:expression,sourcePositions:[spec.a+1,spec.b+1]};
 }
 
 export default async function TailHeadFormulaPost({type,issue,method,kind}:{type:LotteryType;issue:string;method:string;kind:'tail'|'head'}){

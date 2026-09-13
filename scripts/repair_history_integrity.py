@@ -13,9 +13,9 @@ KEYS = ('predictionAnimal','predictionNumber','predictionAnimals','predictionNum
 RED = {1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46}
 BLUE = {3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48}
 
-def wave(n): return '红波' if n in RED else '蓝波' if n in BLUE else '绿波'
+def wave(n): return '无波色' if n < 1 or n > 49 else '红波' if n in RED else '蓝波' if n in BLUE else '绿波'
 def digit(n): return sum(map(int, str(abs(int(n)))))
-def wrap49(n): return (int(n)-1) % 49 + 1
+def wrap49(n): return int(n)
 
 def base_value(name, draw):
     ns = [int(x['number']) for x in draw['numbers']]

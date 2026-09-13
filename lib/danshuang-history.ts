@@ -3,7 +3,6 @@ import type {ZodiacDraw} from './zodiac-history';
 export type DanshuangMethod={rank:string;label:string;sourceKey:string;name:string;baseName:string;operation:string;amount:number};
 
 const digitSum=(value:number)=>String(Math.abs(value)).split('').reduce((sum,digit)=>sum+Number(digit),0);
-const wrap=(value:number)=>((Math.trunc(value)-1)%49+49)%49+1;
 const values=(draw:ZodiacDraw)=>draw.numbers.map(item=>Number(item.number));
 const position=(name:string)=>name==='特码'?6:Number(name.match(/平([1-6])码/)?.[1]||1)-1;
 const cellValue=(draw:ZodiacDraw,label:string)=>values(draw)[position(label)]||0;
@@ -32,7 +31,7 @@ const heshuParity=(number:number)=>digitSum(number)%2?'合单':'合双';
 export function buildDanshuangPosterItem(method:DanshuangMethod,draws:ZodiacDraw[],requestedIssue:number){
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const evaluate=(draw:ZodiacDraw)=>{
-    const period=draw.period;const alternating=method.operation==='alternate_add_subtract'?(period%2?1:-1):method.operation==='double_alternate_add_subtract'?((Math.floor((period-1)/2)%2===0)?1:-1):method.operation==='triple_alternate_add_subtract'?((Math.floor((period-1)/3)%2===0)?1:-1):0;const base=baseValue(draw,method.baseName);const delta=method.operation==='asymmetric_alternate'?(period%2?Math.floor(method.amount/100):-(method.amount%100)):method.operation==='cyclic_step'?((period-1)%3+1)*method.amount:(method.operation==='subtract'?-method.amount:(alternating||1)*method.amount);const direction=delta<0?-1:1;const raw=base+delta;const result=wrap(raw);
+    const period=draw.period;const alternating=method.operation==='alternate_add_subtract'?(period%2?1:-1):method.operation==='double_alternate_add_subtract'?((Math.floor((period-1)/2)%2===0)?1:-1):method.operation==='triple_alternate_add_subtract'?((Math.floor((period-1)/3)%2===0)?1:-1):0;const base=baseValue(draw,method.baseName);const delta=method.operation==='asymmetric_alternate'?(period%2?Math.floor(method.amount/100):-(method.amount%100)):method.operation==='cyclic_step'?((period-1)%3+1)*method.amount:(method.operation==='subtract'?-method.amount:(alternating||1)*method.amount);const direction=delta<0?-1:1;const result=base+delta;
     const prediction=method.label==='合数单双'?heshuParity(result):parity(result);
     const symbol=direction<0?'−':'+';
     const suffix=method.label==='合数单双'?`合数${digitSum(result)}为${prediction}`:`为${prediction}`;

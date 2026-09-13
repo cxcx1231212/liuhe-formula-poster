@@ -9,8 +9,6 @@ ROOT = Path(__file__).resolve().parents[1]
 # Repairs are applied before cache versioning, so old HTML cannot mask a fix.
 def kill_value(category, number):
     number = int(number)
-    while number > 49: number -= 12
-    while number < 1: number += 12
     if category == 'code': return str(number)
     if category == 'animal': return '马蛇龙兔虎牛鼠猪狗鸡猴羊'[(number - 1) % 12]
     if category == 'tail': return str(number % 10)
@@ -18,7 +16,7 @@ def kill_value(category, number):
     if category == 'wave':
         red = {1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46}
         blue = {3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48}
-        return '红波' if number in red else '蓝波' if number in blue else '绿波'
+        return '无波色' if number < 1 or number > 49 else '红波' if number in red else '蓝波' if number in blue else '绿波'
     raise ValueError('Unknown kill category: ' + category)
 
 

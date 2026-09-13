@@ -1,7 +1,7 @@
 import argparse
 import json
 
-from search_pingte_methods import ROOT, fetch_year, wrap
+from search_pingte_methods import ANIMALS, ROOT, fetch_year
 
 POSITIONS = ["平码1", "平码2", "平码3", "平码4", "平码5", "平码6", "特码"]
 DOMESTIC = {"牛", "马", "羊", "鸡", "狗", "猪"}
@@ -67,7 +67,7 @@ def source_positions(spec, record):
 
 def expression(record, spec, raw_value, animal):
     numbers = [int(item["number"]) for item in record["numberList"]]
-    shown = raw_value if raw_value > 0 else wrap(raw_value)
+    shown = raw_value
     if spec["kind"] == "single":
         source = numbers[spec["pos"]]
         if spec["feature"] == "raw": text = f"取{POSITIONS[spec['pos']]}：{source:02d}"
@@ -99,7 +99,7 @@ def build_method(row, records, animal_map):
     spec = row["spec"]
 
     def prediction(record):
-        raw = evaluate(record, spec); animal = animal_map[wrap(raw)]
+        raw = evaluate(record, spec); animal = ANIMALS[(raw - 1) % 12]
         return raw, animal, "家肖" if animal in DOMESTIC else "野肖"
 
     raw, animal, result = prediction(records[-1]); positions = source_positions(spec, records[-1]); history = []

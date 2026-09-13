@@ -84,10 +84,7 @@ def offset_for(mode, parameter, period):
 
 
 def wrap(number):
-    while number > 49:
-        number -= 12
-    while number < 1:
-        number += 12
+    """Legacy call site compatibility: formula results are never normalized."""
     return number
 
 

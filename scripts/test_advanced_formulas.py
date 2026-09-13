@@ -13,6 +13,6 @@ cases=(
 for spec,expected in cases: assert value(spec,current,previous)==expected,(spec,value(spec,current,previous),expected)
 counts={key:len(rows) for key,rows in candidates().items()}
 assert counts=={"digit":91,"span":147,"neighbor":28,"mirror":91,"multi":147,"cross":343},counts
-for rows in candidates().values():
-    for spec,_ in rows: assert 1<=value(spec,current,previous)<=49
+assert value({"kind":"multi","a":1,"b":3,"offset":3},current,previous)==86
+assert value({"kind":"neighbor","a":2,"offset":-10},current,previous)==-3
 print("PASS advanced formula families",counts)

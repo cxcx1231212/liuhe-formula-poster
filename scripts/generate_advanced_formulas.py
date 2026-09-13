@@ -9,7 +9,6 @@ LABELS = {
     "mirror": "镜像公式", "multi": "多码合成", "cross": "跨期交叉",
 }
 
-def wrap49(value): return (int(value) - 1) % 49 + 1
 def digit(value): return sum(map(int, str(abs(int(value)))))
 def numbers(draw): return [int(ball["number"]) for ball in draw["numbers"]]
 
@@ -24,7 +23,7 @@ def value(spec, current, previous=None):
         if previous is None: return None
         base = ns[spec["a"]] + numbers(previous)[spec["b"]]
     else: raise ValueError(f"unknown advanced kind: {kind}")
-    return wrap49(base + spec["offset"])
+    return int(base + spec["offset"])
 
 def candidates():
     result = {key: [] for key in LABELS}

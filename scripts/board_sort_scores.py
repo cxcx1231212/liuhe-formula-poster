@@ -5,8 +5,7 @@ from repair_history_integrity import base_value, prediction_for, digit, wave
 
 ANIMALS = '马蛇龙兔虎牛鼠猪狗鸡猴羊'
 def wrap(n):
-    while n > 49: n -= 12
-    while n < 1: n += 12
+    # Formula arithmetic is raw; callers may classify the value separately.
     return n
 
 def extended_base(name, draw):

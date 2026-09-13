@@ -2,6 +2,7 @@
 import json
 from functools import lru_cache
 from pathlib import Path
+from number_cycle import cycle49
 
 ROOT = Path(__file__).resolve().parents[1]
 ACTIVATION = {1: 1, 5: 1, 8: 1}
@@ -10,7 +11,7 @@ VERSION = 'fushi-8-10-annual-v1'
 
 
 def wrap(value):
-    return value
+    return cycle49(value)
 
 
 @lru_cache(maxsize=1024)

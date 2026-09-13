@@ -7,6 +7,7 @@ from generate_pingte_all_pattern_images import center, font
 from generate_zodiac_posters import XS
 from search_pingte_methods import ROOT, fetch_year, wrap
 from search_zodiac_bundles import make_series
+from number_cycle import cycle49, cycle_note
 
 W = 1080
 RED = {1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46}
@@ -15,7 +16,7 @@ WAVE_COLORS = {"红波":"#d12d32", "蓝波":"#2684bd", "绿波":"#279451"}
 
 
 def wave(value):
-    number = wrap(value)
+    number = cycle49(value)
     return "红波" if number in RED else "蓝波" if number in BLUE else "绿波"
 
 
@@ -44,10 +45,12 @@ def qualified(records):
 
 
 def panel(draw, y, item, source, target=None):
-    result = wave(item["calculate"](source)); color = WAVE_COLORS[result]
+    raw = item["calculate"](source); result = wave(raw); color = WAVE_COLORS[result]
     draw.rounded_rectangle((305,y,1005,y+84),radius=14,fill="#fffaf0",outline="#c59b43",width=3)
     draw.rounded_rectangle((325,y+12,865,y+72),radius=10,fill=color)
-    center(draw,(595,y+42),calculation_text(item["name"],source,{item["name"]:item["calculate"]}),font(23,True),"white")
+    expression=re.sub(r"→-?\d+$", "", calculation_text(item["name"],source,{item["name"]:item["calculate"]}))
+    if raw != cycle49(raw): expression=f"{expression}→回绕{cycle49(raw):02d}"
+    center(draw,(595,y+42),expression,font(23,True),"white")
     draw.rounded_rectangle((885,y+12,985,y+72),radius=10,fill=color)
     center(draw,(935,y+42),result,font(25,True),"white")
     return target is not None and result == wave(int(target["numberList"][6]["number"]))

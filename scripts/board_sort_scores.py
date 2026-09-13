@@ -3,6 +3,7 @@ import re
 from functools import lru_cache
 from repair_history_integrity import base_value, prediction_for, digit, wave
 from nayin import element_for_formula_number
+from number_cycle import cycle49
 
 ANIMALS = '马蛇龙兔虎牛鼠猪狗鸡猴羊'
 def wrap(n):
@@ -78,7 +79,7 @@ class Scorer:
             rows=[]
             for source,target in self.pairs:
                 previous=self.draws.get(int(source['period'])-1)
-                predictions={value(spec,source,previous) for spec in item['advancedSpecs']}
+                predictions={cycle49(value(spec,source,previous)) for spec in item['advancedSpecs']}
                 rows.append(int(target['numbers'][6]['number']) in predictions)
             return summarize(rows)
         if board=='fushi' and group in ('22','33') and item.get('expansionActive'):
@@ -115,7 +116,7 @@ class Scorer:
         predictions=[self.numeric(b['name'],b.get('baseName'),b.get('operation'),b.get('amount')) for b in branches]
         rows=[]
         for i,(source,target) in enumerate(self.pairs):
-            ns={p[i] for p in predictions};balls=target['numbers'];special=balls[6];n=int(special['number'])
+            raw_ns={p[i] for p in predictions};ns={cycle49(x) for x in raw_ns} if board in ('tema','fushi') or (board=='kill' and group in ('code','wave')) else raw_ns;balls=target['numbers'];special=balls[6];n=int(special['number'])
             animals={ANIMALS[(x-1)%12] for x in ns}
             if board=='tema': hit=n in ns
             elif board=='zodiac': hit=special['animal'] in animals

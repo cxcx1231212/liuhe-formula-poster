@@ -6,6 +6,7 @@ import StaticFormulaPost from '@/app/StaticFormulaPost';
 import {formulaManifests,requestedLotteryType} from '@/lib/formula-manifests';
 import {LOTTERY_SHORT_NAMES} from '@/lib/lottery';
 import {postAuthor} from '@/lib/post-authors';
+import {cycle49} from '@/lib/number-cycle';
 
 type DrawNumber={number:string;animal:string;element:string};
 type Draw={period:number;displayPeriod?:string;date?:string;numbers:DrawNumber[]};
@@ -52,7 +53,7 @@ function calculateAdvanced(name:string,spec:AdvancedSpec,draw:Draw,previous?:Dra
   const result=base+spec.offset,sign=spec.offset>=0?'+':'−';
   return {name,calculation:`${expression}${sign}${Math.abs(spec.offset)}=${String(result).padStart(2,'0')}`,result:String(result).padStart(2,'0'),sourcePositions:sourceRefs.filter(ref=>ref.periodOffset===0).map(ref=>ref.position),sourceRefs};
 }
-function calculate(name:string,draw:Draw,fallback:number,advancedSpec?:AdvancedSpec,previous?:Draw):Calculated{
+function calculateRaw(name:string,draw:Draw,fallback:number,advancedSpec?:AdvancedSpec,previous?:Draw):Calculated{
   const advanced=advancedSpec?calculateAdvanced(name,advancedSpec,draw,previous):null;
   if(advanced)return advanced;
   const spread=name.match(/^邻码【(.+)】偏移([+-]\d+)$/);
@@ -71,6 +72,10 @@ function calculate(name:string,draw:Draw,fallback:number,advancedSpec?:AdvancedS
   const result=operator==='加'?base+amount:base-amount;
   const resultText=String(result).padStart(2,'0');
   return {name,calculation:`${source}${mode==='固定'?'':mode}：${String(base).padStart(2,'0')}${operator==='加'?'+':'−'}${amount}=${resultText}`,result:resultText,sourcePositions:[position+1]};
+}
+function calculate(name:string,draw:Draw,fallback:number,advancedSpec?:AdvancedSpec,previous?:Draw):Calculated{
+  const raw=calculateRaw(name,draw,fallback,advancedSpec,previous),rawNumber=Number(raw.result),result=cycle49(rawNumber);
+  return result===rawNumber?raw:{...raw,result:String(result).padStart(2,'0'),calculation:`${raw.calculation}→回绕${String(result).padStart(2,'0')}`};
 }
 
 export default async function TemaMethodPost({params,searchParams}:{params:Promise<{size:string;issue:string;method:string}>;searchParams:Promise<Record<string,string|string[]|undefined>>}){

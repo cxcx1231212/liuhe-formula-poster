@@ -2,6 +2,7 @@
 import argparse
 import json
 from pathlib import Path
+from number_cycle import cycle49
 
 ROOT = Path(__file__).resolve().parents[1]
 LABELS = {
@@ -67,10 +68,10 @@ def run(lottery_type, year):
         for source_index, (spec, name) in enumerate(rows):
             history = []
             for index in range(1, len(draws)-1):
-                prediction = value(spec, draws[index], draws[index-1])
+                prediction = cycle49(value(spec, draws[index], draws[index-1]))
                 target = int(draws[index+1]["numbers"][6]["number"])
                 history.append({"sourcePeriod":int(draws[index]["period"]),"targetPeriod":int(draws[index+1]["period"]),"predictionNumber":prediction,"actualNumber":target,"hit":prediction==target})
-            prediction = value(spec, draws[-1], draws[-2] if len(draws)>1 else None)
+            prediction = cycle49(value(spec, draws[-1], draws[-2] if len(draws)>1 else None))
             methods.append({"rank":str(source_index+1).zfill(3),"sourceIndex":source_index,"name":name,"label":LABELS[category],"spec":spec,"predictionNumbers":[prediction],"next":[prediction],"history":history,**summarize(history)})
         methods.sort(key=lambda row:(-row["recentStreak"],-row["recent30Rate"],-row["totalRate"],row["sourceIndex"]))
         for rank, method in enumerate(methods, 1): method["rank"] = str(rank).zfill(3)
@@ -90,11 +91,11 @@ def run(lottery_type, year):
                 specs=[];branches=[]
                 for delta in offsets:
                     spec={**source["spec"],"offset":source["spec"]["offset"]+delta}
-                    number=value(spec,current,previous);specs.append(spec)
-                    branches.append({"name":f"{source['name']} 分支{delta:+d}","number":number,"advancedSpec":spec})
+                    raw=value(spec,current,previous);number=cycle49(raw);specs.append(spec)
+                    branches.append({"name":f"{source['name']} 分支{delta:+d}","number":number,"rawNumber":raw,"advancedSpec":spec})
                 hits=[]
                 for draw_index in range(1,len(draws)-1):
-                    predicted={value(spec,draws[draw_index],draws[draw_index-1]) for spec in specs}
+                    predicted={cycle49(value(spec,draws[draw_index],draws[draw_index-1])) for spec in specs}
                     hits.append({"hit":int(draws[draw_index+1]["numbers"][6]["number"]) in predicted})
                 destination.append({"sourceKey":f"{LABELS[family]}｜{source['name']}","name":source["name"],"label":LABELS[family],"algorithmFamily":family,"advancedSpecs":specs,"numbers":[row["number"] for row in branches],"branches":branches,**summarize(hits)})
         print(f"已融入 {group_key}码中特：{len(destination)} 条",flush=True)

@@ -1,10 +1,11 @@
 import type {ZodiacDraw} from './zodiac-history';
+import {cycle49,cycle49Text} from './number-cycle';
 
 export type WaveMethod={rank:string;label:string;sourceKey:string;name:string;baseName:string;operation:string;amount:number};
 const RED=new Set([1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46]);
 const BLUE=new Set([3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48]);
 const digitSum=(v:number)=>String(Math.abs(v)).split('').reduce((s,d)=>s+Number(d),0);
-const wave=(v:number)=>v<1||v>49?'无波色':RED.has(v)?'红波':BLUE.has(v)?'蓝波':'绿波';
+const wave=(v:number)=>{const n=cycle49(v);return RED.has(n)?'红波':BLUE.has(n)?'蓝波':'绿波';};
 const values=(d:ZodiacDraw)=>d.numbers.map(i=>Number(i.number));
 const position=(n:string)=>n==='特码'?6:Number(n.match(/平([1-6])码/)?.[1]||1)-1;
 const converted=(d:ZodiacDraw,l:string,k?:string)=>{const v=values(d)[position(l)]||0;return k==='合数'?digitSum(v):k==='尾数'?v%10:v;};
@@ -18,7 +19,7 @@ const baseExpression=(d:ZodiacDraw,b:string)=>{const p=b.match(/^(平[1-6]码|�
 const sourcePositions=(b:string)=>Array.from(new Set(Array.from(b.matchAll(/平([1-6])码|特码/g),m=>m[0]==='特码'?7:Number(m[1]))));
 
 export function buildWavePosterItem(method:WaveMethod,draws:ZodiacDraw[],requestedIssue:number){
-  const ordered=draws.slice().sort((a,b)=>a.period-b.period);const evaluate=(draw:ZodiacDraw)=>{const p=draw.period;const alternating=method.operation==='alternate_add_subtract'?(p%2?1:-1):method.operation==='double_alternate_add_subtract'?((Math.floor((p-1)/2)%2===0)?1:-1):method.operation==='triple_alternate_add_subtract'?((Math.floor((p-1)/3)%2===0)?1:-1):0;const delta=method.operation==='asymmetric_alternate'?(p%2?Math.floor(method.amount/100):-(method.amount%100)):method.operation==='cyclic_step'?((p-1)%3+1)*method.amount:(method.operation==='subtract'?-method.amount:(alternating||1)*method.amount);const result=baseValue(draw,method.baseName)+delta,prediction=wave(result),symbol=delta<0?'−':'+';return {prediction,calculation:`${baseExpression(draw,method.baseName)}${symbol}${Math.abs(delta)}=${String(result).padStart(2,'0')}属${prediction}`};};
+  const ordered=draws.slice().sort((a,b)=>a.period-b.period);const evaluate=(draw:ZodiacDraw)=>{const p=draw.period;const alternating=method.operation==='alternate_add_subtract'?(p%2?1:-1):method.operation==='double_alternate_add_subtract'?((Math.floor((p-1)/2)%2===0)?1:-1):method.operation==='triple_alternate_add_subtract'?((Math.floor((p-1)/3)%2===0)?1:-1):0;const delta=method.operation==='asymmetric_alternate'?(p%2?Math.floor(method.amount/100):-(method.amount%100)):method.operation==='cyclic_step'?((p-1)%3+1)*method.amount:(method.operation==='subtract'?-method.amount:(alternating||1)*method.amount);const raw=baseValue(draw,method.baseName)+delta,prediction=wave(raw),symbol=delta<0?'−':'+';return {prediction,calculation:`${baseExpression(draw,method.baseName)}${symbol}${Math.abs(delta)}=${cycle49Text(raw)}属${prediction}`};};
   const histories=[];for(let i=0;i<ordered.length-1;i++){const source=ordered[i],target=ordered[i+1];if(target.period>requestedIssue)continue;const answer=evaluate(source),actualNumber=Number(target.numbers[6].number),hit=answer.prediction===wave(actualNumber);histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches:[{name:method.name,calculation:answer.calculation,result:answer.prediction,targetPositions:hit?[7]:[]}],actualNumber:target.numbers[6].number,actualAnimal:target.numbers[6].animal,actualElement:target.numbers[6].element,hit,targetPositions:hit?[7]:[]});}
   const forecastSource=ordered.find(d=>d.period===requestedIssue-1)||ordered.at(-1)!;const forecast=evaluate(forecastSource);return {label:method.label,sourceKey:method.sourceKey,next:[forecast.prediction],recentStreak:histories.reduce((count,row)=>row.hit?count+1:0,0),recent30Hits:histories.slice(-30).filter(row=>row.hit).length,branches:[{name:method.name,next:forecast.prediction,calculation:forecast.calculation,sourcePositions:sourcePositions(method.baseName)}],history:histories.slice(-5),formulaId:method.rank};
 }

@@ -6,6 +6,7 @@ import re
 import subprocess
 import sys
 from pathlib import Path
+from number_cycle import cycle49
 
 ROOT = Path(__file__).resolve().parents[1]
 FOLDERS = dict(pingte='pingte-all', pingte2='pingte-two', tema='tema-bundles', zodiac='zodiac', fushi='fushi', danshuang='danshuang', wave='wave', wuxing='wuxing', jiaye='jiaye', kill='kill', size='size', tail='tail', head='head')
@@ -13,7 +14,9 @@ KEYS = ('predictionAnimal','predictionNumber','predictionAnimals','predictionNum
 RED = {1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46}
 BLUE = {3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48}
 
-def wave(n): return '无波色' if n < 1 or n > 49 else '红波' if n in RED else '蓝波' if n in BLUE else '绿波'
+def wave(n):
+    n = cycle49(n)
+    return '红波' if n in RED else '蓝波' if n in BLUE else '绿波'
 def digit(n): return sum(map(int, str(abs(int(n)))))
 def wrap49(n): return int(n)
 
@@ -77,7 +80,8 @@ def prediction_for(item, board='', group='', source=None):
         subtract = op=='subtract' or (op=='alternate_add_subtract' and period%2==0) or (op=='double_alternate_add_subtract' and ((period-1)//2)%2==1) or (op=='triple_alternate_add_subtract' and ((period-1)//3)%2==1)
         amount=int(item['amount'])
         delta=(amount//100 if period%2 else -(amount%100)) if op=='asymmetric_alternate' else (((period-1)%3+1)*amount if op=='cyclic_step' else (-amount if subtract else amount))
-        n = wrap49(raw + delta)
+        raw_result = wrap49(raw + delta)
+        n = cycle49(raw_result) if board == 'wave' else raw_result
         result = {'next': [wave(n) if board=='wave' else ('合' if '合数' in item.get('label','') else '') + ('单' if (digit(n) if '合数' in item.get('label','') else n)%2 else '双')]}
     if source and board in ('tail','head','size') and item.get('spec'):
         n = spec_value(item['spec'],source,board)

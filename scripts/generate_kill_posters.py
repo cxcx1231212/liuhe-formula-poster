@@ -5,6 +5,7 @@ from generate_pingte_all_pattern_images import center,font
 from generate_zodiac_posters import XS
 from search_pingte_methods import ROOT,fetch_year,wrap,ANIMALS
 from search_zodiac_bundles import make_series
+from number_cycle import cycle49
 W=1080; RED={1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46};BLUE={3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48}
 CFG={'code':('杀六码','码',6,85),'animal':('杀三肖','肖',3,24),'tail':('杀一尾','尾',1,50),'head':('杀一头','头',1,22),'wave':('杀一波','波',1,12)}
 def source_positions(name):
@@ -14,7 +15,10 @@ def draw_data(record):
          'numbers':[{'number':str(value['number']).zfill(2),'animal':value.get('shengXiao',''),'element':value.get('wuXing','')} for value in record['numberList']]}
 def wave(n):return '红波' if n in RED else '蓝波' if n in BLUE else '绿波'
 def prop(k,v):
- n=wrap(v);return n if k=='码' else ANIMALS[(n-1)%12] if k=='肖' else n%10 if k=='尾' else n//10 if k=='头' else wave(n)
+ n=cycle49(v) if k=='wave' else wrap(v);return n if k=='码' else ANIMALS[(n-1)%12] if k=='肖' else n%10 if k=='尾' else n//10 if k=='头' else wave(n)
+def result_text(k,raw,result,expression):
+ expression=re.sub(r'→-?\d+$','',expression)
+ return f'{expression}→回绕{cycle49(raw):02d}→杀{result}' if k=='wave' and raw!=cycle49(raw) else f'{expression}→杀{result}'
 def streak(h):
  s=0
  for x in reversed(h):
@@ -47,7 +51,7 @@ def panel(draw,top,item,source,k,target=None):
  cols=2 if len(item['branches'])>1 else 1;rows=math.ceil(len(item['branches'])/cols);h=rows*66+18;results=[]
  draw.rounded_rectangle((305,top,1005,top+h),radius=14,fill='#fffaf0',outline='#c59b43',width=3)
  for i,b in enumerate(item['branches']):
-  r,c=divmod(i,cols);x=318+c*340;y=top+10+r*66;v=prop(k,b['calculate'](source));results.append(v);text=f"{calculation_text(b['name'],source,{b['name']:b['calculate']})}→杀{v}"
+  r,c=divmod(i,cols);x=318+c*340;y=top+10+r*66;raw=b['calculate'](source);v=prop(k,raw);results.append(v);text=result_text(k,raw,v,calculation_text(b['name'],source,{b['name']:b['calculate']}))
   draw.rounded_rectangle((x,y,x+326,y+55),radius=8,fill='#b92d31');center(draw,(x+163,y+28),text,font(18 if cols==2 else 22,True),'white')
  actual=prop(k,int(target['numberList'][6]['number'])) if target else None
  return h,target is not None and actual not in set(results)
@@ -70,8 +74,8 @@ def generate(lottery_type,year):
    rank=f'{i:03d}'
    branches=[]
    for branch in item['branches']:
-    result=prop(k,branch['calculate'](R[-1]))
-    branches.append({'name':branch['name'],'next':str(result),'calculation':f"{calculation_text(branch['name'],R[-1],{branch['name']:branch['calculate']})}→杀{result}",'sourcePositions':source_positions(branch['name'])})
+    raw=branch['calculate'](R[-1]);result=prop(k,raw)
+    branches.append({'name':branch['name'],'next':str(result),'calculation':result_text(k,raw,result,calculation_text(branch['name'],R[-1],{branch['name']:branch['calculate']})),'sourcePositions':source_positions(branch['name'])})
    history=[]
    # 当前公式图只展示最近 5 组回测；更早期次由历史页单独生成，
    # 不把全年记录重复塞进每一个公式对象。
@@ -79,8 +83,8 @@ def generate(lottery_type,year):
    for source,target in zip(recent_records[:-1],recent_records[1:]):
     history_branches=[];results=[]
     for branch in item['branches']:
-     result=prop(k,branch['calculate'](source));results.append(result)
-     history_branches.append({'name':branch['name'],'calculation':f"{calculation_text(branch['name'],source,{branch['name']:branch['calculate']})}→杀{result}",'result':str(result)})
+     raw=branch['calculate'](source);result=prop(k,raw);results.append(result)
+     history_branches.append({'name':branch['name'],'calculation':result_text(k,raw,result,calculation_text(branch['name'],source,{branch['name']:branch['calculate']})),'result':str(result)})
     actual_number=int(target['numberList'][6]['number']);actual=prop(k,actual_number);hit=actual not in set(results)
     history.append({'sourcePeriod':int(source['period']),'targetPeriod':int(target['period']),'branches':history_branches,'actualNumber':str(actual_number).zfill(2),'actualAnimal':target['numberList'][6].get('shengXiao',''),'actualElement':str(actual),'hit':hit})
    methods.append({'rank':rank,'label':label,'sourceKey':item['sourceKey'],'branchNames':[b['name'] for b in item['branches']],'values':[str(v) for v in item['values']],'next':[str(v) for v in item['values']],'recentStreak':item['recentStreak'],'recent30Hits':item['recent30Hits'],'branches':branches,'history':history,'image':None})

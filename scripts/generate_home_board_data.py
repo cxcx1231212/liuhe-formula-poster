@@ -7,6 +7,7 @@ from board_sort_scores import Scorer
 ROOT = Path(__file__).resolve().parents[1]
 GENERATED = ROOT / 'public' / 'generated'
 AUTHOR_MAP_PATH = ROOT / 'data' / 'formula-author-map.json'
+AUTHOR_SLOT_LIMIT = 137323
 SOURCES = [
     ('pingte:one','pingte-all',None),('pingte:two','pingte-two',None),
     *((f'tema:{c}','tema-bundles',c) for c in ('3','8','10','18')),
@@ -32,7 +33,9 @@ def compact(method,index):
 def author_identity(method):
     formula_id=method.get('formulaId')
     if formula_id: return f'id:{formula_id}'
-    stable={key:method.get(key) for key in ('name','sourceKey','rank','label','branchNames','branches','advancedSpecs') if method.get(key) is not None}
+    # Ranking changes every period, so it must never be part of a permanent
+    # author identity. Formula structure and labels are stable across sorting.
+    stable={key:method.get(key) for key in ('name','sourceKey','label','branchNames','branches','advancedSpecs') if method.get(key) is not None}
     if 'branches' in stable:
         stable['branches']=[branch.get('name',branch) if isinstance(branch,dict) else branch for branch in stable['branches']]
     payload=json.dumps(stable,ensure_ascii=False,sort_keys=True,separators=(',',':'))
@@ -53,8 +56,14 @@ def assign_authors(author_map,lottery_type,key,methods):
         base=author_identity(method);occurrence=seen.get(base,0);seen[base]=occurrence+1
         identity=base if occurrence==0 else f'{base}#{occurrence+1}'
         if identity not in registry:
-            if next_index>=100000: raise RuntimeError(f'Author slots exhausted for lottery type {lottery_type}')
-            registry[identity]=next_index;next_index+=1
+            # Existing manifests already carry the permanent slot. Reuse it
+            # while migrating away from the old rank-dependent map key.
+            previous=method.get('authorIndex')
+            if isinstance(previous,int) and 0<=previous<AUTHOR_SLOT_LIMIT:
+                registry[identity]=previous
+            else:
+                if next_index>=AUTHOR_SLOT_LIMIT: raise RuntimeError(f'Author slots exhausted for lottery type {lottery_type}')
+                registry[identity]=next_index;next_index+=1
         method['authorIndex']=registry[identity]
 
 def build(lottery_type):

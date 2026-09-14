@@ -24,6 +24,7 @@ const scopeCapacity:Record<AuthorScope,number>={pingte:300,pingte2:300,tema1:600
 const scopeStart=Object.fromEntries(scopes.map((scope,index)=>[scope,scopes.slice(0,index).reduce((sum,item)=>sum+scopeCapacity[item],0)])) as Record<AuthorScope,number>;
 const LOTTERY_CAPACITY=scopes.reduce((sum,scope)=>sum+scopeCapacity[scope],0);
 const AUTHOR_SLOTS_PER_LOTTERY=100000;
+const AUTHOR_OVERFLOW_START=AUTHOR_SLOTS_PER_LOTTERY*3;
 
 function authorFromSerial(serial:number){
   let value=(serial*7919)%(regions.length*nicknames.length);
@@ -34,7 +35,13 @@ function authorFromSerial(serial:number){
 
 /** New generated manifests use a permanent append-only slot independent of ranking. */
 export function postAuthorBySlot(type:string,slot:number){
-  return authorFromSerial((lotterySlot[type]??1)*AUTHOR_SLOTS_PER_LOTTERY+Math.max(0,Math.trunc(slot)));
+  const lottery=lotterySlot[type]??1,safeSlot=Math.max(0,Math.trunc(slot));
+  // Preserve every existing name below 100,000. Overflow slots are interleaved
+  // after all three legacy ranges, so different lottery types cannot collide.
+  const serial=safeSlot<AUTHOR_SLOTS_PER_LOTTERY
+    ? lottery*AUTHOR_SLOTS_PER_LOTTERY+safeSlot
+    : AUTHOR_OVERFLOW_START+(safeSlot-AUTHOR_SLOTS_PER_LOTTERY)*3+lottery;
+  return authorFromSerial(serial);
 }
 
 /** 每个彩种、板块和公式编号都对应一个全站唯一且长期固定的中文笔名。 */

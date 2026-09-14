@@ -26,7 +26,7 @@ export async function GET(request:NextRequest){
   const recommendations=(await Promise.all(selected.map(async (definition,index)=>{
     const item=await getHomeBoardRecommendation(lotteryType as '1'|'5'|'8',definition.board,definition.category);
     const cardName=`规律${chinese[index]??index+1}`;
-    const thumbnail=new URL('/api/formula-card',publicOrigin);
+    const thumbnail=new URL('/api/pic',publicOrigin);
     thumbnail.searchParams.set('lotteryType',lotteryType);
     thumbnail.searchParams.set('board',definition.board);
     thumbnail.searchParams.set('category',definition.category);

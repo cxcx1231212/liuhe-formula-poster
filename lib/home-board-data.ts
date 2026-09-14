@@ -50,5 +50,6 @@ export async function getHomeBoardRecommendation(type:LotteryType,board:HomeBoar
   const sourceIndex=Number.isInteger(method.sourceIndex)?method.sourceIndex:0;
   const post=makePost(type,board,category,issue,method,sourceIndex);
   const prediction=method.next??method.predictionAnimals??method.predictionNumbers??method.predictionAnimal??method.predictionNumber??method.values??method.animals??method.numbers??method.prediction??null;
-  return {issue,formula:method.name??method.sourceKey??method.label??null,rank:method.rank??pad(1),title:post.title,href:post.href,image:method.image??null,algorithmFamily:method.algorithmFamily??null,advancedSpecs:method.advancedSpecs??null,recentStreak:n(method.recentStreak??method.streak),recent30Hits:n(method.recent30Hits),recent30Rate:n(method.recent30Rate),totalRate:n(method.totalRate),prediction,draws:(manifest.draws??[]).slice(-5),recentHistory:method.recentHistory??[]};
+  const rank=String(method.rank??sourceIndex+1).padStart(3,'0');
+  return {issue,formula:method.name??method.sourceKey??method.label??null,rank,title:post.title,href:post.href,image:method.image??null,algorithmFamily:method.algorithmFamily??null,advancedSpecs:method.advancedSpecs??null,recentStreak:n(method.recentStreak??method.streak),recent30Hits:n(method.recent30Hits),recent30Rate:n(method.recent30Rate),totalRate:n(method.totalRate),prediction,draws:(manifest.draws??[]).slice(-5),recentHistory:method.recentHistory??[]};
 }

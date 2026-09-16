@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import {buildZodiacPosterItem} from '../lib/zodiac-history.ts';
 import {buildFushiPosterItem} from '../lib/fushi-history.ts';
+import {buildDanshuangPosterItem} from '../lib/danshuang-history.ts';
+import {buildWavePosterItem} from '../lib/wave-history.ts';
 
 const method={name:'平2码－平6码交替加减14',baseName:'平2码－平6码',operation:'alternate_add_subtract',amount:14};
 const draw=(period,p2,p6)=>({period,numbers:[1,p2,3,4,5,p6,7].map(number=>({number:String(number),animal:'',element:''}))});
@@ -35,6 +37,14 @@ assert.deepEqual(periodSumResult.next,['马','鸡','猴']);
 assert.equal(periodSumResult.branches[0].calculation,'258期：2＋5＋8＝15；15−2＝13属马');
 assert.equal(periodSumResult.branches[1].calculation,'258期：2＋5＋8＝15；15−5＝10属鸡');
 assert.equal(periodSumResult.branches[2].calculation,'258期：2＋5＋8＝15；15−4＝11属猴');
+
+const periodDraw=draw(258,23,19);
+const periodFushi=buildFushiPosterItem({rank:'003',sourceKey:'期数合数',branches:[{name:'期数合数减2',baseName:'期数合数',operation:'subtract',amount:2}]},[periodDraw],259,'animal',1,'一肖复式');
+assert.equal(periodFushi.branches[0].calculation,'258期：2＋5＋8＝15；15−2=13属马');
+const periodDanshuang=buildDanshuangPosterItem({rank:'001',label:'特码单双',sourceKey:'期数合数',name:'期数合数减2',baseName:'期数合数',operation:'subtract',amount:2},[periodDraw],259);
+assert.match(periodDanshuang.branches[0].calculation,/258期：2＋5＋8＝15；15−2＝13/);
+const periodWave=buildWavePosterItem({rank:'001',label:'特码波色',sourceKey:'期数合数',name:'期数合数减2',baseName:'期数合数',operation:'subtract',amount:2},[periodDraw],259);
+assert.match(periodWave.branches[0].calculation,/258期：2＋5＋8＝15；15−2=13属红波/);
 
 const fushiMethod={rank:'001',sourceKey:'边界测试',branches:[{name:'平1码减35'}]};
 const fushiDraw={period:1,numbers:[35,2,3,4,5,6,7].map(number=>({number:String(number),animal:'',element:''}))};

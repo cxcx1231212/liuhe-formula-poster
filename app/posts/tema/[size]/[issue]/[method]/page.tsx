@@ -24,7 +24,7 @@ function baseFormula(name:string,draw:Draw):{value:number;text:string;positions:
   let match=name.match(/^(平[1-6]|特码)码(原码|合数|尾数)$/);
   if(match){const position=sourcePosition(match[1]),raw=values[position],value=match[2]==='合数'?digits(raw):match[2]==='尾数'?raw%10:raw;return {value,text:`${String(raw).padStart(2,'0')}${match[2]==='合数'?`合${value}`:match[2]==='尾数'?`尾${value}`:''}`,positions:[position]};}
   match=name.match(/^(平[1-6]|特码)码(加|减)期数合数$/);
-  if(match){const position=sourcePosition(match[1]),raw=values[position],amount=digits(Number(draw.period)),value=match[2]==='加'?raw+amount:raw-amount;return {value,text:`${String(raw).padStart(2,'0')}${match[2]==='加'?'+':'−'}期合${amount}`,positions:[position]};}
+  if(match){const position=sourcePosition(match[1]),raw=values[position],periodDigits=String(Math.abs(draw.period)).split(''),amount=digits(Number(draw.period)),value=match[2]==='加'?raw+amount:raw-amount;return {value,text:`${draw.period}期：${periodDigits.join('＋')}=${amount}；${String(raw).padStart(2,'0')}${match[2]==='加'?'+':'−'}${amount}`,positions:[position]};}
   match=name.match(/^(平[1-6]|特码)码(加|减)(平[1-6]|特码)码$/);
   if(match){const left=sourcePosition(match[1]),right=sourcePosition(match[3]),value=match[2]==='加'?values[left]+values[right]:values[left]-values[right];return {value,text:`${String(values[left]).padStart(2,'0')}${match[2]==='加'?'+':'−'}${String(values[right]).padStart(2,'0')}`,positions:[left,right]};}
   match=name.match(/^(平[1-6]|特码)(合数|尾数)加(平[1-6]|特码)(合数|尾数)$/);

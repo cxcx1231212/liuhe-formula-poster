@@ -76,7 +76,11 @@ def expression(record, spec, raw_value, animal):
     elif spec["kind"] == "global":
         label = {"min": "最小平码", "max": "最大平码", "regular_sum": "六个平码总分",
                  "all_sum": "七码总分", "period_digit_sum": "期数合数"}[spec["op"]]
-        text = f"{label}={shown}"
+        if spec["op"] == "period_digit_sum":
+            period = int(record.get("calcPeriod", record["period"]))
+            text = f"{period}期：{'＋'.join(str(period))}＝{shown}"
+        else:
+            text = f"{label}={shown}"
     else:
         a, b = numbers[spec["a"]], numbers[spec["b"]]
         if spec["op"] == "sum": text = f"{a:02d}+{b:02d}={shown}"

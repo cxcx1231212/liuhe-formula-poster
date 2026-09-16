@@ -20,6 +20,7 @@ const baseValue=(draw:ZodiacDraw,base:string):number=>{
   return single?converted(draw,single[1],single[2]):0;
 };
 const baseExpression=(draw:ZodiacDraw,base:string)=>{
+  if(base==='期数合数'){const digits=String(Math.abs(draw.period)).split('');return `${draw.period}期：${digits.join('＋')}＝${digitSum(draw.period)}`;}
   const pair=base.match(/^(平[1-6]码|特码)(合数|尾数)?([＋－])(平[1-6]码|特码)(合数|尾数)?$/);
   if(pair)return `${String(converted(draw,pair[1],pair[2])).padStart(2,'0')}${pair[3]}${String(converted(draw,pair[4],pair[5])).padStart(2,'0')}`;
   const single=base.match(/^(平[1-6]码|特码)(合数|尾数)?$/);
@@ -37,7 +38,8 @@ export function buildDanshuangPosterItem(method:DanshuangMethod,draws:ZodiacDraw
     const symbol=direction<0?'−':'+';
     const suffix=method.label==='合数单双'?`合数${digitSum(number)}为${prediction}`:`为${prediction}`;
     const shown=number===result?String(number).padStart(2,'0'):`${cycle49Text(result)}${CYCLE49_NOTE}`;
-    return {prediction,calculation:`${baseExpression(draw,method.baseName)}${symbol}${Math.abs(delta)}＝${shown}，${String(number).padStart(2,'0')}${suffix}`};
+    const baseText=baseExpression(draw,method.baseName),prefix=method.baseName==='期数合数'?`${baseText}；${base}`:baseText;
+    return {prediction,calculation:`${prefix}${symbol}${Math.abs(delta)}＝${shown}，${String(number).padStart(2,'0')}${suffix}`};
   };
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){

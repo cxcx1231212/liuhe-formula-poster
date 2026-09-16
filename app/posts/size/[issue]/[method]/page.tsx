@@ -22,7 +22,7 @@ function evaluate(spec:Spec,draw:Draw){
       const values=draw.numbers.slice(0,6).map(value=>Number(value.number));const value=spec.op==='min'?Math.min(...values):Math.max(...values);
       return {number:value,calculation:`六码${spec.op==='min'?'最小':'最大'}：${String(value).padStart(2,'0')}`,sourcePositions:[values.indexOf(value)+1]};
     }
-    if(spec.op==='period_digit_sum'){const value=digitSum(draw.period);return {number:value,calculation:`期数合数：${draw.period}合${value}`,sourcePositions:[] as number[]};}
+    if(spec.op==='period_digit_sum'){const value=digitSum(draw.period),digits=String(Math.abs(draw.period)).split('');return {number:value,calculation:`期数合数：${draw.period}期，${digits.join('＋')}＝${value}`,sourcePositions:[] as number[]};}
     const count=spec.op==='regular_sum'?6:7;const values=draw.numbers.slice(0,count).map(value=>Number(value.number));const value=values.reduce((sum,current)=>sum+current,0);
     return {number:value,calculation:`${count===6?'六码':'七码'}总分：${values.join('＋')}＝${value}`,sourcePositions:values.map((_,index)=>index+1)};
   }

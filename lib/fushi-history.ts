@@ -22,7 +22,7 @@ const baseDetails=(draw:FushiDraw,base:string):{value:number;expression:string}=
   if(base==='最大平码'){const value=Math.max(...values(draw).slice(0,6));return {value,expression:formatNumber(value)};}
   if(base==='六个平码总分'){const value=values(draw).slice(0,6).reduce((a,b)=>a+b,0);return {value,expression:String(value)};}
   if(base==='七码总分'){const value=values(draw).reduce((a,b)=>a+b,0);return {value,expression:String(value)};}
-  if(base==='期数合数'){const value=digitSum(draw.period);return {value,expression:String(value)};}
+  if(base==='期数合数'){const value=digitSum(draw.period),digits=String(Math.abs(draw.period)).split('');return {value,expression:`${draw.period}期：${digits.join('＋')}＝${value}`};}
   const pair=base.match(/^(平[1-6]码|特码)(合数|尾数)?([＋－])(平[1-6]码|特码)(合数|尾数)?$/);
   if(pair){
     const convert=(label:string,kind?:string)=>{const value=cellValue(draw,label);return kind==='合数'?digitSum(value):kind==='尾数'?value%10:value;};
@@ -55,13 +55,14 @@ const evaluate=(draw:FushiDraw,input:string|RawBranch)=>{
   const symbol=definition.operation==='加'?'+':definition.operation==='减'?'−':definition.operation==='不对称'||definition.operation==='循环'?(delta>=0?'+':'−'):direction?(direction>0?'+':'−'):definition.operation==='乘'?'×':definition.suffix==='余数'?'÷余':'÷整';
   const shown=definition.operation==='不对称'||definition.operation==='循环'?Math.abs(delta):definition.amount;
   const quotient=definition.amount?base/definition.amount:0;
+  const detailedBase=definition.base==='期数合数';
   const calculation=definition.operation==='除'&&definition.suffix==='取整'
     ? Number.isInteger(quotient)
-      ? `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}=${formatNumber(result)}属${animal}`
-      : `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}=${decimalText(quotient)}；去掉小数部分=${formatNumber(result)}属${animal}`
+      ? `${baseDetailsValue.expression}${detailedBase?'；':`=${base}；`}${base}÷${definition.amount}=${formatNumber(result)}属${animal}`
+      : `${baseDetailsValue.expression}${detailedBase?'；':`=${base}；`}${base}÷${definition.amount}=${decimalText(quotient)}；去掉小数部分=${formatNumber(result)}属${animal}`
     : definition.operation==='除'&&definition.suffix==='余数'
-      ? `${baseDetailsValue.expression}=${base}；${base}÷${definition.amount}，余数=${formatNumber(result)}属${animal}`
-    : `${baseDetailsValue.expression}${symbol}${shown}=${formatNumber(result)}属${animal}`;
+      ? `${baseDetailsValue.expression}${detailedBase?'；':`=${base}；`}${base}÷${definition.amount}，余数=${formatNumber(result)}属${animal}`
+    : `${baseDetailsValue.expression}${detailedBase?`；${base}`:''}${symbol}${shown}=${formatNumber(result)}属${animal}`;
   return {number:result,animal,calculation};
 };
 const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);

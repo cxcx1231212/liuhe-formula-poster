@@ -496,7 +496,7 @@ export default function DynamicWuxingPoster({
             className={`wuxing-formula-note${item.branches.length > 1 ? " multi" : ""}`}
             style={{height:forecastHeight}}
           >
-            <b>公式算法</b>
+            <b>算法过程</b>
             <div className="formula-pairs">
               {displayBranches.map((branch, index) => {
                 const result = branch.next || item.next[index];

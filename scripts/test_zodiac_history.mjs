@@ -25,6 +25,17 @@ const exactDivision=buildZodiacPosterItem(divided,[{period:256,numbers:[5,15,9,3
 assert.doesNotMatch(exactDivision.branches[0].calculation,/去掉小数部分/);
 assert.match(exactDivision.branches[0].calculation,/05－40＝-35；-35÷5＝-7；-7＋12＝05（按12肖循环）/);
 
+const periodSum={sourceKey:'期数合数不对称交替法三连肖',branches:[
+  {name:'期数合数减2',baseName:'期数合数',operation:'subtract',amount:2},
+  {name:'期数合数减5',baseName:'期数合数',operation:'subtract',amount:5},
+  {name:'期数合数减4',baseName:'期数合数',operation:'subtract',amount:4},
+]};
+const periodSumResult=buildZodiacPosterItem(periodSum,[draw(258,23,19)],259);
+assert.deepEqual(periodSumResult.next,['马','鸡','猴']);
+assert.equal(periodSumResult.branches[0].calculation,'258期：2＋5＋8＝15；15−2＝13属马');
+assert.equal(periodSumResult.branches[1].calculation,'258期：2＋5＋8＝15；15−5＝10属鸡');
+assert.equal(periodSumResult.branches[2].calculation,'258期：2＋5＋8＝15；15−4＝11属猴');
+
 const fushiMethod={rank:'001',sourceKey:'边界测试',branches:[{name:'平1码减35'}]};
 const fushiDraw={period:1,numbers:[35,2,3,4,5,6,7].map(number=>({number:String(number),animal:'',element:''}))};
 const animalFushi=buildFushiPosterItem(fushiMethod,[fushiDraw],2,'animal',2,'二肖复式');

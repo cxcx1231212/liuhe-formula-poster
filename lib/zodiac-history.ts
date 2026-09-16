@@ -40,6 +40,10 @@ const calculate=(base:number,operation:string,amount:number,period:number)=>oper
 const symbol=(operation:string,period:number)=>operation==='add'?'+':operation==='subtract'?'−':operation==='asymmetric_alternate'||operation==='cyclic_step'?(offset(operation,1,period)>=0?'+':'−'):alternatingDirection(operation,period)?(alternatingDirection(operation,period)>0?'+':'−'):operation==='multiply'?'×':operation==='divide_floor'?'÷取整':'÷余数';
 const sourcePositions=(base:string)=>Array.from(base.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
 const baseExpression=(draw:ZodiacDraw,base:string)=>{
+  if(base==='期数合数'){
+    const digits=String(Math.abs(draw.period)).split('');
+    return `${draw.period}期：${digits.join('＋')}＝${digitSum(draw.period)}`;
+  }
   const pair=base.match(/^(平[1-6]码|特码)(合数|尾数)?([＋－])(平[1-6]码|特码)(合数|尾数)?$/);
   if(pair){
     const display=(label:string,kind?:string)=>{const value=cellValue(draw,label);return kind==='合数'?`${String(value).padStart(2,'0')}合${digitSum(value)}`:kind==='尾数'?`${String(value).padStart(2,'0')}尾${value%10}`:String(value).padStart(2,'0');};
@@ -55,19 +59,22 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
   const ordered=draws.slice().sort((a,b)=>a.period-b.period);
   const evaluate=(definition:ZodiacBranch,draw:ZodiacDraw)=>{
     const base=baseValue(draw,definition.baseName||'');const raw=calculate(base,definition.operation||'',definition.amount||0,draw.period);const result=raw;
-    const zodiac=zodiacNumber(raw),animal=animalFor(raw);
+    const animal=animalFor(raw);
     const operation=definition.operation||'',amount=definition.amount||0,shown=operation==='asymmetric_alternate'?Math.abs(offset(operation,amount,draw.period)):operation==='cyclic_step'?Math.abs(offset(operation,amount,draw.period)):amount;
     const baseText=baseExpression(draw,definition.baseName||'');
     const grouped=/[＋－]/.test(definition.baseName||'')&&operation?`(${baseText})`:baseText;
     const classification=zodiacResultText(raw,animal);
     const quotient=amount?base/amount:0;
+    const periodDigitSum=definition.baseName==='期数合数';
     const calculation=operation==='divide_floor'
       ? Number.isInteger(quotient)
         ? `${baseText}＝${base}；${base}÷${amount}＝${raw}${raw<1?`；${classification}`:`，${classification}`}`
         : `${baseText}＝${base}；${base}÷${amount}＝${decimalText(quotient)}；去掉小数部分＝${raw}${raw<1?`；${classification}`:`，${classification}`}`
       : operation==='modulo'
         ? `${baseText}＝${base}；${base}÷${amount}，余数＝${classification}`
-      : `${grouped}${symbol(operation,draw.period)}${shown}＝${classification}`;
+      : periodDigitSum
+        ? `${baseText}；${base}${symbol(operation,draw.period)}${shown}＝${classification}`
+        : `${grouped}${symbol(operation,draw.period)}${shown}＝${classification}`;
     return {result,animal,calculation};
   };
   const histories=[];

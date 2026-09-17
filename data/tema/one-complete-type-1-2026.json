@@ -1,10 +1,108 @@
 {
   "totalFormulaCount": 17816,
-  "qualifiedCount": 8,
+  "qualifiedCount": 15,
   "qualifiedMethods": [
     {
-      "name": "平1码尾数加10",
-      "family": "加法",
+      "name": "平1码尾数＋平3码尾数三期交替加减7",
+      "family": "三期交替加减",
+      "predictionNumber": 1,
+      "recentStreak": 3,
+      "hits": [
+        false,
+        false,
+        false,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平1码合数＋平2码合数交替加减4",
+      "family": "交替加减",
+      "predictionNumber": 20,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平1码合数＋平2码合数三期交替加减4",
+      "family": "三期交替加减",
+      "predictionNumber": 12,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平1码尾数＋平3码尾数交替加减7",
+      "family": "交替加减",
+      "predictionNumber": 15,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平1码尾数＋平4码尾数交替加减3",
+      "family": "交替加减",
+      "predictionNumber": 8,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平1码尾数＋平4码尾数三期交替加减3",
+      "family": "三期交替加减",
+      "predictionNumber": 2,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平6码－平1码减12",
+      "family": "减法",
+      "predictionNumber": -5,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平6码－平1码双期交替加减12",
+      "family": "双期交替加减",
       "predictionNumber": 19,
       "recentStreak": 2,
       "hits": [
@@ -17,7 +115,21 @@
       ]
     },
     {
-      "name": "平1码尾数三期交替加减10",
+      "name": "平1码尾数＋平6码尾数交替加减10",
+      "family": "交替加减",
+      "predictionNumber": 19,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平1码尾数＋平6码尾数三期交替加减10",
       "family": "三期交替加减",
       "predictionNumber": -1,
       "recentStreak": 2,
@@ -31,9 +143,9 @@
       ]
     },
     {
-      "name": "平1码尾数＋平3码尾数加7",
-      "family": "加法",
-      "predictionNumber": 22,
+      "name": "平3码合数＋平6码合数交替加减9",
+      "family": "交替加减",
+      "predictionNumber": 29,
       "recentStreak": 2,
       "hits": [
         false,
@@ -45,50 +157,8 @@
       ]
     },
     {
-      "name": "平1码尾数＋平3码尾数三期交替加减7",
+      "name": "平3码合数＋平6码合数三期交替加减9",
       "family": "三期交替加减",
-      "predictionNumber": 8,
-      "recentStreak": 2,
-      "hits": [
-        false,
-        false,
-        false,
-        false,
-        true,
-        true
-      ]
-    },
-    {
-      "name": "平1码尾数＋特码尾数循环步长3",
-      "family": "循环步长",
-      "predictionNumber": 21,
-      "recentStreak": 2,
-      "hits": [
-        false,
-        false,
-        false,
-        false,
-        true,
-        true
-      ]
-    },
-    {
-      "name": "平3码合数＋平4码合数不对称交替加2减3",
-      "family": "不对称交替",
-      "predictionNumber": 5,
-      "recentStreak": 2,
-      "hits": [
-        false,
-        false,
-        false,
-        false,
-        true,
-        true
-      ]
-    },
-    {
-      "name": "平4码尾数＋平5码尾数加4",
-      "family": "加法",
       "predictionNumber": 11,
       "recentStreak": 2,
       "hits": [
@@ -101,9 +171,37 @@
       ]
     },
     {
-      "name": "平4码尾数＋平5码尾数三期交替加减4",
+      "name": "平4码合数＋平6码合数不对称交替加4减5",
+      "family": "不对称交替",
+      "predictionNumber": 20,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平6码合数＋特码合数交替加减13",
+      "family": "交替加减",
+      "predictionNumber": 33,
+      "recentStreak": 2,
+      "hits": [
+        false,
+        false,
+        false,
+        false,
+        true,
+        true
+      ]
+    },
+    {
+      "name": "平6码合数＋特码合数三期交替加减13",
       "family": "三期交替加减",
-      "predictionNumber": 3,
+      "predictionNumber": 7,
       "recentStreak": 2,
       "hits": [
         false,

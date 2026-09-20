@@ -6,6 +6,7 @@ import LiveDraw from './LiveDraw';
 import BoardBanner from './BoardBanner';
 import RecommendedSites from './RecommendedSites';
 import RemoteBoard from './RemoteBoard';
+import GroupPopup from './GroupPopup';
 const lotteryNames:Record<LotteryType,string>={'1':'香港六合彩','5':'澳门六合彩','8':'疯狂天天六合彩'};
 const boards=[
 {key:'zodiac',name:'生肖公式',tagline:'十二生肖 · 思路归档',categories:[{key:'1',label:'一肖中特'},{key:'3',label:'三肖中特'},{key:'6',label:'六肖中特'},{key:'9',label:'九肖中特'}]},
@@ -47,6 +48,7 @@ export default function HomeClient({initialType,latestByType}:{initialType:Lotte
  };
  const change=(value:LotteryType)=>{if(value===type)return;setType(value);setResults(null);setQuery('');setSearchError('');history.replaceState(null,'',`/?type=${value}`);window.scrollTo({top:0,behavior:'smooth'});};
  return <main>
+  <GroupPopup/>
   <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><form className="formula-search" onSubmit={event=>{event.preventDefault();void search()}}><input name="formula-search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="搜索作者、期数、公式类型" aria-label="搜索公式"/><button type="submit" aria-label="搜索全部公式" disabled={searching}>{searching?'…':'⌕'}</button>{results!==null&&<small>{results.length}条</small>}</form><a href="#boards">公式板块</a></nav></header>
   {results!==null&&<section className="board-sections" style={{marginTop:8,marginBottom:20}}><section className="board-section"><header><span>⌕</span><h2>搜索结果</h2><i>当前彩种全部公式 · 共{results.length}条</i></header>{searchError?<p className="pingte-empty">{searchError}</p>:shown.length?<div className="board-titles search-result-list">{shown.map((post,index)=><a href={post.href} target="_blank" rel="noopener noreferrer" key={`${post.href}-${index}`}><small>{post.boardName}{post.categoryName?` · ${post.categoryName}`:''} · {post.issue}</small><span>{post.title}</span><b>›</b></a>)}</div>:<p className="pingte-empty">没有找到相关公式</p>}{pages>1&&<nav className="board-pagination"><button disabled={searchPage===1} onClick={()=>setSearchPage(page=>Math.max(1,page-1))}>上一页</button><span>{searchPage} / {pages}</span><button disabled={searchPage===pages} onClick={()=>setSearchPage(page=>Math.min(pages,page+1))}>下一页</button></nav>}</section></section>}
   <section className="draw-hero"><div className="lottery-switch"><div>{(['5','1','8'] as LotteryType[]).map(value=><a href={`/?type=${value}`} className={value===type?'active':''} onClick={event=>{event.preventDefault();change(value)}} key={value}>{lotteryNames[value]}</a>)}</div></div><LiveDraw key={type} initial={latest} type={type}/></section>

@@ -66,6 +66,9 @@ jobs:
             wait "${generator_pid}"
             git add -f public/generated/lottery-catalog.json
             git add lib/fushi-history.ts scripts/board_sort_scores.py scripts/repair_history_integrity.py lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx app/IssueScroller.tsx app/formula-history/page.tsx
+            # This search cache is rebuilt during every update and can exceed GitHub's
+            # 100 MiB per-file limit. Keep it available for this run, but do not commit it.
+            git reset -- data/pingte/all-patterns-type-*-*.json
             if ! git diff --cached --quiet; then
               git commit -m "自动保存彩种 ${lottery_type} 更新进度 [skip ci]"
             fi
@@ -179,6 +182,7 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add -f public/generated/lottery-catalog.json
           git add lib/fushi-history.ts scripts/board_sort_scores.py scripts/repair_history_integrity.py lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx app/IssueScroller.tsx app/formula-history/page.tsx
+          git reset -- data/pingte/all-patterns-type-*-*.json
           if ! git diff --cached --quiet; then
             git commit -m "自动更新新一期公式 [skip ci]"
           fi

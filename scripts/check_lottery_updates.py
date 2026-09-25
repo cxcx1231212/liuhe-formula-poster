@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CATALOG = ROOT / "public" / "generated" / "lottery-catalog.json"
 MANIFEST_POINTERS = ROOT / "lib" / "formula-manifests.ts"
 SAVED_RESULTS = ROOT / "data" / "pingte"
+DEPLOYED_ISSUES = ROOT / "data" / "deployed-issues.json"
 CF_API = "https://liuhe-formula-update-checker.xcx8088.workers.dev/latest"
 
 
@@ -54,13 +55,21 @@ def generated_periods(catalog_path=CATALOG, pointers_path=MANIFEST_POINTERS, res
     return generated
 
 
+def deployed_periods(path=DEPLOYED_ISSUES):
+    if not path.exists():
+        return {}
+    return {int(key): int(value) for key, value in json.loads(path.read_text(encoding="utf-8")).items()}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--types", nargs="+", type=int, default=[1, 5, 8])
     parser.add_argument("--github-output")
     args = parser.parse_args()
     generated = generated_periods()
+    deployed = deployed_periods()
     stale = []
+    unpublished = []
     for lottery_type in args.types:
         opened = latest_period(lottery_type)
         expected = opened + 1
@@ -68,12 +77,16 @@ def main() -> None:
         print(f"彩种 {lottery_type}: CF已保存开奖 {opened}，网站预测 {current}")
         if expected > current:
             stale.append(lottery_type)
+        if current > deployed.get(lottery_type, 0):
+            unpublished.append(lottery_type)
     values = " ".join(map(str, stale))
     if args.github_output:
         with open(args.github_output, "a", encoding="utf-8") as output:
             output.write(f"types={values}\n")
             output.write(f"changed={'true' if stale else 'false'}\n")
+            output.write(f"deploy_needed={'true' if unpublished else 'false'}\n")
     print(f"需要更新：{values or '无'}")
+    print(f"已计算但尚未发布：{' '.join(map(str, unpublished)) or '无'}")
 
 
 if __name__ == "__main__":

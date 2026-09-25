@@ -7,7 +7,13 @@ from board_sort_scores import Scorer
 ROOT = Path(__file__).resolve().parents[1]
 GENERATED = ROOT / 'public' / 'generated'
 AUTHOR_MAP_PATH = ROOT / 'data' / 'formula-author-map.json'
+AUTHOR_SEEDS_PATH = ROOT / 'data' / 'stable-author-seeds.json'
 AUTHOR_SLOT_LIMIT = 137323
+STABLE_SOURCE_BOARDS = {
+    'zodiac:3', 'zodiac:6', 'zodiac:9',
+    'fushi:22', 'fushi:33', 'fushi:2x', 'fushi:3x',
+    'kill:code', 'kill:animal', 'kill:tail', 'kill:head', 'kill:wave',
+}
 SOURCES = [
     ('pingte:one','pingte-all',None),('pingte:two','pingte-two',None),
     *((f'tema:{c}','tema-bundles',c) for c in ('3','8','10','18')),
@@ -46,20 +52,39 @@ def load_author_map():
     data=json.loads(AUTHOR_MAP_PATH.read_text(encoding='utf-8'))
     return data if isinstance(data.get('boards'),dict) else {'version':1,'boards':{}}
 
-def assign_authors(author_map,lottery_type,key,methods):
+def load_author_seeds():
+    if not AUTHOR_SEEDS_PATH.exists(): return {}
+    seeds=json.loads(AUTHOR_SEEDS_PATH.read_text(encoding='utf-8'))
+    return seeds.get('boards',{})
+
+def assign_authors(author_map,lottery_type,key,methods,author_seeds=None):
     board_key=f'{lottery_type}:{key}'
     registry=author_map['boards'].setdefault(board_key,{})
+    seeds=(author_seeds or {}).get(board_key,{})
     used=[slot for name,board in author_map['boards'].items() if name.startswith(f'{lottery_type}:') for slot in board.values()]
     next_index=max(used,default=-1)+1
     seen={}
     for method in methods:
-        base=author_identity(method);occurrence=seen.get(base,0);seen[base]=occurrence+1
-        identity=base if occurrence==0 else f'{base}#{occurrence+1}'
+        legacy_identity=author_identity(method)
+        if key in STABLE_SOURCE_BOARDS:
+            source=method.get('sourceKey')
+            if not isinstance(source,str) or not source.strip():
+                raise RuntimeError(f'Missing stable author source for {board_key}')
+            base='source:'+source
+            if base in seen: raise RuntimeError(f'Duplicate stable author source for {board_key}: {source}')
+            seen[base]=1
+            identity=base
+        else:
+            base=legacy_identity;occurrence=seen.get(base,0);seen[base]=occurrence+1
+            identity=base if occurrence==0 else f'{base}#{occurrence+1}'
         if identity not in registry:
-            # Existing manifests already carry the permanent slot. Reuse it
-            # while migrating away from the old rank-dependent map key.
             previous=method.get('authorIndex')
-            if isinstance(previous,int) and 0<=previous<AUTHOR_SLOT_LIMIT:
+            seeded=seeds.get(method.get('sourceKey')) if key in STABLE_SOURCE_BOARDS else None
+            if isinstance(seeded,int) and 0<=seeded<AUTHOR_SLOT_LIMIT:
+                registry[identity]=seeded
+            elif key in STABLE_SOURCE_BOARDS and legacy_identity in registry:
+                registry[identity]=registry[legacy_identity]
+            elif isinstance(previous,int) and 0<=previous<AUTHOR_SLOT_LIMIT:
                 registry[identity]=previous
             else:
                 if next_index>=AUTHOR_SLOT_LIMIT: raise RuntimeError(f'Author slots exhausted for lottery type {lottery_type}')
@@ -80,6 +105,7 @@ def build(lottery_type):
     print('Latest scoring draw',lottery_type,latest_draw,flush=True)
     scorers={}
     author_map=load_author_map()
+    author_seeds=load_author_seeds()
     for key,folder,category in SOURCES:
         path=latest(folder,lottery_type)
         if path not in loaded: loaded[path]=json.loads(path.read_text(encoding='utf-8'))
@@ -88,7 +114,7 @@ def build(lottery_type):
         if issue not in scorers: scorers[issue]=Scorer([d for d in fallback_draws if int(d['period'])<issue])
         scorer=scorers[issue]
         methods=data.get('groups',{}).get(category,{}).get('methods',[]) if category else data.get('methods',[])
-        assign_authors(author_map,lottery_type,key,methods)
+        assign_authors(author_map,lottery_type,key,methods,author_seeds)
         board=key.split(':')[0]
         if key=='pingte:two': board='pingte2'
         scored=[]

@@ -44,7 +44,7 @@ jobs:
         run: python scripts/check_lottery_updates.py --github-output "$GITHUB_OUTPUT"
 
       - name: 安装 JSON 清单依赖
-        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         run: python -m pip install --disable-pip-version-check Pillow
 
       - name: 分彩种计算并立即保存进度
@@ -81,18 +81,18 @@ jobs:
           done
 
       - uses: pnpm/action-setup@v4
-        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         with:
           version: 10
 
       - uses: actions/setup-node@v4
-        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         with:
           node-version: "22"
           cache: pnpm
 
       - name: 快速公式边界检查
-        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         run: |
           node --experimental-strip-types scripts/test_fushi_expansion.mjs
           node --experimental-strip-types scripts/test_zodiac_history.mjs
@@ -101,9 +101,10 @@ jobs:
           python scripts/test_no_runtime_formula_wrapping.py
           python scripts/test_wuxing_shards.py
           python scripts/test_update_check_state.py
+          python scripts/test_stable_author_assignment.py
 
       - name: 构建网站
-        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         run: |
           pnpm install --frozen-lockfile
           # 生成目录不会提交到 Git；普通代码推送也必须先重建当前期清单，
@@ -150,7 +151,7 @@ jobs:
           pnpm exec wrangler deploy --dry-run --config wrangler-cache.jsonc
 
       - name: 发布公式程序后端
-        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -163,7 +164,7 @@ jobs:
           done
 
       - name: 发布轻量缓存入口
-        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
@@ -176,10 +177,11 @@ jobs:
           done
 
       - name: 发布成功后确认历史已保存
-        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         run: |
           git config user.name "六合自动更新"
           git config user.email "actions@users.noreply.github.com"
+          python scripts/mark_deployed_issues.py
           git add -f public/generated/lottery-catalog.json
           git add lib/fushi-history.ts scripts/board_sort_scores.py scripts/repair_history_integrity.py lib/pingte-manifests.ts lib/zodiac-manifests.ts scripts/archive_formula_history.py lib/formula-history.ts data lib/formula-manifests.ts lib/home-board-data.ts app/page.tsx app/posts app/TailHeadFormulaPost.tsx app/IssueScroller.tsx app/formula-history/page.tsx
           git reset -- data/pingte/all-patterns-type-*-*.json
@@ -195,5 +197,5 @@ jobs:
 
 
       - name: 预热首页和历史帖子
-        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || inputs.force_deploy == true
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         run: node scripts/prewarm_formula_pages.mjs

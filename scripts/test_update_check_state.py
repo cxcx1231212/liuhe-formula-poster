@@ -2,7 +2,7 @@ import json
 import tempfile
 from pathlib import Path
 
-from check_lottery_updates import generated_periods
+from check_lottery_updates import deployed_periods, generated_periods
 
 
 with tempfile.TemporaryDirectory() as folder:
@@ -20,5 +20,9 @@ with tempfile.TemporaryDirectory() as folder:
     (results / "two-animals-type-5-2026.json").write_text(json.dumps({"nextPeriod": 257}), encoding="utf-8")
     (results / "two-animals-type-8-2026.json").write_text(json.dumps({"nextPeriod": 257}), encoding="utf-8")
     assert generated_periods(catalog, pointers, results) == {1: 100, 5: 257, 8: 257}
+    deployed = root / "deployed-issues.json"
+    deployed.write_text('{"1":100,"5":256,"8":256}', encoding="utf-8")
+    assert deployed_periods(deployed) == {1: 100, 5: 256, 8: 256}
+    assert generated_periods(catalog, pointers, results)[5] > deployed_periods(deployed)[5]
 
-print("PASS update check uses the newest committed progress marker")
+print("PASS update check distinguishes generated data from published issues")

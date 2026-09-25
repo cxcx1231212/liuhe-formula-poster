@@ -1,11 +1,11 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { timingSafeEqual, webcrypto } from 'node:crypto';
-import { checkEntry, sha256, PUBLIC_HOST } from '../worker/entry-gate.js';
+import { checkEntry, issueReferralTicket, PUBLIC_HOST } from '../worker/entry-gate.js';
 
 Object.defineProperty(globalThis, 'crypto', { configurable: true, value: {
   getRandomValues: webcrypto.getRandomValues.bind(webcrypto),
-  subtle: { digest: webcrypto.subtle.digest.bind(webcrypto.subtle), timingSafeEqual },
+  subtle: { digest: webcrypto.subtle.digest.bind(webcrypto.subtle), importKey: webcrypto.subtle.importKey.bind(webcrypto.subtle), sign: webcrypto.subtle.sign.bind(webcrypto.subtle), timingSafeEqual },
 } });
 
 function environment() {
@@ -27,10 +27,9 @@ function environment() {
     } },
     ENTRY_TICKET: { getByName(name) {
       if (!tickets.has(name)) {
-        const state = { digest: null };
+        const state = { used: new Set() };
         tickets.set(name, {
-          async issue(digest) { state.digest = digest; },
-          async consume(digest) { if (state.digest !== digest) return false; state.digest = null; return true; },
+          async consume(digest) { if (state.used.has(digest)) return false; state.used.add(digest); return true; },
         });
       }
       return tickets.get(name);
@@ -86,9 +85,9 @@ test('outer parameter cases, inner once-only, cookie-only rejection and return h
 
 test('123 ticket is one-time and creates a separate formula session', async () => {
   const env = environment();
-  const token = 'a'.repeat(64);
-  const digest = await sha256(`${PUBLIC_HOST}:${token}`);
-  await env.ENTRY_TICKET.getByName(digest).issue(digest);
+  const token = await issueReferralTicket(env.ENTRY_FIXED_KEY);
+  assert.match(token, /^[a-f0-9]{140}$/);
+  assert.equal((await checkEntry(request(`/open?t=${token.slice(0, -1)}${token.endsWith('0') ? '1' : '0'}`), env)).response.status, 403);
   const path = `/open?t=${token}`;
   const [first, second] = await Promise.all([checkEntry(request(path), env), checkEntry(request(path), env)]);
   assert.deepEqual([first, second].map(result => result.response.status).sort(), [302, 403]);

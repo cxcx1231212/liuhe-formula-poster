@@ -48,13 +48,10 @@ export class EntryTicket extends DurableObject {
     });
   }
 
-  async issue(digest, expiresAt) {
-    this.ctx.storage.sql.exec('INSERT INTO tickets(digest,expires_at) VALUES (?,?)', digest, expiresAt);
-    await this.ctx.storage.setAlarm(expiresAt);
-  }
-
-  async consume(digest, now) {
-    return this.ctx.storage.sql.exec('DELETE FROM tickets WHERE digest=? AND expires_at>? RETURNING digest', digest, now).toArray().length === 1;
+  async consume(digest, expiresAt) {
+    const first = this.ctx.storage.sql.exec('INSERT INTO tickets(digest,expires_at) VALUES (?,?) ON CONFLICT DO NOTHING RETURNING digest', digest, expiresAt).toArray().length === 1;
+    if (first) await this.ctx.storage.setAlarm(expiresAt);
+    return first;
   }
 
   async alarm() {

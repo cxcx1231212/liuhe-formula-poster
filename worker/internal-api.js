@@ -1,15 +1,12 @@
 import { WorkerEntrypoint } from 'cloudflare:workers';
-import { PUBLIC_HOST, randomToken, sha256 } from './entry-gate.js';
+import { issueReferralTicket } from './entry-gate.js';
 
 // This named entrypoint is only reachable through an explicitly configured
 // Cloudflare service binding. Public HTTP requests use cache-proxy.js instead.
 export class FormulaInternalApi extends WorkerEntrypoint {
   async issueEntryTicket() {
-    if (!this.env.ENTRY_TICKET) throw new Error('Entry ticket store unavailable');
-    const token = randomToken();
-    const digest = await sha256(`${PUBLIC_HOST}:${token}`);
-    await this.env.ENTRY_TICKET.getByName(digest).issue(digest, Date.now() + 2 * 60 * 1000);
-    return token;
+    if (!this.env.ENTRY_TICKET || !this.env.ENTRY_FIXED_KEY) throw new Error('Entry ticket protection unavailable');
+    return issueReferralTicket(this.env.ENTRY_FIXED_KEY);
   }
 
   async fetch(request) {

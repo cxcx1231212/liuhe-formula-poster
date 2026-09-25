@@ -19,6 +19,29 @@ async function secretMatches(provided, expected) {
   return crypto.subtle.timingSafeEqual(encoder.encode(left), encoder.encode(right));
 }
 
+async function ticketMac(secret, host, payload) {
+  const key = await crypto.subtle.importKey('raw', encoder.encode(secret), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+  const bytes = new Uint8Array(await crypto.subtle.sign('HMAC', key, encoder.encode(`${host}:${payload}`)));
+  return Array.from(bytes, byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+export async function issueReferralTicket(secret, host = PUBLIC_HOST) {
+  if (!secret) throw new Error('Entry secret unavailable');
+  const expiry = (Date.now() + NONCE_LIFETIME_MS).toString(16).padStart(12, '0');
+  const payload = expiry + randomToken();
+  return payload + await ticketMac(secret, host, payload);
+}
+
+async function verifyReferralTicket(token, secret, host) {
+  if (!secret || !/^[a-f0-9]{140}$/.test(token)) return null;
+  const payload = token.slice(0, 76);
+  const expiry = Number.parseInt(payload.slice(0, 12), 16);
+  const now = Date.now();
+  if (!Number.isSafeInteger(expiry) || expiry <= now || expiry > now + NONCE_LIFETIME_MS) return null;
+  const expected = await ticketMac(secret, host, payload);
+  return crypto.subtle.timingSafeEqual(encoder.encode(expected), encoder.encode(token.slice(76))) ? expiry : null;
+}
+
 function forbidden() {
   return new Response('禁止访问', { status: 403, headers: { 'content-type': 'text/plain; charset=utf-8' } });
 }
@@ -93,11 +116,13 @@ export async function checkEntry(request, env) {
   }
 
   if (url.pathname === '/open') {
-    if (request.method !== 'GET' || params.length !== 1 || !/^[a-f0-9]{64}$/.test(params[0]) || !env.ENTRY_TICKET || url.host !== PUBLIC_HOST) return { response: forbidden() };
+    if (request.method !== 'GET' || params.length !== 1 || !env.ENTRY_TICKET || url.host !== PUBLIC_HOST) return { response: forbidden() };
     const target = url.searchParams.get('to') || '/_entry/home';
     if (!target.startsWith('/') || target.startsWith('//') || !(target === '/_entry/home' || target.startsWith('/posts/'))) return { response: forbidden() };
+    const expiry = await verifyReferralTicket(params[0], env.ENTRY_FIXED_KEY, url.host);
+    if (!expiry) return { response: forbidden() };
     const digest = await sha256(`${url.host}:${params[0]}`);
-    if (!(await env.ENTRY_TICKET.getByName(digest).consume(digest, Date.now()))) return { response: forbidden() };
+    if (!(await env.ENTRY_TICKET.getByName(digest).consume(digest, expiry))) return { response: forbidden() };
     const nextSession = randomToken();
     await sessionStub(env, url.host, nextSession).activate(Date.now() + SESSION_LIFETIME_MS);
     const response = new Response(null, { status: 302, headers: {

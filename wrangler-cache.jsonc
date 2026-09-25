@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "liuhe-formula-poster",
-  "main": "./worker/cache-proxy.js",
+  "main": "./worker/edge-entry.js",
   "compatibility_date": "2026-09-03",
   "services": [
     {
@@ -35,6 +35,14 @@
       {
         "name": "VIEW_COUNTER",
         "class_name": "PostViewCounter"
+      },
+      {
+        "name": "ENTRY_SESSION",
+        "class_name": "EntrySession"
+      },
+      {
+        "name": "ENTRY_TICKET",
+        "class_name": "EntryTicket"
       }
     ]
   },
@@ -44,6 +52,10 @@
       "new_sqlite_classes": [
         "PostViewCounter"
       ]
+    },
+    {
+      "tag": "entry-gate-v1",
+      "new_sqlite_classes": ["EntrySession", "EntryTicket"]
     }
   ]
 }

@@ -13,10 +13,10 @@ export default async function JiayePost({params,searchParams}:{params:Promise<{i
   const currentIssue=Number(manifest.issue);
   const index=manifest.methods.findIndex((value:{rank:string})=>value.rank===method);
   const currentItem=index>=0?manifest.methods[index]:undefined;
-  if(!currentItem)return <ArchivedFormulaPost type={type} path={`/posts/jiaye/${issue}/${method}`} backHref={`/?type=${type}#board-家野公式`} backLabel="返回家野板块"/>;
+  if(!currentItem)return <ArchivedFormulaPost type={type} path={`/posts/jiaye/${issue}/${method}`} backHref={`/_entry/home?type=${type}#board-家野公式`} backLabel="返回家野板块"/>;
   const sourceEntry=currentItem.history?.find((entry:{targetPeriod:number})=>entry.targetPeriod===requestedIssue);
   const isDerivedHistory=requestedIssue<currentIssue&&Boolean(sourceEntry);
-  if(requestedIssue!==currentIssue&&!isDerivedHistory)return <ArchivedFormulaPost type={type} path={`/posts/jiaye/${issue}/${method}`} backHref={`/?type=${type}#board-家野公式`} backLabel="返回家野板块"/>;
+  if(requestedIssue!==currentIssue&&!isDerivedHistory)return <ArchivedFormulaPost type={type} path={`/posts/jiaye/${issue}/${method}`} backHref={`/_entry/home?type=${type}#board-家野公式`} backLabel="返回家野板块"/>;
   const historicalCalculation=sourceEntry?.branches?.[0]?.calculation?.replace('｜','，').replace('·','＝')||'';
   const sourceLabel=currentItem.name?.match(/平([1-6])码/)?.[1];
   const baseItem=isDerivedHistory?{
@@ -36,9 +36,9 @@ export default async function JiayePost({params,searchParams}:{params:Promise<{i
   const newerIssue=requestedIssue<currentIssue?requestedIssue+1:null;
   const availableIssues=Array.from(new Set([currentIssue,...(currentItem.history||[]).map((entry:{targetPeriod:number})=>entry.targetPeriod)])).sort((a,b)=>b-a);
   return <main className="post-page">
-    <header className="site-header"><a className="brand" href={`/?type=${type}`}>六合公式库</a><nav><a href={`/?type=${type}`}>首页</a><a href={`/?type=${type}#board-家野公式`}>家野公式</a></nav></header>
+    <header className="site-header"><a className="brand" href={`/_entry/home?type=${type}`}>六合公式库</a><nav><a href={`/_entry/home?type=${type}`}>首页</a><a href={`/_entry/home?type=${type}#board-家野公式`}>家野公式</a></nav></header>
     <article className="detail pingte-detail">
-      <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-家野公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回家野板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath="/posts/jiaye" method={method} type={type}/></div>
+      <div className="detail-topbar"><a className="detail-back" href={`/_entry/home?type=${type}#board-家野公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回家野板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath="/posts/jiaye" method={method} type={type}/></div>
       <section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={draws} mode="jiaye" lotteryName={LOTTERY_SHORT_NAMES[type]}/></section>
       <aside className="jiaye-note"><p><strong>家肖</strong><span>牛、马、羊、鸡、狗、猪</span></p><p><strong>野肖</strong><span>鼠、虎、兔、龙、蛇、猴</span></p></aside>
     </article>

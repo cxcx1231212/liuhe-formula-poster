@@ -13,7 +13,7 @@ export default async function ZodiacPost({params,searchParams}:{params:Promise<{
   const {size,issue,method}=await params;const type=requestedLotteryType(await searchParams);const manifest=await getZodiacManifest(type,size);
   const requestedIssue=Number(issue),currentIssue=Number(manifest.issue),index=Number(method)-1;
   const group=manifest.group;const raw=group?.methods?.[index] as ZodiacMethod|undefined;const label=labels[size];
-  const back=`/?type=${type}#board-生肖公式`;
+  const back=`/_entry/home?type=${type}#board-生肖公式`;
   if(!raw||!label||!Number.isFinite(requestedIssue))return <ArchivedFormulaPost type={type} path={`/posts/zodiac/${size}/${issue}/${method}`} backHref={back} backLabel="返回生肖板块"/>;
   const minimumIssue=Math.min(...manifest.draws.map((draw:{period:number})=>draw.period))+1;
   const availableIssues:number[]=[];for(let value=currentIssue;value>=minimumIssue;value--)availableIssues.push(value);
@@ -25,6 +25,6 @@ export default async function ZodiacPost({params,searchParams}:{params:Promise<{
   const periods=item.history.map(entry=>entry.targetPeriod);const posterIssue=isHistory&&periods.length?`${Math.min(...periods)}-${Math.max(...periods)}`:issue;
   const padded=String(index+1).padStart(3,'0');
   const authorName=raw.authorIndex==null?postAuthor(type,`zodiac${size}` as never,index):postAuthorBySlot(type,raw.authorIndex);
-  return <main className="post-page"><header className="site-header"><a className="brand" href={`/?type=${type}`}>六合公式库</a><nav><a href={`/?type=${type}`}>首页</a><a href={back}>生肖公式</a></nav></header><article className="detail pingte-detail"><div className="detail-topbar"><a className="detail-back" href={back}><i>←</i><span><small>BACK TO INDEX</small><strong>返回生肖板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath={`/posts/zodiac/${size}`} method={padded} type={type}/></div><section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={draws} mode="zodiac" lotteryName={LOTTERY_SHORT_NAMES[type]} authorName={authorName}/></section></article><footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer></main>;
+  return <main className="post-page"><header className="site-header"><a className="brand" href={`/_entry/home?type=${type}`}>六合公式库</a><nav><a href={`/_entry/home?type=${type}`}>首页</a><a href={back}>生肖公式</a></nav></header><article className="detail pingte-detail"><div className="detail-topbar"><a className="detail-back" href={back}><i>←</i><span><small>BACK TO INDEX</small><strong>返回生肖板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath={`/posts/zodiac/${size}`} method={padded} type={type}/></div><section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={draws} mode="zodiac" lotteryName={LOTTERY_SHORT_NAMES[type]} authorName={authorName}/></section></article><footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer></main>;
 }
 

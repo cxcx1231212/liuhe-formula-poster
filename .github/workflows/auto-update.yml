@@ -91,6 +91,20 @@ jobs:
           node-version: "22"
           cache: pnpm
 
+      - name: 安装部署依赖
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
+        run: pnpm install --frozen-lockfile
+
+      - name: 提前检查公式站入口密钥
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
+        env:
+          ENTRY_FIXED_KEY: ${{ secrets.ENTRY_FIXED_KEY }}
+        run: |
+          if [ -z "$ENTRY_FIXED_KEY" ]; then
+            echo "缺少 ENTRY_FIXED_KEY；停止耗时构建"
+            exit 1
+          fi
+
       - name: 快速公式边界检查
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         run: |
@@ -102,11 +116,11 @@ jobs:
           python scripts/test_wuxing_shards.py
           python scripts/test_update_check_state.py
           python scripts/test_stable_author_assignment.py
+          node --test scripts/test_entry_gate.mjs scripts/test_content_crypto.mjs
 
       - name: 构建网站
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         run: |
-          pnpm install --frozen-lockfile
           # 生成目录不会提交到 Git；普通代码推送也必须先重建当前期清单，
           # 否则 lib/formula-manifests.ts 已指向新一期而构建环境中没有对应文件。
           # 公式搜索结果已由开奖更新步骤保存；普通代码推送也直接复用这些结果。
@@ -143,6 +157,7 @@ jobs:
           # Split large collections, then enforce the limit across every formula asset.
           python scripts/shard_wuxing_manifests.py
           pnpm run build
+          node scripts/private_backend_config.mjs
           python scripts/publish_history_shards.py --prune-build
           # Validate exactly what Wrangler will upload, after source archives are removed.
           python scripts/shard_wuxing_manifests.py --check-root dist/client
@@ -168,13 +183,33 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          ENTRY_FIXED_KEY: ${{ secrets.ENTRY_FIXED_KEY }}
         run: |
+          printf %s "$ENTRY_FIXED_KEY" | pnpm exec wrangler secret put ENTRY_FIXED_KEY --config wrangler-cache.jsonc
           for attempt in 1 2 3; do
             pnpm exec wrangler deploy --config wrangler-cache.jsonc && break
             if [ "$attempt" -eq 3 ]; then exit 1; fi
             echo "缓存入口发布连接失败，准备第 $((attempt + 1)) 次重试"
             sleep $((attempt * 15))
           done
+
+      - uses: actions/checkout@v4
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
+        with:
+          repository: cxcx1231212/public-info-portal
+          ref: main
+          path: public-info-portal
+
+      - name: 构建并发布 123 六合网公式入口
+        if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
+        working-directory: public-info-portal
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
+          pnpm exec wrangler deploy --keep-vars
 
       - name: 发布成功后确认历史已保存
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true

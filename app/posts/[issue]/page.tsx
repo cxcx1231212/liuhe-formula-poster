@@ -3,19 +3,19 @@ const issues = ['091', '092', '093', '094'];
 
 export default async function Post({ params }: { params: Promise<{ issue: string }> }) {
   const { issue } = await params;
-  if (!available.has(issue)) return <main className="not-found"><h1>帖子不存在</h1><a href="/">返回首页</a></main>;
+  if (!available.has(issue)) return <main className="not-found"><h1>帖子不存在</h1><a href="/_entry/home">返回首页</a></main>;
   const index = issues.indexOf(issue);
   const previous = issues[index - 1];
   const next = issues[index + 1];
   return (
     <main className="post-page">
       <header className="site-header">
-        <a className="brand" href="/">六合公式库</a>
-        <nav><a href="/">首页</a><a href="/#board-绝杀公式">绝杀公式</a></nav>
+        <a className="brand" href="/_entry/home">六合公式库</a>
+        <nav><a href="/_entry/home">首页</a><a href="/_entry/home#board-绝杀公式">绝杀公式</a></nav>
       </header>
       <article className="detail">
         <div className="detail-topbar">
-          <a className="detail-back" href="/"><i>←</i><span><small>BACK TO INDEX</small><strong>返回公式板块</strong></span></a>
+          <a className="detail-back" href="/_entry/home"><i>←</i><span><small>BACK TO INDEX</small><strong>返回公式板块</strong></span></a>
         </div>
         <header className="detail-title">
           <span>绝杀公式</span>

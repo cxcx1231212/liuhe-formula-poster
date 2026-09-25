@@ -15,10 +15,10 @@ export default async function WuxingPost({params,searchParams}:{params:Promise<{
   const currentIssue=Number(manifest.issue);
   const selected=await loadWuxingMethod(manifest,method);
   const currentItem=selected?await hydrateWuxingHistory(manifest,selected):undefined;
-  if(!currentItem)return <ArchivedFormulaPost type={type} path={`/posts/wuxing/${issue}/${method}`} backHref={`/?type=${type}#board-五行公式`} backLabel="返回五行板块"/>;
+  if(!currentItem)return <ArchivedFormulaPost type={type} path={`/posts/wuxing/${issue}/${method}`} backHref={`/_entry/home?type=${type}#board-五行公式`} backLabel="返回五行板块"/>;
   const sourceEntry=currentItem.history?.find((entry:{targetPeriod:number})=>entry.targetPeriod===requestedIssue);
   const isDerivedHistory=requestedIssue<currentIssue&&Boolean(sourceEntry);
-  if(requestedIssue!==currentIssue&&!isDerivedHistory)return <ArchivedFormulaPost type={type} path={`/posts/wuxing/${issue}/${method}`} backHref={`/?type=${type}#board-五行公式`} backLabel="返回五行板块"/>;
+  if(requestedIssue!==currentIssue&&!isDerivedHistory)return <ArchivedFormulaPost type={type} path={`/posts/wuxing/${issue}/${method}`} backHref={`/_entry/home?type=${type}#board-五行公式`} backLabel="返回五行板块"/>;
   const baseItem=isDerivedHistory?{...currentItem,next:sourceEntry.branches.map((branch:{result:string})=>branch.result),branches:sourceEntry.branches.map((branch:{name:string;calculation:string;result:string},branchIndex:number)=>({...currentItem.branches[branchIndex],name:branch.name,next:branch.result,calculation:branch.calculation})),history:currentItem.history.filter((entry:{targetPeriod:number})=>entry.targetPeriod<=requestedIssue),verification:{hit:sourceEntry.hit,actualNumber:sourceEntry.actualNumber,actualAnimal:sourceEntry.actualAnimal,actualElement:sourceEntry.actualElement}}:currentItem;
   const item={...baseItem,branches:baseItem.branches.map((branch:any)=>({...branch,sourcePositions:(branch.sourcePositions||[]).map((position:number)=>position+1)})),history:(baseItem.history||[]).slice(-5)};
   const historyPeriods=(item.history||[]).map((entry:{targetPeriod:number})=>entry.targetPeriod);
@@ -30,9 +30,9 @@ export default async function WuxingPost({params,searchParams}:{params:Promise<{
   const newerIssue=requestedIssue<currentIssue?requestedIssue+1:null;
   const availableIssues=Array.from(new Set([currentIssue,...(currentItem.history||[]).map((entry:{targetPeriod:number})=>entry.targetPeriod)])).sort((a,b)=>b-a);
   return <main className="post-page">
-    <header className="site-header"><a className="brand" href={`/?type=${type}`}>六合公式库</a><nav><a href={`/?type=${type}`}>首页</a><a href={`/?type=${type}#board-五行公式`}>五行公式</a></nav></header>
+    <header className="site-header"><a className="brand" href={`/_entry/home?type=${type}`}>六合公式库</a><nav><a href={`/_entry/home?type=${type}`}>首页</a><a href={`/_entry/home?type=${type}#board-五行公式`}>五行公式</a></nav></header>
     <article className="detail pingte-detail">
-      <div className="detail-topbar"><a className="detail-back" href={`/?type=${type}#board-五行公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回五行板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath="/posts/wuxing" method={method} type={type}/></div>
+      <div className="detail-topbar"><a className="detail-back" href={`/_entry/home?type=${type}#board-五行公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回五行板块</strong></span></a><IssueScroller issues={availableIssues} current={requestedIssue} basePath="/posts/wuxing" method={method} type={type}/></div>
       <section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={draws} lotteryName={LOTTERY_SHORT_NAMES[type]}/></section>
     </article>
     <footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer>

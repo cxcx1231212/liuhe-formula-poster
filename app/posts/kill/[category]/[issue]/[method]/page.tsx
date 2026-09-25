@@ -13,7 +13,7 @@ export default async function KillPost({params,searchParams}:{params:Promise<{ca
   const index=group?.methods.findIndex((value:any)=>value.rank===method)??-1;
   const current=index>=0?group.methods[index]:null;
   const requested=Number(issue),latest=Number(manifest.issue);
-  const fallback=<ArchivedFormulaPost type={type} path={`/posts/kill/${category}/${issue}/${method}`} backHref={`/?type=${type}#board-绝杀公式`} backLabel="返回绝杀板块"/>;
+  const fallback=<ArchivedFormulaPost type={type} path={`/posts/kill/${category}/${issue}/${method}`} backHref={`/_entry/home?type=${type}#board-绝杀公式`} backLabel="返回绝杀板块"/>;
   if(!current||!Number.isInteger(requested)||requested>latest)return fallback;
   const assets=(env as unknown as {ASSETS:{fetch(request:Request):Promise<Response>}}).ASSETS;
   const response=await assets.fetch(new Request(`https://assets.local/generated/kill-history/type-${type}/${category}-${current.rank}.json`));

@@ -13,7 +13,7 @@ export default async function History({ searchParams }: { searchParams: Promise<
   const history = await getLotteryYearHistory(type, year);
 
   return <main>
-    <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="/">返回首页</a></nav></header>
+    <header className="site-header"><a className="brand" href="/_entry/home">六合公式库</a><nav><a href="/_entry/home">返回首页</a></nav></header>
     <section className="history-page">
       <header className="history-heading"><div><span>LOTTERY ARCHIVE</span><h1>开奖历史记录</h1></div><strong>{year}年 · 共{history.total}期</strong></header>
       <nav className="history-types">{Object.entries(LOTTERY_TYPES).map(([value, name]) => <a className={value === type ? 'active' : ''} href={`/history?type=${value}&year=${year}`} key={value}>{name}</a>)}</nav>

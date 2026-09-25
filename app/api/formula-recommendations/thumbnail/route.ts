@@ -7,7 +7,10 @@ const esc=(value:unknown)=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&am
 const reds=new Set([1,2,7,8,12,13,18,19,23,24,29,30,34,35,40,45,46]);
 const blues=new Set([3,4,9,10,14,15,20,25,26,31,36,37,41,42,47,48]);
 const color=(value:unknown)=>reds.has(Number(value))?'#e13b43':blues.has(Number(value))?'#3d91d2':'#43aa55';
-const prediction=(value:unknown)=>Array.isArray(value)?value.join('、'):value&&typeof value==='object'?Object.values(value as Record<string,unknown>).flat().join('、'):String(value??'待更新');
+const prediction=(value:unknown)=>{
+  const text=Array.isArray(value)?value.join('、'):value&&typeof value==='object'?Object.values(value as Record<string,unknown>).flat().join('、'):String(value??'');
+  return text.trim()||'请点开帖子查看当期推算';
+};
 const sourcePositions=(formula:string)=>Array.from(formula.matchAll(/平([1-6])码|第([1-7])码|特码/g),match=>Number(match[1]??match[2]??7));
 type SourceRef={position:number;rowOffset:number};
 const sourceRefs=(item:any):SourceRef[]=>{
@@ -18,7 +21,7 @@ const sourceRefs=(item:any):SourceRef[]=>{
   if(spec.kind==='cross'&&spec.b!=null)refs.push({position:Number(spec.b)+1,rowOffset:-1});
   return refs;
 };
-const operation=(formula:string)=>{const match=formula.match(/(?:交替)?(加|减)(\d+)/);return match?`${match[1]}${match[2]}`:'公式推算';};
+const operation=(formula:string)=>{const match=formula.match(/(?:交替)?(加|减)(\d+)/);return match?`${match[1]}${match[2]}`:'算法推算';};
 
 export async function GET(request:NextRequest){
   const lotteryType=request.nextUrl.searchParams.get('lotteryType')??'5';

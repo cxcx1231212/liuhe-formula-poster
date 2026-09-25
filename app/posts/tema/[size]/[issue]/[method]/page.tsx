@@ -91,10 +91,10 @@ export default async function TemaMethodPost({params,searchParams}:{params:Promi
   const selected=methods[methodIndex];
   const draws=(latestManifest.draws??[]) as Draw[];
   const drawMap=new Map(draws.map(draw=>[Number(draw.period),draw]));
-  if(!label||!selected||!Number.isInteger(requestedIssue)||requestedIssue<1||requestedIssue>latestIssue)return <ArchivedFormulaPost type={type} path={`/posts/tema/${size}/${issue}/${method}`} backHref={`/?type=${type}#board-特码公式`} backLabel="返回特码板块"/>;
+  if(!label||!selected||!Number.isInteger(requestedIssue)||requestedIssue<1||requestedIssue>latestIssue)return <ArchivedFormulaPost type={type} path={`/posts/tema/${size}/${issue}/${method}`} backHref={`/_entry/home?type=${type}#board-特码公式`} backLabel="返回特码板块"/>;
   const calculateFor=(targetIssue:number)=>{const source=drawMap.get(targetIssue-1),previous=drawMap.get(targetIssue-2);return source?selected.branches.map(branch=>calculate(branch.name,source,branch.number,branch.advancedSpec,previous)):null};
   const currentBranches=calculateFor(requestedIssue);
-  if(!currentBranches)return <ArchivedFormulaPost type={type} path={`/posts/tema/${size}/${issue}/${method}`} backHref={`/?type=${type}#board-特码公式`} backLabel="返回特码板块"/>;
+  if(!currentBranches)return <ArchivedFormulaPost type={type} path={`/posts/tema/${size}/${issue}/${method}`} backHref={`/_entry/home?type=${type}#board-特码公式`} backLabel="返回特码板块"/>;
 
   const fullHistory=[] as any[];
   for(let target=1;target<=requestedIssue;target++){

@@ -45,7 +45,7 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
   const index=Number(method)-1;
   const currentPost=current.methods?.[index];
   const historyEntry=currentPost?.history?.find((entry:any)=>entry.targetPeriod===Number(issue));
-  if((!manifest&&!historyEntry)||!Number.isInteger(index)||index<0||(!currentPost&&!posts[index])) return <ArchivedFormulaPost type={type} path={`/posts/pingte2/${issue}/${method}`} backHref={`/?type=${type}#board-平特公式`} backLabel="返回平特板块"/>;
+  if((!manifest&&!historyEntry)||!Number.isInteger(index)||index<0||(!currentPost&&!posts[index])) return <ArchivedFormulaPost type={type} path={`/posts/pingte2/${issue}/${method}`} backHref={`/_entry/home?type=${type}#board-平特公式`} backLabel="返回平特板块"/>;
   const post=historyEntry?currentPost:posts[index];
   const animals=post.predictionAnimals.join('、');
   const title=`${post.leftName} ＋ ${post.rightName}`;
@@ -89,13 +89,13 @@ export default async function PingteTwoPost({params,searchParams}:{params:Promis
     const periods=selectedHistory.map((entry:any)=>entry.targetPeriod);
     const posterIssue=historyEntry&&periods.length?Math.min(...periods)+'-'+Math.max(...periods):issue;
     const availableIssues=Array.from(new Set([Number(current.issue),...(currentPost.history||[]).map((entry:any)=>entry.targetPeriod)])).sort((a:number,b:number)=>b-a);
-    return <main className="post-page"><header className="site-header"><a className="brand" href={'/?type='+type}>六合公式库</a><nav><a href={'/?type='+type}>首页</a><a href={'/?type='+type+'#board-平特公式'}>平特公式</a></nav></header><article className="detail pingte-detail"><div className="detail-topbar"><a className="detail-back" href={'/?type='+type+'#board-平特公式'}><i>←</i><span><small>BACK TO INDEX</small><strong>返回平特板块</strong></span></a><IssueScroller issues={availableIssues} current={Number(issue)} basePath="/posts/pingte2" method={method} type={type}/></div><section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={shownDraws} mode="pingte2" lotteryName={LOTTERY_SHORT_NAMES[type]}/></section><p className="formula-note">两个生肖必须在同一期同时开出才算准 · 平码与特码均计入 · 仅供娱乐参考</p></article><footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer></main>;
+    return <main className="post-page"><header className="site-header"><a className="brand" href={'/_entry/home?type='+type}>六合公式库</a><nav><a href={'/_entry/home?type='+type}>首页</a><a href={'/_entry/home?type='+type+'#board-平特公式'}>平特公式</a></nav></header><article className="detail pingte-detail"><div className="detail-topbar"><a className="detail-back" href={'/_entry/home?type='+type+'#board-平特公式'}><i>←</i><span><small>BACK TO INDEX</small><strong>返回平特板块</strong></span></a><IssueScroller issues={availableIssues} current={Number(issue)} basePath="/posts/pingte2" method={method} type={type}/></div><section className="method-card single-method"><DynamicWuxingPoster issue={posterIssue} item={item} draws={shownDraws} mode="pingte2" lotteryName={LOTTERY_SHORT_NAMES[type]}/></section><p className="formula-note">两个生肖必须在同一期同时开出才算准 · 平码与特码均计入 · 仅供娱乐参考</p></article><footer className="site-footer"><strong>六合公式库</strong><span>FORMULA POSTS · 2026</span></footer></main>;
   }
   return <main className="post-page">
-    <header className="site-header"><a className="brand" href="/">六合公式库</a><nav><a href="/">首页</a><a href="/#board-平特公式">平特公式</a></nav></header>
+    <header className="site-header"><a className="brand" href="/_entry/home">六合公式库</a><nav><a href="/_entry/home">首页</a><a href="/_entry/home#board-平特公式">平特公式</a></nav></header>
     <article className="detail pingte-detail">
       <div className="detail-topbar">
-        <a className="detail-back" href={`/?type=${type}#board-平特公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回平特板块</strong></span></a>
+        <a className="detail-back" href={`/_entry/home?type=${type}#board-平特公式`}><i>←</i><span><small>BACK TO INDEX</small><strong>返回平特板块</strong></span></a>
         <nav className="detail-issue-links">
           {newer?<a href={`/posts/pingte2/${newer.issue}/${newer.method}?type=${type}`}><small>下一期</small><strong>第{newer.issue}期</strong></a>:<span className="disabled"><small>下一期</small><strong>当前最新</strong></span>}
           {older?<a href={`/posts/pingte2/${older.issue}/${older.method}?type=${type}`}><small>上一期</small><strong>第{older.issue}期</strong></a>:<span className="disabled"><small>上一期</small><strong>暂无记录</strong></span>}

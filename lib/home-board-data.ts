@@ -35,6 +35,22 @@ function makePost(type:LotteryType,board:HomeBoardKey,category:string,issue:numb
   return makeHomeBoardPost(type,board,category,issue,m,index);
 }
 
+async function fullRecommendationSource(type:LotteryType,board:HomeBoardKey,category:string,issue:number){
+  const assets=(env as unknown as {ASSETS?:AssetBinding}).ASSETS;
+  if(!assets)return null;
+  const dir=board==='pingte'?(category==='two'?'pingte-two':'pingte-all'):board==='tema'?'tema-bundles':board;
+  const suffix=board==='zodiac'?`-${category}`:'';
+  const path=`/generated/${dir}/type-${type}-${String(issue).padStart(3,'0')}${suffix}-manifest.json`;
+  try{
+    const response=await assets.fetch(new Request(`https://assets.local${path}`));
+    return response.ok?await response.json() as any:null;
+  }catch{return null;}
+}
+
+function storedPrediction(method:any){
+  return method.next??method.nextNumber??method.nextAnimal??method.prediction??method.predictionNumbers??method.predictionAnimals??method.predictionNumber??method.predictionAnimal??method.values??method.numbers??method.animals??null;
+}
+
 export async function getHomeBoardPage(type:LotteryType,board:HomeBoardKey,category:string,page=1,pageSize=10){
   const manifest:any=await source(type,board,category),issue=Number(manifest.issue);
   const methods=sorted(groupItems(manifest,board,category));
@@ -49,7 +65,12 @@ export async function getHomeBoardRecommendation(type:LotteryType,board:HomeBoar
   if(!method)return {issue,formula:null,rank:null,href:null,title:null,image:null,recentStreak:0,recent30Hits:0,recent30Rate:0,totalRate:0,prediction:null,draws:[],recentHistory:[]};
   const sourceIndex=Number.isInteger(method.sourceIndex)?method.sourceIndex:0;
   const post=makePost(type,board,category,issue,method,sourceIndex);
-  const prediction=method.next??method.predictionAnimals??method.predictionNumbers??method.predictionAnimal??method.predictionNumber??method.values??method.animals??method.numbers??method.prediction??null;
-  const rank=String(method.rank??sourceIndex+1).padStart(3,'0');
-  return {issue,formula:method.name??method.sourceKey??method.label??null,rank,title:post.title,href:post.href,image:method.image??null,algorithmFamily:method.algorithmFamily??null,advancedSpecs:method.advancedSpecs??null,recentStreak:n(method.recentStreak??method.streak),recent30Hits:n(method.recent30Hits),recent30Rate:n(method.recent30Rate),totalRate:n(method.totalRate),prediction,draws:(manifest.draws??[]).slice(-5),recentHistory:method.recentHistory??[]};
+  const calculatedOnly=board==='danshuang'||board==='head'||board==='size'||board==='tail'||board==='wave'||(board==='fushi'&&['2x','3x'].includes(category));
+  const fullManifest=storedPrediction(method)!==null||calculatedOnly?null:await fullRecommendationSource(type,board,category,issue);
+  const fullItems=board==='zodiac'?fullManifest?.group?.methods:fullManifest?.groups?.[category]?.methods??fullManifest?.methods;
+  const fullMethod=Array.isArray(fullItems)?fullItems[sourceIndex]??null:null;
+  const selected=fullMethod?{...method,...fullMethod}:method;
+  const prediction=storedPrediction(selected);
+  const rank=String(selected.rank??sourceIndex+1).padStart(3,'0');
+  return {issue,formula:selected.name??selected.sourceKey??selected.label??null,rank,title:post.title,href:post.href,image:selected.image??null,algorithmFamily:selected.algorithmFamily??null,advancedSpecs:selected.advancedSpecs??null,recentStreak:n(selected.recentStreak??selected.streak),recent30Hits:n(selected.recent30Hits),recent30Rate:n(selected.recent30Rate),totalRate:n(selected.totalRate),prediction,draws:(fullManifest?.draws??manifest.draws??[]).slice(-5),recentHistory:selected.recentHistory??[]};
 }

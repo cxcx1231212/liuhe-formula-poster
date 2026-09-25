@@ -112,21 +112,21 @@ export async function checkEntry(request, env) {
     if (request.method !== 'GET' && request.method !== 'HEAD') return { response: forbidden() };
     if (!existing || !(await existing.active(Date.now()))) return { response: forbidden() };
     const credential = await issueCredential(existing, url.host, sessionId);
-    return { response: Response.redirect(new URL(indexUrl(url, credential), url), 302) };
+    return { response: Response.redirect(new URL(indexUrl(url, credential), `https://${PUBLIC_HOST}`), 302) };
   }
 
   if (url.pathname === '/open') {
-    if (request.method !== 'GET' || params.length !== 1 || !env.ENTRY_TICKET || url.host !== PUBLIC_HOST) return { response: forbidden() };
+    if (request.method !== 'GET' || params.length !== 1 || !env.ENTRY_TICKET) return { response: forbidden() };
     const target = url.searchParams.get('to') || '/_entry/home';
     if (!target.startsWith('/') || target.startsWith('//') || !(target === '/_entry/home' || target.startsWith('/posts/'))) return { response: forbidden() };
-    const expiry = await verifyReferralTicket(params[0], env.ENTRY_FIXED_KEY, url.host);
+    const expiry = await verifyReferralTicket(params[0], env.ENTRY_FIXED_KEY, PUBLIC_HOST);
     if (!expiry) return { response: forbidden() };
-    const digest = await sha256(`${url.host}:${params[0]}`);
+    const digest = await sha256(`${PUBLIC_HOST}:${params[0]}`);
     if (!(await env.ENTRY_TICKET.getByName(digest).consume(digest, expiry))) return { response: forbidden() };
     const nextSession = randomToken();
     await sessionStub(env, url.host, nextSession).activate(Date.now() + SESSION_LIFETIME_MS);
     const response = new Response(null, { status: 302, headers: {
-      location: new URL(target, url).toString(),
+      location: new URL(target, `https://${PUBLIC_HOST}`).toString(),
       'set-cookie': `${SESSION_COOKIE}=${nextSession}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_LIFETIME_MS / 1000}`,
     } });
     return { response };

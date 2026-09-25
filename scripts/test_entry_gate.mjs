@@ -95,3 +95,17 @@ test('123 ticket is one-time and creates a separate formula session', async () =
   assert.notEqual(cookie.split('=')[1], token);
   assert.equal((await checkEntry(request('/_entry/home', cookie), env)).response.status, 302);
 });
+
+test('123 referral survives a reverse proxy and redirects to the public host', async () => {
+  const env = environment();
+  const proxyRequest = (path, cookie = '') => new Request(`https://gscf.668870.cc${path}`, { headers: cookie ? { cookie } : {} });
+  const ticket = await issueReferralTicket(env.ENTRY_FIXED_KEY);
+  const opened = (await checkEntry(proxyRequest(`/open?t=${ticket}`), env)).response;
+  assert.equal(opened.status, 302);
+  assert.equal(opened.headers.get('location'), `https://${PUBLIC_HOST}/_entry/home`);
+  const cookie = opened.headers.get('set-cookie').split(';')[0];
+  const home = (await checkEntry(proxyRequest('/_entry/home', cookie), env)).response;
+  assert.equal(home.status, 302);
+  assert.match(home.headers.get('location'), new RegExp(`^https://${PUBLIC_HOST.replaceAll('.', '\\.')}\/index\\.html\\?t=`));
+  assert.equal((await checkEntry(proxyRequest(`/open?t=${ticket}`), env)).response.status, 403);
+});

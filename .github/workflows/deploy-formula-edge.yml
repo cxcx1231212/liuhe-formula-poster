@@ -1,0 +1,35 @@
+name: 发布公式站轻量入口
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+
+      - name: 测试入口与加密逻辑
+        run: |
+          pnpm install --frozen-lockfile
+          node --test scripts/test_entry_gate.mjs scripts/test_content_crypto.mjs
+          pnpm exec wrangler deploy --dry-run --config wrangler-cache.jsonc
+
+      - name: 发布轻量入口
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler deploy --config wrangler-cache.jsonc

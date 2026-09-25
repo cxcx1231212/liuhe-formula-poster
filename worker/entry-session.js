@@ -49,7 +49,11 @@ export class EntryTicket extends DurableObject {
   }
 
   async consume(digest, expiresAt) {
-    const first = this.ctx.storage.sql.exec('INSERT INTO tickets(digest,expires_at) VALUES (?,?) ON CONFLICT DO NOTHING RETURNING digest', digest, expiresAt).toArray().length === 1;
+    const first = this.ctx.storage.transactionSync(() => {
+      if (this.ctx.storage.sql.exec('SELECT digest FROM tickets WHERE digest=?', digest).toArray().length) return false;
+      this.ctx.storage.sql.exec('INSERT INTO tickets(digest,expires_at) VALUES (?,?)', digest, expiresAt);
+      return true;
+    });
     if (first) await this.ctx.storage.setAlarm(expiresAt);
     return first;
   }

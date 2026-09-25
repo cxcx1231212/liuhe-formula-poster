@@ -37,7 +37,7 @@ async function verifyReferralTicket(token, secret, host) {
   const payload = token.slice(0, 76);
   const expiry = Number.parseInt(payload.slice(0, 12), 16);
   const now = Date.now();
-  if (!Number.isSafeInteger(expiry) || expiry <= now || expiry > now + NONCE_LIFETIME_MS) return null;
+  if (!Number.isSafeInteger(expiry) || expiry <= now || expiry > now + NONCE_LIFETIME_MS + 30_000) return null;
   const expected = await ticketMac(secret, host, payload);
   return crypto.subtle.timingSafeEqual(encoder.encode(expected), encoder.encode(token.slice(76))) ? expiry : null;
 }

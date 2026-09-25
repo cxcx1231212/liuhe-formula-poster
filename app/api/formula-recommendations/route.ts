@@ -27,9 +27,10 @@ export async function GET(request:NextRequest){
   if(!selected.length)return NextResponse.json({ok:false,error:'未找到该公式类型'},{status:404,headers:cors});
   const recommendations=(await Promise.all(selected.map(async (definition,index)=>{
     const item=await getHomeBoardRecommendation(lotteryType as '1'|'5'|'8',definition.board,definition.category);
+    if(item.formula===null)return null;
     const cardName=`规律${chinese[index]??index+1}`;
     const thumbnail=svgDataUrl(renderRecommendationSvg(item));
     return {slot:index+1,cardName,...definition,...item,imageUrl:thumbnail,thumbnailUrl:thumbnail,url:item.href?publicOrigin+item.href:null};
-  }))).filter(item=>item.formula!==null);
+  }))).filter(item=>item!==null);
   return NextResponse.json({ok:true,lotteryType,generatedAt:new Date().toISOString(),count:recommendations.length,recommendations},{headers:{...cors,'Cache-Control':'public, max-age=60, s-maxage=300'}});
 }

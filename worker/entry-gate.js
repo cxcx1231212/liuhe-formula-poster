@@ -112,7 +112,7 @@ export async function checkEntry(request, env) {
     if (request.method !== 'GET' && request.method !== 'HEAD') return { response: forbidden() };
     if (!existing || !(await existing.active(Date.now()))) return { response: forbidden() };
     const credential = await issueCredential(existing, url.host, sessionId);
-    return { response: Response.redirect(new URL(indexUrl(url, credential), `https://${PUBLIC_HOST}`), 302) };
+    return { response: new Response(null, { status: 302, headers: { location: indexUrl(url, credential) } }) };
   }
 
   if (url.pathname === '/open') {
@@ -126,7 +126,7 @@ export async function checkEntry(request, env) {
     const nextSession = randomToken();
     await sessionStub(env, url.host, nextSession).activate(Date.now() + SESSION_LIFETIME_MS);
     const response = new Response(null, { status: 302, headers: {
-      location: new URL(target, `https://${PUBLIC_HOST}`).toString(),
+      location: target,
       'set-cookie': `${SESSION_COOKIE}=${nextSession}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${SESSION_LIFETIME_MS / 1000}`,
     } });
     return { response };

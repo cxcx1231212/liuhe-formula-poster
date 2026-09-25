@@ -96,16 +96,29 @@ test('123 ticket is one-time and creates a separate formula session', async () =
   assert.equal((await checkEntry(request('/_entry/home', cookie), env)).response.status, 302);
 });
 
-test('123 referral survives a reverse proxy and redirects to the public host', async () => {
+test('123 referral survives a reverse proxy and keeps the browser host', async () => {
   const env = environment();
   const proxyRequest = (path, cookie = '') => new Request(`https://gscf.668870.cc${path}`, { headers: cookie ? { cookie } : {} });
   const ticket = await issueReferralTicket(env.ENTRY_FIXED_KEY);
   const opened = (await checkEntry(proxyRequest(`/open?t=${ticket}`), env)).response;
   assert.equal(opened.status, 302);
-  assert.equal(opened.headers.get('location'), `https://${PUBLIC_HOST}/_entry/home`);
+  assert.equal(opened.headers.get('location'), '/_entry/home');
   const cookie = opened.headers.get('set-cookie').split(';')[0];
   const home = (await checkEntry(proxyRequest('/_entry/home', cookie), env)).response;
   assert.equal(home.status, 302);
-  assert.match(home.headers.get('location'), new RegExp(`^https://${PUBLIC_HOST.replaceAll('.', '\\.')}\/index\\.html\\?t=`));
+  assert.match(home.headers.get('location'), /^\/index\.html\?t=/);
   assert.equal((await checkEntry(proxyRequest(`/open?t=${ticket}`), env)).response.status, 403);
+});
+
+test('return home on a second domain stays on that domain', async () => {
+  const env = environment();
+  const secondRequest = (path, cookie = '') => new Request(`https://new.example.com${path}`, { headers: cookie ? { cookie } : {} });
+  const outer = (await checkEntry(secondRequest('/?t=test-entry-key'), env)).response;
+  const cookie = outer.headers.get('set-cookie').split(';')[0];
+  const nonce = (await outer.text()).match(/index\.html\?t=([a-f0-9]{64})/)[1];
+  assert.ok((await checkEntry(secondRequest(`/index.html?t=${nonce}`, cookie), env)).request);
+  const home = (await checkEntry(secondRequest('/_entry/home', cookie), env)).response;
+  assert.match(home.headers.get('location'), /^\/index\.html\?t=/);
+  const inner = (await checkEntry(secondRequest(home.headers.get('location'), cookie), env)).request;
+  assert.equal(new URL(inner.url).host, 'new.example.com');
 });

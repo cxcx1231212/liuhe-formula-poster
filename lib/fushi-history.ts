@@ -1,4 +1,5 @@
 import {CYCLE49_NOTE,cycle49,cycle49Text} from './number-cycle.js';
+import {explainSource} from './source-explanation.js';
 type Cell={number:string;animal:string;element:string};
 export type FushiDraw={period:number;displayPeriod?:string;date?:string;numbers:Cell[]};
 type RawBranch={name:string;baseName?:string;operation?:string;amount?:number;number?:number;animal?:string};
@@ -27,10 +28,10 @@ const baseDetails=(draw:FushiDraw,base:string):{value:number;expression:string}=
   if(pair){
     const convert=(label:string,kind?:string)=>{const value=cellValue(draw,label);return kind==='合数'?digitSum(value):kind==='尾数'?value%10:value;};
     const left=convert(pair[1],pair[2]),right=convert(pair[4],pair[5]);
-    return {value:pair[3]==='＋'?left+right:left-right,expression:`${formatNumber(left)}${pair[3]}${formatNumber(right)}`};
+    return {value:pair[3]==='＋'?left+right:left-right,expression:explainSource(draw,base).expression};
   }
   const single=base.match(/^(平[1-6]码|特码)(合数|尾数)?$/);
-  if(single){const source=cellValue(draw,single[1]);const value=single[2]==='合数'?digitSum(source):single[2]==='尾数'?source%10:source;return {value,expression:formatNumber(value)};}
+  if(single){const source=cellValue(draw,single[1]);const value=single[2]==='合数'?digitSum(source):single[2]==='尾数'?source%10:source;return {value,expression:explainSource(draw,base).expression};}
   return {value:0,expression:'00'};
 };
 const parse=(input:string|RawBranch)=>{
@@ -65,7 +66,7 @@ const evaluate=(draw:FushiDraw,input:string|RawBranch)=>{
     : `${baseDetailsValue.expression}${detailedBase?`；${base}`:''}${symbol}${shown}=${formatNumber(result)}属${animal}`;
   return {number:result,animal,calculation};
 };
-const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
+const sourcePositions=(name:string)=>Array.from(name.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?7:Number(match[1]));
 
 
 // fushi-8-10-v1: a fixed, prior-draw-only expansion; never applied retroactively.

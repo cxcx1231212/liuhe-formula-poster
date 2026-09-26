@@ -117,6 +117,7 @@ jobs:
           python scripts/test_update_check_state.py
           python scripts/test_stable_author_assignment.py
           node --test scripts/test_entry_gate.mjs scripts/test_content_crypto.mjs
+          node --test scripts/test_pingte_calculation.mjs scripts/test_home_pagination.mjs
 
       - name: 构建网站
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true

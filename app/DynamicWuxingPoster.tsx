@@ -128,9 +128,10 @@ export default function DynamicWuxingPoster({
   const forecastHeight = Math.max(
     item.branches.length <= 3 ? 150 : 180,
     resultRows * 34 + 64,
+    Math.ceil(item.branches.reduce((count,branch)=>count+(branch.calculation||branch.name).split('；').length,0)/resultColumns)*28+70,
   );
   const boardOffset = item.verification ? 58 : 58 + forecastHeight;
-  const historyLabelHeight = Math.max(64, historyRows * 34 + 30);
+  const historyLabelHeight = Math.max(64, historyRows * 34 + 30,...validations.map(entry=>Math.ceil(entry.branches.reduce((count,branch)=>count+branch.calculation.split('；').length,0)/historyColumns)*30+30));
   const hasDetailedCalculation = validations.some((entry) => entry.branches.some((branch) => branch.calculation.includes("去掉小数部分")));
   const rowHeight = Math.max(180, historyLabelHeight + 140, hasDetailedCalculation ? 310 : 0);
   const columnX = (position: number) => 112 + (position + 0.5) * 126;

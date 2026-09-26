@@ -1,3 +1,4 @@
+import {explainSource} from './source-explanation.js';
 type NumberCell={number:string;animal:string;element:string};
 export type ZodiacDraw={period:number;displayPeriod?:string;date?:string;numbers:NumberCell[]};
 export type ZodiacBranch={name:string;baseName?:string;operation?:string;amount?:number;number?:number;animal?:string};
@@ -38,7 +39,7 @@ const alternatingDirection=(operation:string,period:number)=>operation==='altern
 const offset=(operation:string,amount:number,period:number)=>operation==='asymmetric_alternate'?(period%2?Math.floor(amount/100):-(amount%100)):operation==='cyclic_step'?((period-1)%3+1)*amount:alternatingDirection(operation,period)*amount;
 const calculate=(base:number,operation:string,amount:number,period:number)=>operation==='add'?base+amount:operation==='subtract'?base-amount:operation==='asymmetric_alternate'||operation==='cyclic_step'||alternatingDirection(operation,period)?base+offset(operation,amount,period):operation==='multiply'?base*amount:operation==='divide_floor'?Math.trunc(base/amount):operation==='modulo'?base%amount:base;
 const symbol=(operation:string,period:number)=>operation==='add'?'+':operation==='subtract'?'−':operation==='asymmetric_alternate'||operation==='cyclic_step'?(offset(operation,1,period)>=0?'+':'−'):alternatingDirection(operation,period)?(alternatingDirection(operation,period)>0?'+':'−'):operation==='multiply'?'×':operation==='divide_floor'?'÷取整':'÷余数';
-const sourcePositions=(base:string)=>Array.from(base.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?6:Number(match[1])-1);
+const sourcePositions=(base:string,draw:ZodiacDraw)=>explainSource(draw,base).positions;
 const baseExpression=(draw:ZodiacDraw,base:string)=>{
   if(base==='期数合数'){
     const digits=String(Math.abs(draw.period)).split('');
@@ -80,7 +81,7 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
   const histories=[];
   for(let index=0;index<ordered.length-1;index++){
     const source=ordered[index],target=ordered[index+1];if(target.period>requestedIssue)continue;
-    const branches=definitions.map(definition=>{const answer=evaluate(definition,source);return {name:definition.name,calculation:answer.calculation,result:answer.animal};});
+    const branches=definitions.map(definition=>{const answer=evaluate(definition,source);return {name:definition.name,calculation:answer.calculation,result:answer.animal,sourcePositions:sourcePositions(definition.baseName||'',source)};});
     const actual=target.numbers[6];const hit=branches.some(branch=>branch.result===actual.animal);
     histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches,actualNumber:actual.number,actualAnimal:actual.animal,actualElement:actual.element,hit});
   }
@@ -89,7 +90,7 @@ export function buildZodiacPosterItem(method:ZodiacMethod,draws:ZodiacDraw[],req
   return {
     label:`${definitions.length}肖`,sourceKey:method.sourceKey||definitions[0]?.baseName||method.name||'生肖公式',
     next:forecast.map(item=>item.animal),recentStreak:method.recentStreak||0,recent30Hits:Math.round((method.recent30Rate||0)*30),
-    branches:definitions.map((definition,index)=>({name:definition.name,next:forecast[index].animal,calculation:forecast[index].calculation,sourcePositions:sourcePositions(definition.baseName||'')})),
+    branches:definitions.map((definition,index)=>({name:definition.name,next:forecast[index].animal,calculation:forecast[index].calculation,sourcePositions:sourcePositions(definition.baseName||'',forecastSource)})),
     history:histories.slice(-5),formulaId:'',
   };
 }

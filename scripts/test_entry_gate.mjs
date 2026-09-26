@@ -5,6 +5,7 @@ import { checkEntry, issueReferralTicket, PUBLIC_HOST } from '../worker/entry-ga
 
 Object.defineProperty(globalThis, 'crypto', { configurable: true, value: {
   getRandomValues: webcrypto.getRandomValues.bind(webcrypto),
+  randomUUID: () => 'test-random-nonce',
   subtle: { digest: webcrypto.subtle.digest.bind(webcrypto.subtle), importKey: webcrypto.subtle.importKey.bind(webcrypto.subtle), sign: webcrypto.subtle.sign.bind(webcrypto.subtle), timingSafeEqual },
 } });
 
@@ -65,7 +66,7 @@ test('outer parameter cases, inner once-only, cookie-only rejection and return h
   assert.equal((await checkEntry(request('/?__formula_inner=1', freshCookie), env)).response.status, 403);
   assert.equal((await checkEntry(request('/?__formula_payload=1', freshCookie), env)).response.status, 403);
   assert.ok((await checkEntry(request('/?__formula_inner=1&__formula_payload=1', freshCookie), env)).request);
-  assert.ok((await checkEntry(request('/posts/x', freshCookie), env)).request);
+  assert.equal((await checkEntry(request('/posts/x', freshCookie), env)).response.status,302);
   assert.ok((await checkEntry(request('/generated/home-board/type-5-zodiac-1.json', freshCookie), env)).request);
   const home = (await checkEntry(request('/_entry/home', freshCookie), env)).response;
   assert.equal(home.status, 302);
@@ -81,6 +82,29 @@ test('outer parameter cases, inner once-only, cookie-only rejection and return h
   ]);
   assert.equal(attempts.filter(result => result.request).length, 1);
   assert.equal(attempts.filter(result => result.response?.status === 403).length, 1);
+});
+
+test('automatic share link is reusable, scoped to one post and cannot enter home',async()=>{
+ const env=environment();
+ const outer=(await checkEntry(request('/?t=test-entry-key'),env)).response;
+ const cookie=outer.headers.get('set-cookie').split(';')[0];
+ const nonce=(await outer.text()).match(/index\.html\?t=([a-f0-9]{64})/)[1];
+ await checkEntry(request('/index.html?t='+nonce,cookie),env);
+ const opened=(await checkEntry(request('/posts/pingte/269/001?type=5',cookie),env)).response;
+ assert.equal(opened.status,302);
+ const link=opened.headers.get('location');
+ assert.ok(link.includes('&s='));
+ assert.ok(!link.includes(env.ENTRY_FIXED_KEY));
+ const first=await checkEntry(request(link),env),second=await checkEntry(request(link),env);
+ assert.ok(first.request);assert.ok(second.request);
+ const sharedCookie=first.setCookie.split(';')[0];
+ assert.ok((await checkEntry(request('/posts/pingte/269/001?type=5&__formula_payload=1',sharedCookie),env)).request);
+ assert.ok((await checkEntry(request('/_entry/key',sharedCookie),env)).request);
+ for(const path of ['/_entry/home','/index.html','/posts/pingte/269/002?type=5','/generated/home-board/type-5-zodiac-1.json','/api/formula-recommendations']) assert.equal((await checkEntry(request(path,sharedCookie),env)).response.status,403,path);
+ assert.equal((await checkEntry(request(link.replace('/269/001','/269/002')),env)).response.status,403);
+ assert.equal((await checkEntry(request(link+'&s=bad'),env)).response.status,403);
+ const now=Date.now;Date.now=()=>now()+8*24*60*60*1000;
+ try{assert.match(await (await checkEntry(request(link),env)).response.text(),/已过期/);}finally{Date.now=now;}
 });
 
 test('123 ticket is one-time and creates a separate formula session', async () => {

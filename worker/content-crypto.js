@@ -51,6 +51,11 @@ export async function encryptResponse(response, keyBytes, plainType, html = fals
     if (!head.test(text)) throw new Error('Business page has no head element');
     bytes = encoder.encode(text.replace(head, match => `${match}<script>${BROWSER_DECRYPTOR}</script>`));
   }
+  let encoding;
+  if(bytes.length>=1024){
+    const compressed=new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream('gzip'))).arrayBuffer());
+    if(compressed.length<bytes.length){bytes=compressed;encoding='gzip';}
+  }
   const iv = crypto.getRandomValues(new Uint8Array(12));
   const key = await crypto.subtle.importKey('raw', keyBytes, 'AES-GCM', false, ['encrypt']);
   const ciphertext = new Uint8Array(await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, bytes));
@@ -61,7 +66,7 @@ export async function encryptResponse(response, keyBytes, plainType, html = fals
   headers.set('content-type', 'application/json; charset=utf-8');
   headers.set('x-formula-encrypted', '1');
   headers.set('x-formula-plain-type', plainType);
-  return new Response(JSON.stringify({ v: 1, iv: base64(iv), data: base64(ciphertext) }), {
+  return new Response(JSON.stringify({ v: 1, encoding, iv: base64(iv), data: base64(ciphertext) }), {
     status: response.status,
     statusText: response.statusText,
     headers,
@@ -83,11 +88,15 @@ export const BROWSER_DECRYPTOR = `(function(){
     return keyPromise;
   }
   window.fetch=async function(){
+    var keyTask=sessionKey();
+    keyTask.catch(function(){});
     var response=await originalFetch.apply(null,arguments);
     if(response.headers.get('x-formula-encrypted')!=='1')return response;
     var payload=await response.json();
     if(payload.v!==1)throw new Error('不支持的加密载荷');
-    var plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:bytes(payload.iv)},await sessionKey(),bytes(payload.data));
+    var plain=await crypto.subtle.decrypt({name:'AES-GCM',iv:bytes(payload.iv)},await keyTask,bytes(payload.data));
+    if(payload.encoding==='gzip')plain=await new Response(new Blob([plain]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+    else if(payload.encoding)throw new Error('不支持的压缩格式');
     var headers=new Headers(response.headers);
     headers.delete('x-formula-encrypted');headers.delete('x-formula-plain-type');headers.delete('content-length');
     headers.set('content-type',response.headers.get('x-formula-plain-type')||'application/octet-stream');

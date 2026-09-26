@@ -1,3 +1,4 @@
+import {createPostShare,verifyPostShare,shareCookieFrom,shareAllows,SHARE_COOKIE} from './post-share.js';
 const SESSION_COOKIE = '__Host-formula_session';
 export const PUBLIC_HOST = 'txgs888.q3665.com';
 const NONCE_LIFETIME_MS = 2 * 60 * 1000;
@@ -88,6 +89,20 @@ export async function checkEntry(request, env) {
   const params = url.searchParams.getAll('t');
   const sessionId = cookieFrom(request);
   const existing = sessionId ? sessionStub(env, url.host, sessionId) : null;
+  const active=existing?await existing.active(Date.now()):false;
+
+  if (url.pathname.startsWith('/posts/') && url.searchParams.has('s')) {
+    const shares=url.searchParams.getAll('s');
+    const data=shares.length===1?await verifyPostShare(env.ENTRY_FIXED_KEY,url.host,shares[0]):null;
+    if(!data || !shareAllows(data,url,request.method)) return {response:new Response('分享链接无效或已过期，请向分享者获取新链接',{status:403,headers:{'content-type':'text/plain; charset=utf-8'}})};
+    if(params.length) return {response:forbidden()};
+    url.searchParams.delete('s');
+    return {request:new Request(url.toString(),request),sessionId:active?sessionId:await sha256(shares[0]),shareToken:shares[0],setCookie:`${SHARE_COOKIE}=${shares[0]}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${Math.floor((data.expires-Date.now())/1000)}`};
+  }
+  if(!active && url.pathname!=='/' && url.pathname!=='/index.html' && url.pathname!=='/open') {
+    const token=shareCookieFrom(request),data=token?await verifyPostShare(env.ENTRY_FIXED_KEY,url.host,token):null;
+    if(data && !params.length && shareAllows(data,url,request.method)) return {request,sessionId:await sha256(token),shareToken:token};
+  }
 
   if (url.pathname === '/') {
     if (request.method !== 'GET' && request.method !== 'HEAD') return { response: forbidden() };
@@ -145,5 +160,9 @@ export async function checkEntry(request, env) {
 
   if (!existing || !(await existing.active(Date.now()))) return { response: forbidden() };
   if (params.length) return { response: forbidden() };
+  if (request.method==='GET' && url.pathname.startsWith('/posts/') && !url.searchParams.has('__formula_payload') && !request.headers.has('RSC') && !request.headers.has('Next-Router-Prefetch')) {
+    url.searchParams.set('s',await createPostShare(env.ENTRY_FIXED_KEY,url.host,url));
+    return {response:new Response(null,{status:302,headers:{location:url.pathname+url.search}})};
+  }
   return { request };
 }

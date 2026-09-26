@@ -52,11 +52,33 @@ function storedPrediction(method:any){
 }
 
 export async function getHomeBoardPage(type:LotteryType,board:HomeBoardKey,category:string,page=1,pageSize=10){
+  if(!Number.isSafeInteger(page)||page<1||pageSize!==10)throw new Error('Invalid pagination');
   const manifest:any=await source(type,board,category),issue=Number(manifest.issue);
   const methods=sorted(groupItems(manifest,board,category));
   const pages=Math.max(1,Math.ceil(methods.length/pageSize)),safe=Math.min(Math.max(1,page),pages);
   const start=(safe-1)*pageSize;
   return {issue,total:methods.length,page:safe,pages,posts:methods.slice(start,start+pageSize).map((m,index)=>makePost(type,board,category,issue,m,start+index))};
+}
+
+export const boardSearchTargets=[
+ ['pingte','平特公式',['one','two']],['tema','特码公式',['3','8','10','18']],['zodiac','生肖公式',['1','3','6','9']],['fushi','复式公式',['22','33','2x','3x']],['kill','绝杀公式',['code','animal','tail','head','wave']],
+ ...[['danshuang','单双公式'],['wave','波色公式'],['wuxing','五行公式'],['jiaye','家野公式'],['size','大小公式'],['tail','尾数公式'],['head','头数公式']].map(([key,label])=>[key,label,['']]),
+] as [HomeBoardKey,string,string[]][];
+export function validBoardCategory(board:string,category:string){return boardSearchTargets.some(([key,,categories])=>key===board&&categories.includes(category));}
+export async function searchHomeBoards(type:LotteryType,query:string,page:number){
+ const words=query.trim().toLowerCase().split(/\s+/),pageSize=30,start=(page-1)*pageSize;
+ let total=0;const posts:any[]=[];
+ for(const [board,boardName,categories] of boardSearchTargets)for(const category of categories){
+  const manifest:any=await source(type,board,category);
+  for(const [index,method] of sorted(manifest.methods).entries()){
+   const post=makePost(type,board,category,Number(manifest.issue),method,index);
+   const formulaName=String(method.name||method.sourceKey||method.label||'公式资料');
+   if(!words.every(word=>`${post.title} ${boardName} ${post.issue} ${formulaName}`.toLowerCase().includes(word)))continue;
+   if(total>=start&&posts.length<pageSize)posts.push({...post,boardName,categoryName:category,formulaName});
+   total++;
+  }
+ }
+ return {total,page,pages:Math.max(1,Math.ceil(total/pageSize)),posts};
 }
 
 export async function getHomeBoardRecommendation(type:LotteryType,board:HomeBoardKey,category:string){

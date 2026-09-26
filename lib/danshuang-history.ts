@@ -19,13 +19,8 @@ const baseValue=(draw:ZodiacDraw,base:string):number=>{
   const single=base.match(/^(平[1-6]码|特码)(合数|尾数)?$/);
   return single?converted(draw,single[1],single[2]):0;
 };
-const baseExpression=(draw:ZodiacDraw,base:string)=>{
-  if(base==='期数合数'){const digits=String(Math.abs(draw.period)).split('');return `${draw.period}期：${digits.join('＋')}＝${digitSum(draw.period)}`;}
-  const pair=base.match(/^(平[1-6]码|特码)(合数|尾数)?([＋－])(平[1-6]码|特码)(合数|尾数)?$/);
-  if(pair)return `${String(converted(draw,pair[1],pair[2])).padStart(2,'0')}${pair[3]}${String(converted(draw,pair[4],pair[5])).padStart(2,'0')}`;
-  const single=base.match(/^(平[1-6]码|特码)(合数|尾数)?$/);
-  return single?String(converted(draw,single[1],single[2])).padStart(2,'0'):String(baseValue(draw,base));
-};
+import {explainSource} from './source-explanation.js';
+const baseExpression=(draw:ZodiacDraw,base:string)=>explainSource(draw,base).expression;
 const sourcePositions=(base:string)=>Array.from(new Set(Array.from(base.matchAll(/平([1-6])码|特码/g),match=>match[0]==='特码'?7:Number(match[1]))));
 const parity=(number:number)=>number%2?'单':'双';
 const heshuParity=(number:number)=>digitSum(number)%2?'合单':'合双';
@@ -46,8 +41,8 @@ export function buildDanshuangPosterItem(method:DanshuangMethod,draws:ZodiacDraw
     const source=ordered[index],target=ordered[index+1];if(target.period>requestedIssue)continue;
     const answer=evaluate(source);const actualNumber=Number(target.numbers[6].number);
     const actual=method.label==='合数单双'?heshuParity(actualNumber):parity(actualNumber);const hit=answer.prediction===actual;
-    histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches:[{name:method.name,calculation:answer.calculation,result:answer.prediction,targetPositions:hit?[7]:[]}],actualNumber:target.numbers[6].number,actualAnimal:target.numbers[6].animal,actualElement:target.numbers[6].element,hit,targetPositions:hit?[7]:[]});
+    histories.push({sourcePeriod:source.period,targetPeriod:target.period,branches:[{name:method.name,sourcePositions:explainSource(source,method.baseName).positions,calculation:answer.calculation,result:answer.prediction,targetPositions:hit?[7]:[]}],actualNumber:target.numbers[6].number,actualAnimal:target.numbers[6].animal,actualElement:target.numbers[6].element,hit,targetPositions:hit?[7]:[]});
   }
   const forecastSource=ordered.find(draw=>draw.period===requestedIssue-1)||ordered.at(-1)!;const forecast=evaluate(forecastSource);
-  return {label:method.label,sourceKey:method.sourceKey,next:[forecast.prediction],recentStreak:histories.reduce((count,row)=>row.hit?count+1:0,0),recent30Hits:histories.slice(-30).filter(row=>row.hit).length,branches:[{name:method.name,next:forecast.prediction,calculation:forecast.calculation,sourcePositions:sourcePositions(method.baseName)}],history:histories.slice(-5),formulaId:method.rank};
+  return {label:method.label,sourceKey:method.sourceKey,next:[forecast.prediction],recentStreak:histories.reduce((count,row)=>row.hit?count+1:0,0),recent30Hits:histories.slice(-30).filter(row=>row.hit).length,branches:[{name:method.name,next:forecast.prediction,calculation:forecast.calculation,sourcePositions:explainSource(forecastSource,method.baseName).positions}],history:histories.slice(-5),formulaId:method.rank};
 }

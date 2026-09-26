@@ -16,7 +16,9 @@ test('HTML and JSON content are authenticated ciphertext, not initial HTML', asy
   assert.doesNotMatch(serialized, /私有帖子内容/);
   const payload = JSON.parse(serialized);
   const decryptKey = await webcrypto.subtle.importKey('raw', key, 'AES-GCM', false, ['decrypt']);
-  const plaintext = new TextDecoder().decode(await webcrypto.subtle.decrypt({ name: 'AES-GCM', iv: Uint8Array.from(atob(payload.iv), char => char.charCodeAt(0)) }, decryptKey, Uint8Array.from(atob(payload.data), char => char.charCodeAt(0))));
+  let decrypted=await webcrypto.subtle.decrypt({ name: 'AES-GCM', iv: Uint8Array.from(atob(payload.iv), char => char.charCodeAt(0)) }, decryptKey, Uint8Array.from(atob(payload.data), char => char.charCodeAt(0)));
+  if(payload.encoding==='gzip')decrypted=await new Response(new Blob([decrypted]).stream().pipeThrough(new DecompressionStream('gzip'))).arrayBuffer();
+  const plaintext = new TextDecoder().decode(decrypted);
   assert.match(plaintext, /私有帖子内容/);
   assert.match(plaintext, /__formulaDecryptReady/);
   payload.data = payload.data.slice(0, -4) + 'AAAA';
@@ -37,9 +39,20 @@ test('browser fetch shim decrypts authenticated JSON and leaves key endpoint pla
     if (input === '/_entry/key') { keyCalls += 1; return keyReply.clone(); }
     return original.clone();
   } };
-  runInNewContext(BROWSER_DECRYPTOR, { window, crypto: webcrypto, atob, Headers, Response, Uint8Array, Error });
+  runInNewContext(BROWSER_DECRYPTOR, { window, crypto: webcrypto, atob, Headers, Response, Uint8Array, Error, Blob, DecompressionStream });
   const response = await window.fetch('/api/latest');
   assert.deepEqual(await response.json(), { answer: 42 });
   assert.equal(response.headers.get('content-type'), 'application/json');
   assert.equal(keyCalls, 1);
+});
+
+test('large encrypted boards compress before encryption and decrypt in browser',async()=>{
+ const data={methods:Array.from({length:1000},()=>({title:'算法过程完整展示',value:42}))};
+ const original=await encryptResponse(Response.json(data),key,'application/json');
+ const envelope=await original.clone().json();
+ assert.equal(envelope.encoding,'gzip');
+ assert.ok(envelope.data.length<JSON.stringify(data).length/5);
+ const window={fetch:async input=>input==='/_entry/key'?keyResponse(key):original.clone()};
+ runInNewContext(BROWSER_DECRYPTOR,{window,crypto:webcrypto,atob,Headers,Response,Uint8Array,Error,Blob,DecompressionStream});
+ assert.deepEqual(await (await window.fetch('/generated/board.json')).json(),data);
 });

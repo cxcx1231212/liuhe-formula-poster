@@ -30,27 +30,23 @@ for(const board of boards){
 }
 export default function HomeClient({initialType,latestByType}:{initialType:LotteryType;latestByType:Record<LotteryType,LatestLottery>}){
  const [type,setType]=useState(initialType),[query,setQuery]=useState(''),[results,setResults]=useState<SearchResult[]|null>(null),[searching,setSearching]=useState(false),[searchError,setSearchError]=useState(''),[searchPage,setSearchPage]=useState(1),latest=latestByType[type],version=Number(latest.period)+1;
- const pageSize=30,pages=Math.max(1,Math.ceil((results?.length||0)/pageSize)),shown=results?.slice((searchPage-1)*pageSize,searchPage*pageSize)||[];
- const search=async()=>{
-  const needle=query.trim().toLowerCase();
-  if(!needle){setResults(null);setSearchError('');return;}
-  setSearching(true);setSearchError('');
+ const [searchTotal,setSearchTotal]=useState(0),[activeQuery,setActiveQuery]=useState('');
+ const pages=Math.max(1,Math.ceil(searchTotal/30)),shown=results||[];
+ const search=async(desiredPage=1,submitted=query)=>{
+  const needle=submitted.trim();if(!needle){setResults(null);setSearchTotal(0);setSearchError('');return;}
+  setSearching(true);setSearchError('');setActiveQuery(needle);
   try{
-   const groups=await Promise.all(searchTargets.map(async target=>{
-    const response=await fetch(`/generated/home-board/type-${type}-${target.fileKey}.json?v=${version}`);
-    if(!response.ok)return [] as SearchResult[];
-    const manifest=await response.json() as Manifest;
-    return manifest.methods.map((method,index)=>({...makeHomeBoardPost(type,target.board,target.category,manifest.issue,method,index),boardName:target.boardName,categoryName:target.categoryName,formulaName:String(method.name||method.sourceKey||method.label||'公式资料')}));
-   }));
-   const words=needle.split(/\s+/),all=groups.flat();
-   setResults(all.filter(post=>words.every(word=>`${post.title} ${post.boardName} ${post.categoryName} ${post.issue} ${post.formulaName}`.toLowerCase().includes(word))));setSearchPage(1);
-  }catch{setResults([]);setSearchError('搜索读取失败，请稍后重试');}finally{setSearching(false);}
+   const response=await fetch(`/api/home-search?type=${type}&q=${encodeURIComponent(needle)}&page=${desiredPage}&v=${version}`);
+   if(!response.ok)throw Error('搜索读取失败');
+   const data=await response.json() as {posts:SearchResult[];total:number;page:number};
+   setResults(data.posts);setSearchTotal(data.total);setSearchPage(data.page);
+  }catch{setResults([]);setSearchTotal(0);setSearchError('搜索读取失败，请稍后重试');}finally{setSearching(false);}
  };
  const change=(value:LotteryType)=>{if(value===type)return;setType(value);setResults(null);setQuery('');setSearchError('');history.replaceState(null,'',`/_entry/home?type=${value}`);window.scrollTo({top:0,behavior:'smooth'});};
  return <main>
   <GroupPopup/>
-  <header className="site-header"><a className="brand" href="/_entry/home">六合公式库</a><nav><form className="formula-search" onSubmit={event=>{event.preventDefault();void search()}}><input name="formula-search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="搜索作者、期数、公式类型" aria-label="搜索公式"/><button type="submit" aria-label="搜索全部公式" disabled={searching}>{searching?'…':'⌕'}</button>{results!==null&&<small>{results.length}条</small>}</form><a href="#boards">公式板块</a></nav></header>
-  {results!==null&&<section className="board-sections" style={{marginTop:8,marginBottom:20}}><section className="board-section"><header><span>⌕</span><h2>搜索结果</h2><i>当前彩种全部公式 · 共{results.length}条</i></header>{searchError?<p className="pingte-empty">{searchError}</p>:shown.length?<div className="board-titles search-result-list">{shown.map((post,index)=><a href={post.href} target="_blank" rel="noopener noreferrer" key={`${post.href}-${index}`}><small>{post.boardName}{post.categoryName?` · ${post.categoryName}`:''} · {post.issue}</small><span>{post.title}</span><b>›</b></a>)}</div>:<p className="pingte-empty">没有找到相关公式</p>}{pages>1&&<nav className="board-pagination"><button disabled={searchPage===1} onClick={()=>setSearchPage(page=>Math.max(1,page-1))}>上一页</button><span>{searchPage} / {pages}</span><button disabled={searchPage===pages} onClick={()=>setSearchPage(page=>Math.min(pages,page+1))}>下一页</button></nav>}</section></section>}
+  <header className="site-header"><a className="brand" href="/_entry/home">六合公式库</a><nav><form className="formula-search" onSubmit={event=>{event.preventDefault();void search()}}><input name="formula-search" value={query} onChange={event=>setQuery(event.target.value)} placeholder="搜索作者、期数、公式类型" aria-label="搜索公式"/><button type="submit" aria-label="搜索全部公式" disabled={searching}>{searching?'…':'⌕'}</button>{results!==null&&<small>{searchTotal}条</small>}</form><a href="#boards">公式板块</a></nav></header>
+  {results!==null&&<section className="board-sections" style={{marginTop:8,marginBottom:20}}><section className="board-section"><header><span>⌕</span><h2>搜索结果</h2><i>当前彩种全部公式 · 共{searchTotal}条</i></header>{searchError?<p className="pingte-empty">{searchError}</p>:shown.length?<div className="board-titles search-result-list">{shown.map((post,index)=><a href={post.href} target="_blank" rel="noopener noreferrer" key={`${post.href}-${index}`}><small>{post.boardName}{post.categoryName?` · ${post.categoryName}`:''} · {post.issue}</small><span>{post.title}</span><b>›</b></a>)}</div>:<p className="pingte-empty">没有找到相关公式</p>}{pages>1&&<nav className="board-pagination"><button disabled={searching||searchPage===1} onClick={()=>void search(Math.max(1,searchPage-1),activeQuery)}>上一页</button><span>{searchPage} / {pages}</span><button disabled={searching||searchPage===pages} onClick={()=>void search(Math.min(pages,searchPage+1),activeQuery)}>下一页</button></nav>}</section></section>}
   <section className="draw-hero"><div className="lottery-switch"><div>{(['5','1','8'] as LotteryType[]).map(value=><a href={`/_entry/home?type=${value}`} className={value===type?'active':''} onClick={event=>{event.preventDefault();change(value)}} key={value}>{lotteryNames[value]}</a>)}</div></div><LiveDraw key={type} initial={latest} type={type}/></section>
   <RecommendedSites/>
   <section className="board-sections" id="boards">{boards.map((board,index)=><Fragment key={`${type}-${board.key}`}><section className="board-section" id={`board-${board.name}`}><header><span>{String(index+1).padStart(2,'0')}</span><h2>{board.name}</h2><i>{board.tagline}</i></header><RemoteBoard type={type} board={board.key} version={version} categories={'categories' in board?[...board.categories]:undefined}/></section>{index<boards.length-1&&<BoardBanner index={index}/>}</Fragment>)}</section>

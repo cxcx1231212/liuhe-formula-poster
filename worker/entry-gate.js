@@ -100,7 +100,7 @@ export async function checkEntry(request, env) {
     return {request:new Request(url.toString(),request),sessionId:active?sessionId:await sha256(shares[0]),shareToken:shares[0],setCookie:`${SHARE_COOKIE}=${shares[0]}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${Math.floor((data.expires-Date.now())/1000)}`};
   }
   if(!active && url.pathname!=='/' && url.pathname!=='/index.html' && url.pathname!=='/open') {
-    const token=shareCookieFrom(request),data=token?await verifyPostShare(env.ENTRY_FIXED_KEY,url.host,token):null;
+    const token=request.headers.get('x-formula-share')||shareCookieFrom(request),data=token?await verifyPostShare(env.ENTRY_FIXED_KEY,url.host,token):null;
     if(data && !params.length && shareAllows(data,url,request.method)) return {request,sessionId:await sha256(token),shareToken:token};
   }
 

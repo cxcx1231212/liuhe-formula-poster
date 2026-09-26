@@ -56,3 +56,13 @@ test('large encrypted boards compress before encryption and decrypt in browser',
  runInNewContext(BROWSER_DECRYPTOR,{window,crypto:webcrypto,atob,Headers,Response,Uint8Array,Error,Blob,DecompressionStream});
  assert.deepEqual(await (await window.fetch('/generated/board.json')).json(),data);
 });
+
+test('each shared tab keeps its own credential and never sends it cross-origin',async()=>{
+ const requests=[];const encrypted=await encryptResponse(Response.json({answer:42}),key,'application/json');
+ const window={location:{href:'https://example.com/posts/pingte/269/001?type=5&s=tab-token',origin:'https://example.com'},fetch:async(input,init)=>{requests.push({input,headers:new Headers(init?.headers)});return input==='/_entry/key'?keyResponse(key):encrypted.clone()}};
+ runInNewContext(BROWSER_DECRYPTOR,{window,crypto:webcrypto,atob,Headers,Response,Uint8Array,Error,Blob,DecompressionStream,URL});
+ assert.deepEqual(await (await window.fetch('/posts/pingte/269/001?__formula_payload=1')).json(),{answer:42});
+ assert.ok(requests.every(row=>row.headers.get('x-formula-share')==='tab-token'));
+ await window.fetch('https://external.example.com/data');
+ assert.equal(requests.at(-1).headers.has('x-formula-share'),false);
+});

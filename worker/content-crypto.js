@@ -77,10 +77,11 @@ export const BROWSER_DECRYPTOR = `(function(){
   if(window.__formulaDecryptReady)return;
   window.__formulaDecryptReady=true;
   var originalFetch=window.fetch.bind(window);
+  var shareToken=window.location?new URL(window.location.href).searchParams.get('s'):null;
   var keyPromise;
   function bytes(value){var raw=atob(value),out=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++)out[i]=raw.charCodeAt(i);return out}
   async function sessionKey(){
-    if(!keyPromise)keyPromise=originalFetch('/_entry/key',{credentials:'same-origin',cache:'no-store'}).then(async function(response){
+    if(!keyPromise)keyPromise=originalFetch('/_entry/key',{credentials:'same-origin',cache:'no-store',headers:shareToken?{'x-formula-share':shareToken}:{}}).then(async function(response){
       if(!response.ok)throw new Error('加密密钥不可用');
       var payload=await response.json();
       return crypto.subtle.importKey('raw',bytes(payload.key),'AES-GCM',false,['decrypt']);
@@ -88,9 +89,11 @@ export const BROWSER_DECRYPTOR = `(function(){
     return keyPromise;
   }
   window.fetch=async function(){
+    var args=Array.from(arguments);
+    if(shareToken&&window.location){var target=new URL(typeof args[0]==='string'?args[0]:args[0].url,window.location.href);if(target.origin===window.location.origin){var init=Object.assign({},args[1]||{}),headers=new Headers(init.headers||(typeof args[0]==='object'?args[0].headers:undefined));headers.set('x-formula-share',shareToken);init.headers=headers;args[1]=init;}}
     var keyTask=sessionKey();
     keyTask.catch(function(){});
-    var response=await originalFetch.apply(null,arguments);
+    var response=await originalFetch.apply(null,args);
     if(response.headers.get('x-formula-encrypted')!=='1')return response;
     var payload=await response.json();
     if(payload.v!==1)throw new Error('不支持的加密载荷');

@@ -100,6 +100,8 @@ test('automatic share link is reusable, scoped to one post and cannot enter home
  const sharedCookie=first.setCookie.split(';')[0];
  assert.ok((await checkEntry(request('/posts/pingte/269/001?type=5&__formula_payload=1',sharedCookie),env)).request);
  assert.ok((await checkEntry(request('/_entry/key',sharedCookie),env)).request);
+ const token=new URL(link,'https://'+PUBLIC_HOST).searchParams.get('s');
+ assert.ok((await checkEntry(new Request(`https://${PUBLIC_HOST}/posts/pingte/269/001?type=5&__formula_payload=1`,{headers:{'x-formula-share':token,cookie:'__Host-formula_share=wrong-tab-cookie'}}),env)).request);
  for(const path of ['/_entry/home','/index.html','/posts/pingte/269/002?type=5','/generated/home-board/type-5-zodiac-1.json','/api/formula-recommendations']) assert.equal((await checkEntry(request(path,sharedCookie),env)).response.status,403,path);
  assert.equal((await checkEntry(request(link.replace('/269/001','/269/002')),env)).response.status,403);
  assert.equal((await checkEntry(request(link+'&s=bad'),env)).response.status,403);

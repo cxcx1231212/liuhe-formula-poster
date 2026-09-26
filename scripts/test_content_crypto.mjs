@@ -65,4 +65,6 @@ test('each shared tab keeps its own credential and never sends it cross-origin',
  assert.ok(requests.every(row=>row.headers.get('x-formula-share')==='tab-token'));
  await window.fetch('https://external.example.com/data');
  assert.equal(requests.at(-1).headers.has('x-formula-share'),false);
+ await window.fetch(new URL('https://external.example.com/data'));
+ assert.equal(requests.at(-1).headers.has('x-formula-share'),false);
 });

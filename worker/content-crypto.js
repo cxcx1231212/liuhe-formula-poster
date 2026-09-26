@@ -90,7 +90,7 @@ export const BROWSER_DECRYPTOR = `(function(){
   }
   window.fetch=async function(){
     var args=Array.from(arguments);
-    if(shareToken&&window.location){var target=new URL(typeof args[0]==='string'?args[0]:args[0].url,window.location.href);if(target.origin===window.location.origin){var init=Object.assign({},args[1]||{}),headers=new Headers(init.headers||(typeof args[0]==='object'?args[0].headers:undefined));headers.set('x-formula-share',shareToken);init.headers=headers;args[1]=init;}}
+    if(shareToken&&window.location){var input=args[0],target=new URL(typeof input==='string'?input:input.url||input.href||String(input),window.location.href);if(target.origin===window.location.origin){var init=Object.assign({},args[1]||{}),headers=new Headers(init.headers||(typeof input==='object'?input.headers:undefined));headers.set('x-formula-share',shareToken);init.headers=headers;args[1]=init;}}
     var keyTask=sessionKey();
     keyTask.catch(function(){});
     var response=await originalFetch.apply(null,args);

@@ -42,11 +42,28 @@ else:
 # slot while an existing algorithm keeps its published slot.
 boundary_map = {'version': 1, 'boards': {'8:pingte:two': {'id:published': 137322}}}
 boundary_methods = [
-    {'formulaId': 'published'},
-    {'formulaId': 'new-pair'},
+    {'formulaId': 'published', 'leftName': '固定规则甲'},
+    {'formulaId': 'new-pair', 'leftName': '固定规则甲'},
 ]
 assign_authors(boundary_map, 8, 'pingte:two', boundary_methods)
-assert [method['authorIndex'] for method in boundary_methods] == [137322, 137323]
+assert [method['authorIndex'] for method in boundary_methods] == [137322, 137322]
+assert 'id:new-pair' not in boundary_map['boards']['8:pingte:two']
+assert boundary_map['boards']['8:pingte:two']['primary:固定规则甲'] == 137322
+
+next_period = [{'formulaId': 'another-pair', 'leftName': '固定规则甲'}]
+assign_authors(boundary_map, 8, 'pingte:two', next_period)
+assert next_period[0]['authorIndex'] == 137322
+assert 'id:another-pair' not in boundary_map['boards']['8:pingte:two']
+
+wuxing_map = {'version': 1, 'boards': {'8:wuxing:': {'id:single': 100, 'id:old-pair': 101}}}
+wuxing_methods = [
+    {'formulaId': 'single', 'lineCount': 1, 'branches': [{'name': '平1码加4'}]},
+    {'formulaId': 'old-pair', 'lineCount': 2, 'branches': [{'name': '平1码加4'}, {'name': '平2码加5'}]},
+    {'formulaId': 'new-pair', 'lineCount': 2, 'branches': [{'name': '平1码加4'}, {'name': '平3码加6'}]},
+]
+assign_authors(wuxing_map, 8, 'wuxing:', wuxing_methods)
+assert [method['authorIndex'] for method in wuxing_methods] == [100, 101, 100]
+assert 'id:new-pair' not in wuxing_map['boards']['8:wuxing:']
 
 print('PASS changing selected branches keeps the published author')
 

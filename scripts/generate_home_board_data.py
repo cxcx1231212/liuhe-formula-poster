@@ -8,7 +8,9 @@ ROOT = Path(__file__).resolve().parents[1]
 GENERATED = ROOT / 'public' / 'generated'
 AUTHOR_MAP_PATH = ROOT / 'data' / 'formula-author-map.json'
 AUTHOR_SEEDS_PATH = ROOT / 'data' / 'stable-author-seeds.json'
-AUTHOR_SLOT_LIMIT = 137323
+# The legacy four-character pool covered 137,323 slots per lottery. A separate
+# nickname pool in lib/post-authors.ts extends it without renaming any old slot.
+AUTHOR_SLOT_LIMIT = 300000
 STABLE_SOURCE_BOARDS = {
     'zodiac:3', 'zodiac:6', 'zodiac:9',
     'fushi:22', 'fushi:33', 'fushi:2x', 'fushi:3x',
@@ -151,3 +153,4 @@ if __name__=='__main__':
     report=[]
     for value in (1,5,8): report.extend(build(value))
     (GENERATED/'home-board-sort-audit.json').write_text(json.dumps({'rule':'recentStreak desc, totalRate desc, original index asc','boards':report},ensure_ascii=False,separators=(',',':')),encoding='utf-8')
+

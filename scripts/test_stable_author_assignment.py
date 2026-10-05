@@ -38,4 +38,15 @@ except RuntimeError as error:
 else:
     raise AssertionError('duplicate algorithm identity was accepted')
 
+# A newly selected algorithm after the old name-pool boundary must get a new
+# slot while an existing algorithm keeps its published slot.
+boundary_map = {'version': 1, 'boards': {'8:pingte:two': {'id:published': 137322}}}
+boundary_methods = [
+    {'formulaId': 'published'},
+    {'formulaId': 'new-pair'},
+]
+assign_authors(boundary_map, 8, 'pingte:two', boundary_methods)
+assert [method['authorIndex'] for method in boundary_methods] == [137322, 137323]
+
 print('PASS changing selected branches keeps the published author')
+

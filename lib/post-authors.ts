@@ -16,6 +16,15 @@ const nicknames=[...new Set([
  ...femaleNames.flatMap(name=>Array.from('姐姨嫂妹').map(suffix=>`${name}${suffix}`)),
  ...surnames.flatMap(surname=>nickChars.map(name=>`${surname}${name}`)),
 ])];
+// Keep the original pool and its permutation untouched: every published slot
+// below LEGACY_NAME_CAPACITY must continue to resolve to the same author.
+const LEGACY_NAME_CAPACITY=regions.length*nicknames.length;
+const extraSurnames=[...new Set(Array.from('胡郭林罗高梁宋唐韩曹袁邓萧曾彭苏卢蔡丁叶阎杜戴夏钟汪田任范方石姚谭廖邱熊孟白毛郝邵万段雷汤尹黎常武乔贺赖龚文洪施侯邢易傅陆陶薛郑马朱崔倪金向余秦严于葛孔苗丘邰史颜樊康穆柴舒温裴'))]
+  .filter(name=>!surnames.includes(name));
+const existingNicknames=new Set(nicknames);
+const extraNicknames=[...new Set(extraSurnames.flatMap(surname=>nickChars.map(name=>`${surname}${name}`)))]
+  .filter(name=>!existingNicknames.has(name));
+const EXTRA_NAME_CAPACITY=regions.length*extraNicknames.length;
 
 const scopes=['pingte','pingte2','tema1','tema3','tema8','tema10','tema18','zodiac1','zodiac3','zodiac6','zodiac9','fushi22','fushi33','fushi2x','fushi3x','danshuang','wave','wuxing','jiaye','killcode','killanimal','killtail','killhead','killwave','size','tail','head'] as const;
 type AuthorScope=(typeof scopes)[number];
@@ -27,9 +36,12 @@ const AUTHOR_SLOTS_PER_LOTTERY=100000;
 const AUTHOR_OVERFLOW_START=AUTHOR_SLOTS_PER_LOTTERY*3;
 
 function authorFromSerial(serial:number){
-  let value=(serial*7919)%(regions.length*nicknames.length);
+  const legacy=serial<LEGACY_NAME_CAPACITY;
+  const capacity=legacy?LEGACY_NAME_CAPACITY:EXTRA_NAME_CAPACITY;
+  let value=((legacy?serial:serial-LEGACY_NAME_CAPACITY)*7919)%capacity;
   const region=regions[value%regions.length];value=Math.floor(value/regions.length);
-  const nickname=nicknames[value%nicknames.length];
+  const nickname=(legacy?nicknames:extraNicknames)[value];
+  if(!nickname)throw new RangeError(`Author slot exceeds the available name pool: ${serial}`);
   return `${region}${nickname}`;
 }
 
@@ -52,3 +64,4 @@ export function postAuthor(type:string,scope:AuthorScope,index:number){
   // neighbouring formulas from looking like the same person in different cities.
   return authorFromSerial(serial);
 }
+

@@ -116,6 +116,7 @@ jobs:
           python scripts/test_wuxing_shards.py
           python scripts/test_update_check_state.py
           python scripts/test_stable_author_assignment.py
+          node --experimental-strip-types scripts/test_post_author_slots.mjs
           node --test scripts/test_entry_gate.mjs scripts/test_content_crypto.mjs
           node --test scripts/test_pingte_calculation.mjs scripts/test_home_pagination.mjs
 
@@ -217,3 +218,4 @@ jobs:
       - name: 预热首页和历史帖子
         if: github.event_name == 'push' || steps.check.outputs.changed == 'true' || steps.check.outputs.deploy_needed == 'true' || inputs.force_deploy == true
         run: node scripts/prewarm_formula_pages.mjs
+

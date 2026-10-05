@@ -59,12 +59,41 @@ def load_author_seeds():
     seeds=json.loads(AUTHOR_SEEDS_PATH.read_text(encoding='utf-8'))
     return seeds.get('boards',{})
 
+def primary_rule(key,method):
+    """A selected pair is not a new author; its first rule owns the byline."""
+    if key == 'pingte:two':
+        name=method.get('leftName')
+    elif key == 'wuxing:' and method.get('lineCount') == 2:
+        branches=method.get('branches') or []
+        name=branches[0].get('name') if branches and isinstance(branches[0],dict) else None
+    else:
+        return None
+    if not isinstance(name,str) or not name.strip():
+        raise RuntimeError(f'Missing primary rule for {key}')
+    return 'primary:'+name.strip()
+
 def assign_authors(author_map,lottery_type,key,methods,author_seeds=None):
     board_key=f'{lottery_type}:{key}'
     registry=author_map['boards'].setdefault(board_key,{})
     seeds=(author_seeds or {}).get(board_key,{})
     used=[slot for name,board in author_map['boards'].items() if name.startswith(f'{lottery_type}:') for slot in board.values()]
     next_index=max(used,default=-1)+1
+    # Wuxing has a single-line identity for each base rule. Prefer that slot.
+    if key == 'wuxing:':
+        for method in methods:
+            if method.get('lineCount') == 1:
+                branches=method.get('branches') or []
+                if branches and isinstance(branches[0],dict):
+                    primary='primary:'+str(branches[0].get('name','')).strip()
+                    legacy=author_identity(method)
+                    if primary != 'primary:' and primary not in registry and legacy in registry:
+                        registry[primary]=registry[legacy]
+    # For rules without a single-line counterpart, reuse a published pair.
+    for method in methods:
+        primary=primary_rule(key,method)
+        legacy=author_identity(method)
+        if primary and primary not in registry and legacy in registry:
+            registry[primary]=registry[legacy]
     seen={}
     for method in methods:
         legacy_identity=author_identity(method)
@@ -79,6 +108,13 @@ def assign_authors(author_map,lottery_type,key,methods,author_seeds=None):
         else:
             base=legacy_identity;occurrence=seen.get(base,0);seen[base]=occurrence+1
             identity=base if occurrence==0 else f'{base}#{occurrence+1}'
+        primary=primary_rule(key,method)
+        if primary and identity not in registry:
+            if primary not in registry:
+                if next_index>=AUTHOR_SLOT_LIMIT: raise RuntimeError(f'Author slots exhausted for lottery type {lottery_type}')
+                registry[primary]=next_index;next_index+=1
+            method['authorIndex']=registry[primary]
+            continue
         if identity not in registry:
             previous=method.get('authorIndex')
             seeded=seeds.get(method.get('sourceKey')) if key in STABLE_SOURCE_BOARDS else None

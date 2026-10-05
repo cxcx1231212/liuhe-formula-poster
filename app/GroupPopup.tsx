@@ -2,36 +2,60 @@
 
 import {useEffect,useState} from 'react';
 
-const SEEN_KEY='liuhe-group-popup-seen';
-const PROMOTION_URL='https://89.208.245.215:1340/';
+type PopupConfig={imageUrl:string;linkUrl:string|null;displayMode:'always'|'daily';delaySeconds:number};
+type PopupResponse={popup?:PopupConfig|null};
+
+function seenKey(imageUrl:string){
+  const date=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  return `liuhe-group-popup-seen-${date}-${imageUrl}`;
+}
+
+function track(eventType:'view'|'click'){
+  void fetch('/api/group-popup',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({eventType}),
+    keepalive:true,
+  }).catch(()=>{});
+}
 
 export default function GroupPopup(){
   const [open,setOpen]=useState(false);
-  const close=()=>{
-    setOpen(false);
-    try{sessionStorage.setItem(SEEN_KEY,'1');}catch{}
-  };
+  const [popup,setPopup]=useState<PopupConfig|null>(null);
+  const close=()=>setOpen(false);
   useEffect(()=>{
-    try{if(sessionStorage.getItem(SEEN_KEY))return;}catch{}
-    const timer=window.setTimeout(()=>setOpen(true),0);
-    return ()=>window.clearTimeout(timer);
+    const controller=new AbortController();
+    let timer:number|undefined;
+    fetch('/api/group-popup',{signal:controller.signal,cache:'no-store'})
+      .then(response=>response.ok?response.json() as Promise<PopupResponse>:null)
+      .then(result=>{
+        const item=result?.popup;
+        if(!item||controller.signal.aborted)return;
+        try{if(item.displayMode==='daily'&&localStorage.getItem(seenKey(item.imageUrl)))return;}catch{}
+        timer=window.setTimeout(()=>{
+          if(controller.signal.aborted)return;
+          setPopup(item);
+          setOpen(true);
+          if(item.displayMode==='daily')try{localStorage.setItem(seenKey(item.imageUrl),'1');}catch{}
+        },item.delaySeconds*1000);
+      })
+      .catch(()=>{});
+    return ()=>{controller.abort();if(timer!==undefined)window.clearTimeout(timer);};
   },[]);
   useEffect(()=>{
     if(!open)return;
-    const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape'){
-      setOpen(false);
-      try{sessionStorage.setItem(SEEN_KEY,'1');}catch{}
-    }};
+    const onKeyDown=(event:KeyboardEvent)=>{if(event.key==='Escape')close();};
     window.addEventListener('keydown',onKeyDown);
     return ()=>window.removeEventListener('keydown',onKeyDown);
   },[open]);
-  if(!open)return null;
+  if(!open||!popup)return null;
   return <div className="group-popup-backdrop" onClick={close}>
-    <div className="group-popup" role="dialog" aria-modal="true" aria-label="第277期精选资料" onClick={event=>event.stopPropagation()}>
+    <div className="group-popup" role="dialog" aria-modal="true" aria-label="首页弹窗广告" onClick={event=>event.stopPropagation()}>
       <button type="button" className="group-popup-close" onClick={close} aria-label="关闭弹窗">×</button>
-      <a href={PROMOTION_URL} target="_blank" rel="noopener noreferrer" aria-label="查看第277期精选资料">
-        <img src="/group-popup-277.gif" alt="第277期精选资料，点击查看"/>
-      </a>
+      {popup.linkUrl
+        ? <a href={popup.linkUrl} target="_blank" rel="noopener noreferrer" aria-label="查看广告详情" onClick={()=>track('click')}><img src={popup.imageUrl} alt="首页弹窗广告" onLoad={()=>track('view')} onError={close}/></a>
+        : <img src={popup.imageUrl} alt="首页弹窗广告" onLoad={()=>track('view')} onError={close}/>}
     </div>
   </div>;
 }
+

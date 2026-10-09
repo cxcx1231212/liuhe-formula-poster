@@ -12,6 +12,10 @@ export default function BoardBanner({index}:{index:number}){
   const [ads,setAds]=useState<BannerAd[]>([]);
   useEffect(()=>{let active=true;loadAds().then(items=>{if(active)setAds(items)});return()=>{active=false}},[]);
   if(!ads.length)return null;
-  const ad=ads[index%ads.length]!;
+  // The 123 site now manages one shared banner. Ignore legacy home/list/detail
+  // rows so an older image cannot appear ahead of the current banner.
+  const ad=ads.find(item=>item.position_key==='banner');
+  if(!ad)return null;
   return <a className="board-banner" href={ad.link_url||'#'} target="_blank" rel="noopener noreferrer" aria-label={`横幅广告位 ${index+1}`}><img src={ad.image_url} alt="" loading="lazy"/></a>;
 }
+

@@ -1,238 +1,19 @@
 {
   "lotteryType": 8,
   "year": 2026,
-  "currentPeriod": 297,
-  "nextPeriod": 298,
-  "publishedCount": 49,
+  "currentPeriod": 298,
+  "nextPeriod": 299,
+  "publishedCount": 86,
   "publishedMethods": [
-    {
-      "family": "合数不对称交替",
-      "category": "总分综合",
-      "name": "平2码合数不对称交替加2减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.1,
-      "totalRate": 0.02364864864864865,
-      "predictionNumber": 4,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 10,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 8,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 7,
-          "targetNumber": 7,
-          "hit": true
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 10,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "单码固定加减",
-      "category": "单码加减",
-      "name": "平2码固定减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.1,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": -1,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 41,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 39,
-          "targetNumber": 39,
-          "hit": true
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 16,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 41,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "单码双期交替加减",
-      "category": "总分综合",
-      "name": "平4码固定双期交替加减10",
-      "recentStreak": 1,
-      "recent30Rate": 0.1,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 44,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": -9,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 12,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 45,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 12,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 22,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数循环步长",
-      "category": "总分综合",
-      "name": "平6码尾数循环步长1",
-      "recentStreak": 1,
-      "recent30Rate": 0.1,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 4,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 9,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 6,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 7,
-          "targetNumber": 7,
-          "hit": true
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 8,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
     {
       "family": "合数循环步长",
       "category": "总分综合",
       "name": "特码码合数循环步长1",
-      "recentStreak": 1,
+      "recentStreak": 2,
       "recent30Rate": 0.1,
-      "totalRate": 0.013513513513513514,
-      "predictionNumber": 9,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": 10,
       "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 13,
-          "targetNumber": 14,
-          "hit": false
-        },
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
@@ -267,50 +48,50 @@
           "resultNumber": 6,
           "targetNumber": 6,
           "hit": true
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
         }
       ]
     },
     {
-      "family": "合数固定加减",
-      "category": "合数尾数",
-      "name": "平2码合数减3",
-      "recentStreak": 1,
+      "family": "合数不对称交替",
+      "category": "总分综合",
+      "name": "平3码合数不对称交替加5减6",
+      "recentStreak": 2,
       "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.030405405405405407,
+      "totalRate": 0.013468013468013467,
       "predictionNumber": -1,
       "history": [
         {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 5,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
           "sourcePeriod": 292,
           "targetPeriod": 293,
-          "resultNumber": 0,
+          "resultNumber": -2,
           "targetNumber": 49,
           "hit": false
         },
         {
           "sourcePeriod": 293,
           "targetPeriod": 294,
-          "resultNumber": 3,
+          "resultNumber": 15,
           "targetNumber": 39,
           "hit": false
         },
         {
           "sourcePeriod": 294,
           "targetPeriod": 295,
-          "resultNumber": 7,
+          "resultNumber": -1,
           "targetNumber": 7,
-          "hit": true
+          "hit": false
         },
         {
           "sourcePeriod": 295,
           "targetPeriod": 296,
-          "resultNumber": 5,
+          "resultNumber": 12,
           "targetNumber": 40,
           "hit": false
         },
@@ -320,25 +101,25 @@
           "resultNumber": 6,
           "targetNumber": 6,
           "hit": true
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
         }
       ]
     },
     {
-      "family": "合数固定加减",
-      "category": "合数尾数",
-      "name": "平5码合数加5",
+      "family": "两码尾数",
+      "category": "两码组合",
+      "name": "平5尾数＋平6尾数",
       "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.030405405405405407,
-      "predictionNumber": 14,
+      "recent30Rate": 0.1,
+      "totalRate": 0.030303030303030304,
+      "predictionNumber": 10,
       "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 13,
-          "targetNumber": 14,
-          "hit": false
-        },
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
@@ -349,69 +130,16 @@
         {
           "sourcePeriod": 293,
           "targetPeriod": 294,
-          "resultNumber": 8,
+          "resultNumber": 5,
           "targetNumber": 39,
           "hit": false
         },
         {
           "sourcePeriod": 294,
           "targetPeriod": 295,
-          "resultNumber": 11,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 11,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "两码尾数",
-      "category": "两码组合",
-      "name": "平4尾数＋特码尾数",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.030405405405405407,
-      "predictionNumber": 10,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
           "resultNumber": 7,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 6,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 14,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 11,
           "targetNumber": 7,
-          "hit": false
+          "hit": true
         },
         {
           "sourcePeriod": 295,
@@ -423,32 +151,138 @@
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": 5,
           "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
           "hit": true
         }
       ]
     },
     {
-      "family": "合数双期交替加减",
+      "family": "尾数固定加减",
+      "category": "合数尾数",
+      "name": "平4码尾数加5",
+      "recentStreak": 1,
+      "recent30Rate": 0.1,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 13,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 10,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 7,
+          "targetNumber": 7,
+          "hit": true
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 7,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 11,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数双期交替加减",
       "category": "总分综合",
-      "name": "平4码合数双期交替加减1",
+      "name": "平4码尾数双期交替加减5",
+      "recentStreak": 1,
+      "recent30Rate": 0.1,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": 13,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -3,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 10,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 7,
+          "targetNumber": 7,
+          "hit": true
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": -3,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数固定加减",
+      "category": "合数尾数",
+      "name": "平2码尾数加7",
       "recentStreak": 1,
       "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.02702702702702703,
+      "totalRate": 0.037037037037037035,
       "predictionNumber": 8,
       "history": [
         {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 0,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
           "sourcePeriod": 292,
           "targetPeriod": 293,
-          "resultNumber": 3,
+          "resultNumber": 10,
           "targetNumber": 49,
           "hit": false
         },
@@ -462,7 +296,113 @@
         {
           "sourcePeriod": 294,
           "targetPeriod": 295,
+          "resultNumber": 16,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 16,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数三期交替加减",
+      "category": "总分综合",
+      "name": "平2码尾数三期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.03367003367003367,
+      "predictionNumber": -6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": -5,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 2,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 16,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数固定加减",
+      "category": "合数尾数",
+      "name": "平5码尾数加2",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.03367003367003367,
+      "predictionNumber": 8,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 11,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
           "resultNumber": 3,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 5,
           "targetNumber": 7,
           "hit": false
         },
@@ -476,240 +416,28 @@
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": 3,
           "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数交替加减",
-      "category": "总分综合",
-      "name": "平2码合数交替加减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.02364864864864865,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 11,
-          "targetNumber": 14,
           "hit": false
         },
         {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
           "resultNumber": 9,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 7,
-          "targetNumber": 7,
-          "hit": true
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 11,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
+          "targetNumber": 9,
           "hit": true
         }
       ]
     },
     {
-      "family": "合数三期交替加减",
-      "category": "总分综合",
-      "name": "平5码合数三期交替加减5",
+      "family": "两码尾数",
+      "category": "两码组合",
+      "name": "平2尾数＋平5尾数",
       "recentStreak": 1,
       "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.02364864864864865,
-      "predictionNumber": 14,
+      "totalRate": 0.03367003367003367,
+      "predictionNumber": 7,
       "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 13,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 7,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": -2,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 1,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 11,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数固定加减",
-      "category": "合数尾数",
-      "name": "特码码合数加2",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.02364864864864865,
-      "predictionNumber": 8,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 12,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 7,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 15,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 14,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 9,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "单码交替加减",
-      "category": "总分综合",
-      "name": "平2码固定交替加减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 47,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 45,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 16,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 47,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "单码固定加减",
-      "category": "单码加减",
-      "name": "平4码固定减10",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 24,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": -9,
-          "targetNumber": 14,
-          "hit": false
-        },
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
@@ -720,29 +448,36 @@
         {
           "sourcePeriod": 293,
           "targetPeriod": 294,
-          "resultNumber": 25,
+          "resultNumber": 3,
           "targetNumber": 39,
           "hit": false
         },
         {
           "sourcePeriod": 294,
           "targetPeriod": 295,
-          "resultNumber": -8,
+          "resultNumber": 12,
           "targetNumber": 7,
           "hit": false
         },
         {
           "sourcePeriod": 295,
           "targetPeriod": 296,
-          "resultNumber": 22,
+          "resultNumber": 6,
           "targetNumber": 40,
           "hit": false
         },
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": 10,
           "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
           "hit": true
         }
       ]
@@ -750,178 +485,12 @@
     {
       "family": "极值号码",
       "category": "总分综合",
-      "name": "最小平码加5",
+      "name": "最小平码加7",
       "recentStreak": 1,
       "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 7,
+      "totalRate": 0.03367003367003367,
+      "predictionNumber": 11,
       "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 6,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 8,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 9,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 7,
-          "targetNumber": 7,
-          "hit": true
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 8,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "固定不对称交替",
-      "category": "总分综合",
-      "name": "平2码固定不对称交替加2减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 4,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 46,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 44,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 16,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 46,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数交替加减",
-      "category": "总分综合",
-      "name": "平2码尾数交替加减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 7,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 5,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 6,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 7,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数固定加减",
-      "category": "合数尾数",
-      "name": "特码码尾数加6",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 12,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 12,
-          "targetNumber": 14,
-          "hit": false
-        },
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
@@ -932,135 +501,36 @@
         {
           "sourcePeriod": 293,
           "targetPeriod": 294,
-          "resultNumber": 15,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 15,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 13,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数三期交替加减",
-      "category": "总分综合",
-      "name": "特码码尾数三期交替加减6",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 12,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 12,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": -2,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 3,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 3,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 13,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "单码交替加减",
-      "category": "总分综合",
-      "name": "平4码固定交替加减10",
-      "recentStreak": 1,
-      "recent30Rate": 0.06666666666666667,
-      "totalRate": 0.006756756756756757,
-      "predictionNumber": 44,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
           "resultNumber": 11,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 12,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 45,
           "targetNumber": 39,
           "hit": false
         },
         {
           "sourcePeriod": 294,
           "targetPeriod": 295,
-          "resultNumber": -8,
+          "resultNumber": 9,
           "targetNumber": 7,
           "hit": false
         },
         {
           "sourcePeriod": 295,
           "targetPeriod": 296,
-          "resultNumber": 42,
+          "resultNumber": 10,
           "targetNumber": 40,
           "hit": false
         },
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": 8,
           "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
           "hit": true
         }
       ]
@@ -1068,129 +538,122 @@
     {
       "family": "合数双期交替加减",
       "category": "总分综合",
-      "name": "平3码合数双期交替加减6",
+      "name": "平6码合数双期交替加减3",
       "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.030405405405405407,
-      "predictionNumber": 10,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.030303030303030304,
+      "predictionNumber": 11,
       "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 1,
-          "targetNumber": 14,
-          "hit": false
-        },
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
-          "resultNumber": -2,
+          "resultNumber": 6,
           "targetNumber": 49,
           "hit": false
         },
         {
           "sourcePeriod": 293,
           "targetPeriod": 294,
-          "resultNumber": 16,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
           "resultNumber": 11,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 1,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数双期交替加减",
-      "category": "总分综合",
-      "name": "平2码尾数双期交替加减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02702702702702703,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 1,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 5,
           "targetNumber": 39,
           "hit": false
         },
         {
           "sourcePeriod": 294,
           "targetPeriod": 295,
-          "resultNumber": 12,
+          "resultNumber": 7,
           "targetNumber": 7,
-          "hit": false
+          "hit": true
         },
         {
           "sourcePeriod": 295,
           "targetPeriod": 296,
-          "resultNumber": 1,
+          "resultNumber": 5,
           "targetNumber": 40,
           "hit": false
         },
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": 4,
           "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
           "hit": true
         }
       ]
     },
     {
-      "family": "合数交替加减",
+      "family": "单码双期交替加减",
       "category": "总分综合",
-      "name": "平4码合数交替加减1",
+      "name": "特码码固定双期交替加减3",
       "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02702702702702703,
-      "predictionNumber": 8,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.030303030303030304,
+      "predictionNumber": 12,
       "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 2,
-          "targetNumber": 14,
-          "hit": false
-        },
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
-          "resultNumber": 3,
+          "resultNumber": 11,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 52,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 42,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 4,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 37,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数交替加减",
+      "category": "总分综合",
+      "name": "平2码尾数交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": -6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
           "targetNumber": 49,
           "hit": false
         },
@@ -1204,42 +667,95 @@
         {
           "sourcePeriod": 294,
           "targetPeriod": 295,
-          "resultNumber": 1,
+          "resultNumber": 2,
           "targetNumber": 7,
           "hit": false
         },
         {
           "sourcePeriod": 295,
           "targetPeriod": 296,
-          "resultNumber": 6,
+          "resultNumber": 11,
           "targetNumber": 40,
           "hit": false
         },
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": 2,
           "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
           "hit": true
         }
       ]
     },
     {
-      "family": "尾数循环步长",
+      "family": "尾数双期交替加减",
       "category": "总分综合",
-      "name": "特码码尾数循环步长3",
+      "name": "平2码尾数双期交替加减7",
       "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02702702702702703,
-      "predictionNumber": 15,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 8,
       "history": [
         {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 15,
-          "targetNumber": 14,
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
+          "targetNumber": 49,
           "hit": false
         },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 9,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 16,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": -3,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 2,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数固定加减",
+      "category": "合数尾数",
+      "name": "平3码尾数加6",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 9,
+      "history": [
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
@@ -1250,7 +766,431 @@
         {
           "sourcePeriod": 293,
           "targetPeriod": 294,
-          "resultNumber": 15,
+          "resultNumber": 14,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 7,
+          "targetNumber": 7,
+          "hit": true
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 14,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数双期交替加减",
+      "category": "总分综合",
+      "name": "特码码尾数双期交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 12,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 12,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 12,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 4,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -3,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数三期交替加减",
+      "category": "总分综合",
+      "name": "特码码尾数三期交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 6,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 6,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 3,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数固定加减",
+      "category": "合数尾数",
+      "name": "平6码合数加3",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 11,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 12,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 7,
+          "targetNumber": 7,
+          "hit": true
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 10,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "两码合数",
+      "category": "两码组合",
+      "name": "平2合数＋平4合数",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 10,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 14,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 12,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 13,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 16,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数循环步长",
+      "category": "总分综合",
+      "name": "平3码尾数循环步长2",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 5,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 3,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 12,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 7,
+          "targetNumber": 7,
+          "hit": true
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 7,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 12,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数双期交替加减",
+      "category": "总分综合",
+      "name": "平3码尾数双期交替加减6",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 9,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -5,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 14,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 7,
+          "targetNumber": 7,
+          "hit": true
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": -1,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 2,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数交替加减",
+      "category": "总分综合",
+      "name": "特码码尾数交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 12,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 6,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -3,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "期数合数",
+      "category": "单码加减",
+      "name": "平5码减期数合数",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": -13,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 26,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 7,
           "targetNumber": 39,
           "hit": false
         },
@@ -1264,810 +1204,22 @@
         {
           "sourcePeriod": 295,
           "targetPeriod": 296,
-          "resultNumber": 10,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数固定加减",
-      "category": "合数尾数",
-      "name": "平2码尾数减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02364864864864865,
-      "predictionNumber": -1,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 1,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": -1,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 6,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 1,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数交替加减",
-      "category": "总分综合",
-      "name": "平3码合数交替加减6",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02364864864864865,
-      "predictionNumber": 10,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 13,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": -2,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 16,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": -1,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 13,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数双期交替加减",
-      "category": "总分综合",
-      "name": "平6码合数双期交替加减1",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02364864864864865,
-      "predictionNumber": 7,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 4,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 8,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 9,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 5,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 7,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数交替加减",
-      "category": "总分综合",
-      "name": "平3码尾数交替加减2",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 8,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": -1,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 10,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": -1,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 7,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数固定加减",
-      "category": "合数尾数",
-      "name": "平4码合数减1",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 6,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 0,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 3,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 7,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 1,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 4,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "单码固定加减",
-      "category": "单码加减",
-      "name": "平5码固定加5",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 32,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 40,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 44,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
           "resultNumber": 26,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 38,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 47,
           "targetNumber": 40,
           "hit": false
         },
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": -16,
           "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "单码三期交替加减",
-      "category": "总分综合",
-      "name": "平5码固定三期交替加减5",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 32,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 40,
-          "targetNumber": 14,
           "hit": false
         },
         {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 34,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 16,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 28,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 47,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数交替加减",
-      "category": "总分综合",
-      "name": "平6码合数交替加减1",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 7,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 6,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 8,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
           "resultNumber": 9,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 3,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 9,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "两码尾数",
-      "category": "两码组合",
-      "name": "平1尾数＋特码尾数",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.02027027027027027,
-      "predictionNumber": 8,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 11,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 4,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 13,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 16,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 10,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "单码双期交替加减",
-      "category": "总分综合",
-      "name": "平2码固定双期交替加减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 41,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 45,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 22,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 41,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数双期交替加减",
-      "category": "总分综合",
-      "name": "平2码合数双期交替加减3",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 5,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 9,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 13,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 5,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数双期交替加减",
-      "category": "总分综合",
-      "name": "平3码尾数双期交替加减2",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 4,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": -1,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 10,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 3,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 3,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数固定加减",
-      "category": "合数尾数",
-      "name": "平6码合数减1",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 4,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 8,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 7,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 3,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 7,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数三期交替加减",
-      "category": "总分综合",
-      "name": "特码码合数三期交替加减2",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 8,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 12,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 3,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 11,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 10,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 9,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "平码总分",
-      "category": "总分综合",
-      "name": "六个平码总分合数",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.016891891891891893,
-      "predictionNumber": 5,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 9,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 7,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 12,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 9,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 10,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
+          "targetNumber": 9,
           "hit": true
         }
       ]
@@ -2075,337 +1227,12 @@
     {
       "family": "尾数不对称交替",
       "category": "总分综合",
-      "name": "平2码尾数不对称交替加2减3",
+      "name": "平4码尾数不对称交替加5减6",
       "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.013513513513513514,
-      "predictionNumber": 4,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.013468013468013467,
+      "predictionNumber": 2,
       "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 6,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 0,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 4,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 6,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 6,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数不对称交替",
-      "category": "总分综合",
-      "name": "平3码尾数不对称交替加1减2",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.013513513513513514,
-      "predictionNumber": 4,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 7,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": -1,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 9,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": -1,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 6,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数固定加减",
-      "category": "合数尾数",
-      "name": "平3码尾数减2",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.013513513513513514,
-      "predictionNumber": 1,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 4,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": -1,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 6,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": -1,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 3,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数固定加减",
-      "category": "合数尾数",
-      "name": "平6码尾数加2",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.013513513513513514,
-      "predictionNumber": 4,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 3,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 10,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 6,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 6,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 9,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "合数不对称交替",
-      "category": "总分综合",
-      "name": "平3码合数不对称交替加5减6",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.010135135135135136,
-      "predictionNumber": 9,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 12,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": -2,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 15,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": -1,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 12,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数三期交替加减",
-      "category": "总分综合",
-      "name": "平6码尾数三期交替加减2",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.010135135135135136,
-      "predictionNumber": 4,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 3,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 6,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 2,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 2,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
-          "resultNumber": 9,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "两码相减",
-      "category": "两码组合",
-      "name": "特码码－平6码",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.010135135135135136,
-      "predictionNumber": -36,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 5,
-          "targetNumber": 14,
-          "hit": false
-        },
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
@@ -2416,6 +1243,642 @@
         {
           "sourcePeriod": 293,
           "targetPeriod": 294,
+          "resultNumber": 10,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": -4,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 7,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 0,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数循环步长",
+      "category": "总分综合",
+      "name": "平6码合数循环步长1",
+      "recentStreak": 1,
+      "recent30Rate": 0.06666666666666667,
+      "totalRate": 0.013468013468013467,
+      "predictionNumber": 9,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 10,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 10,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 7,
+          "targetNumber": 7,
+          "hit": true
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 9,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 9,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数不对称交替",
+      "category": "总分综合",
+      "name": "特码码合数不对称交替加3减4",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.037037037037037035,
+      "predictionNumber": 5,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 16,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 8,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 0,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数固定加减",
+      "category": "合数尾数",
+      "name": "平1码尾数加7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.03367003367003367,
+      "predictionNumber": 11,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 14,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 13,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码双期交替加减",
+      "category": "总分综合",
+      "name": "平2码固定双期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.03367003367003367,
+      "predictionNumber": 18,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 49,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 26,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 37,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 2,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "固定循环步长",
+      "category": "总分综合",
+      "name": "特码码固定循环步长1",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.03367003367003367,
+      "predictionNumber": 10,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 15,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 51,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 42,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 8,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 42,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "两码相减",
+      "category": "两码组合",
+      "name": "平1码－平3码",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.03367003367003367,
+      "predictionNumber": -19,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -11,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": -24,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": -14,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": -22,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -42,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数双期交替加减",
+      "category": "总分综合",
+      "name": "平5码尾数双期交替加减2",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.030303030303030304,
+      "predictionNumber": 8,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 3,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 5,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 0,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数三期交替加减",
+      "category": "总分综合",
+      "name": "平5码尾数三期交替加减2",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.030303030303030304,
+      "predictionNumber": 4,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": -1,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 1,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 4,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 3,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数固定加减",
+      "category": "合数尾数",
+      "name": "特码码合数加3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.030303030303030304,
+      "predictionNumber": 12,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 8,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 16,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 15,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 7,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数双期交替加减",
+      "category": "总分综合",
+      "name": "平1码尾数双期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 11,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 14,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": -4,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数固定加减",
+      "category": "合数尾数",
+      "name": "平2码合数加7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 9,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 10,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 13,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 17,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 15,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 16,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数三期交替加减",
+      "category": "总分综合",
+      "name": "平6码合数三期交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 5,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 6,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
           "resultNumber": 5,
           "targetNumber": 39,
           "hit": false
@@ -2423,7 +1886,2074 @@
         {
           "sourcePeriod": 294,
           "targetPeriod": 295,
+          "resultNumber": 1,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 10,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数双期交替加减",
+      "category": "总分综合",
+      "name": "平6码尾数双期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 11,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 11,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 0,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -3,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码固定加减",
+      "category": "单码加减",
+      "name": "特码码固定加3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 12,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 17,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 52,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 42,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 43,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数三期交替加减",
+      "category": "总分综合",
+      "name": "特码码合数三期交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.026936026936026935,
+      "predictionNumber": 6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 2,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 10,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 9,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 7,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数三期交替加减",
+      "category": "总分综合",
+      "name": "平1码合数三期交替加减5",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": -1,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -3,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": -1,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 4,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 8,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 11,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数三期交替加减",
+      "category": "总分综合",
+      "name": "平1码尾数三期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": -3,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": -3,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 0,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 13,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码固定加减",
+      "category": "单码加减",
+      "name": "平2码固定加7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 18,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 10,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 49,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 26,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 51,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 16,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码交替加减",
+      "category": "总分综合",
+      "name": "平2码固定交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 4,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 49,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 12,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 51,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 2,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码固定加减",
+      "category": "单码加减",
+      "name": "平3码固定减4",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 19,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 27,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 24,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 37,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 21,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 44,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数交替加减",
+      "category": "总分综合",
+      "name": "平5码尾数交替加减2",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 4,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 3,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 1,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 4,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数不对称交替",
+      "category": "总分综合",
+      "name": "平5码尾数不对称交替加2减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 3,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 6,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 3,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 0,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 4,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -2,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数固定加减",
+      "category": "合数尾数",
+      "name": "平6码尾数加7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 11,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 15,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 11,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 14,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 11,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数交替加减",
+      "category": "总分综合",
+      "name": "平6码尾数交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": -3,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": -3,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 14,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -3,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数三期交替加减",
+      "category": "总分综合",
+      "name": "平6码尾数三期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": -3,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": -3,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": -3,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 14,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 11,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数循环步长",
+      "category": "总分综合",
+      "name": "特码码尾数循环步长1",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 10,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 5,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 12,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 8,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 2,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码交替加减",
+      "category": "总分综合",
+      "name": "特码码固定交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 11,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 52,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 36,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 37,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码三期交替加减",
+      "category": "总分综合",
+      "name": "特码码固定三期交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.02356902356902357,
+      "predictionNumber": 6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 11,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 46,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 36,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 43,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数交替加减",
+      "category": "总分综合",
+      "name": "平1码合数交替加减5",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": -1,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -3,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 9,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 4,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 8,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数双期交替加减",
+      "category": "总分综合",
+      "name": "平1码合数双期交替加减5",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 9,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -3,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 9,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 14,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": -2,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数不对称交替",
+      "category": "总分综合",
+      "name": "平1码合数不对称交替加5减6",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": -2,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 9,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 3,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 8,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 0,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数交替加减",
+      "category": "总分综合",
+      "name": "平1码尾数交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": -3,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 0,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码三期交替加减",
+      "category": "总分综合",
+      "name": "平2码固定三期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 4,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
           "resultNumber": 35,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 12,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 51,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 16,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数三期交替加减",
+      "category": "总分综合",
+      "name": "平2码合数三期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": -5,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": -1,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 3,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 15,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 16,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数三期交替加减",
+      "category": "总分综合",
+      "name": "平4码合数三期交替加减2",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 2,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 6,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 0,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 7,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 9,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数交替加减",
+      "category": "总分综合",
+      "name": "平6码合数交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 5,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 6,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 1,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 4,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数固定加减",
+      "category": "合数尾数",
+      "name": "特码码尾数加3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 12,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 12,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 12,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 3,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数交替加减",
+      "category": "总分综合",
+      "name": "特码码合数交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 2,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 16,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 9,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数双期交替加减",
+      "category": "总分综合",
+      "name": "特码码合数双期交替加减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 12,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 2,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 16,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 15,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 4,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数不对称交替",
+      "category": "总分综合",
+      "name": "特码码尾数不对称交替加3减4",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 5,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 0,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 12,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 5,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -4,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "两码尾数",
+      "category": "两码组合",
+      "name": "平1尾数＋平5尾数",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.020202020202020204,
+      "predictionNumber": 10,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 9,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 5,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 10,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 5,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 7,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数交替加减",
+      "category": "总分综合",
+      "name": "平2码合数交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": -5,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 13,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 3,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 15,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 2,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数双期交替加减",
+      "category": "总分综合",
+      "name": "平2码合数双期交替加减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": 9,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -4,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 13,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 17,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 1,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 2,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数交替加减",
+      "category": "总分综合",
+      "name": "平3码尾数交替加减6",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": -3,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -5,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 14,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": -5,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 2,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数不对称交替",
+      "category": "总分综合",
+      "name": "平3码尾数不对称交替加6减7",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": -4,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -6,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 14,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": -6,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数交替加减",
+      "category": "总分综合",
+      "name": "平4码合数交替加减2",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": 6,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 2,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 10,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 0,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 7,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 5,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数双期交替加减",
+      "category": "总分综合",
+      "name": "平4码合数双期交替加减2",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": 10,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 2,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 10,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 4,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 3,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 5,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数不对称交替",
+      "category": "总分综合",
+      "name": "平6码合数不对称交替加3减4",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": 4,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 5,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 11,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 0,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 3,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "两码尾数",
+      "category": "两码组合",
+      "name": "平3尾数＋特码尾数",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.016835016835016835,
+      "predictionNumber": 12,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 5,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 17,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 10,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 12,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 8,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数固定加减",
+      "category": "合数尾数",
+      "name": "平1码合数加5",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.013468013468013467,
+      "predictionNumber": 9,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 9,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 14,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 8,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 11,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码固定加减",
+      "category": "单码加减",
+      "name": "平1码固定减13",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.013468013468013467,
+      "predictionNumber": -9,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 7,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": -9,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 14,
           "targetNumber": 7,
           "hit": false
         },
@@ -2437,8 +3967,15 @@
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": -7,
           "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
           "hit": true
         }
       ]
@@ -2446,30 +3983,129 @@
     {
       "family": "合数固定加减",
       "category": "合数尾数",
-      "name": "平3码合数减6",
+      "name": "平3码合数加5",
       "recentStreak": 1,
       "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.006756756756756757,
-      "predictionNumber": -2,
+      "totalRate": 0.013468013468013467,
+      "predictionNumber": 10,
       "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 1,
-          "targetNumber": 14,
-          "hit": false
-        },
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
-          "resultNumber": -2,
+          "resultNumber": 9,
           "targetNumber": 49,
           "hit": false
         },
         {
           "sourcePeriod": 293,
           "targetPeriod": 294,
-          "resultNumber": 4,
+          "resultNumber": 15,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 10,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 12,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 17,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数三期交替加减",
+      "category": "总分综合",
+      "name": "平3码尾数三期交替加减6",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.013468013468013467,
+      "predictionNumber": -3,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -5,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 2,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": -5,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 11,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 14,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数不对称交替",
+      "category": "总分综合",
+      "name": "平4码合数不对称交替加2减3",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.013468013468013467,
+      "predictionNumber": 5,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 10,
           "targetNumber": 39,
           "hit": false
         },
@@ -2483,59 +4119,6 @@
         {
           "sourcePeriod": 295,
           "targetPeriod": 296,
-          "resultNumber": 1,
-          "targetNumber": 40,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 296,
-          "targetPeriod": 297,
-          "resultNumber": 6,
-          "targetNumber": 6,
-          "hit": true
-        }
-      ]
-    },
-    {
-      "family": "尾数固定加减",
-      "category": "合数尾数",
-      "name": "平5码尾数加5",
-      "recentStreak": 1,
-      "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.006756756756756757,
-      "predictionNumber": 12,
-      "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 10,
-          "targetNumber": 14,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 292,
-          "targetPeriod": 293,
-          "resultNumber": 14,
-          "targetNumber": 49,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 293,
-          "targetPeriod": 294,
-          "resultNumber": 6,
-          "targetNumber": 39,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 294,
-          "targetPeriod": 295,
-          "resultNumber": 8,
-          "targetNumber": 7,
-          "hit": false
-        },
-        {
-          "sourcePeriod": 295,
-          "targetPeriod": 296,
           "resultNumber": 7,
           "targetNumber": 40,
           "hit": false
@@ -2543,8 +4126,174 @@
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": 4,
           "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "固定不对称交替",
+      "category": "总分综合",
+      "name": "特码码固定不对称交替加3减4",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.013468013468013467,
+      "predictionNumber": 5,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 10,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 52,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 35,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 10,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 36,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数交替加减",
+      "category": "总分综合",
+      "name": "平3码合数交替加减5",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.010101010101010102,
+      "predictionNumber": 0,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 15,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 0,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 12,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 7,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数双期交替加减",
+      "category": "总分综合",
+      "name": "平3码合数双期交替加减5",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.010101010101010102,
+      "predictionNumber": 10,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 15,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 10,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 2,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 7,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
           "hit": true
         }
       ]
@@ -2552,37 +4301,30 @@
     {
       "family": "尾数三期交替加减",
       "category": "总分综合",
-      "name": "平5码尾数三期交替加减5",
+      "name": "平4码尾数三期交替加减5",
       "recentStreak": 1,
       "recent30Rate": 0.03333333333333333,
-      "totalRate": 0.0033783783783783786,
-      "predictionNumber": 12,
+      "totalRate": 0.010101010101010102,
+      "predictionNumber": 3,
       "history": [
-        {
-          "sourcePeriod": 291,
-          "targetPeriod": 292,
-          "resultNumber": 10,
-          "targetNumber": 14,
-          "hit": false
-        },
         {
           "sourcePeriod": 292,
           "targetPeriod": 293,
-          "resultNumber": 4,
+          "resultNumber": -3,
           "targetNumber": 49,
           "hit": false
         },
         {
           "sourcePeriod": 293,
           "targetPeriod": 294,
-          "resultNumber": -4,
+          "resultNumber": 0,
           "targetNumber": 39,
           "hit": false
         },
         {
           "sourcePeriod": 294,
           "targetPeriod": 295,
-          "resultNumber": -2,
+          "resultNumber": -3,
           "targetNumber": 7,
           "hit": false
         },
@@ -2596,20 +4338,239 @@
         {
           "sourcePeriod": 296,
           "targetPeriod": 297,
-          "resultNumber": 6,
+          "resultNumber": 11,
           "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "单码固定加减",
+      "category": "单码加减",
+      "name": "平5码固定减18",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.010101010101010102,
+      "predictionNumber": -12,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 21,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 3,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 15,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 24,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": -17,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数三期交替加减",
+      "category": "总分综合",
+      "name": "平3码合数三期交替加减5",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.006734006734006734,
+      "predictionNumber": 0,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -1,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 5,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 0,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 12,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 17,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "合数固定加减",
+      "category": "合数尾数",
+      "name": "平4码合数加2",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.006734006734006734,
+      "predictionNumber": 10,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": 6,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 10,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": 4,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 7,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 9,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
+          "hit": true
+        }
+      ]
+    },
+    {
+      "family": "尾数交替加减",
+      "category": "总分综合",
+      "name": "平4码尾数交替加减5",
+      "recentStreak": 1,
+      "recent30Rate": 0.03333333333333333,
+      "totalRate": 0.006734006734006734,
+      "predictionNumber": 3,
+      "history": [
+        {
+          "sourcePeriod": 292,
+          "targetPeriod": 293,
+          "resultNumber": -3,
+          "targetNumber": 49,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 293,
+          "targetPeriod": 294,
+          "resultNumber": 10,
+          "targetNumber": 39,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 294,
+          "targetPeriod": 295,
+          "resultNumber": -3,
+          "targetNumber": 7,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 295,
+          "targetPeriod": 296,
+          "resultNumber": 7,
+          "targetNumber": 40,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 296,
+          "targetPeriod": 297,
+          "resultNumber": 1,
+          "targetNumber": 6,
+          "hit": false
+        },
+        {
+          "sourcePeriod": 297,
+          "targetPeriod": 298,
+          "resultNumber": 9,
+          "targetNumber": 9,
           "hit": true
         }
       ]
     }
   ],
   "rawCombinationCounts": {
-    "1": 49,
-    "3": 123218438,
-    "8": 1973871232791587580248,
-    "10": 104514001690878410177732528,
-    "18": 9580447607613919884104180086776834286839200
+    "1": 86,
+    "3": 208153282,
+    "8": 2768326753022126879648,
+    "10": 131387932003746536075342032,
+    "18": 6487897096572369021384856032237578275938072
   },
-  "lastVerifiedPeriod": 297,
-  "lastVerifiedSpecialNumber": 6
+  "lastVerifiedPeriod": 298,
+  "lastVerifiedSpecialNumber": 9
 }

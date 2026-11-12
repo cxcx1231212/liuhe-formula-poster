@@ -17,6 +17,7 @@ const manifestInfo:any={
 const n=(v:unknown)=>typeof v==='number'&&Number.isFinite(v)?v:0;
 const accuracy=(m:any)=>typeof m?.totalRate==='number'?n(m.totalRate):Array.isArray(m?.history)&&m.history.length?m.history.filter((x:any)=>x?.hit===true).length/m.history.length:typeof m?.recent30Rate==='number'?n(m.recent30Rate):n(m?.recent30Hits)/30;
 const sorted=(items:any[]=[])=>items.map((method,index)=>({method,index,streak:n(method?.recentStreak??method?.streak),accuracy:accuracy(method)})).sort((a,b)=>b.streak-a.streak||b.accuracy-a.accuracy||a.index-b.index).map(x=>x.method);
+const pad=(v:number|string)=>String(v).padStart(3,'0');
 
 async function source(type:LotteryType,board:HomeBoardKey,category:string){
   const key=board==='pingte'?`pingte:${category==='two'?'two':'one'}`:`${board}:${category}`;
